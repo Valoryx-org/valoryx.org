@@ -75,8 +75,8 @@ window.addEventListener('scroll', highlightNav);
 // FAQ toggle
 function toggleFaq(item) {
   const wasActive = item.classList.contains('active');
-  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
-  if (!wasActive) item.classList.add('active');
+  document.querySelectorAll('.faq-item').forEach(el => { el.classList.remove('active'); el.setAttribute('aria-expanded', 'false'); });
+  if (!wasActive) { item.classList.add('active'); item.setAttribute('aria-expanded', 'true'); }
 }
 
 // Form submit
@@ -86,6 +86,9 @@ async function handleSubmit(e) {
   const btn  = form.querySelector('button');
   const webhook = form.dataset.webhook;
   const orig = btn.textContent;
+
+  // Honeypot check — bots fill the hidden field
+  if (form.website && form.website.value) return;
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(form.email.value)) {

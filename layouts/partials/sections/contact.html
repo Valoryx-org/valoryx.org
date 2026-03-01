@@ -8,12 +8,14 @@
     </div>
 
     <form class="contact-form space-y-5 reveal" onsubmit="handleSubmit(event)" data-webhook="{{ .Site.Params.n8nWebhook }}">
+      <!-- Honeypot — hidden from real users, bots fill it -->
+      <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <input type="text" name="name" placeholder="{{ i18n "contact_name_ph" }}" required>
-        <input type="email" name="email" placeholder="{{ i18n "contact_email_ph" }}" required>
+        <input type="text" name="name" placeholder="{{ i18n "contact_name_ph" }}" required autocomplete="name">
+        <input type="email" name="email" placeholder="{{ i18n "contact_email_ph" }}" required autocomplete="email">
       </div>
-      <input type="text" name="role" placeholder="{{ i18n "contact_role_ph" }}">
-      <textarea name="message" rows="5" placeholder="{{ i18n "contact_msg_ph" }}"></textarea>
+      <input type="text" name="role" placeholder="{{ i18n "contact_role_ph" }}" autocomplete="organization-title">
+      <textarea name="message" rows="5" placeholder="{{ i18n "contact_msg_ph" }}" minlength="10"></textarea>
       <div class="text-center">
         <button type="submit">{{ i18n "contact_submit" }}</button>
       </div>

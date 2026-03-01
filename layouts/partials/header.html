@@ -17,6 +17,7 @@
         <a href="{{ $homeURL }}#comparison" class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_compare" }}</a>
         <a href="{{ $homeURL }}#pricing"    class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_pricing" }}</a>
         <a href="{{ $homeURL }}#faq"        class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_faq" }}</a>
+        <a href="{{ $homeURL }}#contact"    class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_contact" }}</a>
         <a href="{{ absLangURL "docs/" }}"  class="text-[13px] font-medium hover:text-heading transition-colors {{ if hasPrefix .RelPermalink "/docs" }}text-accent font-semibold{{ else }}text-body/80{{ end }}">{{ i18n "nav_docs" }}</a>
         <a href="{{ absLangURL "blog/" }}"  class="text-[13px] font-medium hover:text-heading transition-colors {{ if hasPrefix .RelPermalink "/blog" }}text-accent font-semibold{{ else }}text-body/80{{ end }}">{{ i18n "nav_blog" }}</a>
 

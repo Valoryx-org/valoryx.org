@@ -3,7 +3,6 @@
 {{ $tag  := .Site.Params.releaseTag }}
 {{ $bin  := .Site.Params.binaryName }}
 {{ $latest := printf "%s/releases/latest/download" $gh }}
-{{ $base   := printf "%s/releases/download/%s" $gh $tag }}
 <section id="download" class="py-20 md:py-28">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -15,14 +14,14 @@
     <!-- OS Tabs -->
     <div class="reveal">
       <div class="flex gap-1 p-1.5 rounded-xl mx-auto max-w-md mb-8" style="background: #f0f4f8;" role="tablist" aria-label="{{ i18n "download_tab_label" }}">
-        <button class="os-tab" data-os="linux"    role="tab" onclick="switchOsTab('linux')"><i class="bi bi-ubuntu"></i> Linux</button>
-        <button class="os-tab" data-os="macos"    role="tab" onclick="switchOsTab('macos')"><i class="bi bi-apple"></i> macOS</button>
-        <button class="os-tab" data-os="windows"  role="tab" onclick="switchOsTab('windows')"><i class="bi bi-windows"></i> Windows</button>
-        <button class="os-tab" data-os="docker"   role="tab" onclick="switchOsTab('docker')"><i class="bi bi-box-seam"></i> Docker</button>
+        <button class="os-tab" data-os="linux"   role="tab" aria-controls="tab-linux"   aria-selected="false" onclick="switchOsTab('linux')"><i class="bi bi-ubuntu"></i> Linux</button>
+        <button class="os-tab" data-os="macos"   role="tab" aria-controls="tab-macos"   aria-selected="false" onclick="switchOsTab('macos')"><i class="bi bi-apple"></i> macOS</button>
+        <button class="os-tab" data-os="windows" role="tab" aria-controls="tab-windows" aria-selected="false" onclick="switchOsTab('windows')"><i class="bi bi-windows"></i> Windows</button>
+        <button class="os-tab" data-os="docker"  role="tab" aria-controls="tab-docker"  aria-selected="false" onclick="switchOsTab('docker')"><i class="bi bi-box-seam"></i> Docker</button>
       </div>
 
       <!-- Linux -->
-      <div id="tab-linux" class="os-tab-content">
+      <div id="tab-linux" class="os-tab-content" role="tabpanel" aria-labelledby="tab-linux">
         <div class="terminal-block">
           <div class="terminal-bar">
             <span class="terminal-dot" style="background:#ff5f57;"></span>
@@ -51,7 +50,7 @@
       </div>
 
       <!-- macOS -->
-      <div id="tab-macos" class="os-tab-content">
+      <div id="tab-macos" class="os-tab-content" role="tabpanel" aria-labelledby="tab-macos">
         <div class="terminal-block">
           <div class="terminal-bar">
             <span class="terminal-dot" style="background:#ff5f57;"></span>
@@ -80,7 +79,7 @@
       </div>
 
       <!-- Windows -->
-      <div id="tab-windows" class="os-tab-content">
+      <div id="tab-windows" class="os-tab-content" role="tabpanel" aria-labelledby="tab-windows">
         <div class="terminal-block">
           <div class="terminal-bar">
             <span class="terminal-dot" style="background:#ff5f57;"></span>
@@ -111,7 +110,7 @@
       </div>
 
       <!-- Docker -->
-      <div id="tab-docker" class="os-tab-content">
+      <div id="tab-docker" class="os-tab-content" role="tabpanel" aria-labelledby="tab-docker">
         <div class="terminal-block">
           <div class="terminal-bar">
             <span class="terminal-dot" style="background:#ff5f57;"></span>
