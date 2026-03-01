@@ -75,6 +75,8 @@ other = "3 Espacios"
 other = "Docs Ilimitadas"
 [download_pill4]
 other = "Gratis Para Siempre"
+[download_signed]
+other = "Binario firmado — editor verificado"
 
 [about_title]
 other = "Acerca de Valoryx"

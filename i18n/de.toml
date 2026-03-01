@@ -75,6 +75,8 @@ other = "3 Arbeitsbereiche"
 other = "Unbegrenzte Docs"
 [download_pill4]
 other = "Dauerhaft kostenlos"
+[download_signed]
+other = "Signierte Datei — verifizierter Herausgeber"
 
 [about_title]
 other = "Über Valoryx"

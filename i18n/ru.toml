@@ -75,6 +75,8 @@ other = "3 Рабочих Пространства"
 other = "Безлимитные Доки"
 [download_pill4]
 other = "Бесплатно Навсегда"
+[download_signed]
+other = "Подписанный файл — проверенный издатель"
 
 [about_title]
 other = "О Valoryx"

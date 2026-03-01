@@ -79,6 +79,8 @@ other = "3 Workspaces"
 other = "Unlimited Docs"
 [download_pill4]
 other = "Free Forever"
+[download_signed]
+other = "Signed binary — verified publisher"
 
 # ── About ─────────────────────────────────────────────────────────────────────
 [about_title]
