@@ -2,7 +2,8 @@
 {{ $gh   := .Site.Params.githubURL }}
 {{ $tag  := .Site.Params.releaseTag }}
 {{ $bin  := .Site.Params.binaryName }}
-{{ $base := printf "%s/releases/download/%s" $gh $tag }}
+{{ $latest := printf "%s/releases/latest/download" $gh }}
+{{ $base   := printf "%s/releases/download/%s" $gh $tag }}
 <section id="download" class="py-20 md:py-28">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -40,10 +41,10 @@
           </div>
         </div>
         <div class="flex flex-wrap justify-center gap-3 mt-5">
-          <a href="{{ $base }}/{{ $bin }}-linux-amd64" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+          <a href="{{ $latest }}/{{ $bin }}-linux-amd64" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
             <i class="bi bi-download"></i> {{ i18n "download_btn" }} (amd64)
           </a>
-          <a href="{{ $base }}/{{ $bin }}-linux-arm64" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+          <a href="{{ $latest }}/{{ $bin }}-linux-arm64" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
             arm64
           </a>
         </div>
@@ -69,10 +70,10 @@
           </div>
         </div>
         <div class="flex flex-wrap justify-center gap-3 mt-5">
-          <a href="{{ $base }}/{{ $bin }}-darwin-arm64" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+          <a href="{{ $latest }}/{{ $bin }}-darwin-arm64" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
             <i class="bi bi-download"></i> {{ i18n "download_btn" }} (Apple Silicon)
           </a>
-          <a href="{{ $base }}/{{ $bin }}-darwin-amd64" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+          <a href="{{ $latest }}/{{ $bin }}-darwin-amd64" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
             Intel
           </a>
         </div>
@@ -89,19 +90,19 @@
           </div>
           <div class="terminal-body">
             <div><span class="comment"># Download and run</span></div>
-            <div><span class="prompt">&gt;</span> <span class="cmd">Invoke-WebRequest {{ $base }}/{{ $bin }}-windows-amd64.exe -OutFile {{ $bin }}.exe</span>
-              <button onclick="copyCmd('Invoke-WebRequest {{ $base }}/{{ $bin }}-windows-amd64.exe -OutFile {{ $bin }}.exe', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" }}"><i class="bi bi-clipboard"></i></button>
+            <div><span class="prompt">&gt;</span> <span class="cmd">Invoke-WebRequest {{ $latest }}/{{ $bin }}-windows-amd64.exe -OutFile {{ $bin }}.exe</span>
+              <button onclick="copyCmd('Invoke-WebRequest {{ $latest }}/{{ $bin }}-windows-amd64.exe -OutFile {{ $bin }}.exe', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" }}"><i class="bi bi-clipboard"></i></button>
             </div>
             <div><span class="prompt">&gt;</span> <span class="cmd">.\{{ $bin }}.exe serve</span></div>
             <div class="mt-1"><span class="success">✓ Open http://localhost:3000</span></div>
           </div>
         </div>
         <div class="flex flex-wrap justify-center gap-3 mt-5">
-          <a href="{{ $base }}/{{ $bin }}-windows-amd64.exe" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+          <a href="{{ $latest }}/{{ $bin }}-windows-amd64.exe" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
             <i class="bi bi-download"></i> {{ i18n "download_btn" }} (amd64)
           </a>
-          <a href="{{ $base }}/{{ printf "%s_%s_windows_amd64.zip" $bin (strings.TrimPrefix "v" $tag) }}" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
-            .zip
+          <a href="{{ $gh }}/releases/latest" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+            .zip &amp; more
           </a>
         </div>
         <p class="text-center mt-3 text-xs" style="color: var(--success);">
