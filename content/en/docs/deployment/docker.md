@@ -20,6 +20,26 @@ docker run -d \
 
 Open [http://localhost:3000](http://localhost:3000) and register your admin account.
 
+## First run
+
+On first boot, DocPlatform automatically:
+
+1. Creates the SQLite database at `/data/data.db`
+2. Generates an RS256 signing key at `/data/jwt-key.pem`
+3. Initializes the full-text search index
+4. Starts listening on port 3000
+
+The first user to register becomes the **SuperAdmin** with full platform access. No manual `init` step is required — the container is ready to use immediately.
+
+```bash
+# Verify the container started correctly
+docker logs docplatform
+# → INFO  Server starting            port=3000 version=v0.5.0
+# → INFO  Database initialized       path=/data/data.db
+# → INFO  Search index ready         documents=0
+# → INFO  Listening on               http://0.0.0.0:3000
+```
+
 ## Docker Compose
 
 For easier management, use Docker Compose:
@@ -159,6 +179,16 @@ DocPlatform exposes health endpoints:
 | `GET /ready` | Readiness check (database and search are initialized) |
 
 Use these for Docker healthchecks, load balancer probes, or orchestrator liveness/readiness probes.
+
+```bash
+# Quick liveness check
+curl -f http://localhost:3000/health
+# → {"status":"ok"}
+
+# Readiness check (database + search initialized)
+curl -f http://localhost:3000/ready
+# → {"status":"ok","database":"ok","search":"ok"}
+```
 
 ## With a reverse proxy
 

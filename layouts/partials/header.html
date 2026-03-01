@@ -22,14 +22,14 @@
 
         <!-- Language Switcher -->
         <div class="relative group">
-          <button class="flex items-center gap-1 text-[13px] font-medium text-body/80 hover:text-heading transition-colors">
+          <button class="lang-toggle flex items-center gap-1 text-[13px] font-medium text-body/80 hover:text-heading transition-colors" aria-expanded="false" aria-haspopup="true">
             <i class="bi bi-translate text-xs"></i>
             {{ .Language.LanguageName }}
             <i class="bi bi-chevron-down text-[10px]"></i>
           </button>
-          <div class="absolute right-0 top-full mt-2 w-36 bg-white rounded-lg shadow-lg border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50 overflow-hidden">
+          <div class="lang-menu absolute right-0 top-full mt-2 w-36 bg-white rounded-lg shadow-lg border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50 overflow-hidden" role="menu">
             {{ range .AllTranslations }}
-            <a href="{{ .Permalink }}" class="flex items-center justify-between px-3 py-2 text-[13px] text-body hover:bg-light hover:text-accent transition-colors {{ if eq .Language.Lang $.Language.Lang }}text-accent font-medium{{ end }}">
+            <a href="{{ .Permalink }}" role="menuitem" class="flex items-center justify-between px-3 py-2 text-[13px] text-body hover:bg-light hover:text-accent transition-colors {{ if eq .Language.Lang $.Language.Lang }}text-accent font-medium{{ end }}">
               {{ .Language.LanguageName }}
               {{ if eq .Language.Lang $.Language.Lang }}<i class="bi bi-check2 text-xs"></i>{{ end }}
             </a>

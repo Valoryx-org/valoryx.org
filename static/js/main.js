@@ -34,6 +34,7 @@ if (mobileToggle)  mobileToggle.addEventListener('click', openMobileNav);
 if (mobileClose)   mobileClose.addEventListener('click', closeMobileNav);
 if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileNav);
 document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', closeMobileNav));
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && mobilePanel && mobilePanel.classList.contains('active')) closeMobileNav(); });
 
 // Sticky header
 const header = document.getElementById('header');
@@ -128,7 +129,10 @@ function switchOsTab(os) {
   const tab = document.querySelector(`.os-tab[data-os="${os}"]`);
   if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected', 'true'); }
   const panel = document.getElementById(`tab-${os}`);
-  if (panel) panel.classList.add('active');
+  if (panel) {
+    panel.classList.add('active');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
 
 function copyCmd(text, btn) {
@@ -145,6 +149,20 @@ function copyCmd(text, btn) {
   else if (/Mac/i.test(ua))   os = 'macos';
   else if (/Linux/i.test(ua)) os = 'linux';
   switchOsTab(os);
+})();
+
+// Language dropdown — click/touch support (hover alone fails on mobile)
+(function() {
+  const langBtn = document.querySelector('.lang-toggle');
+  const langMenu = document.querySelector('.lang-menu');
+  if (!langBtn || !langMenu) return;
+  langBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const open = langMenu.classList.toggle('lang-open');
+    langBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', function() { langMenu.classList.remove('lang-open'); langBtn.setAttribute('aria-expanded', 'false'); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { langMenu.classList.remove('lang-open'); langBtn.setAttribute('aria-expanded', 'false'); } });
 })();
 
 // Smooth scroll with header offset

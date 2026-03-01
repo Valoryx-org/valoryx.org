@@ -56,6 +56,8 @@ other = "Hermosos sitios de documentación con temas y versioning. Un clic para 
 other = "Control de Acceso"
 [hero_box4_text]
 other = "Permisos basados en roles, soporte SSO y audit logging. Listo para empresa desde el primer día."
+[hero_learn_more]
+other = "Saber más"
 
 [download_title]
 other = "Empezar"

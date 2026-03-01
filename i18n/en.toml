@@ -59,6 +59,8 @@ other = "Beautiful documentation sites with themes and versioning. One click to 
 other = "Access Control"
 [hero_box4_text]
 other = "Role-based permissions, SSO support, and audit logging. Enterprise-ready from day one."
+[hero_learn_more]
+other = "Learn More"
 
 # ── Download ──────────────────────────────────────────────────────────────────
 [download_title]

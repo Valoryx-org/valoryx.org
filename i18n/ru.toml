@@ -56,6 +56,8 @@ other = "Красивые сайты документации с темами и
 other = "Контроль Доступа"
 [hero_box4_text]
 other = "Ролевые разрешения, поддержка SSO и audit logging. Готово для предприятий с первого дня."
+[hero_learn_more]
+other = "Подробнее"
 
 [download_title]
 other = "Начать"

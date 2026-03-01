@@ -133,7 +133,7 @@ function greet(name) {
 Link to other pages in your workspace using standard Markdown links:
 
 ```markdown
-See the [API Authentication](api/authentication.md) guide.
+See the [API Authentication]({{< relref "/docs/reference/api" >}}) guide.
 ```
 
 DocPlatform validates internal links and the `doctor` command reports broken references.
