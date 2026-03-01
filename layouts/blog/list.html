@@ -1,0 +1,49 @@
+{{ define "main" }}
+<div id="readProgress"></div>
+<main>
+
+  <!-- Blog Header -->
+  <section class="py-28 pb-16" style="background: var(--light);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-title">
+        <h2>Blog</h2>
+        <p>Documentation, git workflows, and developer tooling — from the Valoryx team.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Post List -->
+  <section class="py-14" style="background: #ffffff;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      {{ if .Pages }}
+        <div class="space-y-5">
+          {{ range .Pages.ByDate.Reverse }}
+          <article class="blog-card reveal">
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              {{ range .Params.tags }}
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full" style="background: rgba(29,127,194,0.08); color: var(--accent);">{{ . }}</span>
+              {{ end }}
+              <span class="ml-auto text-sm" style="color: var(--muted);">
+                {{ .Date.Format "Jan 2, 2006" }} &nbsp;·&nbsp; {{ math.Round (div (countwords .Content) 200.0) }} min read
+              </span>
+            </div>
+            <h2 class="text-xl font-bold mb-2" style="color: var(--heading);">
+              <a href="{{ .RelPermalink }}" class="no-underline hover:underline" style="color: inherit;">{{ .Title }}</a>
+            </h2>
+            <p class="text-sm mb-4 leading-relaxed" style="color: var(--muted);">{{ .Description }}</p>
+            <a href="{{ .RelPermalink }}" class="inline-flex items-center gap-1.5 text-sm font-semibold no-underline" style="color: var(--accent);">
+              Read more <i class="bi bi-arrow-right text-xs"></i>
+            </a>
+          </article>
+          {{ end }}
+        </div>
+      {{ else }}
+        <p class="text-center py-20" style="color: var(--muted);">No posts yet — check back soon.</p>
+      {{ end }}
+
+    </div>
+  </section>
+
+</main>
+{{ end }}

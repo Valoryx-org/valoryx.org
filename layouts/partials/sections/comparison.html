@@ -1,0 +1,101 @@
+<!-- ======= Comparison ======= -->
+<section id="comparison" class="py-20 lg:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-title reveal">
+      <h2>{{ i18n "compare_title" }}</h2>
+      <p>{{ i18n "compare_subtitle" }}</p>
+    </div>
+
+    <div class="overflow-x-auto rounded-xl bg-white reveal reveal-delay-1" style="box-shadow: 0 1px 3px rgba(15,43,60,0.06), 0 8px 32px rgba(15,43,60,0.06); border: 1px solid #e8ecf0;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="min-w-[180px]">{{ i18n "compare_feature" }}</th>
+            <th class="valoryx-col min-w-[110px]">Valoryx</th>
+            <th class="min-w-[110px]">Notion</th>
+            <th class="min-w-[110px]">GitBook</th>
+            <th class="min-w-[110px]">Wiki.js</th>
+            <th class="min-w-[110px]">Mintlify</th>
+            <th class="min-w-[110px]">Confluence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ $check := "<span class=\"check\"><i class=\"bi bi-check-lg\"></i></span>" }}
+          {{ $cross := "<span class=\"cross\"><i class=\"bi bi-x-lg\"></i></span>" }}
+          <tr>
+            <td>{{ i18n "cf_selfhosted" }}</td>
+            <td class="valoryx-col">{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+          </tr>
+          <tr>
+            <td>{{ i18n "cf_gitnative" }}</td>
+            <td class="valoryx-col">{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+          </tr>
+          <tr>
+            <td>{{ i18n "cf_bisync" }}</td>
+            <td class="valoryx-col">{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+          </tr>
+          <tr>
+            <td>{{ i18n "cf_wysiwyg" }}</td>
+            <td class="valoryx-col">{{ $check | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+          </tr>
+          <tr>
+            <td>{{ i18n "cf_published" }}</td>
+            <td class="valoryx-col">{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+          </tr>
+          <tr>
+            <td>{{ i18n "cf_singlebinary" }}</td>
+            <td class="valoryx-col">{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+          </tr>
+          <tr>
+            <td>{{ i18n "cf_freetier" }}</td>
+            <td class="valoryx-col">{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+          </tr>
+          <tr>
+            <td>{{ i18n "cf_nolockin" }}</td>
+            <td class="valoryx-col">{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $check | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+            <td>{{ $cross | safeHTML }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

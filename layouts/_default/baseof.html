@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="{{ .Language.Lang }}">
+{{- partial "head.html" . }}
+<body class="bg-white">
+  {{- partial "header.html" . }}
+  <main>
+    {{- block "main" . }}{{- end }}
+  </main>
+  {{- partial "footer.html" . }}
+  <button id="scrollTop" class="scroll-top" aria-label="{{ i18n "scroll_top" }}">
+    <i class="bi bi-arrow-up-short"></i>
+  </button>
+  <script src="{{ "js/main.js" | relURL }}"></script>
+</body>
+</html>

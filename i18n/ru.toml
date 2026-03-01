@@ -1,0 +1,335 @@
+[meta_title]
+other = "Valoryx — Git-Native Платформа Документации | Self-Hosted, Open Source"
+[meta_description]
+other = "Self-hosted платформа документации с двунаправленной синхронизацией git, WYSIWYG-редактором и красивыми опубликованными доками. Один бинарный файл Go, никаких зависимостей. Бесплатно для команд до 5 человек."
+[og_title]
+other = "Valoryx — Git-Native Платформа Документации"
+[og_description]
+other = "Документация, живущая в git. Наконец-то достойный веб-редактор. Self-hosted, один бинарник, бесплатно для малых команд."
+
+[nav_home]
+other = "Главная"
+[nav_about]
+other = "О нас"
+[nav_features]
+other = "Возможности"
+[nav_compare]
+other = "Сравнение"
+[nav_pricing]
+other = "Цены"
+[nav_faq]
+other = "FAQ"
+[nav_contact]
+other = "Контакты"
+[nav_cta]
+other = "Скачать Бесплатно"
+[nav_language]
+other = "Язык"
+[nav_open_menu]
+other = "Открыть меню"
+[nav_close_menu]
+other = "Закрыть меню"
+[scroll_top]
+other = "Наверх"
+
+[hero_badge]
+other = "Self-Hosted · Git-Native · Open Source"
+[hero_title]
+other = "Документация,<br class=\"hidden sm:block\"> живущая в git"
+[hero_subtitle]
+other = "Двунаправленная синхронизация git, WYSIWYG-редактор и красивые опубликованные сайты. Один бинарник или Docker — никаких зависимостей."
+[hero_cta]
+other = "Начать Бесплатно"
+[hero_box1_title]
+other = "Двунаправленный Git Sync"
+[hero_box1_text]
+other = "Каждое изменение — реальный git-коммит. Каждый push обновляет UI. Никаких потерь данных, полная история."
+[hero_box2_title]
+other = "WYSIWYG-Редактор"
+[hero_box2_text]
+other = "Редактор Tiptap, пишущий чистый Markdown. Таблицы, блоки кода, вставки — всё инлайн."
+[hero_box3_title]
+other = "Опубликованные Доки"
+[hero_box3_text]
+other = "Красивые сайты документации с темами и версионированием. Публикация в один клик."
+[hero_box4_title]
+other = "Контроль Доступа"
+[hero_box4_text]
+other = "Ролевые разрешения, поддержка SSO и audit logging. Готово для предприятий с первого дня."
+
+[download_title]
+other = "Начать"
+[download_subtitle]
+other = "Выберите платформу. Готово к работе менее чем за 30 секунд."
+[download_tab_label]
+other = "Выберите операционную систему"
+[download_btn]
+other = "Скачать"
+[download_copy]
+other = "Копировать команду"
+[download_pill1]
+other = "5 Редакторов"
+[download_pill2]
+other = "3 Рабочих Пространства"
+[download_pill3]
+other = "Безлимитные Доки"
+[download_pill4]
+other = "Бесплатно Навсегда"
+
+[about_title]
+other = "О Valoryx"
+[about_subtitle]
+other = "Платформа документации для команд, серьёзно относящихся к своим докам"
+[about_p1]
+other = "Valoryx — платформа документации, которую разработчики давно ждали: где ваши доки живут в git, а не в чужой базе данных. Пишите в красивом WYSIWYG-редакторе, и каждое изменение становится реальным git-коммитом."
+[about_bullet1]
+other = "Один бинарник или Docker — готово за 30 секунд. Никакой сложной настройки."
+[about_bullet2]
+other = "Технология Content Ledger гарантирует двунаправленный git-синк без потери данных."
+[about_bullet3]
+other = "Ваши данные остаются на ваших серверах. Стандартный Markdown в git — никакой привязки к вендору."
+[about_p2]
+other = "В отличие от Notion, Confluence или GitBook, Valoryx даёт богатый опыт редактирования SaaS-инструментов с портабельностью и контролем git."
+[about_p3]
+other = "Построен на Go и Next.js. Valoryx создан для производительности. Загрузка страниц менее 50ms, полнотекстовый поиск по всей документации."
+[about_cta1]
+other = "Изучить Возможности"
+
+[stats1_label]
+other = "Деплой Одной Командой"
+[stats2_label]
+other = "До Запуска"
+[stats3_label]
+other = "Git-Native Хранилище"
+[stats4_label]
+other = "Бесплатно Навсегда"
+
+[features_title]
+other = "Возможности"
+[features_subtitle]
+other = "Всё необходимое для создания, управления и публикации документации"
+[feat1_title]
+other = "Content Ledger"
+[feat1_text]
+other = "Движок двунаправленной синхронизации. Каждое веб-редактирование создаёт git-коммит, каждый git push обновляет UI. Без конфликтов, никаких потерь данных."
+[feat2_title]
+other = "Git Sync"
+[feat2_text]
+other = "Работает с GitHub, GitLab, Bitbucket или любым git-remote. Ваши доки — это стандартные Markdown-файлы в реальном репозитории."
+[feat3_title]
+other = "WYSIWYG-Редактор"
+[feat3_text]
+other = "Мощный редактор на базе Tiptap, выводящий чистый Markdown. Таблицы, блоки кода, вставки изображений, callouts и slash-команды."
+[feat4_title]
+other = "Опубликованные Доки"
+[feat4_text]
+other = "Генерируйте красивые сайты документации одним кликом. Темы, версионирование и SEO-оптимизация."
+[feat5_title]
+other = "Полнотекстовый Поиск"
+[feat5_text]
+other = "Молниеносный поиск по всей вашей документации. Встроенный движок FTS5 с мгновенными результатами."
+[feat6_title]
+other = "Контроль Доступа"
+[feat6_text]
+other = "Гранулярные ролевые разрешения — наблюдатель, редактор, администратор. SSO с SAML/OIDC, audit logging и изоляция рабочих пространств."
+
+[cta_title]
+other = "Ваши Доки Заслуживают Большего, Чем Огороженный Сад"
+[cta_text]
+other = "Перестаньте доверять документацию SaaS-платформам, запирающим ваши данные. С Valoryx каждое слово живёт в git — портабельное, версионированное и навсегда ваше."
+[cta_btn1]
+other = "Начать Бесплатно"
+[cta_btn2]
+other = "Присоединиться к Листу Ожидания"
+
+[compare_title]
+other = "Как Мы Сравниваемся"
+[compare_subtitle]
+other = "Посмотрите, как Valoryx выглядит на фоне популярных инструментов документации"
+[compare_feature]
+other = "Функция"
+[cf_selfhosted]
+other = "Self-Hosted"
+[cf_gitnative]
+other = "Git-Native Хранилище"
+[cf_bisync]
+other = "Двунаправленный Синк"
+[cf_wysiwyg]
+other = "WYSIWYG-Редактор"
+[cf_published]
+other = "Опубликованные Сайты Доков"
+[cf_singlebinary]
+other = "Деплой Одним Бинарником"
+[cf_freetier]
+other = "Бесплатный Тариф (Self-Host)"
+[cf_nolockin]
+other = "Никакой Привязки к Вендору"
+
+[pricing_title]
+other = "Цены"
+[pricing_subtitle]
+other = "Начните бесплатно. Масштабируйтесь по мере необходимости. Никаких сюрпризов."
+[plan_community]
+other = "Сообщество"
+[plan_team]
+other = "Команда"
+[plan_business]
+other = "Бизнес"
+[plan_forever]
+other = "навсегда"
+[plan_workspace_mo]
+other = "пространство / мес"
+[plan_coming_soon]
+other = "Скоро"
+[plan_community_cta]
+other = "Начать"
+[plan_waitlist_cta]
+other = "Войти в Список"
+[plan_c_feat1]
+other = "До 5 редакторов"
+[plan_c_feat2]
+other = "Безлимитные документы"
+[plan_c_feat3]
+other = "Двунаправленный git sync"
+[plan_c_feat4]
+other = "WYSIWYG-редактор"
+[plan_c_feat5]
+other = "Полнотекстовый поиск"
+[plan_c_feat6]
+other = "Self-hosted"
+[plan_c_feat7]
+other = "Опубликованные доки (self-hosted)"
+[plan_c_feat8]
+other = "SSO / SAML"
+[plan_t_feat1]
+other = "Безлимитные редакторы"
+[plan_t_feat2]
+other = "Безлимитные документы"
+[plan_t_feat3]
+other = "Двунаправленный git sync"
+[plan_t_feat4]
+other = "WYSIWYG-редактор"
+[plan_t_feat5]
+other = "Полнотекстовый поиск"
+[plan_t_feat6]
+other = "Опубликованные сайты доков"
+[plan_t_feat7]
+other = "Собственные домены"
+[plan_b_feat1]
+other = "Всё из Команды"
+[plan_b_feat2]
+other = "SSO с SAML/OIDC"
+[plan_b_feat3]
+other = "Audit logging"
+[plan_b_feat4]
+other = "Гранулярный RBAC"
+[plan_b_feat5]
+other = "Приоритетная поддержка"
+[plan_b_feat6]
+other = "Кастомный брендинг"
+[plan_b_feat7]
+other = "Доступ к API"
+[plan_b_feat8]
+other = "Гарантия SLA"
+
+[domains_title]
+other = "Два Домена. Одна Платформа."
+[domains_subtitle]
+other = "Одна архитектура. Одни возможности. Разные модели хостинга."
+[domains_available]
+other = "Доступно Сейчас"
+[domains_org_sub]
+other = "Хаб Сообщества"
+[domains_dev_sub]
+other = "Облачная Платформа"
+[domains_org_li1]
+other = "Скачать бинарник"
+[domains_org_li2]
+other = "Разместить на своём сервере"
+[domains_org_li3]
+other = "Документация и руководства"
+[domains_org_li4]
+other = "Бесплатно навсегда"
+[domains_org_cta]
+other = "Запустить с Docker"
+[domains_dev_li1]
+other = "Управляемый хостинг"
+[domains_dev_li2]
+other = "Собственные домены и CDN"
+[domains_dev_li3]
+other = "Биллинг и управление командой"
+[domains_dev_li4]
+other = "От $29/пространство/месяц"
+[domains_note]
+other = "Тот же Valoryx. Та же git-архитектура. Community Edition работает на вашем железе. Cloud Edition — на нашем. Начните self-hosted, перейдите в облако в любой момент."
+
+[faq_title]
+other = "Часто Задаваемые Вопросы"
+[faq_subtitle]
+other = "Есть вопросы? У нас есть ответы."
+[faq1_q]
+other = "Valoryx действительно бесплатен для малых команд?"
+[faq1_a]
+other = "Да. Community Edition бесплатна навсегда для до 5 редакторов. Это один бинарный файл Go, который вы запускаете на своём сервере — без лицензионных ключей, без ограничений функций."
+[faq2_q]
+other = "Как работает двунаправленная git-синхронизация?"
+[faq2_a]
+other = "Каждое изменение в веб-интерфейсе записывается в git-репозиторий, а каждый коммит, отправленный в git, появляется в веб-UI. Content Ledger гарантирует отсутствие потери данных."
+[faq3_q]
+other = "Могу ли я разместить Valoryx на собственной инфраструктуре?"
+[faq3_a]
+other = "Абсолютно. Valoryx — это один бинарный файл Go без внешних зависимостей. Скачайте, запустите — и готово менее чем за 30 секунд. Работает на Linux, macOS и Windows."
+[faq4_q]
+other = "Как Valoryx сравнивается с Notion или GitBook?"
+[faq4_a]
+other = "В отличие от Notion и GitBook, Valoryx является self-hosted и git-native. Ваши данные остаются на ваших серверах. Каждое изменение — реальный git-коммит."
+[faq5_q]
+other = "Что произойдёт с моими данными, если я перестану использовать Valoryx?"
+[faq5_a]
+other = "Ваша документация хранится как стандартные Markdown-файлы в git-репозитории. Если вы перестанете использовать Valoryx, ваш контент останется в git — читаемый, портабельный и навсегда ваш."
+[faq6_q]
+other = "Valoryx поддерживает несколько рабочих пространств?"
+[faq6_a]
+other = "Да. Планы Team и Business поддерживают неограниченное количество рабочих пространств, интеграцию SSO, audit logging и гранулярный контроль доступа на основе ролей."
+
+[contact_title]
+other = "Связаться с Нами"
+[contact_subtitle]
+other = "Вопросы о Valoryx? Интересует Cloud Edition? Сообщите нам."
+[contact_name_ph]
+other = "Ваше Имя"
+[contact_email_ph]
+other = "Ваш Email"
+[contact_role_ph]
+other = "Ваша Роль (напр. DevOps-инженер, CTO)"
+[contact_msg_ph]
+other = "Расскажите о вашей команде и потребностях в документации"
+[contact_submit]
+other = "Войти в Список Ожидания"
+
+[footer_about_text]
+other = "Git-native платформа документации. Self-hosted, один бинарник, никакой привязки к вендору. Ваши доки, ваш git-репозиторий, ваши серверы."
+[footer_quick_links]
+other = "Быстрые Ссылки"
+[footer_docs]
+other = "Документация"
+[footer_resources]
+other = "Ресурсы"
+[footer_docs_quickstart]
+other = "Быстрый Старт"
+[footer_docs_install]
+other = "Установка"
+[footer_docs_gitsync]
+other = "Git Sync"
+[footer_docs_cli]
+other = "CLI Справочник"
+[footer_res_blog]
+other = "Блог"
+[footer_res_download]
+other = "Скачать"
+[footer_res_compare]
+other = "Сравнение"
+[footer_rights]
+other = "Все права защищены."
+[footer_tagline]
+other = "Создано с заботой для разработчиков, ценящих свою документацию."

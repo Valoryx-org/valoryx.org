@@ -1,0 +1,80 @@
+{{ define "main" }}
+<div id="readProgress"></div>
+<main>
+
+  <!-- Post Header -->
+  <section class="pt-28 pb-14" style="background: var(--light);">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <a href="{{ absLangURL "blog/" }}" class="inline-flex items-center gap-1.5 text-sm mb-8 no-underline transition-colors" style="color: var(--muted);">
+        <i class="bi bi-arrow-left text-xs"></i> Blog
+      </a>
+      <div class="flex flex-wrap gap-2 mb-5">
+        {{ range .Params.tags }}
+        <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full" style="background: rgba(29,127,194,0.1); color: var(--accent);">{{ . }}</span>
+        {{ end }}
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight mb-5" style="color: var(--heading); letter-spacing: -0.03em;">{{ .Title }}</h1>
+      <p class="text-base mb-6" style="color: var(--muted);">{{ .Description }}</p>
+      <div class="flex items-center gap-4 text-sm pt-5 border-t" style="color: var(--muted); border-color: var(--border);">
+        {{ with .Params.author }}
+        <span class="flex items-center gap-1.5">
+          <span class="inline-flex items-center justify-center w-7 h-7 rounded-full font-bold text-xs text-white" style="background: var(--accent);">V</span>
+          {{ . }}
+        </span>
+        <span>·</span>
+        {{ end }}
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        <span>·</span>
+        <span>{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Post Body -->
+  <section class="py-14" style="background: #ffffff;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="article-body">
+        {{ .Content }}
+      </div>
+
+      <!-- Back + Share row -->
+      <div class="mt-14 pt-8 flex items-center justify-between flex-wrap gap-4" style="border-top: 2px solid #f0f4f8;">
+        <a href="{{ absLangURL "blog/" }}" class="inline-flex items-center gap-2 text-sm font-semibold no-underline transition-all" style="color: var(--accent);">
+          <i class="bi bi-arrow-left"></i> Back to Blog
+        </a>
+        <div class="flex items-center gap-3">
+          <span class="text-sm" style="color: var(--muted);">Share:</span>
+          <a href="https://twitter.com/intent/tweet?text={{ .Title | urlquery }}&url={{ .Permalink | urlquery }}" target="_blank" rel="noopener" class="text-lg no-underline transition-colors" style="color: var(--muted);" title="Share on Twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | urlquery }}" target="_blank" rel="noopener" class="text-lg no-underline transition-colors" style="color: var(--muted);" title="Share on LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA strip -->
+  <section style="background: var(--light);">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="rounded-xl p-8 text-center" style="background: var(--navy);">
+        <h3 class="text-xl font-bold text-white mb-2">Ready to try Valoryx?</h3>
+        <p class="text-sm mb-6" style="color: rgba(255,255,255,0.65);">Self-hosted, single binary, free for teams up to 5 editors.</p>
+        <a href="{{ absLangURL "" }}#download" class="btn-glow inline-block text-white px-8 py-3 rounded-lg font-semibold text-sm no-underline" style="background: var(--accent);">Download Free</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function() {
+  var bar = document.getElementById('readProgress');
+  if (!bar) return;
+  window.addEventListener('scroll', function() {
+    var body = document.body;
+    var html = document.documentElement;
+    var total = Math.max(body.scrollHeight, html.scrollHeight) - window.innerHeight;
+    var pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+  }, { passive: true });
+})();
+</script>
+{{ end }}

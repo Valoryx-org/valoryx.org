@@ -1,0 +1,54 @@
+<!-- ======= Hero ======= -->
+<section id="hero" class="hero-bg min-h-screen flex items-center pt-20 pb-16 lg:pt-28 lg:pb-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+
+    <!-- Heading -->
+    <div class="text-center max-w-3xl mx-auto mb-12 reveal">
+      <span class="inline-block text-[11px] font-semibold tracking-widest text-accent/70 uppercase mb-6 border border-accent/20 rounded-full px-4 py-1.5 bg-accent/5">
+        {{ i18n "hero_badge" }}
+      </span>
+      <h1 class="text-3xl sm:text-4xl lg:text-[52px] lg:leading-[1.15] font-extrabold text-heading mb-6" style="font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.04em;">
+        {{ i18n "hero_title" | safeHTML }}
+      </h1>
+      <p class="text-base sm:text-lg text-muted mb-8 leading-relaxed max-w-xl mx-auto">
+        {{ i18n "hero_subtitle" }}
+      </p>
+      <a href="#download" class="inline-block btn-glow bg-accent text-white px-10 py-3.5 rounded-lg font-semibold text-[15px] hover:bg-accent-dark focus-visible:ring-2 focus-visible:ring-accent/40 active:scale-[0.97] no-underline" style="transition: transform 200ms cubic-bezier(0.34,1.56,0.64,1), background 200ms ease;">
+        {{ i18n "hero_cta" }}
+      </a>
+    </div>
+
+    <!-- 4 Icon Boxes -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="reveal reveal-delay-1">
+        <div class="icon-box">
+          <div class="icon"><i class="bi bi-git"></i></div>
+          <h4><a href="#features">{{ i18n "hero_box1_title" }}</a></h4>
+          <p>{{ i18n "hero_box1_text" }}</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="icon-box">
+          <div class="icon"><i class="bi bi-pencil-square"></i></div>
+          <h4><a href="#features">{{ i18n "hero_box2_title" }}</a></h4>
+          <p>{{ i18n "hero_box2_text" }}</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-3">
+        <div class="icon-box">
+          <div class="icon"><i class="bi bi-globe2"></i></div>
+          <h4><a href="#features">{{ i18n "hero_box3_title" }}</a></h4>
+          <p>{{ i18n "hero_box3_text" }}</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-4">
+        <div class="icon-box">
+          <div class="icon"><i class="bi bi-shield-lock"></i></div>
+          <h4><a href="#features">{{ i18n "hero_box4_title" }}</a></h4>
+          <p>{{ i18n "hero_box4_text" }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

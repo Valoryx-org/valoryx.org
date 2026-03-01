@@ -1,0 +1,335 @@
+[meta_title]
+other = "Valoryx — Plateforme de Documentation Git-Native | Auto-hébergée, Open Source"
+[meta_description]
+other = "Plateforme de documentation auto-hébergée avec synchronisation git bidirectionnelle, éditeur WYSIWYG et beaux sites publiés. Binaire Go unique, zéro dépendance. Gratuit pour les équipes de 5."
+[og_title]
+other = "Valoryx — Plateforme de Documentation Git-Native"
+[og_description]
+other = "Une documentation qui vit dans git. Enfin, un éditeur web à la hauteur. Auto-hébergé, binaire unique, gratuit pour les petites équipes."
+
+[nav_home]
+other = "Accueil"
+[nav_about]
+other = "À propos"
+[nav_features]
+other = "Fonctionnalités"
+[nav_compare]
+other = "Comparer"
+[nav_pricing]
+other = "Tarifs"
+[nav_faq]
+other = "FAQ"
+[nav_contact]
+other = "Contact"
+[nav_cta]
+other = "Télécharger"
+[nav_language]
+other = "Langue"
+[nav_open_menu]
+other = "Ouvrir le menu"
+[nav_close_menu]
+other = "Fermer le menu"
+[scroll_top]
+other = "Haut de page"
+
+[hero_badge]
+other = "Auto-hébergé · Git-Native · Open Source"
+[hero_title]
+other = "La documentation qui<br class=\"hidden sm:block\"> vit dans git"
+[hero_subtitle]
+other = "Synchronisation git bidirectionnelle, éditeur WYSIWYG et beaux sites publiés. Binaire unique ou Docker — zéro dépendance."
+[hero_cta]
+other = "Commencer gratuitement"
+[hero_box1_title]
+other = "Sync Git Bidirectionnel"
+[hero_box1_text]
+other = "Chaque modification est un vrai commit git. Chaque push met à jour l'interface. Zéro perte de données, historique complet."
+[hero_box2_title]
+other = "Éditeur WYSIWYG"
+[hero_box2_text]
+other = "Éditeur Tiptap qui génère du Markdown propre. Tableaux, blocs de code, embeds — tout en ligne."
+[hero_box3_title]
+other = "Docs Publiées"
+[hero_box3_text]
+other = "Beaux sites de documentation avec thèmes et versioning. Un clic pour publier."
+[hero_box4_title]
+other = "Contrôle d'Accès"
+[hero_box4_text]
+other = "Permissions par rôle, SSO et audit logging. Prêt pour l'entreprise dès le premier jour."
+
+[download_title]
+other = "Démarrer"
+[download_subtitle]
+other = "Choisissez votre plateforme. Opérationnel en moins de 30 secondes."
+[download_tab_label]
+other = "Sélectionner le système d'exploitation"
+[download_btn]
+other = "Télécharger"
+[download_copy]
+other = "Copier la commande"
+[download_pill1]
+other = "5 Éditeurs"
+[download_pill2]
+other = "3 Espaces"
+[download_pill3]
+other = "Docs Illimitées"
+[download_pill4]
+other = "Gratuit à Vie"
+
+[about_title]
+other = "À propos de Valoryx"
+[about_subtitle]
+other = "Une plateforme de documentation pour les équipes qui prennent leurs docs au sérieux"
+[about_p1]
+other = "Valoryx est la plateforme de documentation que les développeurs attendaient — où vos docs vivent dans git, pas dans la base de données de quelqu'un d'autre. Écrivez dans un beau éditeur WYSIWYG, et chaque changement devient un vrai commit git."
+[about_bullet1]
+other = "Binaire unique ou Docker — opérationnel en moins de 30 secondes. Pas de configuration complexe."
+[about_bullet2]
+other = "La technologie Content Ledger garantit la synchronisation git bidirectionnelle sans perte de données."
+[about_bullet3]
+other = "Vos données restent sur vos serveurs. Markdown standard dans git — zéro vendor lock-in."
+[about_p2]
+other = "Contrairement à Notion, Confluence ou GitBook, Valoryx vous donne l'expérience d'édition riche des outils SaaS avec la portabilité et le contrôle de git."
+[about_p3]
+other = "Construit avec Go et Next.js, Valoryx est conçu pour la performance. Chargements de pages en moins de 50ms, recherche plein texte sur toute votre documentation."
+[about_cta1]
+other = "Explorer les Fonctionnalités"
+
+[stats1_label]
+other = "Déploiement en Une Commande"
+[stats2_label]
+other = "Pour Démarrer"
+[stats3_label]
+other = "Stockage Git-Native"
+[stats4_label]
+other = "Gratuit à Vie"
+
+[features_title]
+other = "Fonctionnalités"
+[features_subtitle]
+other = "Tout ce dont vous avez besoin pour créer, gérer et publier de la documentation"
+[feat1_title]
+other = "Content Ledger"
+[feat1_text]
+other = "Moteur de synchronisation bidirectionnel. Chaque modification web crée un commit git, chaque push git met à jour l'interface. Sans conflit, zéro perte de données."
+[feat2_title]
+other = "Sync Git"
+[feat2_text]
+other = "Compatible avec GitHub, GitLab, Bitbucket ou tout remote git. Vos docs sont de vrais fichiers Markdown dans un vrai dépôt."
+[feat3_title]
+other = "Éditeur WYSIWYG"
+[feat3_text]
+other = "Éditeur riche propulsé par Tiptap qui génère du Markdown propre. Tableaux, blocs de code, embeds d'images, callouts et commandes slash."
+[feat4_title]
+other = "Docs Publiées"
+[feat4_text]
+other = "Générez de beaux sites de documentation en un clic. Thèmes, versioning et optimisation SEO."
+[feat5_title]
+other = "Recherche Plein Texte"
+[feat5_text]
+other = "Recherche ultra-rapide dans toute votre documentation. Moteur FTS5 intégré avec résultats instantanés."
+[feat6_title]
+other = "Contrôle d'Accès"
+[feat6_text]
+other = "Permissions granulaires par rôle — lecteur, éditeur, admin. SSO avec SAML/OIDC, audit logging et isolation des espaces de travail."
+
+[cta_title]
+other = "Vos Docs Méritent Mieux qu'un Jardin Fermé"
+[cta_text]
+other = "Arrêtez de confier votre documentation à des plateformes SaaS qui verrouillent vos données. Avec Valoryx, chaque mot que vous écrivez vit dans git — portable, versionné et à vous pour toujours."
+[cta_btn1]
+other = "Commencer Gratuitement"
+[cta_btn2]
+other = "Rejoindre la Liste d'Attente"
+
+[compare_title]
+other = "Comparaison"
+[compare_subtitle]
+other = "Voyez comment Valoryx se compare aux outils de documentation populaires"
+[compare_feature]
+other = "Fonctionnalité"
+[cf_selfhosted]
+other = "Auto-hébergé"
+[cf_gitnative]
+other = "Stockage Git-Native"
+[cf_bisync]
+other = "Sync Bidirectionnel"
+[cf_wysiwyg]
+other = "Éditeur WYSIWYG"
+[cf_published]
+other = "Sites de Docs Publiés"
+[cf_singlebinary]
+other = "Déploiement Binaire Unique"
+[cf_freetier]
+other = "Tier Gratuit (Auto-hébergé)"
+[cf_nolockin]
+other = "Zéro Vendor Lock-in"
+
+[pricing_title]
+other = "Tarifs"
+[pricing_subtitle]
+other = "Commencez gratuitement. Évoluez quand vous en avez besoin."
+[plan_community]
+other = "Communauté"
+[plan_team]
+other = "Équipe"
+[plan_business]
+other = "Entreprise"
+[plan_forever]
+other = "toujours"
+[plan_workspace_mo]
+other = "espace / mois"
+[plan_coming_soon]
+other = "Bientôt Disponible"
+[plan_community_cta]
+other = "Démarrer"
+[plan_waitlist_cta]
+other = "Rejoindre la Liste"
+[plan_c_feat1]
+other = "Jusqu'à 5 éditeurs"
+[plan_c_feat2]
+other = "Documents illimités"
+[plan_c_feat3]
+other = "Sync git bidirectionnel"
+[plan_c_feat4]
+other = "Éditeur WYSIWYG"
+[plan_c_feat5]
+other = "Recherche plein texte"
+[plan_c_feat6]
+other = "Auto-hébergé"
+[plan_c_feat7]
+other = "Sites de docs publiés (auto-hébergé)"
+[plan_c_feat8]
+other = "SSO / SAML"
+[plan_t_feat1]
+other = "Éditeurs illimités"
+[plan_t_feat2]
+other = "Documents illimités"
+[plan_t_feat3]
+other = "Sync git bidirectionnel"
+[plan_t_feat4]
+other = "Éditeur WYSIWYG"
+[plan_t_feat5]
+other = "Recherche plein texte"
+[plan_t_feat6]
+other = "Sites de docs publiés"
+[plan_t_feat7]
+other = "Domaines personnalisés"
+[plan_b_feat1]
+other = "Tout ce qui est dans Équipe"
+[plan_b_feat2]
+other = "SSO avec SAML/OIDC"
+[plan_b_feat3]
+other = "Audit logging"
+[plan_b_feat4]
+other = "RBAC granulaire"
+[plan_b_feat5]
+other = "Support prioritaire"
+[plan_b_feat6]
+other = "Branding personnalisé"
+[plan_b_feat7]
+other = "Accès API"
+[plan_b_feat8]
+other = "Garantie SLA"
+
+[domains_title]
+other = "Deux Domaines. Une Plateforme."
+[domains_subtitle]
+other = "Même architecture. Mêmes fonctionnalités. Modèle d'hébergement différent."
+[domains_available]
+other = "Disponible Maintenant"
+[domains_org_sub]
+other = "Hub Communautaire"
+[domains_dev_sub]
+other = "Plateforme Cloud"
+[domains_org_li1]
+other = "Télécharger le binaire"
+[domains_org_li2]
+other = "Auto-héberger sur votre serveur"
+[domains_org_li3]
+other = "Documentation et guides"
+[domains_org_li4]
+other = "Gratuit à vie"
+[domains_org_cta]
+other = "Lancer avec Docker"
+[domains_dev_li1]
+other = "Hébergement géré"
+[domains_dev_li2]
+other = "Domaines personnalisés & CDN"
+[domains_dev_li3]
+other = "Facturation & admin d'équipe"
+[domains_dev_li4]
+other = "À partir de 29 $/espace/mois"
+[domains_note]
+other = "Même Valoryx. Même architecture git. L'édition Communauté tourne sur votre matériel. L'édition Cloud tourne sur le nôtre. Démarrez auto-hébergé, migrez vers le cloud à tout moment — votre dépôt git ne change jamais."
+
+[faq_title]
+other = "Questions Fréquentes"
+[faq_subtitle]
+other = "Des questions ? Nous avons des réponses."
+[faq1_q]
+other = "Valoryx est-il vraiment gratuit pour les petites équipes ?"
+[faq1_a]
+other = "Oui. L'édition Communauté est gratuite à vie pour jusqu'à 5 éditeurs. C'est un binaire Go unique que vous exécutez sur votre propre serveur — pas de clés de licence, pas de restrictions de fonctionnalités, pas de télémétrie."
+[faq2_q]
+other = "Comment fonctionne la synchronisation git bidirectionnelle ?"
+[faq2_a]
+other = "Chaque modification effectuée dans l'interface web est écrite dans un dépôt git, et chaque commit poussé vers git apparaît dans l'interface web. Le Content Ledger garantit zéro perte de données."
+[faq3_q]
+other = "Puis-je auto-héberger Valoryx sur ma propre infrastructure ?"
+[faq3_a]
+other = "Absolument. Valoryx est un binaire Go unique sans dépendances externes. Téléchargez, exécutez et vous êtes opérationnel en moins de 30 secondes. Fonctionne sur Linux, macOS et Windows."
+[faq4_q]
+other = "Comment Valoryx se compare-t-il à Notion ou GitBook ?"
+[faq4_a]
+other = "Contrairement à Notion et GitBook, Valoryx est auto-hébergé et git-native. Vos données restent sur vos serveurs. Chaque changement est un vrai commit git."
+[faq5_q]
+other = "Que se passe-t-il avec mes données si j'arrête d'utiliser Valoryx ?"
+[faq5_a]
+other = "Votre documentation est stockée sous forme de fichiers Markdown standard dans un dépôt git. Si vous arrêtez d'utiliser Valoryx, votre contenu reste dans git — lisible, portable et à vous pour toujours."
+[faq6_q]
+other = "Valoryx supporte-t-il plusieurs espaces de travail ?"
+[faq6_a]
+other = "Oui. Les plans Équipe et Entreprise supportent des espaces illimités, l'intégration SSO, l'audit logging et le contrôle d'accès granulaire par rôle."
+
+[contact_title]
+other = "Nous Contacter"
+[contact_subtitle]
+other = "Des questions sur Valoryx ? Intéressé par l'édition Cloud ? Faites-le nous savoir."
+[contact_name_ph]
+other = "Votre Nom"
+[contact_email_ph]
+other = "Votre Email"
+[contact_role_ph]
+other = "Votre Rôle (ex. : Ingénieur DevOps, CTO)"
+[contact_msg_ph]
+other = "Parlez-nous de votre équipe et de vos besoins en documentation"
+[contact_submit]
+other = "Rejoindre la Liste d'Attente"
+
+[footer_about_text]
+other = "Plateforme de documentation git-native. Auto-hébergée, binaire unique, zéro vendor lock-in. Vos docs, votre dépôt git, vos serveurs."
+[footer_quick_links]
+other = "Liens Rapides"
+[footer_docs]
+other = "Documentation"
+[footer_resources]
+other = "Ressources"
+[footer_docs_quickstart]
+other = "Démarrage Rapide"
+[footer_docs_install]
+other = "Installation"
+[footer_docs_gitsync]
+other = "Sync Git"
+[footer_docs_cli]
+other = "Référence CLI"
+[footer_res_blog]
+other = "Blog"
+[footer_res_download]
+other = "Télécharger"
+[footer_res_compare]
+other = "Comparer"
+[footer_rights]
+other = "Tous droits réservés."
+[footer_tagline]
+other = "Construit avec soin pour les développeurs qui valorisent leur documentation."

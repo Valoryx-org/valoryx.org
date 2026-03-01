@@ -1,0 +1,54 @@
+<!-- ======= Footer ======= -->
+<footer class="footer bg-white pt-14 pb-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12">
+
+      <!-- About -->
+      <div>
+        <a href="#hero" class="flex items-center gap-2 text-heading font-light text-[26px] mb-4 no-underline">Valoryx</a>
+        <p class="text-sm text-body leading-6 mb-4">{{ i18n "footer_about_text" }}</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4>{{ i18n "footer_quick_links" }}</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#hero"       class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_home" }}</a></li>
+          <li><a href="#about"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_about" }}</a></li>
+          <li><a href="#features"   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_features" }}</a></li>
+          <li><a href="#pricing"    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_pricing" }}</a></li>
+          <li><a href="#faq"        class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_faq" }}</a></li>
+        </ul>
+      </div>
+
+      <!-- Documentation -->
+      <div>
+        <h4>{{ i18n "footer_docs" }}</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/docs/quick-start/"   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_quickstart" }}</a></li>
+          <li><a href="/docs/installation/"  class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_install" }}</a></li>
+          <li><a href="/docs/git-sync/"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_gitsync" }}</a></li>
+          <li><a href="/docs/cli/"           class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_cli" }}</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4>{{ i18n "footer_resources" }}</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/blog/"                                      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_blog" }}</a></li>
+          <li><a href="#download"                                   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_download" }}</a></li>
+          <li><a href="#comparison"                                 class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_compare" }}</a></li>
+          <li><a href="{{ .Site.Params.githubURL }}" target="_blank" rel="noopener" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> GitHub</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-copyright py-5 text-center text-sm">
+    <p class="mb-1">&copy; {{ now.Year }} <strong>Valoryx</strong>. {{ i18n "footer_rights" }}</p>
+    <p class="text-xs opacity-70">{{ i18n "footer_tagline" }}</p>
+  </div>
+</footer>

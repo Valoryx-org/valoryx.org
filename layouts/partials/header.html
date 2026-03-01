@@ -1,0 +1,75 @@
+<!-- ======= Header / Navigation ======= -->
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-transparent transition-all duration-300" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-[68px]">
+
+      <!-- Logo -->
+      <a href="{{ $homeURL }}" class="flex items-center gap-2 text-heading font-extrabold text-[22px] tracking-tight no-underline" style="letter-spacing: -0.04em;">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-navy text-white text-sm font-bold">V</span>
+        Valoryx
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-7">
+        <a href="{{ $homeURL }}#about"      class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_about" }}</a>
+        <a href="{{ $homeURL }}#features"   class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_features" }}</a>
+        <a href="{{ $homeURL }}#comparison" class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_compare" }}</a>
+        <a href="{{ $homeURL }}#pricing"    class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_pricing" }}</a>
+        <a href="{{ $homeURL }}#faq"        class="text-[13px] font-medium text-body/80 hover:text-heading transition-colors">{{ i18n "nav_faq" }}</a>
+        <a href="{{ absLangURL "blog/" }}"  class="text-[13px] font-medium hover:text-heading transition-colors {{ if hasPrefix .RelPermalink "/blog" }}text-accent font-semibold{{ else }}text-body/80{{ end }}">Blog</a>
+
+        <!-- Language Switcher -->
+        <div class="relative group">
+          <button class="flex items-center gap-1 text-[13px] font-medium text-body/80 hover:text-heading transition-colors">
+            <i class="bi bi-translate text-xs"></i>
+            {{ .Language.LanguageName }}
+            <i class="bi bi-chevron-down text-[10px]"></i>
+          </button>
+          <div class="absolute right-0 top-full mt-2 w-36 bg-white rounded-lg shadow-lg border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50 overflow-hidden">
+            {{ range .AllTranslations }}
+            <a href="{{ .Permalink }}" class="flex items-center justify-between px-3 py-2 text-[13px] text-body hover:bg-light hover:text-accent transition-colors {{ if eq .Language.Lang $.Language.Lang }}text-accent font-medium{{ end }}">
+              {{ .Language.LanguageName }}
+              {{ if eq .Language.Lang $.Language.Lang }}<i class="bi bi-check2 text-xs"></i>{{ end }}
+            </a>
+            {{ end }}
+          </div>
+        </div>
+      </nav>
+
+      <!-- CTA Button -->
+      <a href="{{ $homeURL }}#download" class="hidden lg:inline-block btn-glow bg-navy text-white px-5 py-2 rounded-lg text-[13px] font-semibold hover:bg-navy-light active:scale-[0.97] no-underline" style="transition: transform 200ms cubic-bezier(0.34,1.56,0.64,1), background 200ms ease;">
+        {{ i18n "nav_cta" }}
+      </a>
+
+      <!-- Mobile toggle -->
+      <button id="mobileNavToggle" class="lg:hidden text-heading text-2xl p-2" aria-label="{{ i18n "nav_open_menu" }}">
+        <i class="bi bi-list"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Nav -->
+<div id="mobileNavOverlay" class="mobile-nav-overlay"></div>
+<div id="mobileNavPanel" class="mobile-nav-panel">
+  <button id="mobileNavClose" class="mobile-nav-close" aria-label="{{ i18n "nav_close_menu" }}">
+    <i class="bi bi-x-lg"></i>
+  </button>
+  <a href="{{ $homeURL }}"            class="mobile-nav-link">{{ i18n "nav_home" }}</a>
+  <a href="{{ $homeURL }}#about"      class="mobile-nav-link">{{ i18n "nav_about" }}</a>
+  <a href="{{ $homeURL }}#features"   class="mobile-nav-link">{{ i18n "nav_features" }}</a>
+  <a href="{{ $homeURL }}#comparison" class="mobile-nav-link">{{ i18n "nav_compare" }}</a>
+  <a href="{{ $homeURL }}#pricing"    class="mobile-nav-link">{{ i18n "nav_pricing" }}</a>
+  <a href="{{ $homeURL }}#faq"        class="mobile-nav-link">{{ i18n "nav_faq" }}</a>
+  <a href="{{ $homeURL }}#contact"    class="mobile-nav-link">{{ i18n "nav_contact" }}</a>
+  <a href="{{ absLangURL "blog/" }}"  class="mobile-nav-link">Blog</a>
+  <div class="mt-4 pt-4 border-t border-gray-100">
+    <p class="text-xs font-semibold uppercase tracking-wider text-muted px-4 mb-2">{{ i18n "nav_language" }}</p>
+    {{ range .AllTranslations }}
+    <a href="{{ .Permalink }}" class="mobile-nav-link {{ if eq .Language.Lang $.Language.Lang }}text-accent{{ end }}">
+      {{ .Language.LanguageName }}
+    </a>
+    {{ end }}
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Primary -->
+  <title>{{ if .IsHome }}{{ i18n "meta_title" }}{{ else }}{{ .Title }} — Valoryx{{ end }}</title>
+  <meta name="title"       content="{{ if .IsHome }}{{ i18n "meta_title" }}{{ else }}{{ .Title }} — Valoryx{{ end }}">
+  <meta name="description" content="{{ if .IsHome }}{{ i18n "meta_description" }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta name="robots"      content="index, follow">
+  <meta name="author"      content="Valoryx">
+  <link rel="icon" type="image/svg+xml" href="{{ "assets/favicon.svg" | relURL }}">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- hreflang — bidirectional, self-referencing, with x-default -->
+  {{ range .AllTranslations -}}
+  <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
+  {{ end -}}
+  <link rel="alternate" hreflang="x-default" href="{{ .Site.Home.Permalink }}">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="{{ .Permalink }}">
+  <meta property="og:title"       content="{{ i18n "og_title" }}">
+  <meta property="og:description" content="{{ i18n "og_description" }}">
+  <meta property="og:site_name"   content="Valoryx">
+  <meta property="og:locale"      content="{{ .Language.Lang }}">
+
+  <!-- Twitter -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:url"         content="{{ .Permalink }}">
+  <meta name="twitter:title"       content="{{ i18n "og_title" }}">
+  <meta name="twitter:description" content="{{ i18n "og_description" }}">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            heading: '#124265',
+            accent:  { DEFAULT: '#1d7fc2', light: '#3a9be0', dark: '#155d91', glow: 'rgba(29,127,194,0.35)' },
+            body:    '#444444',
+            muted:   '#6b7b8d',
+            light:   '#f6fafd',
+            surface: '#ffffff',
+            success: '#059652',
+            danger:  '#df1529',
+            border:  '#e2e8f0',
+            navy:    { DEFAULT: '#0c1e2e', light: '#122d42', deep: '#080f18' },
+          },
+          fontFamily: {
+            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+            body:    ['"DM Sans"', 'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'monospace'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Site CSS -->
+  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+
+  <!-- JSON-LD: SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Valoryx",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Linux, macOS, Windows, Docker",
+    "description": "{{ i18n "meta_description" }}",
+    "url": "{{ .Site.BaseURL }}",
+    "offers": [
+      { "@type": "Offer", "name": "Community", "price": "0",  "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Team",      "price": "29", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Business",  "price": "79", "priceCurrency": "USD" }
+    ]
+  }
+  </script>
+</head>

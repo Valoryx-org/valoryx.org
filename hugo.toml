@@ -1,0 +1,68 @@
+baseURL = "https://valoryx.org/"
+title   = "Valoryx"
+
+defaultContentLanguage          = "en"
+defaultContentLanguageInSubdir  = false   # EN lives at root /
+enableRobotsTXT                 = true
+enableEmoji                     = false
+
+[sitemap]
+  changefreq = "weekly"
+  priority   = 0.5
+  filename   = "sitemap.xml"
+
+# ─── Languages ────────────────────────────────────────────────────────────────
+
+[languages.en]
+  languageName = "English"
+  languageCode = "en"
+  weight       = 1
+  contentDir   = "content/en"
+
+[languages.fr]
+  languageName = "Français"
+  languageCode = "fr"
+  weight       = 2
+  contentDir   = "content/fr"
+
+[languages.de]
+  languageName = "Deutsch"
+  languageCode = "de"
+  weight       = 3
+  contentDir   = "content/de"
+
+[languages.es]
+  languageName = "Español"
+  languageCode = "es"
+  weight       = 4
+  contentDir   = "content/es"
+
+[languages.ru]
+  languageName = "Русский"
+  languageCode = "ru"
+  weight       = 5
+  contentDir   = "content/ru"
+
+[languages.uk]
+  languageName = "Українська"
+  languageCode = "uk"
+  weight       = 6
+  contentDir   = "content/uk"
+
+# ─── Build & Output ───────────────────────────────────────────────────────────
+
+[build]
+  noJSConfigInAssets = true
+
+[outputs]
+  home     = ["HTML"]
+  page     = ["HTML"]
+  taxonomy = ["HTML"]
+  term     = ["HTML"]
+
+[taxonomies]
+
+[params]
+  githubURL   = "https://github.com/valoryxeu/docplatform"
+  n8nWebhook  = "https://n8n.valoryx.org/webhook/valoryx-waitlist"
+  description = "Self-hosted documentation platform with bidirectional git sync, WYSIWYG editor, and beautiful published docs. Single Go binary, zero dependencies."

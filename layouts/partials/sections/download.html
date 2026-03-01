@@ -1,0 +1,160 @@
+<!-- ======= Download / Get Started ======= -->
+<section id="download" class="py-20 lg:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-title reveal">
+      <h2>{{ i18n "download_title" }}</h2>
+      <p>{{ i18n "download_subtitle" }}</p>
+    </div>
+
+    <div class="max-w-2xl mx-auto reveal reveal-delay-1">
+
+      <!-- OS Tab Selector -->
+      <div class="flex items-center gap-1 rounded-lg p-1 mb-4" style="background: rgba(18,66,101,0.06);" role="tablist" aria-label="{{ i18n "download_tab_label" }}">
+        <button class="os-tab" data-os="linux"   onclick="switchOsTab('linux')"   role="tab" aria-selected="false" aria-controls="tab-linux">
+          <i class="bi bi-terminal-fill"></i> Linux
+        </button>
+        <button class="os-tab" data-os="macos"   onclick="switchOsTab('macos')"   role="tab" aria-selected="false" aria-controls="tab-macos">
+          <i class="bi bi-apple"></i> macOS
+        </button>
+        <button class="os-tab" data-os="windows" onclick="switchOsTab('windows')" role="tab" aria-selected="false" aria-controls="tab-windows">
+          <i class="bi bi-windows"></i> Windows
+        </button>
+        <button class="os-tab" data-os="docker"  onclick="switchOsTab('docker')"  role="tab" aria-selected="false" aria-controls="tab-docker">
+          <i class="bi bi-box-seam"></i> Docker
+        </button>
+      </div>
+
+      <!-- Linux -->
+      <div id="tab-linux" class="os-tab-content" role="tabpanel">
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <span class="terminal-dot" style="background:#ff5f57;"></span>
+            <span class="terminal-dot" style="background:#febc2e;"></span>
+            <span class="terminal-dot" style="background:#28c840;"></span>
+            <span class="text-xs text-white/30 ml-2 font-mono">bash</span>
+          </div>
+          <div class="terminal-body relative">
+            <div><span class="comment"># Auto-detects amd64 / arm64</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://valoryx.org/install.sh | sh</span></div>
+            <div class="mt-2"><span class="success">&#10003; Installed to /usr/local/bin/docplatform</span></div>
+            <div class="mt-1"><span class="prompt">$</span> <span class="cmd">docplatform serve</span></div>
+            <div><span class="success">&#10003; Open http://localhost:3000</span></div>
+            <button onclick="copyCmd('curl -fsSL https://valoryx.org/install.sh | sh', this)" class="absolute top-4 right-4 text-white/30 hover:text-white/70" style="transition: color 200ms ease;" aria-label="{{ i18n "download_copy" }}">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+          <a href="{{ .Site.Params.githubURL }}/releases/latest/download/docplatform-linux-amd64" class="inline-flex items-center gap-2 bg-accent text-white px-7 py-3 rounded-lg font-semibold text-[14px] hover:bg-accent-dark no-underline" style="transition: background 200ms ease;">
+            <i class="bi bi-download"></i> {{ i18n "download_btn" }} (amd64)
+          </a>
+          <a href="{{ .Site.Params.githubURL }}/releases/latest/download/docplatform-linux-arm64" class="inline-flex items-center gap-2 border border-border text-heading px-7 py-3 rounded-lg font-semibold text-[14px] hover:border-accent hover:text-accent no-underline">arm64</a>
+        </div>
+      </div>
+
+      <!-- macOS -->
+      <div id="tab-macos" class="os-tab-content" role="tabpanel">
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <span class="terminal-dot" style="background:#ff5f57;"></span>
+            <span class="terminal-dot" style="background:#febc2e;"></span>
+            <span class="terminal-dot" style="background:#28c840;"></span>
+            <span class="text-xs text-white/30 ml-2 font-mono">zsh</span>
+          </div>
+          <div class="terminal-body relative">
+            <div><span class="comment"># Auto-detects Apple Silicon / Intel</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://valoryx.org/install.sh | sh</span></div>
+            <div class="mt-2"><span class="success">&#10003; Installed to /usr/local/bin/docplatform</span></div>
+            <div class="mt-1"><span class="prompt">$</span> <span class="cmd">docplatform serve</span></div>
+            <div><span class="success">&#10003; Open http://localhost:3000</span></div>
+            <button onclick="copyCmd('curl -fsSL https://valoryx.org/install.sh | sh', this)" class="absolute top-4 right-4 text-white/30 hover:text-white/70" style="transition: color 200ms ease;" aria-label="{{ i18n "download_copy" }}">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+          <a href="{{ .Site.Params.githubURL }}/releases/latest/download/docplatform-darwin-arm64" class="inline-flex items-center gap-2 bg-accent text-white px-7 py-3 rounded-lg font-semibold text-[14px] hover:bg-accent-dark no-underline">
+            <i class="bi bi-download"></i> Apple Silicon (arm64)
+          </a>
+          <a href="{{ .Site.Params.githubURL }}/releases/latest/download/docplatform-darwin-amd64" class="inline-flex items-center gap-2 border border-border text-heading px-7 py-3 rounded-lg font-semibold text-[14px] hover:border-accent hover:text-accent no-underline">Intel (amd64)</a>
+        </div>
+      </div>
+
+      <!-- Windows -->
+      <div id="tab-windows" class="os-tab-content" role="tabpanel">
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <span class="terminal-dot" style="background:#ff5f57;"></span>
+            <span class="terminal-dot" style="background:#febc2e;"></span>
+            <span class="terminal-dot" style="background:#28c840;"></span>
+            <span class="text-xs text-white/30 ml-2 font-mono">cmd</span>
+          </div>
+          <div class="terminal-body relative">
+            <div><span class="comment"># Download the binary, then run</span></div>
+            <div><span class="prompt">&gt;</span> <span class="cmd">docplatform-windows-amd64.exe serve</span></div>
+            <div class="mt-2"><span class="success">&#10003; Open http://localhost:3000</span></div>
+            <button onclick="copyCmd('docplatform-windows-amd64.exe serve', this)" class="absolute top-4 right-4 text-white/30 hover:text-white/70" style="transition: color 200ms ease;" aria-label="{{ i18n "download_copy" }}">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+          <a href="{{ .Site.Params.githubURL }}/releases/latest/download/docplatform-windows-amd64.exe" class="inline-flex items-center gap-2 bg-accent text-white px-7 py-3 rounded-lg font-semibold text-[14px] hover:bg-accent-dark no-underline">
+            <i class="bi bi-download"></i> {{ i18n "download_btn" }} .exe
+          </a>
+          <a href="{{ .Site.Params.githubURL }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border border-border text-heading px-7 py-3 rounded-lg font-semibold text-[14px] hover:border-accent hover:text-accent no-underline">
+            <i class="bi bi-github"></i> GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Docker -->
+      <div id="tab-docker" class="os-tab-content" role="tabpanel">
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <span class="terminal-dot" style="background:#ff5f57;"></span>
+            <span class="terminal-dot" style="background:#febc2e;"></span>
+            <span class="terminal-dot" style="background:#28c840;"></span>
+            <span class="text-xs text-white/30 ml-2 font-mono">terminal</span>
+          </div>
+          <div class="terminal-body relative">
+            <div><span class="comment"># Works on Linux, macOS, and Windows</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">docker run -d -p 3000:3000 \</span></div>
+            <div><span class="cmd">&nbsp;&nbsp;-v valoryx-data:/data \</span></div>
+            <div><span class="cmd">&nbsp;&nbsp;ghcr.io/valoryx/docplatform:latest</span></div>
+            <div class="mt-2"><span class="success">&#10003; Open http://localhost:3000</span></div>
+            <button onclick="copyCmd('docker run -d -p 3000:3000 -v valoryx-data:/data ghcr.io/valoryx/docplatform:latest', this)" class="absolute top-4 right-4 text-white/30 hover:text-white/70" style="transition: color 200ms ease;" aria-label="{{ i18n "download_copy" }}">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+          <a href="{{ .Site.Params.githubURL }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-accent text-white px-7 py-3 rounded-lg font-semibold text-[14px] hover:bg-accent-dark no-underline">
+            <i class="bi bi-github"></i> GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Feature pills -->
+      <div class="grid grid-cols-4 gap-4 mt-10 pt-8 border-t border-gray-100">
+        <div class="text-center">
+          <div class="text-accent text-xl mb-1"><i class="bi bi-people"></i></div>
+          <div class="text-xs text-muted font-semibold">{{ i18n "download_pill1" }}</div>
+        </div>
+        <div class="text-center">
+          <div class="text-accent text-xl mb-1"><i class="bi bi-folder2-open"></i></div>
+          <div class="text-xs text-muted font-semibold">{{ i18n "download_pill2" }}</div>
+        </div>
+        <div class="text-center">
+          <div class="text-accent text-xl mb-1"><i class="bi bi-infinity"></i></div>
+          <div class="text-xs text-muted font-semibold">{{ i18n "download_pill3" }}</div>
+        </div>
+        <div class="text-center">
+          <div class="text-accent text-xl mb-1"><i class="bi bi-shield-check"></i></div>
+          <div class="text-xs text-muted font-semibold">{{ i18n "download_pill4" }}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
