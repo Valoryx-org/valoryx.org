@@ -1,0 +1,2 @@
+# Redirect old blog paths if any
+/blog  /blog/  301
