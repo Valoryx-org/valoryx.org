@@ -36,7 +36,7 @@
       <div>
         <h4>{{ i18n "footer_resources" }}</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="/blog/"                                      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_blog" }}</a></li>
+          <li><a href="{{ absLangURL "blog/" }}"                    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_blog" }}</a></li>
           <li><a href="#download"                                   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_download" }}</a></li>
           <li><a href="#comparison"                                 class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_compare" }}</a></li>
           <li><a href="{{ .Site.Params.githubURL }}" target="_blank" rel="noopener" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> GitHub</a></li>

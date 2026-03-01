@@ -333,3 +333,27 @@ other = "Сравнение"
 other = "Все права защищены."
 [footer_tagline]
 other = "Создано с заботой для разработчиков, ценящих свою документацию."
+
+# ── Blog ──────────────────────────────────────────────────────────────────────
+[nav_blog]
+other = "Блог"
+[blog_title]
+other = "Блог"
+[blog_description]
+other = "Документация, git-процессы и инструменты разработчика — от команды Valoryx."
+[blog_no_posts]
+other = "Статей пока нет — заходите позже."
+[blog_read_more]
+other = "Читать далее"
+[blog_back]
+other = "Блог"
+[blog_back_full]
+other = "Назад в блог"
+[blog_share]
+other = "Поделиться:"
+[blog_min_read]
+other = "мин. чтения"
+[blog_cta_title]
+other = "Готовы попробовать Valoryx?"
+[blog_cta_text]
+other = "Самостоятельный хостинг, единый бинарник, бесплатно для команд до 5 редакторов."

@@ -6,8 +6,8 @@
   <section class="py-28 pb-16" style="background: var(--light);">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-title">
-        <h2>Blog</h2>
-        <p>Documentation, git workflows, and developer tooling — from the Valoryx team.</p>
+        <h2>{{ i18n "blog_title" }}</h2>
+        <p>{{ i18n "blog_description" }}</p>
       </div>
     </div>
   </section>
@@ -33,13 +33,13 @@
             </h2>
             <p class="text-sm mb-4 leading-relaxed" style="color: var(--muted);">{{ .Description }}</p>
             <a href="{{ .RelPermalink }}" class="inline-flex items-center gap-1.5 text-sm font-semibold no-underline" style="color: var(--accent);">
-              Read more <i class="bi bi-arrow-right text-xs"></i>
+              {{ i18n "blog_read_more" }} <i class="bi bi-arrow-right text-xs"></i>
             </a>
           </article>
           {{ end }}
         </div>
       {{ else }}
-        <p class="text-center py-20" style="color: var(--muted);">No posts yet — check back soon.</p>
+        <p class="text-center py-20" style="color: var(--muted);">{{ i18n "blog_no_posts" }}</p>
       {{ end }}
 
     </div>

@@ -347,3 +347,27 @@ other = "Compare"
 other = "All Rights Reserved."
 [footer_tagline]
 other = "Built with care for developers who value their documentation."
+
+# ── Blog ──────────────────────────────────────────────────────────────────────
+[nav_blog]
+other = "Blog"
+[blog_title]
+other = "Blog"
+[blog_description]
+other = "Documentation, git workflows, and developer tooling — from the Valoryx team."
+[blog_no_posts]
+other = "No posts yet — check back soon."
+[blog_read_more]
+other = "Read more"
+[blog_back]
+other = "Blog"
+[blog_back_full]
+other = "Back to Blog"
+[blog_share]
+other = "Share:"
+[blog_min_read]
+other = "min read"
+[blog_cta_title]
+other = "Ready to try Valoryx?"
+[blog_cta_text]
+other = "Self-hosted, single binary, free for teams up to 5 editors."
