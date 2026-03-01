@@ -1,7 +1,7 @@
 ---
 title: "La Meilleure Alternative Auto-Hébergée à Notion pour les Équipes Techniques"
 description: "Notion est formidable jusqu'à un certain point. Pour les équipes qui ont besoin de la propriété git, de l'auto-hébergement ou de workflows natifs pour développeurs, voici un regard honnête sur vos alternatives."
-date: "2026-02-20"
+date: "2026-03-01"
 author: "Équipe Valoryx"
 tags: ["comparaison", "notion", "auto-hébergé", "documentation"]
 ---

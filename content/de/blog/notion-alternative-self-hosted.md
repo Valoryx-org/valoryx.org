@@ -1,7 +1,7 @@
 ---
 title: "Die beste Self-Hosted-Notion-Alternative für technische Teams"
 description: "Notion ist großartig — bis es das nicht mehr ist. Für Teams, die git-Eigentümerschaft, Self-Hosting oder entwicklerfreundliche Workflows benötigen, ein ehrlicher Blick auf die Alternativen."
-date: "2026-02-20"
+date: "2026-03-01"
 author: "Valoryx Team"
 tags: ["Vergleich", "notion", "self-hosted", "Dokumentation"]
 ---

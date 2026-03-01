@@ -1,7 +1,7 @@
 ---
 title: "La Mejor Alternativa Self-Hosted a Notion para Equipos Técnicos"
 description: "Notion es genial hasta que deja de serlo. Para equipos que necesitan propiedad del repositorio Git, self-hosting o flujos de trabajo nativos para desarrolladores, aquí encontrarás un análisis honesto de tus alternativas."
-date: "2026-02-20"
+date: "2026-03-01"
 author: "Equipo Valoryx"
 tags: ["comparison", "notion", "self-hosted", "documentation"]
 ---

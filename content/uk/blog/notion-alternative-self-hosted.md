@@ -1,7 +1,7 @@
 ---
 title: "Найкраща self-hosted альтернатива Notion для технічних команд"
 description: "Notion чудовий — до певної межі. Для команд, яким потрібне право власності на git, self-hosting або процеси, орієнтовані на розробників, — чесний огляд ваших альтернатив."
-date: "2026-02-20"
+date: "2026-03-01"
 author: "Команда Valoryx"
 tags: ["comparison", "notion", "self-hosted", "documentation"]
 ---
