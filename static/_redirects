@@ -1,5 +1,2 @@
-# Redirect pages.dev subdomain to canonical domain
-https://valoryx-site.pages.dev/* https://valoryx.org/:splat 301
-
 # Redirect old blog paths if any
 /blog  /blog/  301
