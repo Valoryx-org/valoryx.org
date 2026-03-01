@@ -203,12 +203,12 @@ brew install docplatform
 ::
 ::tab{label="Linux"}
 ```bash
-curl -sL https://github.com/docplatform/docplatform/releases/latest/download/docplatform_Linux_amd64.tar.gz | tar xz
+curl -fsSL https://valoryx.org/install.sh | sh
 ```
 ::
 ::tab{label="Docker"}
 ```bash
-docker pull ghcr.io/docplatform/docplatform:latest
+docker pull ghcr.io/valoryx-org/docplatform:latest
 ```
 ::
 :::

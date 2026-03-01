@@ -124,7 +124,7 @@ docker run -d \
   -e SMTP_HOST=smtp.example.com \
   -e SMTP_FROM=docs@example.com \
   --env-file .env.production \
-  ghcr.io/docplatform/docplatform:latest
+  ghcr.io/valoryx-org/docplatform:latest
 ```
 
 ## Security notes

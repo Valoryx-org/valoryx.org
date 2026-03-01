@@ -130,9 +130,9 @@ For a 10-person engineering team, these hidden costs can easily exceed the subsc
 If you're evaluating Valoryx, the fastest way to understand the difference is to spend five minutes installing it and pushing a change from both your terminal and the web editor. The bidirectional sync is either the thing you've been looking for or it isn't.
 
 ```bash
-curl -sL https://github.com/valoryx/valoryx/releases/latest/download/valoryx_$(uname -s)_$(uname -m).tar.gz | tar xz
-./valoryx init --workspace-name "My Docs" --slug my-docs
-./valoryx serve
+curl -fsSL https://valoryx.org/install.sh | sh
+docplatform init --workspace-name "My Docs" --slug my-docs
+docplatform serve
 ```
 
 Everything else is details.

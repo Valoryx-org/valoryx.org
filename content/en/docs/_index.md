@@ -68,14 +68,14 @@ Every content change — whether from the web editor, a git push, or an API call
 Get DocPlatform running in under 5 minutes:
 
 ```bash
-# Download the binary
-curl -sL https://github.com/docplatform/docplatform/releases/latest/download/docplatform_$(uname -s)_$(uname -m).tar.gz | tar xz
+# Download the binary (recommended — auto-detects platform)
+curl -fsSL https://valoryx.org/install.sh | sh
 
 # Initialize a workspace
-./docplatform init --workspace-name "My Docs" --slug my-docs
+docplatform init --workspace-name "My Docs" --slug my-docs
 
 # Start the server
-./docplatform serve
+docplatform serve
 ```
 
 Open [http://localhost:3000](http://localhost:3000) and register your first user — they automatically become the SuperAdmin.

@@ -130,9 +130,9 @@ Pour une équipe d'ingénierie de 10 personnes, ces coûts cachés peuvent facil
 Si vous évaluez Valoryx, la façon la plus rapide de comprendre la différence est de passer cinq minutes à l'installer et à pousser une modification depuis votre terminal et depuis l'éditeur web. La synchronisation bidirectionnelle est soit exactement ce que vous cherchiez, soit elle ne l'est pas.
 
 ```bash
-curl -sL https://github.com/valoryx/valoryx/releases/latest/download/valoryx_$(uname -s)_$(uname -m).tar.gz | tar xz
-./valoryx init --workspace-name "My Docs" --slug my-docs
-./valoryx serve
+curl -fsSL https://valoryx.org/install.sh | sh
+docplatform init --workspace-name "My Docs" --slug my-docs
+docplatform serve
 ```
 
 Tout le reste n'est que détails.

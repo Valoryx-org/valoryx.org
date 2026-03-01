@@ -63,7 +63,7 @@ enableEmoji                     = false
 [taxonomies]
 
 [params]
-  githubURL    = "https://github.com/Valoryx-org/docplatform"
+  githubURL    = "https://github.com/Valoryx-org/releases"
   releaseTag   = "v0.5.0"
   binaryName   = "docplatform"
   n8nWebhook   = "https://n8n.valoryx.org/webhook/valoryx-waitlist"

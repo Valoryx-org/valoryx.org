@@ -15,11 +15,13 @@ Download the latest release for your platform.
 ### Linux / macOS
 
 ```bash
-# Download and extract the latest release
-curl -sL https://github.com/docplatform/docplatform/releases/latest/download/docplatform_$(uname -s)_$(uname -m).tar.gz | tar xz
+# Recommended (auto-detects platform)
+curl -fsSL https://valoryx.org/install.sh | sh
 
-# Move to a directory in your PATH
-sudo mv docplatform /usr/local/bin/
+# Or download manually
+curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-linux-amd64
+chmod +x docplatform-linux-amd64
+sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
 # Verify the installation
 docplatform version
@@ -33,14 +35,14 @@ docplatform v0.5.0 (commit: abc1234, built: 2025-01-15T10:00:00Z)
 
 ### Download manually
 
-If you prefer to download manually, visit the [GitHub Releases](https://github.com/docplatform/docplatform/releases) page. Binaries are available for:
+If you prefer to download manually, visit the [GitHub Releases](https://github.com/Valoryx-org/releases/releases) page. Binaries are available for:
 
 | Platform | Architecture | Filename |
 |---|---|---|
-| Linux | amd64 | `docplatform_Linux_amd64.tar.gz` |
-| Linux | arm64 | `docplatform_Linux_arm64.tar.gz` |
-| macOS | amd64 (Intel) | `docplatform_Darwin_amd64.tar.gz` |
-| macOS | arm64 (Apple Silicon) | `docplatform_Darwin_arm64.tar.gz` |
+| Linux | amd64 | `docplatform-linux-amd64` |
+| Linux | arm64 | `docplatform-linux-arm64` |
+| macOS | amd64 (Intel) | `docplatform-darwin-amd64` |
+| macOS | arm64 (Apple Silicon) | `docplatform-darwin-arm64` |
 
 Each release includes SHA-256 checksums for verification.
 
@@ -53,7 +55,7 @@ docker run -d \
   --name docplatform \
   -p 3000:3000 \
   -v docplatform-data:/data \
-  ghcr.io/docplatform/docplatform:latest
+  ghcr.io/valoryx-org/docplatform:latest
 ```
 
 The container auto-initializes on first run. Open [http://localhost:3000](http://localhost:3000) to get started.
@@ -66,7 +68,7 @@ For a more manageable setup, use Docker Compose:
 # docker-compose.yml
 services:
   docplatform:
-    image: ghcr.io/docplatform/docplatform:latest
+    image: ghcr.io/valoryx-org/docplatform:latest
     container_name: docplatform
     ports:
       - "3000:3000"
@@ -100,7 +102,7 @@ Build from source if you want to contribute or run a development version.
 
 ```bash
 # Clone the repository
-git clone https://github.com/docplatform/docplatform.git
+git clone https://github.com/Valoryx-org/docplatform.git
 cd docplatform/Phase05/src
 
 # Build the binary (compiles Go + embeds Next.js static export)

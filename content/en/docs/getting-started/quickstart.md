@@ -11,14 +11,22 @@ Go from zero to a running documentation platform in under 5 minutes. This guide 
 ## Step 1: Install
 
 ```bash
-curl -sL https://github.com/docplatform/docplatform/releases/latest/download/docplatform_$(uname -s)_$(uname -m).tar.gz | tar xz
-sudo mv docplatform /usr/local/bin/
+# Recommended (auto-detects platform)
+curl -fsSL https://valoryx.org/install.sh | sh
+```
+
+Or download manually:
+
+```bash
+curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-linux-amd64
+chmod +x docplatform-linux-amd64
+sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 ```
 
 Or with Docker:
 
 ```bash
-docker run -d --name docplatform -p 3000:3000 -v docplatform-data:/data ghcr.io/docplatform/docplatform:latest
+docker run -d --name docplatform -p 3000:3000 -v docplatform-data:/data ghcr.io/valoryx-org/docplatform:latest
 ```
 
 If using Docker, skip to [Step 3](#step-3-register-your-account) — the container auto-initializes.

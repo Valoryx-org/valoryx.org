@@ -57,7 +57,7 @@ Für ein 10-köpfiges Entwicklerteam übersteigen die versteckten Kosten leicht 
 ---
 
 ```bash
-curl -sL https://github.com/valoryx/valoryx/releases/latest/download/valoryx_$(uname -s)_$(uname -m).tar.gz | tar xz
-./valoryx init --workspace-name "My Docs" --slug my-docs
-./valoryx serve
+curl -fsSL https://valoryx.org/install.sh | sh
+docplatform init --workspace-name "My Docs" --slug my-docs
+docplatform serve
 ```

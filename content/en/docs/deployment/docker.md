@@ -15,7 +15,7 @@ docker run -d \
   --name docplatform \
   -p 3000:3000 \
   -v docplatform-data:/data \
-  ghcr.io/docplatform/docplatform:latest
+  ghcr.io/valoryx-org/docplatform:latest
 ```
 
 Open [http://localhost:3000](http://localhost:3000) and register your admin account.
@@ -28,7 +28,7 @@ For easier management, use Docker Compose:
 # docker-compose.yml
 services:
   docplatform:
-    image: ghcr.io/docplatform/docplatform:latest
+    image: ghcr.io/valoryx-org/docplatform:latest
     container_name: docplatform
     ports:
       - "3000:3000"
@@ -60,7 +60,7 @@ docker compose up -d
 
 | Property | Value |
 |---|---|
-| **Registry** | `ghcr.io/docplatform/docplatform` |
+| **Registry** | `ghcr.io/valoryx-org/docplatform` |
 | **Base image** | Alpine Linux 3.19 |
 | **Architectures** | `linux/amd64`, `linux/arm64` |
 | **Size** | ~120 MB compressed |
@@ -118,7 +118,7 @@ docker run -d \
   -e SMTP_PASSWORD=app-password \
   -e OIDC_GOOGLE_CLIENT_ID=your-client-id \
   -e OIDC_GOOGLE_CLIENT_SECRET=your-client-secret \
-  ghcr.io/docplatform/docplatform:latest
+  ghcr.io/valoryx-org/docplatform:latest
 ```
 
 Or use an env file:
@@ -129,7 +129,7 @@ docker run -d \
   -p 3000:3000 \
   -v docplatform-data:/data \
   --env-file .env.production \
-  ghcr.io/docplatform/docplatform:latest
+  ghcr.io/valoryx-org/docplatform:latest
 ```
 
 See [Environment Variables](../configuration/environment.md) for the complete reference.
@@ -167,7 +167,7 @@ Use these for Docker healthchecks, load balancer probes, or orchestrator livenes
 ```yaml
 services:
   docplatform:
-    image: ghcr.io/docplatform/docplatform:latest
+    image: ghcr.io/valoryx-org/docplatform:latest
     volumes:
       - docplatform-data:/data
     environment:
@@ -205,7 +205,7 @@ Caddy handles TLS automatically via Let's Encrypt.
 
 ```bash
 # Pull the latest image
-docker pull ghcr.io/docplatform/docplatform:latest
+docker pull ghcr.io/valoryx-org/docplatform:latest
 
 # Recreate the container
 docker compose up -d
@@ -214,14 +214,14 @@ docker compose up -d
 Or with plain Docker:
 
 ```bash
-docker pull ghcr.io/docplatform/docplatform:latest
+docker pull ghcr.io/valoryx-org/docplatform:latest
 docker stop docplatform
 docker rm docplatform
 docker run -d \
   --name docplatform \
   -p 3000:3000 \
   -v docplatform-data:/data \
-  ghcr.io/docplatform/docplatform:latest
+  ghcr.io/valoryx-org/docplatform:latest
 ```
 
 Data in the volume persists across container recreations.

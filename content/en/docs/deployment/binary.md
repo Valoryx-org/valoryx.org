@@ -13,28 +13,43 @@ The simplest deployment method — download a single binary, run it on your serv
 Get the latest release for your platform:
 
 ```bash
-# Auto-detect platform
-curl -sL https://github.com/docplatform/docplatform/releases/latest/download/docplatform_$(uname -s)_$(uname -m).tar.gz | tar xz
+# Recommended (auto-detects platform)
+curl -fsSL https://valoryx.org/install.sh | sh
+
+# Or download a specific platform binary manually
+curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-linux-amd64
+chmod +x docplatform-linux-amd64
+sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
 # Or download a specific version
-curl -sL https://github.com/docplatform/docplatform/releases/download/v0.5.0/docplatform_Linux_amd64.tar.gz | tar xz
+curl -sLO https://github.com/Valoryx-org/releases/releases/download/v0.5.0/docplatform-linux-amd64
 ```
 
 Available platforms:
 
 | OS | Architecture | Binary |
 |---|---|---|
-| Linux | amd64 | `docplatform_Linux_amd64.tar.gz` |
-| Linux | arm64 | `docplatform_Linux_arm64.tar.gz` |
-| macOS | amd64 (Intel) | `docplatform_Darwin_amd64.tar.gz` |
-| macOS | arm64 (Apple Silicon) | `docplatform_Darwin_arm64.tar.gz` |
+| Linux | amd64 | `docplatform-linux-amd64` |
+| Linux | arm64 | `docplatform-linux-arm64` |
+| macOS | amd64 (Intel) | `docplatform-darwin-amd64` |
+| macOS | arm64 (Apple Silicon) | `docplatform-darwin-arm64` |
+
+Archives (with version):
+
+| OS | Architecture | Archive |
+|---|---|---|
+| Linux | amd64 | `docplatform_0.5.0_linux_amd64.tar.gz` |
+| Linux | arm64 | `docplatform_0.5.0_linux_arm64.tar.gz` |
+| macOS | amd64 (Intel) | `docplatform_0.5.0_darwin_amd64.tar.gz` |
+| macOS | arm64 (Apple Silicon) | `docplatform_0.5.0_darwin_arm64.tar.gz` |
+| Windows | amd64 | `docplatform_0.5.0_windows_amd64.zip` |
 
 ### Verify the download
 
 Each release includes a SHA-256 checksums file:
 
 ```bash
-curl -sL https://github.com/docplatform/docplatform/releases/latest/download/checksums.txt -o checksums.txt
+curl -sL https://github.com/Valoryx-org/releases/releases/latest/download/checksums.txt -o checksums.txt
 sha256sum -c checksums.txt --ignore-missing
 ```
 
@@ -207,11 +222,13 @@ When using a reverse proxy, set `HOST=127.0.0.1` so DocPlatform only listens on 
 ## Upgrades
 
 ```bash
-# Download new version
-curl -sL https://github.com/docplatform/docplatform/releases/latest/download/docplatform_$(uname -s)_$(uname -m).tar.gz | tar xz
+# Download new version (recommended)
+curl -fsSL https://valoryx.org/install.sh | sh
 
-# Replace binary
-sudo mv docplatform /usr/local/bin/
+# Or download manually
+curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-linux-amd64
+chmod +x docplatform-linux-amd64
+sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
 # Restart
 sudo systemctl restart docplatform

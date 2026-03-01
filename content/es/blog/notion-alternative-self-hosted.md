@@ -43,7 +43,7 @@ Editor rápido y flexible. Vistas de base de datos útiles. Adecuado para docume
 Desincronización de la documentación. Dolor en la migración. Cambio de contexto constante. Fricción en la búsqueda. Para un equipo de 10 personas, los costos ocultos superan la suscripción.
 
 ```bash
-curl -sL https://github.com/valoryx/valoryx/releases/latest/download/valoryx_$(uname -s)_$(uname -m).tar.gz | tar xz
-./valoryx init --workspace-name "My Docs" --slug my-docs
-./valoryx serve
+curl -fsSL https://valoryx.org/install.sh | sh
+docplatform init --workspace-name "My Docs" --slug my-docs
+docplatform serve
 ```

@@ -43,7 +43,7 @@ Notion скрізь. Інженерні команди дедалі частіш
 Розбіжність документації. Складність міграції. Переключення контексту. Труднощі з пошуком.
 
 ```bash
-curl -sL https://github.com/valoryx/valoryx/releases/latest/download/valoryx_$(uname -s)_$(uname -m).tar.gz | tar xz
-./valoryx init --workspace-name "My Docs" --slug my-docs
-./valoryx serve
+curl -fsSL https://valoryx.org/install.sh | sh
+docplatform init --workspace-name "My Docs" --slug my-docs
+docplatform serve
 ```
