@@ -25,7 +25,7 @@
               <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full" style="background: rgba(29,127,194,0.08); color: var(--accent);">{{ . }}</span>
               {{ end }}
               <span class="ml-auto text-sm" style="color: var(--muted);">
-                {{ .Date.Format "Jan 2, 2006" }} &nbsp;·&nbsp; {{ math.Round (div (countwords .Content) 200.0) }} min read
+                {{ .Date.Format "Jan 2, 2006" }} &nbsp;·&nbsp; {{ math.Round (div (countwords .Content) 200.0) }} {{ i18n "blog_min_read" }}
               </span>
             </div>
             <h2 class="text-xl font-bold mb-2" style="color: var(--heading);">
