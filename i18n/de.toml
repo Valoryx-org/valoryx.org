@@ -357,3 +357,9 @@ other = "Min. Lesezeit"
 other = "Bereit, Valoryx auszuprobieren?"
 [blog_cta_text]
 other = "Self-hosted, einzelne Binary, kostenlos für Teams bis zu 5 Editoren."
+
+# ── Docs ─────────────────────────────────────────────────────────────────────
+[nav_docs]
+other = "Docs"
+[docs_sidebar_title]
+other = "Dokumentation"

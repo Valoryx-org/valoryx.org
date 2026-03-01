@@ -1,101 +1,92 @@
-<!-- ======= Comparison ======= -->
-<section id="comparison" class="py-20 lg:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- ======= Comparison Section ======= -->
+<section id="comparison" class="py-20 md:py-28">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
     <div class="section-title reveal">
       <h2>{{ i18n "compare_title" }}</h2>
       <p>{{ i18n "compare_subtitle" }}</p>
     </div>
 
-    <div class="overflow-x-auto rounded-xl bg-white reveal reveal-delay-1" style="box-shadow: 0 1px 3px rgba(15,43,60,0.06), 0 8px 32px rgba(15,43,60,0.06); border: 1px solid #e8ecf0;">
+    <div class="compare-table-wrap reveal">
       <table class="compare-table">
         <thead>
           <tr>
-            <th class="min-w-[180px]">{{ i18n "compare_feature" }}</th>
-            <th class="valoryx-col min-w-[110px]">Valoryx</th>
-            <th class="min-w-[110px]">Notion</th>
-            <th class="min-w-[110px]">GitBook</th>
-            <th class="min-w-[110px]">Wiki.js</th>
-            <th class="min-w-[110px]">Mintlify</th>
-            <th class="min-w-[110px]">Confluence</th>
+            <th>{{ i18n "compare_feature" }}</th>
+            <th class="valoryx-head">Valoryx</th>
+            <th>Notion</th>
+            <th>GitBook</th>
+            <th>Confluence</th>
+            <th>Wiki.js</th>
           </tr>
         </thead>
         <tbody>
-          {{ $check := "<span class=\"check\"><i class=\"bi bi-check-lg\"></i></span>" }}
-          {{ $cross := "<span class=\"cross\"><i class=\"bi bi-x-lg\"></i></span>" }}
           <tr>
             <td>{{ i18n "cf_selfhosted" }}</td>
-            <td class="valoryx-col">{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="partial">DC only</span></td>
+            <td><span class="check">&#10003;</span></td>
           </tr>
           <tr>
             <td>{{ i18n "cf_gitnative" }}</td>
-            <td class="valoryx-col">{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="partial">One-way</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="partial">Sync only</span></td>
           </tr>
           <tr>
             <td>{{ i18n "cf_bisync" }}</td>
-            <td class="valoryx-col">{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
           </tr>
           <tr>
             <td>{{ i18n "cf_wysiwyg" }}</td>
-            <td class="valoryx-col">{{ $check | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="check">&#10003;</span></td>
+            <td><span class="check">&#10003;</span></td>
+            <td><span class="check">&#10003;</span></td>
+            <td><span class="check">&#10003;</span></td>
           </tr>
           <tr>
             <td>{{ i18n "cf_published" }}</td>
-            <td class="valoryx-col">{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="partial">Basic</span></td>
+            <td><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
           </tr>
           <tr>
             <td>{{ i18n "cf_singlebinary" }}</td>
-            <td class="valoryx-col">{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
           </tr>
           <tr>
             <td>{{ i18n "cf_freetier" }}</td>
-            <td class="valoryx-col">{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="partial">Limited</span></td>
+            <td><span class="partial">Limited</span></td>
+            <td><span class="partial">Trial</span></td>
+            <td><span class="check">&#10003;</span></td>
           </tr>
           <tr>
             <td>{{ i18n "cf_nolockin" }}</td>
-            <td class="valoryx-col">{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $check | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
-            <td>{{ $cross | safeHTML }}</td>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+            <td><span class="check">&#10003;</span></td>
           </tr>
         </tbody>
       </table>
     </div>
+
   </div>
 </section>

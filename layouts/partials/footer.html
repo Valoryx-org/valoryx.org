@@ -1,11 +1,12 @@
 <!-- ======= Footer ======= -->
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
 <footer class="footer bg-white pt-14 pb-0">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12">
 
       <!-- About -->
       <div>
-        <a href="#hero" class="flex items-center gap-2 text-heading font-light text-[26px] mb-4 no-underline">Valoryx</a>
+        <a href="{{ $homeURL }}#hero" class="flex items-center gap-2 text-heading font-light text-[26px] mb-4 no-underline">Valoryx</a>
         <p class="text-sm text-body leading-6 mb-4">{{ i18n "footer_about_text" }}</p>
       </div>
 
@@ -13,11 +14,11 @@
       <div>
         <h4>{{ i18n "footer_quick_links" }}</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="#hero"       class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_home" }}</a></li>
-          <li><a href="#about"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_about" }}</a></li>
-          <li><a href="#features"   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_features" }}</a></li>
-          <li><a href="#pricing"    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_pricing" }}</a></li>
-          <li><a href="#faq"        class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_faq" }}</a></li>
+          <li><a href="{{ $homeURL }}#hero"       class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_home" }}</a></li>
+          <li><a href="{{ $homeURL }}#about"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_about" }}</a></li>
+          <li><a href="{{ $homeURL }}#features"   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_features" }}</a></li>
+          <li><a href="{{ $homeURL }}#pricing"    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_pricing" }}</a></li>
+          <li><a href="{{ $homeURL }}#faq"        class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_faq" }}</a></li>
         </ul>
       </div>
 
@@ -25,10 +26,10 @@
       <div>
         <h4>{{ i18n "footer_docs" }}</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="/docs/quick-start/"   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_quickstart" }}</a></li>
-          <li><a href="/docs/installation/"  class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_install" }}</a></li>
-          <li><a href="/docs/git-sync/"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_gitsync" }}</a></li>
-          <li><a href="/docs/cli/"           class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_cli" }}</a></li>
+          <li><a href="{{ absLangURL "docs/getting-started/quickstart/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_quickstart" }}</a></li>
+          <li><a href="{{ absLangURL "docs/getting-started/installation/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_install" }}</a></li>
+          <li><a href="{{ absLangURL "docs/guides/git-integration/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_gitsync" }}</a></li>
+          <li><a href="{{ absLangURL "docs/reference/cli/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_cli" }}</a></li>
         </ul>
       </div>
 
@@ -37,8 +38,8 @@
         <h4>{{ i18n "footer_resources" }}</h4>
         <ul class="space-y-2.5 text-sm">
           <li><a href="{{ absLangURL "blog/" }}"                    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_blog" }}</a></li>
-          <li><a href="#download"                                   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_download" }}</a></li>
-          <li><a href="#comparison"                                 class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_compare" }}</a></li>
+          <li><a href="{{ $homeURL }}#download"                     class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_download" }}</a></li>
+          <li><a href="{{ $homeURL }}#comparison"                   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_compare" }}</a></li>
           <li><a href="{{ .Site.Params.githubURL }}" target="_blank" rel="noopener" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> GitHub</a></li>
         </ul>
       </div>

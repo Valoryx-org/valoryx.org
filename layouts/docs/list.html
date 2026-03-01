@@ -1,0 +1,65 @@
+{{ define "main" }}
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+<section class="pt-24 pb-8" style="background: var(--light);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl">
+      <a href="{{ $homeURL }}" class="inline-flex items-center gap-1.5 text-sm mb-4 no-underline transition-colors" style="color: var(--muted);">
+        <i class="bi bi-arrow-left text-xs"></i> {{ i18n "nav_home" }}
+      </a>
+      <h1 class="text-2xl sm:text-3xl font-extrabold mb-2" style="color: var(--heading); letter-spacing: -0.03em;">{{ .Title }}</h1>
+      {{ with .Description }}<p class="text-base" style="color: var(--muted);">{{ . }}</p>{{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="py-10" style="background: #ffffff;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row gap-10">
+
+      <!-- Sidebar -->
+      <nav class="lg:w-64 flex-shrink-0">
+        {{ partial "docs/sidebar.html" . }}
+      </nav>
+
+      <!-- Content -->
+      <div class="flex-1 min-w-0">
+        {{ if .Content }}
+          <div class="article-body">{{ .Content }}</div>
+          <hr class="my-10" style="border-color: #f0f4f8;">
+        {{ end }}
+
+        <!-- Child sections -->
+        {{ range .Sections.ByWeight }}
+        <div class="mb-8">
+          <h2 class="text-lg font-bold mb-4" style="color: var(--heading);">
+            <a href="{{ .RelPermalink }}" class="no-underline hover:underline" style="color: inherit;">{{ .Title }}</a>
+          </h2>
+          {{ with .Description }}<p class="text-sm mb-3" style="color: var(--muted);">{{ . }}</p>{{ end }}
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {{ range .Pages.ByWeight }}
+            <a href="{{ .RelPermalink }}" class="block p-4 rounded-lg border no-underline transition-all hover:border-accent" style="border-color: var(--border);">
+              <h3 class="text-sm font-semibold mb-1" style="color: var(--heading);">{{ .Title }}</h3>
+              {{ with .Description }}<p class="text-xs m-0" style="color: var(--muted);">{{ . }}</p>{{ end }}
+            </a>
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+        <!-- Direct child pages (if no subsections) -->
+        {{ if and (not .Sections) .Pages }}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {{ range .Pages.ByWeight }}
+          <a href="{{ .RelPermalink }}" class="block p-4 rounded-lg border no-underline transition-all hover:border-accent" style="border-color: var(--border);">
+            <h3 class="text-sm font-semibold mb-1" style="color: var(--heading);">{{ .Title }}</h3>
+            {{ with .Description }}<p class="text-xs m-0" style="color: var(--muted);">{{ . }}</p>{{ end }}
+          </a>
+          {{ end }}
+        </div>
+        {{ end }}
+      </div>
+
+    </div>
+  </div>
+</section>
+{{ end }}

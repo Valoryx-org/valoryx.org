@@ -357,3 +357,9 @@ other = "min de lectura"
 other = "¿Listo para probar Valoryx?"
 [blog_cta_text]
 other = "Auto-alojado, binario único, gratuito para equipos de hasta 5 editores."
+
+# ── Docs ─────────────────────────────────────────────────────────────────────
+[nav_docs]
+other = "Docs"
+[docs_sidebar_title]
+other = "Documentación"

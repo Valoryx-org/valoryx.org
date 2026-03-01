@@ -1,0 +1,147 @@
+---
+title: Installation
+description: Install DocPlatform using a pre-built binary, Docker, or from source.
+weight: 2
+---
+
+# Installation
+
+DocPlatform ships as a single binary with zero runtime dependencies. Choose the installation method that fits your workflow.
+
+## Option 1: Pre-built binary (recommended)
+
+Download the latest release for your platform.
+
+### Linux / macOS
+
+```bash
+# Download and extract the latest release
+curl -sL https://github.com/docplatform/docplatform/releases/latest/download/docplatform_$(uname -s)_$(uname -m).tar.gz | tar xz
+
+# Move to a directory in your PATH
+sudo mv docplatform /usr/local/bin/
+
+# Verify the installation
+docplatform version
+```
+
+**Expected output:**
+
+```
+docplatform v0.5.0 (commit: abc1234, built: 2025-01-15T10:00:00Z)
+```
+
+### Download manually
+
+If you prefer to download manually, visit the [GitHub Releases](https://github.com/docplatform/docplatform/releases) page. Binaries are available for:
+
+| Platform | Architecture | Filename |
+|---|---|---|
+| Linux | amd64 | `docplatform_Linux_amd64.tar.gz` |
+| Linux | arm64 | `docplatform_Linux_arm64.tar.gz` |
+| macOS | amd64 (Intel) | `docplatform_Darwin_amd64.tar.gz` |
+| macOS | arm64 (Apple Silicon) | `docplatform_Darwin_arm64.tar.gz` |
+
+Each release includes SHA-256 checksums for verification.
+
+## Option 2: Docker
+
+Run DocPlatform as a container with persistent data stored in a volume.
+
+```bash
+docker run -d \
+  --name docplatform \
+  -p 3000:3000 \
+  -v docplatform-data:/data \
+  ghcr.io/docplatform/docplatform:latest
+```
+
+The container auto-initializes on first run. Open [http://localhost:3000](http://localhost:3000) to get started.
+
+### Docker Compose
+
+For a more manageable setup, use Docker Compose:
+
+```yaml
+# docker-compose.yml
+services:
+  docplatform:
+    image: ghcr.io/docplatform/docplatform:latest
+    container_name: docplatform
+    ports:
+      - "3000:3000"
+    volumes:
+      - docplatform-data:/data
+    environment:
+      - PORT=3000
+      - DATA_DIR=/data
+    restart: unless-stopped
+
+volumes:
+  docplatform-data:
+```
+
+```bash
+docker compose up -d
+```
+
+For production Docker deployments, see the [Docker deployment guide](../deployment/docker.md).
+
+## Option 3: Build from source
+
+Build from source if you want to contribute or run a development version.
+
+**Prerequisites:**
+
+- Go 1.24+
+- Node.js 20+ and pnpm (for frontend build)
+- Git
+- Make
+
+```bash
+# Clone the repository
+git clone https://github.com/docplatform/docplatform.git
+cd docplatform/Phase05/src
+
+# Build the binary (compiles Go + embeds Next.js static export)
+make build
+
+# Verify
+./docplatform version
+```
+
+### Development mode
+
+For hot-reloading during development:
+
+```bash
+make dev
+```
+
+This starts the Go server with live reload and the Next.js dev server with HMR.
+
+## Next steps
+
+With DocPlatform installed, continue to:
+
+1. **[Quickstart](quickstart.md)** — initialize a workspace and start the server in 2 commands
+2. **[Your First Workspace](first-workspace.md)** — set up git sync, invite users, and customize settings
+
+## Uninstall
+
+### Binary
+
+```bash
+# Remove the binary
+sudo rm /usr/local/bin/docplatform
+
+# Remove data (if you want a clean slate)
+rm -rf .docplatform/
+```
+
+### Docker
+
+```bash
+docker stop docplatform && docker rm docplatform
+docker volume rm docplatform-data  # removes all data
+```

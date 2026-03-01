@@ -1,69 +1,70 @@
-<!-- ======= Pricing ======= -->
-<section id="pricing" class="py-20 lg:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- ======= Pricing Section ======= -->
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+<section id="pricing" class="py-20 md:py-28">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
     <div class="section-title reveal">
       <h2>{{ i18n "pricing_title" }}</h2>
       <p>{{ i18n "pricing_subtitle" }}</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto items-stretch">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
 
-      <!-- Community -->
+      <!-- Community (Free) -->
       <div class="reveal reveal-delay-1">
         <div class="pricing-item">
           <h3>{{ i18n "plan_community" }}</h3>
-          <h4><sup>$</sup>0<span> / {{ i18n "plan_forever" }}</span></h4>
+          <h4>$0 <span>/ {{ i18n "plan_forever" }}</span></h4>
           <ul>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_c_feat1" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_c_feat2" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_c_feat3" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_c_feat4" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_c_feat5" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_c_feat6" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_c_feat7" }}</span></li>
-            <li class="na"><i class="bi bi-x"></i> <span>{{ i18n "plan_c_feat8" }}</span></li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat1" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat2" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat3" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat4" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat5" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat6" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat7" }}</li>
+            <li class="na"><i class="bi bi-x"></i> {{ i18n "plan_c_feat8" }}</li>
           </ul>
-          <a href="#download" class="buy-btn">{{ i18n "plan_community_cta" }}</a>
+          <a href="{{ $homeURL }}#download" class="buy-btn">{{ i18n "plan_community_cta" }}</a>
         </div>
       </div>
 
       <!-- Team (Featured) -->
       <div class="pricing-featured reveal reveal-delay-2">
         <div class="pricing-item">
-          <span class="inline-block bg-accent/10 text-accent text-xs font-semibold px-3 py-1 rounded-full mb-4 border border-accent/20">{{ i18n "plan_coming_soon" }}</span>
+          <span class="plan-badge">{{ i18n "plan_coming_soon" }}</span>
           <h3>{{ i18n "plan_team" }}</h3>
-          <h4><sup>$</sup>29<span> / {{ i18n "plan_workspace_mo" }}</span></h4>
+          <h4><sup>$</sup>29 <span>/ {{ i18n "plan_workspace_mo" }}</span></h4>
           <ul>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_t_feat1" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_t_feat2" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_t_feat3" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_t_feat4" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_t_feat5" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_t_feat6" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_t_feat7" }}</span></li>
-            <li class="na"><i class="bi bi-x"></i> <span>{{ i18n "plan_c_feat8" }}</span></li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat1" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat2" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat3" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat4" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat5" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat6" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat7" }}</li>
           </ul>
-          <a href="#contact" class="buy-btn">{{ i18n "plan_waitlist_cta" }}</a>
+          <a href="{{ $homeURL }}#contact" class="buy-btn">{{ i18n "plan_waitlist_cta" }}</a>
         </div>
       </div>
 
       <!-- Business -->
       <div class="reveal reveal-delay-3">
         <div class="pricing-item">
-          <span class="inline-block bg-accent/10 text-accent text-xs font-semibold px-3 py-1 rounded-full mb-4">{{ i18n "plan_coming_soon" }}</span>
+          <span class="plan-badge">{{ i18n "plan_coming_soon" }}</span>
           <h3>{{ i18n "plan_business" }}</h3>
-          <h4><sup>$</sup>79<span> / {{ i18n "plan_workspace_mo" }}</span></h4>
+          <h4><sup>$</sup>79 <span>/ {{ i18n "plan_workspace_mo" }}</span></h4>
           <ul>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_b_feat1" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_b_feat2" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_b_feat3" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_b_feat4" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_b_feat5" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_b_feat6" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_b_feat7" }}</span></li>
-            <li><i class="bi bi-check"></i> <span>{{ i18n "plan_b_feat8" }}</span></li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat1" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat2" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat3" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat4" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat5" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat6" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat7" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat8" }}</li>
           </ul>
-          <a href="#contact" class="buy-btn">{{ i18n "plan_waitlist_cta" }}</a>
+          <a href="{{ $homeURL }}#contact" class="buy-btn">{{ i18n "plan_waitlist_cta" }}</a>
         </div>
       </div>
 

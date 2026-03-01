@@ -1,0 +1,29 @@
+<!-- Docs Sidebar Navigation -->
+{{ $docsRoot := .Site.GetPage "/docs" }}
+{{ $current := . }}
+<div class="lg:sticky lg:top-20">
+  <div class="pb-6 mb-6 border-b" style="border-color: #f0f4f8;">
+    <a href="{{ $docsRoot.RelPermalink }}" class="text-sm font-bold no-underline" style="color: var(--heading);">
+      <i class="bi bi-book text-xs mr-1" style="color: var(--accent);"></i> {{ i18n "docs_sidebar_title" }}
+    </a>
+  </div>
+
+  {{ range $docsRoot.Sections.ByWeight }}
+    {{ $section := . }}
+    {{ $isActiveSection := or (eq $current.RelPermalink .RelPermalink) ($.IsDescendant .) }}
+    <div class="mb-5">
+      <a href="{{ .RelPermalink }}" class="block text-xs font-bold uppercase tracking-wider mb-2 no-underline transition-colors {{ if $isActiveSection }}text-accent{{ end }}" style="{{ if not $isActiveSection }}color: var(--heading);{{ end }} letter-spacing: 0.08em;">
+        {{ .Title }}
+      </a>
+      <ul class="space-y-0.5 list-none pl-0 m-0">
+        {{ range .Pages.ByWeight }}
+        <li>
+          <a href="{{ .RelPermalink }}" class="block py-1.5 px-3 rounded text-[13px] no-underline transition-all {{ if eq $current.RelPermalink .RelPermalink }}font-semibold{{ end }}" style="{{ if eq $current.RelPermalink .RelPermalink }}color: var(--accent); background: rgba(29,127,194,0.06);{{ else }}color: var(--muted);{{ end }}" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='{{ if eq $current.RelPermalink .RelPermalink }}var(--accent){{ else }}var(--muted){{ end }}'">
+            {{ .Title }}
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+  {{ end }}
+</div>

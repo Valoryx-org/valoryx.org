@@ -1,23 +1,23 @@
-<!-- ======= Contact / Waitlist ======= -->
-<section id="contact" class="py-16 lg:py-20 bg-light">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="py-20 md:py-28">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
     <div class="section-title reveal">
       <h2>{{ i18n "contact_title" }}</h2>
       <p>{{ i18n "contact_subtitle" }}</p>
     </div>
 
-    <div class="max-w-2xl mx-auto reveal reveal-delay-1">
-      <form id="waitlistForm" class="contact-form space-y-5" onsubmit="handleSubmit(event)" data-webhook="{{ .Site.Params.n8nWebhook }}">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <input type="text"  name="name"    placeholder="{{ i18n "contact_name_ph" }}"  aria-label="{{ i18n "contact_name_ph" }}">
-          <input type="email" name="email"   placeholder="{{ i18n "contact_email_ph" }}" required aria-label="{{ i18n "contact_email_ph" }}">
-        </div>
-        <input type="text" name="role" placeholder="{{ i18n "contact_role_ph" }}" aria-label="{{ i18n "contact_role_ph" }}">
-        <textarea name="message" rows="5" placeholder="{{ i18n "contact_msg_ph" }}" required aria-label="{{ i18n "contact_msg_ph" }}"></textarea>
-        <div class="text-center">
-          <button type="submit">{{ i18n "contact_submit" }}</button>
-        </div>
-      </form>
-    </div>
+    <form class="contact-form space-y-5 reveal" onsubmit="handleSubmit(event)" data-webhook="{{ .Site.Params.n8nWebhook }}">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <input type="text" name="name" placeholder="{{ i18n "contact_name_ph" }}" required>
+        <input type="email" name="email" placeholder="{{ i18n "contact_email_ph" }}" required>
+      </div>
+      <input type="text" name="role" placeholder="{{ i18n "contact_role_ph" }}">
+      <textarea name="message" rows="5" placeholder="{{ i18n "contact_msg_ph" }}"></textarea>
+      <div class="text-center">
+        <button type="submit">{{ i18n "contact_submit" }}</button>
+      </div>
+    </form>
+
   </div>
 </section>

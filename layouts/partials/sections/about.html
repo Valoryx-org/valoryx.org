@@ -1,39 +1,46 @@
-<!-- ======= About ======= -->
-<section id="about" class="py-20 lg:py-24">
+<!-- ======= About Section ======= -->
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+<section id="about" class="py-20 md:py-28">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
     <div class="section-title reveal">
       <h2>{{ i18n "about_title" }}</h2>
       <p>{{ i18n "about_subtitle" }}</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-      <div class="reveal reveal-delay-1">
-        <p class="text-[15px] leading-7 text-body mb-6">{{ i18n "about_p1" }}</p>
-        <ul class="space-y-4 mb-6">
-          <li class="flex items-start gap-3">
-            <i class="bi bi-check2-circle text-accent text-lg mt-0.5 flex-shrink-0"></i>
-            <span class="text-[15px] text-body">{{ i18n "about_bullet1" }}</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <i class="bi bi-check2-circle text-accent text-lg mt-0.5 flex-shrink-0"></i>
-            <span class="text-[15px] text-body">{{ i18n "about_bullet2" }}</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <i class="bi bi-check2-circle text-accent text-lg mt-0.5 flex-shrink-0"></i>
-            <span class="text-[15px] text-body">{{ i18n "about_bullet3" }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="reveal reveal-delay-2">
-        <p class="text-[15px] leading-7 text-body mb-6">{{ i18n "about_p2" }}</p>
-        <p class="text-[15px] leading-7 text-body mb-6">{{ i18n "about_p3" }}</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="#features" class="inline-flex items-center gap-2 bg-navy text-white px-7 py-2.5 rounded-lg font-semibold text-sm hover:bg-navy-light no-underline" style="transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.2s ease;">
-            <span>{{ i18n "about_cta1" }}</span>
-            <i class="bi bi-arrow-right text-xs"></i>
-          </a>
-        </div>
+    <div class="max-w-3xl mx-auto">
+      <p class="text-base leading-relaxed mb-6 reveal" style="color: var(--body);">
+        {{ i18n "about_p1" }}
+      </p>
+
+      <ul class="space-y-4 mb-8 list-none pl-0">
+        <li class="flex items-start gap-3 reveal reveal-delay-1">
+          <i class="bi bi-check-circle-fill text-lg flex-shrink-0 mt-0.5" style="color: var(--success);"></i>
+          <span class="text-sm leading-relaxed" style="color: var(--body);">{{ i18n "about_bullet1" }}</span>
+        </li>
+        <li class="flex items-start gap-3 reveal reveal-delay-2">
+          <i class="bi bi-check-circle-fill text-lg flex-shrink-0 mt-0.5" style="color: var(--success);"></i>
+          <span class="text-sm leading-relaxed" style="color: var(--body);">{{ i18n "about_bullet2" }}</span>
+        </li>
+        <li class="flex items-start gap-3 reveal reveal-delay-3">
+          <i class="bi bi-check-circle-fill text-lg flex-shrink-0 mt-0.5" style="color: var(--success);"></i>
+          <span class="text-sm leading-relaxed" style="color: var(--body);">{{ i18n "about_bullet3" }}</span>
+        </li>
+      </ul>
+
+      <p class="text-sm leading-relaxed mb-4 reveal" style="color: var(--muted);">
+        {{ i18n "about_p2" }}
+      </p>
+      <p class="text-sm leading-relaxed mb-8 reveal" style="color: var(--muted);">
+        {{ i18n "about_p3" }}
+      </p>
+
+      <div class="reveal">
+        <a href="{{ $homeURL }}#features" class="inline-flex items-center gap-2 text-sm font-semibold no-underline" style="color: var(--accent);">
+          {{ i18n "about_cta1" }} <i class="bi bi-arrow-right"></i>
+        </a>
       </div>
     </div>
+
   </div>
 </section>
