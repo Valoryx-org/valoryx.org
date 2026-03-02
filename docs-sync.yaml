@@ -1,0 +1,74 @@
+# docs-sync.yaml — Sync configuration for docplatform-docs → valoryx.org
+#
+# Source: Valoryx-org/docplatform-docs (English markdown)
+# Target: content/{lang}/docs/ in this repo
+#
+# The sync workflow reads this file to:
+#   1. Map source paths to Hugo weight values (sidebar ordering)
+#   2. Exclude files managed by other pipelines
+#   3. Preserve Hugo-only section stubs
+#   4. Propagate changes to all language directories
+
+# Files to exclude from sync (managed by other pipelines)
+exclude:
+  - "reference/zz-changelog.md"
+
+# All languages that should have docs content
+languages: [en, fr, de, es, ru, uk]
+
+# Hugo-only section index pages — no source in docplatform-docs.
+# Preserved during sync (never overwritten). Generated if missing.
+hugo_only:
+  - path: "deployment/_index.md"
+    title: "Deployment"
+    description: "Deploy DocPlatform as a binary, Docker container, or in production."
+    weight: 4
+  - path: "guides/_index.md"
+    title: "Guides"
+    description: "In-depth guides for editing, git workflows, publishing, and collaboration."
+    weight: 2
+  - path: "reference/_index.md"
+    title: "Reference"
+    description: "API reference, CLI commands, and troubleshooting guide."
+    weight: 5
+
+# Weight assignments for Hugo sidebar ordering.
+# Keys = source paths in docplatform-docs (relative to repo root).
+# index.md → automatically renamed to _index.md during sync.
+weights:
+  # Root docs landing
+  "index.md": 1
+
+  # Getting Started (section weight = 1, from its _index.md)
+  "getting-started/index.md": 1
+  "getting-started/quickstart.md": 1
+  "getting-started/installation.md": 2
+  "getting-started/first-workspace.md": 3
+
+  # Guides (section weight = 2, defined in hugo_only above)
+  "guides/editor.md": 1
+  "guides/markdown.md": 2
+  "guides/git-integration.md": 3
+  "guides/collaboration.md": 4
+  "guides/publishing.md": 5
+  "guides/search.md": 6
+
+  # Configuration (section weight = 3)
+  "configuration/index.md": 3
+  "configuration/environment.md": 1
+  "configuration/authentication.md": 2
+  "configuration/permissions.md": 3
+  "configuration/workspace-config.md": 4
+
+  # Deployment (section weight = 4, defined in hugo_only above)
+  "deployment/binary.md": 1
+  "deployment/docker.md": 2
+  "deployment/production.md": 3
+
+  # Reference (section weight = 5, defined in hugo_only above)
+  "reference/api.md": 1
+  "reference/cli.md": 2
+  "reference/troubleshooting.md": 3
+
+# Default weight for pages not listed above (sorts to end of section)
+default_weight: 999
