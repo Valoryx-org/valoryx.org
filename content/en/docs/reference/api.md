@@ -6,12 +6,13 @@ weight: 1
 
 # REST API Reference
 
-DocPlatform exposes a RESTful JSON API at `/api/v1/`. All endpoints require authentication unless noted otherwise.
+DocPlatform exposes a RESTful JSON API. Business endpoints live under `/api/v1/`, while infrastructure endpoints (auth, health, git webhooks) use the unversioned `/api/` prefix.
 
-## Base URL
+## Base URLs
 
 ```
-http://localhost:3000/api/v1
+/api/v1/*   — business endpoints (content, workspaces, search, admin)
+/api/*      — infrastructure endpoints (auth, health, git webhook, AI)
 ```
 
 ## Authentication
@@ -28,17 +29,29 @@ Obtain tokens via the login or OIDC endpoints.
 
 | Token | Lifetime | Purpose |
 |---|---|---|
-| Access token | 15 minutes | API authentication |
-| Refresh token | 30 days | Obtain new access tokens |
+| Access token | 30 minutes | API authentication |
+| Refresh token | 7 days | Obtain new access tokens (rotated on each use) |
+
+### API keys
+
+For programmatic access (CI/CD, MCP, scripts), use API keys instead of JWT tokens. API keys use the `dp_` prefix and are scoped to specific workspaces and permissions.
+
+```
+Authorization: Bearer dp_abc123...
+```
+
+Create API keys from **Workspace Settings** → **API Keys**.
 
 ---
 
 ## Auth endpoints
 
+Auth endpoints use the unversioned `/api/auth/` prefix.
+
 ### Register
 
 ```
-POST /api/v1/auth/register
+POST /api/auth/register
 ```
 
 Create a new user account. The first user becomes SuperAdmin.
@@ -65,14 +78,14 @@ Create a new user account. The first user becomes SuperAdmin.
   },
   "access_token": "eyJhbG...",
   "refresh_token": "eyJhbG...",
-  "expires_in": 900
+  "expires_in": 1800
 }
 ```
 
 ### Login
 
 ```
-POST /api/v1/auth/login
+POST /api/auth/login
 ```
 
 Authenticate with email and password.
@@ -92,7 +105,7 @@ Authenticate with email and password.
 {
   "access_token": "eyJhbG...",
   "refresh_token": "eyJhbG...",
-  "expires_in": 900
+  "expires_in": 1800
 }
 ```
 
@@ -106,7 +119,7 @@ Authenticate with email and password.
 ### Refresh token
 
 ```
-POST /api/v1/auth/refresh
+POST /api/auth/refresh
 ```
 
 Exchange a refresh token for a new access token. The refresh token is rotated (old one invalidated).
@@ -125,14 +138,14 @@ Exchange a refresh token for a new access token. The refresh token is rotated (o
 {
   "access_token": "eyJhbG...",
   "refresh_token": "eyJhbG...",
-  "expires_in": 900
+  "expires_in": 1800
 }
 ```
 
 ### Password reset request
 
 ```
-POST /api/v1/auth/password-reset
+POST /api/auth/forgot-password
 ```
 
 Request a password reset token. With SMTP configured, an email is sent. Without SMTP, the token is logged to stdout.
@@ -150,7 +163,7 @@ Request a password reset token. With SMTP configured, an email is sent. Without 
 ### Password reset confirm
 
 ```
-POST /api/v1/auth/password-reset/confirm
+POST /api/auth/reset-password
 ```
 
 Set a new password using a reset token.
@@ -166,79 +179,67 @@ Set a new password using a reset token.
 
 **Response:** `200 OK`
 
+### OIDC providers
+
+```
+GET  /api/auth/providers          — List available OIDC providers
+POST /api/auth/oidc/:provider     — Start OIDC flow (google or github)
+GET  /api/auth/oidc/:provider/callback  — OIDC callback
+POST /api/auth/oidc/claim         — Claim OIDC tokens after callback
+```
+
+### WebAuthn / Passkeys
+
+```
+POST   /api/auth/webauthn/register/begin   — Start passkey registration
+POST   /api/auth/webauthn/register/finish  — Complete passkey registration
+POST   /api/auth/webauthn/login/begin      — Start passkey login
+POST   /api/auth/webauthn/login/finish     — Complete passkey login
+GET    /api/auth/webauthn/credentials      — List stored credentials
+DELETE /api/auth/webauthn/credentials/:id  — Delete a credential
+```
+
+### Other auth endpoints
+
+```
+POST /api/auth/logout                   — Logout (revoke refresh token)
+GET  /api/auth/me                       — Current user info
+GET  /api/auth/sessions                 — List active sessions
+POST /api/auth/ws-token                 — Get WebSocket ticket
+POST /api/auth/invitations/accept       — Accept workspace invitation
+```
+
 ---
 
 ## Content endpoints
 
-All content endpoints are scoped to a workspace.
-
-### List pages
-
-```
-GET /api/v1/workspaces/{workspace_id}/pages
-```
-
-Returns all pages the current user has permission to view.
-
-**Query parameters:**
-
-| Parameter | Type | Description |
-|---|---|---|
-| `parent_id` | string | Filter by parent page (for tree navigation) |
-| `tag` | string | Filter by tag |
-| `published` | boolean | Filter by published status |
-| `limit` | int | Max results (default: 100) |
-| `offset` | int | Pagination offset |
-
-**Response:** `200 OK`
-
-```json
-{
-  "pages": [
-    {
-      "id": "01HJK...",
-      "title": "Getting Started",
-      "slug": "getting-started",
-      "description": "Install and configure DocPlatform.",
-      "path": "getting-started.md",
-      "tags": ["guide"],
-      "published": true,
-      "access": "public",
-      "created_at": "2025-01-15T10:00:00Z",
-      "updated_at": "2025-01-16T14:30:00Z",
-      "author_id": "01HJK..."
-    }
-  ],
-  "total": 42,
-  "limit": 100,
-  "offset": 0
-}
-```
+Content is addressed by **workspace slug and file path**, not by ID. All content endpoints use the `/api/v1/content/{workspace}/{...path}` pattern.
 
 ### Get page
 
 ```
-GET /api/v1/workspaces/{workspace_id}/pages/{page_id}
+GET /api/v1/content/{workspace}/{...path}
 ```
+
+Retrieve a page by its workspace slug and file path.
+
+**Example:** `GET /api/v1/content/my-docs/guides/getting-started`
 
 **Response:** `200 OK`
 
 ```json
 {
-  "id": "01HJK...",
+  "page_id": "01HJK...",
+  "path": "guides/getting-started.md",
   "title": "Getting Started",
-  "slug": "getting-started",
   "description": "Install and configure DocPlatform.",
-  "path": "getting-started.md",
   "content": "# Getting Started\n\nThis guide walks you through...",
   "content_hash": "sha256:abc123...",
+  "frontmatter_hash": "sha256:def456...",
   "tags": ["guide"],
-  "published": true,
-  "access": "public",
-  "parent_id": null,
+  "status": "published",
   "created_at": "2025-01-15T10:00:00Z",
-  "updated_at": "2025-01-16T14:30:00Z",
-  "author_id": "01HJK..."
+  "updated_at": "2025-01-16T14:30:00Z"
 }
 ```
 
@@ -247,63 +248,58 @@ GET /api/v1/workspaces/{workspace_id}/pages/{page_id}
 | Code | Description |
 |---|---|
 | `403` | Insufficient permissions |
-| `404` | Page not found |
+| `404` | Page not found or no read access |
 
-### Create page
+### Create/Update page
 
 ```
-POST /api/v1/workspaces/{workspace_id}/pages
+PUT /api/v1/content/{workspace}/{...path}
 ```
+
+Create a new page or update an existing one at the given path.
 
 **Request:**
 
 ```json
 {
-  "title": "New Page",
-  "slug": "new-page",
-  "content": "# New Page\n\nContent here...",
-  "description": "Description for search and SEO.",
-  "tags": ["guide"],
-  "published": false,
-  "parent_id": null
+  "content": "# Getting Started\n\nUpdated content...",
+  "lastKnownHash": "sha256:abc123..."
 }
 ```
 
-**Response:** `201 Created` — returns the full page object.
+The `lastKnownHash` field enables **optimistic concurrency**. Echo the `content_hash` from the server's last response. If the hash doesn't match the current version, the server returns `409 Conflict`. For new pages, omit `lastKnownHash`.
 
-### Update page
-
-```
-PUT /api/v1/workspaces/{workspace_id}/pages/{page_id}
-```
-
-**Request:**
-
-```json
-{
-  "title": "Updated Title",
-  "content": "# Updated Title\n\nUpdated content...",
-  "content_hash": "sha256:abc123..."
-}
-```
-
-The `content_hash` field enables optimistic concurrency. If the hash doesn't match the current version, the server returns `409 Conflict`.
-
-**Response:** `200 OK` — returns the updated page object.
+**Response:** `200 OK` — returns the full page object with updated hashes.
 
 **Errors:**
 
 | Code | Description |
 |---|---|
-| `409` | Content hash mismatch (concurrent edit detected) |
+| `409` | Content hash mismatch — concurrent edit detected. Response includes `current_hash`, `your_hash`, `modified_by`, `modified_at`. |
 
 ### Delete page
 
 ```
-DELETE /api/v1/workspaces/{workspace_id}/pages/{page_id}
+DELETE /api/v1/content/{workspace}/{...path}
 ```
 
 **Response:** `204 No Content`
+
+### Move/Rename page
+
+```
+PUT /api/v1/content/{workspace}/{...path}
+```
+
+Moving a page is a first-class operation. It preserves the stable `page_id`, updates all wikilinks across the workspace, and creates redirect aliases for the old URL.
+
+Include the `move_to` field in the request body:
+
+```json
+{
+  "move_to": "new/path/for/page"
+}
+```
 
 ---
 
@@ -336,28 +332,67 @@ Requires SuperAdmin role.
 }
 ```
 
-### Workspace members
+### Get workspace
 
 ```
-GET /api/v1/workspaces/{workspace_id}/members
-POST /api/v1/workspaces/{workspace_id}/invitations
-DELETE /api/v1/workspaces/{workspace_id}/members/{user_id}
-PUT /api/v1/workspaces/{workspace_id}/members/{user_id}/role
+GET /api/v1/workspaces/:id
 ```
+
+### Delete workspace
+
+```
+DELETE /api/v1/workspaces/:id
+```
+
+Soft-deletes the workspace.
+
+### Page tree
+
+```
+GET /api/v1/content/:workspace/tree
+```
+
+Returns the hierarchical page tree for a workspace, including nested structure and ordering.
+
+### Reorder pages
+
+```
+POST /api/v1/content/:workspace/reorder
+```
+
+Reorder pages within a tree level. Requires write permission.
+
+**Request:**
+
+```json
+{
+  "parent_path": "guides",
+  "order": [
+    { "id": "01HJK...", "sort_order": 0 },
+    { "id": "01HJL...", "sort_order": 1 },
+    { "id": "01HJM...", "sort_order": 2 }
+  ]
+}
+```
+
+**Response:** `204 No Content`
 
 ---
 
 ## Search
 
 ```
-GET /api/v1/workspaces/{workspace_id}/search?q={query}
+GET /api/v1/search?q={query}
 ```
+
+Full-text search across workspaces the user has access to.
 
 **Query parameters:**
 
 | Parameter | Type | Description |
 |---|---|---|
 | `q` | string | Search query (required) |
+| `workspace` | string | Filter by workspace slug |
 | `tag` | string | Filter by tag |
 | `limit` | int | Max results (default: 20) |
 
@@ -369,12 +404,9 @@ GET /api/v1/workspaces/{workspace_id}/search?q={query}
     {
       "page_id": "01HJK...",
       "title": "Git Integration",
-      "description": "Bidirectional git sync...",
       "path": "guides/git-integration.md",
       "score": 0.95,
-      "highlights": [
-        "...bidirectional <mark>git sync</mark> lets your team..."
-      ]
+      "snippet": "...bidirectional <mark>git sync</mark> lets your team..."
     }
   ],
   "total": 5,
@@ -395,7 +427,7 @@ Results are permission-filtered — users only see pages they have access to.
 POST /api/v1/workspaces/{workspace_id}/sync
 ```
 
-Manually trigger a git pull + reconciliation. Requires Admin role.
+Manually trigger a git pull + reconciliation. Requires workspace_admin role.
 
 **Response:** `200 OK`
 
@@ -410,43 +442,323 @@ Manually trigger a git pull + reconciliation. Requires Admin role.
 }
 ```
 
-### Webhook endpoints
+### Webhook endpoint
 
 ```
-POST /api/v1/webhooks/github
-POST /api/v1/webhooks/gitlab
-POST /api/v1/webhooks/bitbucket
+POST /api/git/webhook
 ```
 
-These endpoints receive push event payloads from git hosting providers. No authentication header required — they validate using the `GIT_WEBHOOK_SECRET` shared secret.
+A single endpoint that receives push event payloads from GitHub, GitLab, or Bitbucket. The payload format is auto-detected. No authentication header required — payloads are validated using the `GIT_WEBHOOK_SECRET` shared secret (HMAC-SHA256).
+
+---
+
+## AI features
+
+### AI status
+
+```
+GET /api/v1/ai/status
+```
+
+Check whether AI features are enabled and which provider is configured.
+
+### Writing assist
+
+```
+POST /api/v1/ai/writing-assist
+```
+
+Rewrite, improve, shorten, or expand selected content.
+
+**Request:**
+
+```json
+{
+  "workspace_id": "01HJK...",
+  "operation": "improve",
+  "content": "This is the text to improve."
+}
+```
+
+**Operations:** `rewrite`, `improve`, `shorten`, `expand`
+
+**Response:** `200 OK`
+
+```json
+{
+  "result": "Here is the improved text..."
+}
+```
+
+### Doc chat
+
+```
+POST /api/v1/ai/chat
+```
+
+Multi-turn conversation about workspace documentation.
+
+**Request:**
+
+```json
+{
+  "workspace_id": "01HJK...",
+  "messages": [
+    { "role": "user", "content": "How do I configure git sync?" }
+  ]
+}
+```
+
+---
+
+## Invitations
+
+```
+GET    /api/v1/workspaces/:id/invitations              — List pending invitations (admin)
+POST   /api/v1/workspaces/:id/invitations              — Create invitation (admin)
+DELETE /api/v1/workspaces/:id/invitations/:invitationId — Revoke invitation (admin)
+```
+
+Invitations are email-based with a 7-day TTL. Accepted via `POST /api/auth/invitations/accept`.
+
+---
+
+## API keys
+
+```
+POST   /api/v1/api-keys           — Create API key (returns full key once)
+GET    /api/v1/api-keys           — List API keys (prefix only)
+DELETE /api/v1/api-keys/:id       — Delete API key
+POST   /api/v1/api-keys/:id/rotate — Rotate API key
+```
+
+API keys use the `dp_live_` prefix and are scoped to the organization.
+
+---
+
+## Billing
+
+Requires Stripe configuration. Disabled when `STRIPE_SECRET_KEY` is not set.
+
+```
+POST /api/v1/billing/checkout       — Create Stripe Checkout session
+POST /api/v1/billing/portal         — Create Stripe Customer Portal session
+GET  /api/v1/billing/subscription   — Current subscription status
+GET  /api/v1/billing/plans          — Available plans and pricing
+GET  /api/v1/billing/limits         — Plan limits and current usage
+```
+
+### Stripe webhook
+
+```
+POST /api/webhooks/stripe
+```
+
+Receives Stripe webhook events (signature-verified). Handles subscription lifecycle events with idempotency.
+
+---
+
+## Analytics
+
+GDPR-compliant analytics with cookie consent. Feature-gated to paid plans.
+
+```
+POST /api/analytics/consent                          — Record GDPR consent
+GET  /api/v1/workspaces/:id/analytics/pages          — Top pages (configurable days)
+GET  /api/v1/workspaces/:id/analytics/searches       — Top search queries
+GET  /api/v1/workspaces/:id/analytics/overview       — Dashboard overview
+```
+
+---
+
+## Doc versioning
+
+Named documentation versions (e.g., v1, v2) within a workspace.
+
+```
+GET    /api/v1/workspaces/:id/versions              — List versions
+POST   /api/v1/workspaces/:id/versions              — Create version (admin)
+GET    /api/v1/workspaces/:id/versions/:slug         — Get version details
+PUT    /api/v1/workspaces/:id/versions/:slug/default — Set default version (admin)
+DELETE /api/v1/workspaces/:id/versions/:slug         — Delete version (admin)
+```
+
+---
+
+## Templates
+
+```
+GET /api/v1/templates      — List available templates
+GET /api/v1/templates/:id  — Get template content
+```
+
+---
+
+## Quality scanner
+
+```
+GET /api/v1/workspaces/:id/quality
+```
+
+Scan a workspace for documentation quality issues. Returns readability scores, dead links, and completeness checks.
+
+---
+
+## Static export
+
+```
+GET /api/v1/workspaces/:id/export
+```
+
+Export all published pages as a static HTML ZIP file.
+
+---
+
+## Custom domains
+
+```
+PUT    /api/v1/workspaces/:id/custom-domain  — Set custom domain (admin)
+GET    /api/v1/workspaces/:id/custom-domain  — Get domain status (admin)
+DELETE /api/v1/workspaces/:id/custom-domain  — Remove domain (admin)
+```
+
+---
+
+## Workspace admin
+
+```
+GET /api/v1/workspaces/:id/admin/members              — List members
+PUT /api/v1/workspaces/:id/admin/members/:user_id/role — Update member role
+GET /api/v1/workspaces/:id/admin/settings              — Get workspace settings
+PUT /api/v1/workspaces/:id/admin/settings              — Update workspace settings
+```
+
+---
+
+## Onboarding
+
+```
+GET   /api/v1/users/me/onboarding  — Get onboarding state
+PATCH /api/v1/users/me/onboarding  — Update onboarding state
+```
+
+---
+
+## Super admin panel
+
+These endpoints require the `super_admin` role. All prefixed with `/api/admin/`.
+
+### Organization management
+
+```
+GET  /api/admin/orgs                          — List all organizations
+GET  /api/admin/orgs/:id                      — Get organization details
+PUT  /api/admin/orgs/:id/plan                 — Change organization plan
+POST /api/admin/orgs/:id/subscription/override — Override subscription
+PUT  /api/admin/orgs/:id/rate-limits          — Override rate limits
+POST /api/admin/orgs/:id/export               — Export org data (GDPR)
+```
+
+### User management
+
+```
+GET    /api/admin/users              — List all users
+GET    /api/admin/users/:id          — Get user details
+POST   /api/admin/users/:id/impersonate — Impersonate user
+POST   /api/admin/users/:id/export   — Export user data (GDPR)
+DELETE /api/admin/users/:id          — Delete user (GDPR right to erasure)
+```
+
+### Audit log
+
+```
+GET /api/admin/audit-log    — Query audit log (filterable by user, action, resource, date range)
+```
+
+### Billing overview
+
+```
+GET /api/admin/billing/overview       — Platform-wide billing summary
+GET /api/admin/billing/subscriptions  — All active subscriptions
+GET /api/admin/billing/events         — Webhook event log
+```
+
+### Domain management
+
+```
+GET    /api/admin/domains              — List all custom domains
+POST   /api/admin/domains/:id/verify   — Verify domain DNS
+POST   /api/admin/domains/:id/provision — Provision TLS certificate
+DELETE /api/admin/domains/:id          — Delete domain
+```
+
+### System health
+
+```
+GET /api/admin/system/health    — System health metrics (disk, memory, uptime, DB stats)
+```
+
+### Platform analytics
+
+```
+GET /api/admin/analytics/overview  — Platform-wide analytics overview
+GET /api/admin/analytics/growth    — Platform growth metrics
+```
+
+---
+
+## Prometheus metrics
+
+```
+GET /metrics
+```
+
+Available when `FF_METRICS=true`. Requires super admin authentication. Exposes HTTP latency histograms, request counts, auth event counters, and more.
 
 ---
 
 ## Health
 
-These endpoints do not require authentication.
+These endpoints use the unversioned `/api/` prefix and do not require authentication.
 
 ```
-GET /health    → 200 OK { "status": "ok" }
-GET /ready     → 200 OK { "status": "ready", "db": "ok", "search": "ok" }
+GET /api/health    → 200 OK { "status": "ok", "db": "ok", "git": "ok" }
+GET /api/readyz    → 200 OK { "status": "ready" }
 ```
+
+The `/api/readyz` endpoint returns `503 Service Unavailable` while the initial reconciliation is in progress (startup).
 
 ---
 
 ## Error format
 
-All error responses use a consistent format:
+All error responses follow [RFC 7807](https://datatracker.ietf.org/doc/html/rfc7807) (Problem Details for HTTP APIs):
 
 ```json
 {
-  "error": {
-    "code": "CONFLICT",
-    "message": "Content hash mismatch. The page was modified by another user.",
-    "details": {
-      "current_hash": "sha256:def456...",
-      "provided_hash": "sha256:abc123..."
-    }
-  }
+  "type": "https://docplatform.io/errors/conflict-detected",
+  "title": "Conflict Detected",
+  "status": 409,
+  "detail": "Content hash mismatch. The page was modified by another user.",
+  "current_hash": "sha256:def456...",
+  "your_hash": "sha256:abc123...",
+  "modified_by": "jane@example.com",
+  "modified_at": "2025-01-16T14:30:00Z"
+}
+```
+
+Validation errors include a `fields` array:
+
+```json
+{
+  "type": "https://docplatform.io/errors/validation-error",
+  "title": "Validation Error",
+  "status": 400,
+  "detail": "One or more fields are invalid.",
+  "fields": [
+    { "field": "content", "error": "required" },
+    { "field": "lastKnownHash", "error": "must be 64 hex characters" }
+  ]
 }
 ```
 
@@ -454,13 +766,15 @@ All error responses use a consistent format:
 
 | HTTP | Code | Description |
 |---|---|---|
-| `400` | `BAD_REQUEST` | Invalid request body or parameters |
+| `400` | `VALIDATION_ERROR` | Invalid request body or parameters |
 | `401` | `UNAUTHORIZED` | Missing or invalid authentication |
 | `403` | `FORBIDDEN` | Insufficient permissions |
-| `404` | `NOT_FOUND` | Resource not found |
-| `409` | `CONFLICT` | Concurrent modification detected |
+| `404` | `NOT_FOUND` | Resource not found (or no read access) |
+| `409` | `CONFLICT_DETECTED` | Concurrent modification detected |
+| `422` | `UNPROCESSABLE` | Valid syntax but semantic error (e.g., circular wikilink) |
 | `429` | `RATE_LIMITED` | Too many requests |
 | `500` | `INTERNAL_ERROR` | Server error (check logs) |
+| `503` | `SERVICE_UNAVAILABLE` | Reconciliation in progress |
 
 ## Pagination
 
@@ -490,7 +804,7 @@ Pass `next_cursor` as the `cursor` parameter in the next request. When `has_more
 ## Asset uploads
 
 ```
-POST /api/v1/workspaces/{workspace_id}/assets
+POST /api/v1/content/{workspace}/assets
 ```
 
 Upload images and files to a workspace. Assets are stored in the workspace's `assets/` directory and committed to git if sync is enabled.
@@ -509,7 +823,7 @@ Upload images and files to a workspace. Assets are stored in the workspace's `as
 ```json
 {
   "path": "assets/screenshot-2025-01-15.png",
-  "url": "/api/v1/workspaces/{workspace_id}/assets/screenshot-2025-01-15.png",
+  "url": "/api/v1/content/{workspace}/assets/screenshot-2025-01-15.png",
   "size": 245760,
   "content_type": "image/png"
 }
@@ -577,7 +891,7 @@ Removes conflict artifacts after manual resolution.
 ### Obtain a connection ticket
 
 ```
-POST /api/v1/auth/ws-ticket
+POST /api/auth/ws-ticket
 ```
 
 WebSocket connections use a one-time ticket pattern to avoid exposing JWT tokens in URLs.
@@ -641,13 +955,22 @@ Published docs additionally set:
 
 ## Rate limiting
 
-| Endpoint category | Community Edition |
-|---|---|
-| Read operations | 100 / minute per user |
-| Write operations | 20 / minute per user |
-| Search | 30 / minute per user |
-| Auth (login, register, reset) | 5 / minute per IP |
-| Git webhooks | 10 / minute per workspace |
-| Published docs (public) | 1,000 / minute per IP |
+Rate limits are tier-based and scale with your plan. Token bucket algorithm, per-org for authenticated requests, per-IP for unauthenticated.
 
-Rate limit responses include `Retry-After` (seconds) and `X-RateLimit-Reset` (Unix timestamp) headers.
+| Endpoint category | Community / Free | Team | Business | Enterprise |
+|---|---|---|---|---|
+| Content read | 100/min | 300/min | 600/min | 1,200/min |
+| Content write | 20/min | 60/min | 120/min | 300/min |
+| Search | 30/min | 100/min | 200/min | 500/min |
+| Auth (login, register, reset) | 5/min per IP | 5/min | 5/min | 5/min |
+| Git webhooks | 10/min | 30/min | 60/min | 120/min |
+| Published docs (public) | 1,000/min per IP | 3,000/min | 6,000/min | Unlimited |
+
+Rate limit responses include these headers:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1234567890
+Retry-After: 30
+```

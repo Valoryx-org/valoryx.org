@@ -49,7 +49,7 @@ These items improve reliability, security, and team experience.
 
 ### Monitoring
 
-- [ ] **Health endpoint monitored** — Poll `GET /health` from your monitoring system (Uptime Robot, Prometheus blackbox exporter, etc.).
+- [ ] **Health endpoint monitored** — Poll `GET /api/health` from your monitoring system (Uptime Robot, Prometheus blackbox exporter, etc.).
 - [ ] **Logs collected** — DocPlatform outputs JSON-structured logs to stdout. Forward them to your log aggregator (ELK, Datadog, CloudWatch).
 - [ ] **Disk usage monitored** — SQLite databases and search indexes grow with content. Alert when disk usage exceeds 80%.
 

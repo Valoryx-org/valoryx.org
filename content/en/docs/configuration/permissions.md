@@ -17,7 +17,7 @@ SuperAdmin          ← Full platform access (all workspaces)
     │
 WorkspaceAdmin      ← Manage workspace settings, git config, theme
     │
-Admin               ← Manage members, assign roles
+SpaceAdmin          ← Manage pages under assigned path patterns (e.g., docs/api/**)
     │
 Editor              ← Create, edit, delete pages
     │
@@ -28,24 +28,45 @@ Viewer              ← View pages only
 
 ### Permission matrix
 
-| Permission | Viewer | Commenter | Editor | Admin | WS Admin | Super Admin |
+| Permission | Viewer | Commenter | Editor | Space Admin | WS Admin | Super Admin |
 |---|---|---|---|---|---|---|
 | View pages | Yes | Yes | Yes | Yes | Yes | Yes |
 | Search content | Yes | Yes | Yes | Yes | Yes | Yes |
 | Leave comments | | Yes | Yes | Yes | Yes | Yes |
-| Create pages | | | Yes | Yes | Yes | Yes |
-| Edit pages | | | Yes | Yes | Yes | Yes |
-| Delete pages | | | Yes | Yes | Yes | Yes |
+| Create pages | | | Yes | Yes (scoped) | Yes | Yes |
+| Edit pages | | | Yes | Yes (scoped) | Yes | Yes |
+| Delete pages | | | Yes | Yes (scoped) | Yes | Yes |
 | Upload assets | | | Yes | Yes | Yes | Yes |
-| Invite members | | | | Yes | Yes | Yes |
-| Remove members | | | | Yes | Yes | Yes |
-| Change member roles | | | | Yes | Yes | Yes |
+| Invite members | | | | | Yes | Yes |
+| Remove members | | | | | Yes | Yes |
+| Change member roles | | | | | Yes | Yes |
 | Manage workspace settings | | | | | Yes | Yes |
 | Configure git remote | | | | | Yes | Yes |
 | Manage theme & navigation | | | | | Yes | Yes |
 | Access all workspaces | | | | | | Yes |
 | Manage platform settings | | | | | | Yes |
 | Create/delete workspaces | | | | | | Yes |
+
+### Space Admin — path-scoped permissions
+
+The **Space Admin** role is unique: it grants admin-level control but only over pages matching specific **path patterns**. This enables delegated ownership without full workspace admin access.
+
+**Example:** A Space Admin with `path_patterns: ["docs/api/**"]` can create, edit, and delete any page under `docs/api/` but has no special access to `docs/guides/`.
+
+Path patterns are assigned when adding a member:
+
+```bash
+curl -X POST http://localhost:3000/api/v1/admin/invitations \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "api-lead@example.com",
+    "role": "space_admin",
+    "path_patterns": ["docs/api/**", "docs/reference/**"]
+  }'
+```
+
+Path patterns use glob-style matching (`*` for single level, `**` for recursive).
 
 ## Assigning roles
 
@@ -62,7 +83,7 @@ When inviting a user to a workspace, specify their role:
 **API:**
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/workspaces/{id}/invitations \
+curl -X POST http://localhost:3000/api/v1/admin/invitations \
   -H "Authorization: Bearer {token}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -81,46 +102,73 @@ permissions:
   default_role: viewer
 ```
 
-Available values: `viewer`, `commenter`, `editor`, `admin`, `workspace_admin`
+Available values: `viewer`, `commenter`, `editor`, `space_admin`, `workspace_admin`
 
 ## Page-level access control
 
-Override workspace-level permissions on individual pages using frontmatter.
+Override workspace-level permissions on individual pages using frontmatter. Frontmatter access rules **restrict** within a user's role — they never grant permissions beyond the role.
 
-### Access levels (web editor — internal users)
+### Access control syntax
 
-For authenticated users inside the web editor, page-level access restricts visibility by role:
+Use per-operation access rules to control who can read, write, or administer a page:
 
-| Level | Behavior |
-|---|---|
-| `public` | Any workspace member can view |
-| `workspace` | Any workspace member can view (same as `public` for authenticated users) |
-| `restricted` | Only users with roles listed in `allowed_roles` can view |
+```yaml
+---
+title: Internal Security Policy
+access:
+  read: ["security-team", "engineering-leads"]
+  write: ["security-team"]
+  admin: ["@01HY5K3M7Q8P"]
+---
+```
+
+| Field | Value type | Description |
+|---|---|---|
+| `access.read` | list of role names | Roles that can view this page |
+| `access.write` | list of role names | Roles that can edit this page |
+| `access.admin` | list of role names or `@user_id` | Users/roles that can manage page settings |
+
+**Rules:**
+- Prefix user IDs with `@` to target individual users
+- SuperAdmin and WorkspaceAdmin always have access regardless of frontmatter rules
+- Frontmatter can only **restrict** — a page cannot grant access beyond the user's workspace role
 
 ### Examples
 
-**Public page** (default):
+**Public page** (default — all workspace members can view):
 
 ```yaml
 ---
 title: Getting Started
-access: public
 ---
 ```
 
-**Restricted to admins only:**
+**Restricted to specific teams:**
 
 ```yaml
 ---
 title: Infrastructure Runbook
-access: restricted
-allowed_roles: [admin, workspace_admin]
+access:
+  read: ["security-team", "sre-team"]
+  write: ["security-team"]
 ---
 ```
 
-### What "restricted" means
+**Restricted with individual user access:**
 
-When a page has `access: restricted`:
+```yaml
+---
+title: Budget Proposal
+access:
+  read: ["finance-team"]
+  write: ["@01HY5K3M7Q8P"]
+  admin: ["@01HY5K3M7Q8P"]
+---
+```
+
+### What restricted access means
+
+When a page has `access` rules:
 
 - Users without the required role **cannot view** the page
 - The page **does not appear** in search results for unauthorized users
@@ -145,7 +193,7 @@ For reference, each role maps to a numeric level. Higher levels inherit all perm
 | Viewer | 10 | `read` |
 | Commenter | 20 | `read` |
 | Editor | 30 | `read`, `write`, `delete` |
-| Admin | 40 | `read`, `write`, `delete`, `admin` (member management) |
+| SpaceAdmin | 40 | `read`, `write`, `delete` within path patterns |
 | WorkspaceAdmin | 50 | All workspace actions |
 | SuperAdmin | 60 | All platform actions (bypasses all checks) |
 
@@ -169,13 +217,16 @@ Permission Middleware
     └── Denied → 403 Forbidden
 ```
 
-### Evaluation flow
+### 6-step evaluation flow
 
-1. **Extract user identity** from the JWT access token
-2. **Look up the user's role** for the target workspace
-3. **Check workspace-level permission** — does the role allow the action?
-4. **Check page-level access** — if the page has `access: restricted`, is the user's role in `allowed_roles`?
-5. **Return result** — allowed or denied
+1. **Is workspace public + action is read?** → assign anonymous viewer role
+2. **Is user SuperAdmin?** → ALLOW (bypasses all checks)
+3. **Is user WorkspaceAdmin?** → ALLOW for this workspace
+4. **Does user's role permit action?** → Casbin RBAC check with `keyMatch2(path)`
+5. **Do path_patterns match?** (Space Admin only) → check glob patterns
+6. **Does page frontmatter have access rules?** → check whitelist, RESTRICT within role
+
+Frontmatter RESTRICTS within role, never GRANTS beyond it. A malformed frontmatter defaults to **strict mode** — page restricted to WorkspaceAdmin only.
 
 ### Performance
 
@@ -183,6 +234,7 @@ Permission Middleware
 |---|---|
 | **Engine** | Casbin (in-process, in-memory) |
 | **Evaluation time** | < 0.1ms per check |
+| **Batch check** | < 1ms per 100 pages |
 | **Cache** | Versioned (auto-invalidated on role or permission change) |
 | **Policy storage** | SQLite (loaded into memory on startup) |
 
@@ -191,7 +243,7 @@ Permission Middleware
 Casbin policies are loaded from SQLite into memory on server startup. Changes to roles or frontmatter access declarations trigger a cache invalidation:
 
 1. Admin changes a user's role → permission cache version incremented
-2. Editor updates page frontmatter with new `access` or `allowed_roles` → cache invalidated for that page
+2. Editor updates page frontmatter with new `access` rules → cache invalidated for that page
 3. Next permission check loads fresh policy from SQLite
 
 The cache is versioned, not time-based — there's no stale-permission window.
@@ -201,14 +253,14 @@ The cache is versioned, not time-based — there's no stale-permission window.
 ### Read-only public docs with restricted internal pages
 
 ```yaml
-# Most pages: default
-access: public
+# Most pages: no access rules (open to all workspace members)
 
 # Internal pages: restricted
 ---
 title: Incident Response Playbook
-access: restricted
-allowed_roles: [admin, workspace_admin]
+access:
+  read: ["sre-team", "workspace_admin"]
+  write: ["sre-team"]
 ---
 ```
 
@@ -228,6 +280,13 @@ Create separate workspaces per team with independent member lists:
 
 SuperAdmin has access to all workspaces for cross-team visibility.
 
+### Delegated ownership with Space Admin
+
+Assign Space Admin roles for teams that own specific documentation areas:
+
+- API team → `space_admin` with `path_patterns: ["docs/api/**"]`
+- Design team → `space_admin` with `path_patterns: ["docs/design/**"]`
+
 ## Community Edition limits
 
 Community Edition enforces the following resource limits:
@@ -246,8 +305,9 @@ These limits are hardcoded (no license key required). Viewers and commenters are
 ### "403 Forbidden" on a page I should have access to
 
 1. Check your role: Profile → Workspace Membership
-2. Check the page's frontmatter: does `access: restricted` + `allowed_roles` include your role?
-3. Ask a workspace admin to verify your role assignment
+2. Check the page's frontmatter: does `access.read` include your role?
+3. If using Space Admin, verify your `path_patterns` cover the page's path
+4. Ask a workspace admin to verify your role assignment
 
 ### Permission changes not taking effect
 

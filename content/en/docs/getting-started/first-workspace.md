@@ -126,8 +126,9 @@ title: Authentication
 description: How to authenticate with the API using JWT tokens.
 tags: [api, auth, jwt]
 published: true
-access: public        # public, workspace, restricted
-allowed_roles: []     # only used when access: restricted
+access:
+  read: []            # empty = all workspace members (default)
+  write: []           # restrict by role name or @user_id
 ---
 ```
 
@@ -140,7 +141,7 @@ The `title` is required. All other fields are optional and have sensible default
 1. Open **Workspace Settings** → **Members**
 2. Click **Invite**
 3. Enter the person's email address
-4. Select a role (Viewer, Commenter, Editor, Admin)
+4. Select a role (Viewer, Commenter, Editor, SpaceAdmin, WorkspaceAdmin)
 5. Click **Send Invitation**
 
 If SMTP is configured, the invitation is sent by email. Otherwise, a shareable invitation link is displayed.
@@ -152,7 +153,7 @@ If SMTP is configured, the invitation is sent by email. Otherwise, a shareable i
 | **Viewer** | Yes | | | | |
 | **Commenter** | Yes | Yes | | | |
 | **Editor** | Yes | Yes | Yes | | |
-| **Admin** | Yes | Yes | Yes | Yes | |
+| **SpaceAdmin** | Yes | Yes | Yes (scoped) | | |
 | **WorkspaceAdmin** | Yes | Yes | Yes | Yes | Yes |
 | **SuperAdmin** | Full platform access across all workspaces |
 

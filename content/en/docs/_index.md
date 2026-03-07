@@ -19,9 +19,12 @@ Documentation platforms force you to choose: a polished web editor with vendor l
 | **Single binary, zero dependencies** | One Go binary bundles the editor, database, search engine, and git engine. No Node.js runtime, no Postgres, no Elasticsearch. |
 | **Every page is a `.md` file** | Your content lives as Markdown files in a real git repository. No proprietary formats. No export required. |
 | **Bidirectional git sync** | Edit in the browser — changes auto-commit and push. Push from your IDE — the web UI updates automatically. |
-| **Beautiful published docs** | One click to publish a documentation site with dark mode, syntax highlighting, and 7 built-in components. |
+| **Beautiful published docs** | One click to publish a documentation site with 7 themes, syntax highlighting, custom domains with auto-TLS, and 15+ built-in components. |
 | **Team collaboration** | 6-level role hierarchy, workspace invitations, real-time presence indicators, and full audit trail. |
 | **Full-text search** | Embedded search engine with instant results. No external service to configure. |
+| **AI writing assist** | Rewrite, improve, shorten, or expand content with Claude or OpenAI. Chat with your docs for context-aware answers. |
+| **Built-in analytics** | GDPR-compliant pageview and search analytics with cookie consent — no third-party tracking required. |
+| **Stripe billing** | Three tiers (Community, Team, Business) with feature gating, free trials, and self-service portal. |
 
 ## Who it's for
 
@@ -90,17 +93,36 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 - **Bidirectional git sync** — Web → git commit → push; CLI push → polling → web update
 - **Conflict detection** — Hash-based optimistic concurrency with downloadable diff on collision
 - **Full-text search** — Embedded Bleve engine with permission-filtered results and Cmd+K shortcut
-- **RBAC permissions** — 6 roles: SuperAdmin, WorkspaceAdmin, Admin, Editor, Commenter, Viewer
-- **Authentication** — Local (argon2id) + optional Google/GitHub OIDC
+- **RBAC permissions** — 6 roles: SuperAdmin, WorkspaceAdmin, SpaceAdmin, Editor, Commenter, Viewer
+- **Authentication** — Local (argon2id), Google/GitHub OIDC, and WebAuthn/Passkeys
 - **Workspace model** — Org → Workspace → Pages hierarchy with team invitations
 - **Audit trail** — Every mutation logged with user, timestamp, and operation type
+- **Doc versioning** — Named versions (v1, v2) with default version selection
+- **Doc quality scanner** — Readability scoring, dead link detection, and completeness checks
+- **Templates** — Pre-built page templates for common documentation patterns
 
 ### Published documentation
 
 - **Public site** — Serve docs at `/p/{workspace-slug}/{page-path}`
-- **Dark mode** — Automatic light/dark theme with manual toggle
-- **7 built-in components** — Callout, Code (200+ languages), Tabs, Accordion, Cards, Steps, API Block
-- **SEO ready** — OpenGraph tags, canonical URLs, sitemap.xml, robots.txt
+- **7 themes** — Default, Dark, Forest, Rose, Amber, Minimal, Corporate
+- **15+ built-in components** — Callout, Code (200+ languages), Tabs, Accordion, Cards, Steps, API Block, File Tree, Mermaid diagrams, KaTeX math, and more
+- **SEO ready** — OpenGraph tags, canonical URLs, sitemap.xml, robots.txt, RSS feed
+- **Custom domains** — Serve docs on your own domain with auto-TLS via Caddy integration
+- **Static export** — Export workspace as a static HTML ZIP for CDN deployment
+
+### AI features
+
+- **Writing assist** — Rewrite, improve, shorten, or expand selected content using Claude or OpenAI
+- **Doc chat** — Multi-turn conversation about your workspace documentation
+- **MCP server** — Model Context Protocol integration for AI agent workflows
+
+### Analytics & billing
+
+- **Pageview analytics** — Track page views and top pages with GDPR-compliant cookie consent
+- **Search analytics** — Monitor search queries, top searches, and search frequency
+- **Stripe billing** — Community (free), Team ($99/mo), Business ($299/mo) with annual pricing (2 months free)
+- **Feature gating** — Analytics, custom domains, and advanced AI locked to paid plans
+- **14-day free trial** — Configurable trial period for paid plans
 
 ### Operations
 
@@ -108,6 +130,10 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 - **Daily backups** — Automated SQLite backups with configurable retention
 - **Graceful shutdown** — Clean signal handling for zero-downtime deployments
 - **Structured logging** — JSON logs with request IDs for observability
+- **Durable job queue** — DB-backed async processing with retries for search indexing and maintenance
+- **Super admin dashboard** — Org/user management, impersonation, audit log, system health, GDPR tools
+- **Prometheus metrics** — Optional `/metrics` endpoint for monitoring integration
+- **Static site export** — Export and preview published docs locally
 
 ## System requirements
 
@@ -125,11 +151,15 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 |---|---|
 | [Getting Started](getting-started/index.md) | Install, configure, and create your first workspace |
 | [User Guides](guides/editor.md) | Learn the editor, git sync, publishing, and search |
+| [AI Features](guides/ai-features.md) | Writing assist, doc chat, and MCP server integration |
+| [Analytics](guides/analytics.md) | Pageview tracking, search analytics, and GDPR compliance |
+| [Billing & Plans](guides/billing.md) | Stripe integration, plan tiers, and feature gating |
 | [Configuration](configuration/index.md) | Environment variables, auth, permissions, and workspace settings |
 | [Deployment](deployment/binary.md) | Production deployment with binary, Docker, or containers |
 | [CLI Reference](reference/cli.md) | Complete command reference |
 | [API Reference](reference/api.md) | REST API endpoints and examples |
 | [Troubleshooting](reference/troubleshooting.md) | Common issues and how to resolve them |
+| [Changelog](reference/zz-changelog.md) | Release history and version notes |
 
 ## Performance
 
@@ -160,6 +190,9 @@ Measured on Apple M2, NVMe SSD, 1,000-page workspace:
 | Single binary (zero deps) | Yes | N/A | N/A | No (Node.js) | N/A | Docker |
 | Built-in RBAC | Yes | Paid | Paid | No | Yes | Yes |
 | Published docs site | Yes | Yes | Yes | Yes | Yes | Yes |
+| AI writing assist | Yes | Yes | Yes | No | Yes | No |
+| Built-in analytics | Yes | Paid | Paid | No | Paid | No |
+| Passkey / WebAuthn login | Yes | No | No | N/A | No | No |
 | Open source | Yes | No | No | Yes | No | Yes |
 | Offline capable | Yes | No | No | Yes | No | No |
 

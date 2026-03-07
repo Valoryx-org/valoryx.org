@@ -18,7 +18,7 @@ Configuration is applied in three layers, from broadest to most specific:
 | **Workspace config** | Per workspace | `.docplatform/config.yaml` |
 | **Page frontmatter** | Per page | YAML block in each `.md` file |
 
-Higher-specificity layers override lower ones. For example, a page's `access: restricted` overrides the workspace default of `access: public`.
+Higher-specificity layers override lower ones. For example, a page's `access.read` rules restrict visibility beyond the workspace-level defaults.
 
 ## Guides
 
@@ -41,5 +41,5 @@ The most common configuration tasks:
 | Set up email (invitations, password reset) | `SMTP_*` environment variables |
 | Change the default role for new users | Workspace config `permissions.default_role` |
 | Restrict published docs to team members only | `PUBLISH_REQUIRE_AUTH=true` environment variable |
-| Restrict a page to specific roles (web editor) | Page frontmatter `access: restricted` |
+| Restrict a page to specific roles (web editor) | Page frontmatter `access.read: ["role-name"]` |
 | Disable telemetry | `DOCPLATFORM_TELEMETRY=off` |
