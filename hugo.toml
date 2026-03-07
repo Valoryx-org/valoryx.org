@@ -64,7 +64,7 @@ enableEmoji                     = false
 
 [params]
   githubURL    = "https://github.com/Valoryx-org/releases"
-  releaseTag   = "v0.5.1"
+  releaseTag   = "v0.5.2"
   binaryName   = "docplatform"
   n8nWebhook   = "https://n8n.valoryx.org/webhook/valoryx-waitlist"
   description  = "Self-hosted documentation platform with bidirectional git sync, WYSIWYG editor, and beautiful published docs. Single Go binary, zero dependencies."
