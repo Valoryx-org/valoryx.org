@@ -131,10 +131,12 @@ Lower intervals mean faster sync but more network traffic.
 
 For instant sync, configure a webhook in your repository:
 
+DocPlatform uses a single webhook endpoint that auto-detects the provider (GitHub, GitLab, Bitbucket) from the payload format.
+
 **GitHub:**
 
 1. Go to **Settings** → **Webhooks** → **Add webhook**
-2. Payload URL: `https://your-domain.com/api/v1/webhooks/github`
+2. Payload URL: `https://your-domain.com/api/git/webhook`
 3. Content type: `application/json`
 4. Secret: Set `GIT_WEBHOOK_SECRET` environment variable to match
 5. Events: Select **Push events**
@@ -142,14 +144,14 @@ For instant sync, configure a webhook in your repository:
 **GitLab:**
 
 1. Go to **Settings** → **Webhooks**
-2. URL: `https://your-domain.com/api/v1/webhooks/gitlab`
+2. URL: `https://your-domain.com/api/git/webhook`
 3. Secret token: Match `GIT_WEBHOOK_SECRET`
 4. Trigger: **Push events**
 
 **Bitbucket:**
 
 1. Go to **Repository settings** → **Webhooks** → **Add webhook**
-2. URL: `https://your-domain.com/api/v1/webhooks/bitbucket`
+2. URL: `https://your-domain.com/api/git/webhook`
 3. Triggers: **Repository push**
 
 ### Manual sync

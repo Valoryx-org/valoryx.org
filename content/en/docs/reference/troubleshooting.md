@@ -122,12 +122,12 @@ docplatform serve
 
 ### "401 Unauthorized" on every request
 
-**Cause:** JWT access token has expired (15-minute lifetime by default).
+**Cause:** JWT access token has expired (30-minute lifetime by default).
 
 **Solution:** The web editor handles token refresh automatically. If using the API directly, call the refresh endpoint:
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/auth/refresh \
+curl -X POST http://localhost:3000/api/auth/refresh \
   -H "Content-Type: application/json" \
   -d '{"refresh_token": "your-refresh-token"}'
 ```
@@ -145,7 +145,7 @@ curl -X POST http://localhost:3000/api/v1/auth/refresh \
 **Solution:**
 
 1. Check the callback URL in your OAuth provider settings
-2. It should be: `https://your-domain.com/api/v1/auth/callback/google` (or `/github`)
+2. It should be: `https://your-domain.com/api/auth/callback/google` (or `/github`)
 3. Ensure the `OIDC_*_CLIENT_ID` and `OIDC_*_CLIENT_SECRET` environment variables are set correctly
 4. Restart the server after changing OIDC environment variables
 

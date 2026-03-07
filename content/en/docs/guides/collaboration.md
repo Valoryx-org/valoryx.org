@@ -53,7 +53,7 @@ DocPlatform uses a 6-level role hierarchy. Higher roles inherit all permissions 
 ```
 SuperAdmin
     └── WorkspaceAdmin
-            └── Admin
+            └── SpaceAdmin
                   └── Editor
                         └── Commenter
                               └── Viewer
@@ -64,8 +64,8 @@ SuperAdmin
 | **Viewer** | Workspace | View pages and search |
 | **Commenter** | Workspace | View + leave comments on pages |
 | **Editor** | Workspace | View + comment + create, edit, delete pages |
-| **Admin** | Workspace | Editor + manage members and roles |
-| **WorkspaceAdmin** | Workspace | Admin + manage workspace settings, git config, theme |
+| **SpaceAdmin** | Path-scoped | Editor + manage pages under assigned path patterns |
+| **WorkspaceAdmin** | Workspace | Full workspace management (settings, git, theme, members) |
 | **SuperAdmin** | Platform | Full access to all workspaces + platform settings |
 
 ### Default role for new members
@@ -80,17 +80,18 @@ permissions:
 
 ### Page-level access
 
-Restrict individual pages to specific roles using frontmatter:
+Restrict individual pages to specific roles using frontmatter access rules:
 
 ```yaml
 ---
 title: Internal Runbook
-access: restricted
-allowed_roles: [admin, editor]
+access:
+  read: ["sre-team", "workspace_admin"]
+  write: ["sre-team"]
 ---
 ```
 
-Pages with `access: restricted` are invisible to users without the required role — they won't appear in search results, navigation, or published docs.
+Pages with `access` rules are invisible to users without the required role — they won't appear in search results, navigation, or published docs. Access rules can only **restrict** within a user's role, never grant beyond it.
 
 ## Real-time presence
 

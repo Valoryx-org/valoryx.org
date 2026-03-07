@@ -95,7 +95,7 @@ Build from source if you want to contribute or run a development version.
 
 **Prerequisites:**
 
-- Go 1.24+
+- Go 1.25+
 - Node.js 20+ and pnpm (for frontend build)
 - Git
 - Make

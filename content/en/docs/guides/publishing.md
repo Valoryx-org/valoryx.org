@@ -18,7 +18,7 @@ http://localhost:3000/p/my-docs/quickstart    → docs/quickstart.md
 http://localhost:3000/p/my-docs/api/auth      → docs/api/auth.md
 ```
 
-Pages are rendered from Markdown to HTML on request using goldmark (CommonMark-compliant) with Chroma syntax highlighting for code blocks.
+Pages are rendered from Markdown to HTML on request using goldmark (CommonMark-compliant) with Shiki syntax highlighting (One Dark Pro / GitHub Light themes) for code blocks.
 
 ### Page status lifecycle
 
@@ -69,6 +69,31 @@ publishing:
   require_explicit_unpublish: false
 ```
 
+## Themes
+
+DocPlatform ships with 7 built-in themes for published documentation:
+
+| Theme | Description |
+|---|---|
+| **Default** | Clean light theme with blue accents |
+| **Dark** | Dark background with high-contrast text |
+| **Forest** | Green-toned natural palette |
+| **Rose** | Warm pink and red accents |
+| **Amber** | Warm amber and gold tones |
+| **Minimal** | Stripped-down, typography-focused |
+| **Corporate** | Professional blue/gray palette |
+
+Set the theme in your workspace config:
+
+```yaml
+# .docplatform/config.yaml
+theme:
+  mode: auto    # light, dark, or auto (follows system preference)
+  accent: blue  # or use a named theme
+```
+
+Each theme supports automatic light/dark mode switching based on the visitor's system preference when `mode: auto` is set.
+
 ## Published site features
 
 ### Navigation
@@ -91,7 +116,7 @@ navigation:
 
 ### Syntax highlighting
 
-Code blocks are highlighted using **Chroma** (goldmark-highlighting, Dracula theme). Over 200 languages are supported.
+Code blocks are highlighted using **Shiki** (One Dark Pro / GitHub Light themes). Over 200 languages are supported.
 
 Specify the language after the opening triple backticks:
 
@@ -113,8 +138,9 @@ DocPlatform generates SEO metadata automatically from your page frontmatter:
 | `<meta property="og:title">` | Frontmatter `title` |
 | `<meta property="og:description">` | Frontmatter `description` |
 | `<link rel="canonical">` | Generated from page path |
-| `sitemap.xml` | Auto-generated from all published pages |
-| `robots.txt` | Auto-generated |
+| `sitemap.xml` | Auto-generated at `/p/{slug}/sitemap.xml` |
+| `robots.txt` | Auto-generated at `/p/{slug}/robots.txt` |
+| RSS feed | Auto-generated at `/p/{slug}/rss.xml` |
 
 ### Access control
 
@@ -140,7 +166,7 @@ Restart the server for this change to take effect. No rebuild required.
 
 ## Built-in components
 
-Published docs support 7 custom components that render as rich, interactive elements:
+Published docs support 15+ custom components that render as rich, interactive elements. Here are the most commonly used ones (see [Markdown & Components](markdown.md) for the full list):
 
 ### Callout
 
@@ -221,16 +247,17 @@ Run `docplatform serve` and open the browser.
 ### API Block
 
 ```markdown
-:::api{method="GET" path="/api/v1/pages/{id}"}
-Retrieve a single page by ID.
+:::api{method="GET" path="/api/v1/content/{workspace}/{...path}"}
+Retrieve a single page by workspace and path.
 
 **Parameters:**
-- `id` (path, required) — Page ULID
+- `workspace` (path, required) — Workspace slug
+- `path` (path, required) — Page file path
 
 **Response:** `200 OK`
 ```json
 {
-  "id": "01HJKL...",
+  "page_id": "01HJKL...",
   "title": "Getting Started",
   "content": "..."
 }
@@ -238,28 +265,65 @@ Retrieve a single page by ID.
 :::
 ```
 
-## Custom domain
+## Custom domains
 
-To serve published docs on your own domain:
+DocPlatform supports per-workspace custom domains with automatic TLS provisioning via Caddy integration.
 
-1. Set the `BASE_DOMAIN` environment variable:
+### Setup
 
-```bash
-export BASE_DOMAIN=docs.yourcompany.com
-```
-
-2. Configure DNS to point your domain to the DocPlatform server
-3. Set up a reverse proxy (nginx, Caddy, or cloud load balancer) with TLS termination
-
-Example Caddy configuration:
+1. **Configure Caddy** as your reverse proxy with the on-demand TLS ask endpoint:
 
 ```
-docs.yourcompany.com {
+{
+    on_demand_tls {
+        ask http://localhost:3000/internal/caddy/ask
+    }
+}
+
+:443 {
+    tls {
+        on_demand
+    }
     reverse_proxy localhost:3000
 }
 ```
 
-Caddy automatically provisions and renews TLS certificates via Let's Encrypt.
+2. **Set environment variables:**
+
+```bash
+export BASE_DOMAIN=docs.yourcompany.com
+export CADDY_ADMIN_URL=http://localhost:2019
+export CADDY_ASK_SECRET=your-shared-secret
+```
+
+3. **Assign a custom domain** to a workspace via the API or admin UI:
+
+```bash
+curl -X PUT /api/v1/workspaces/{id}/custom-domain \
+  -H "Authorization: Bearer ..." \
+  -d '{"domain": "docs.yourcompany.com"}'
+```
+
+4. **Point DNS** — Add a CNAME or A record pointing to your DocPlatform server.
+
+DocPlatform verifies DNS automatically and provisions TLS certificates on first request. No manual certificate management required.
+
+### Managing custom domains
+
+| Operation | Endpoint |
+|---|---|
+| Set domain | `PUT /api/v1/workspaces/:id/custom-domain` |
+| Check status | `GET /api/v1/workspaces/:id/custom-domain` |
+| Remove domain | `DELETE /api/v1/workspaces/:id/custom-domain` |
+
+Super admins can manage all domains from the admin panel:
+
+| Operation | Endpoint |
+|---|---|
+| List all domains | `GET /api/admin/domains` |
+| Verify DNS | `POST /api/admin/domains/:id/verify` |
+| Provision TLS | `POST /api/admin/domains/:id/provision` |
+| Delete domain | `DELETE /api/admin/domains/:id` |
 
 ## Caching
 
@@ -276,6 +340,37 @@ The cache key is based on the page's content hash. When content changes, the ETa
 
 In the web editor, assets use relative paths (`assets/screenshot.png`). In published docs, these are automatically rewritten to absolute paths (`/p/{slug}/assets/screenshot.png`) so images and files load correctly at any URL depth.
 
+## Static export
+
+Export your published docs as a self-contained static HTML ZIP for CDN deployment or offline distribution.
+
+### Via CLI
+
+```bash
+docplatform export --workspace my-docs --output ./my-docs-export.zip
+```
+
+### Via API
+
+```
+GET /api/v1/workspaces/{id}/export
+```
+
+Returns a ZIP file containing:
+
+- Rendered HTML for all published pages
+- `sitemap.xml` and `robots.txt`
+- Sidebar navigation and CSS
+- Ready to deploy to any static file host (Netlify, Vercel, S3, GitHub Pages)
+
 ## Preview before publishing
 
-Before making a page public, preview it at the published URL. Pages with `published: false` are still accessible to authenticated workspace members at the `/p/` path — they're just excluded from the public navigation and sitemap.
+Preview published docs locally without building a static export:
+
+```bash
+docplatform preview --workspace my-docs --port 4000
+```
+
+This starts a lightweight local server that renders pages in real-time — useful for reviewing changes before deploying.
+
+Pages with `published: false` are still accessible to authenticated workspace members at the `/p/` path — they're just excluded from the public navigation and sitemap.
