@@ -43,15 +43,15 @@
               <p class="text-xs m-0" style="color: var(--muted);">{{ i18n "domains_dev_sub" }}</p>
             </div>
           </div>
-          <span class="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-5" style="background: rgba(29,127,194,0.08); color: var(--accent);">{{ i18n "plan_coming_soon" }}</span>
+          <span class="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-5" style="background: rgba(5,150,82,0.08); color: var(--success);">{{ i18n "domains_available" }}</span>
           <ul class="space-y-3 mb-6 list-none pl-0">
             <li class="flex items-center gap-2 text-sm" style="color: var(--body);"><i class="bi bi-check-circle text-base" style="color: var(--accent);"></i> {{ i18n "domains_dev_li1" }}</li>
             <li class="flex items-center gap-2 text-sm" style="color: var(--body);"><i class="bi bi-check-circle text-base" style="color: var(--accent);"></i> {{ i18n "domains_dev_li2" }}</li>
             <li class="flex items-center gap-2 text-sm" style="color: var(--body);"><i class="bi bi-check-circle text-base" style="color: var(--accent);"></i> {{ i18n "domains_dev_li3" }}</li>
             <li class="flex items-center gap-2 text-sm" style="color: var(--body);"><i class="bi bi-check-circle text-base" style="color: var(--accent);"></i> {{ i18n "domains_dev_li4" }}</li>
           </ul>
-          <a href="{{ $homeURL }}#contact" class="inline-flex items-center gap-2 text-sm font-semibold no-underline" style="color: var(--accent);">
-            {{ i18n "plan_waitlist_cta" }} <i class="bi bi-arrow-right"></i>
+          <a href="https://app.valoryx.dev/" class="inline-flex items-center gap-2 text-sm font-semibold no-underline" style="color: var(--accent);">
+            {{ i18n "pricing_start_free" | default "Start Free" }} <i class="bi bi-arrow-right"></i>
           </a>
         </div>
       </div>

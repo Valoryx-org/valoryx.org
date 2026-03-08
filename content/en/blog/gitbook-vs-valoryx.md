@@ -43,10 +43,10 @@ This is where the products diverge most.
 **Valoryx** offers three tiers:
 
 - **Community** (free forever): Self-hosted, up to 5 editors, full features including git sync, WYSIWYG editor, published docs, and full-text search.
-- **Team** ($29/workspace/month): Managed cloud hosting, unlimited editors, custom domains, priority support.
-- **Business** ($79/workspace/month): SSO/SAML, audit logs, dedicated infrastructure, SLA.
+- **Team** ($29/month): Managed cloud hosting, 15 editors, 3 workspaces, custom domains, priority support.
+- **Business** ($79/month): SSO/SAML, audit logs, analytics dashboard, 50 editors, 10 workspaces.
 
-**Verdict:** For small teams (5 or fewer), Valoryx is unbeatable — the free self-hosted edition has no feature restrictions. GitBook's free tier is limited to personal/open-source use. For larger teams, GitBook's per-user pricing can get expensive quickly; Valoryx's per-workspace pricing is simpler and often cheaper.
+**Verdict:** For small teams (5 or fewer), Valoryx is unbeatable — the free self-hosted edition has no feature restrictions. GitBook's free tier is limited to personal/open-source use. For larger teams, GitBook's per-user pricing can get expensive quickly; Valoryx's flat-rate pricing is simpler and often cheaper.
 
 ## Published Documentation Sites
 

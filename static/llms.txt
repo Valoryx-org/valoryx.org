@@ -26,7 +26,7 @@ docplatform mcp --workspace <slug> --api-key <key>
 - Bidirectional git sync (push and pull, auto-merge)
 - WYSIWYG Tiptap editor with markdown support
 - Full-text search (Bleve engine)
-- Published documentation sites with 7 themes
+- Published documentation sites with 5 themes
 - Role-based access control (6 roles)
 - Wikilinks with auto-repair on rename
 - 95+ REST API endpoints

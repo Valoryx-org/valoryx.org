@@ -200,7 +200,7 @@ other = "Business"
 [plan_forever]
 other = "forever"
 [plan_workspace_mo]
-other = "workspace / mo"
+other = "mo"
 [plan_coming_soon]
 other = "Coming Soon"
 [plan_community_cta]
@@ -282,7 +282,7 @@ other = "Custom domains & CDN"
 [domains_dev_li3]
 other = "Team billing & admin"
 [domains_dev_li4]
-other = "Starting at $29/workspace/mo"
+other = "Starting at $29/mo"
 [domains_note]
 other = "Same Valoryx. Same git-backed architecture. The Community Edition runs on your hardware. The Cloud edition runs on ours. Start self-hosted, migrate to cloud anytime — your git repo never changes."
 
@@ -314,7 +314,7 @@ other = "Your documentation is stored as standard Markdown files in a git reposi
 [faq6_q]
 other = "Does Valoryx support multiple workspaces?"
 [faq6_a]
-other = "Yes. Team and Business plans support unlimited workspaces, SSO integration, audit logging, and granular role-based access control. Each workspace can connect to its own git repository."
+other = "Yes. The Community Edition supports 3 workspaces with 5 editors. Cloud Team plan includes 3 workspaces with 15 editors, and Business includes 10 workspaces with 50 editors. Each workspace connects to its own git repository with independent permissions."
 
 # ── Contact ───────────────────────────────────────────────────────────────────
 [contact_title]

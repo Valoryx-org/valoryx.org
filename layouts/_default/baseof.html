@@ -13,6 +13,24 @@
   <button id="scrollTop" class="scroll-top" aria-label="{{ i18n "scroll_top" }}">
     <i class="bi bi-arrow-up-short"></i>
   </button>
+  <!-- Cookie Consent Banner -->
+  <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 z-50 hidden" role="dialog" aria-label="{{ i18n "cookie_title" | default "Cookie Notice" }}">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-white border" style="border-color: var(--border); box-shadow: 0 -4px 24px rgba(0,0,0,0.1);">
+        <p class="text-sm" style="color: var(--body);">
+          {{ i18n "cookie_text" | default "This site uses essential cookies only. No tracking, no ads, no third-party analytics." }}
+          <a href="{{ absLangURL "security/" }}" class="font-semibold no-underline" style="color: var(--accent);">{{ i18n "cookie_learn" | default "Learn more" }}</a>
+        </p>
+        <button onclick="acceptCookies()" class="shrink-0 px-5 py-2 rounded-lg text-sm font-semibold text-white no-underline" style="background: var(--accent);">
+          {{ i18n "cookie_accept" | default "Got it" }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <script>
+  if(!localStorage.getItem('cookieConsent')){document.getElementById('cookieConsent').classList.remove('hidden');}
+  function acceptCookies(){localStorage.setItem('cookieConsent','1');document.getElementById('cookieConsent').classList.add('hidden');}
+  </script>
   <script src="{{ "js/main.js" | relURL }}"></script>
 </body>
 </html>

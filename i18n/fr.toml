@@ -182,7 +182,7 @@ other = "Entreprise"
 [plan_forever]
 other = "toujours"
 [plan_workspace_mo]
-other = "espace / mois"
+other = "mo"
 [plan_coming_soon]
 other = "Bientôt Disponible"
 [plan_community_cta]

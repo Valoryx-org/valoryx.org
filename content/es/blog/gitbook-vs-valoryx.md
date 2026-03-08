@@ -18,7 +18,7 @@ El "Git Sync" de GitBook no es verdaderamente bidireccional: los commits desde e
 GitBook: solo en la nube. No ofrece opción self-hosted. Valoryx: binario único en Go, cero dependencias, todos los datos en tu propio servidor. Veredicto: solo Valoryx ofrece self-hosting.
 
 ## Precios
-GitBook: $6,70/usuario/mes (team), precio personalizado (business). Valoryx: Community (gratuito para siempre, 5 editores), Team ($29/workspace/mes), Business ($79/workspace/mes). Veredicto: Valoryx es gratuito para equipos pequeños; el precio por workspace supera al precio por usuario para equipos más grandes.
+GitBook: $6,70/usuario/mes (team), precio personalizado (business). Valoryx: Community (gratuito para siempre, 5 editores), Team ($29/mes), Business ($79/mes). Veredicto: Valoryx es gratuito para equipos pequeños; el precio por workspace supera al precio por usuario para equipos más grandes.
 
 ## Documentación Publicada
 Ambas plataformas ofrecen resultados profesionales. GitBook tiene mayor nivel de acabado; Valoryx ofrece mejor rendimiento (generación estática) y mejor búsqueda (FTS5).

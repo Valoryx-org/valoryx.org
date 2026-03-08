@@ -125,7 +125,7 @@ Get the published site theme.
 - Output: `{ theme_name, available_themes[] }`
 
 **docplatform_update_theme**
-Update the published site theme. 7 themes available.
+Update the published site theme. 5 themes available.
 - Input: `{ "workspace": "string", "theme": "string" }`
 - Output: `{ theme_name }`
 
@@ -173,7 +173,7 @@ Key endpoints:
 - **Editor**: Tiptap (ProseMirror) WYSIWYG with markdown import/export
 - **Auth**: JWT + refresh tokens, OAuth 2.0/OIDC, WebAuthn/passkeys
 - **RBAC**: 6 roles (viewer, commenter, editor, admin, owner, super_admin)
-- **Publishing**: Static HTML generation with 7 themes
+- **Publishing**: Static HTML generation with 5 themes
 - **MCP**: JSON-RPC 2.0 over stdio (Phase 1), Streamable HTTP (Phase 1.5)
 
 ## Links

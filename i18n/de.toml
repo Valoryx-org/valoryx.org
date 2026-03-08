@@ -182,7 +182,7 @@ other = "Business"
 [plan_forever]
 other = "für immer"
 [plan_workspace_mo]
-other = "Arbeitsbereich / Mo"
+other = "mo"
 [plan_coming_soon]
 other = "Demnächst"
 [plan_community_cta]

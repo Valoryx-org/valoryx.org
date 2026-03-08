@@ -182,7 +182,7 @@ other = "Бізнес"
 [plan_forever]
 other = "назавжди"
 [plan_workspace_mo]
-other = "простір / міс"
+other = "mo"
 [plan_coming_soon]
 other = "Незабаром"
 [plan_community_cta]
