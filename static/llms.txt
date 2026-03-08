@@ -1,0 +1,40 @@
+# Valoryx
+
+> Git-native documentation platform. Single binary, bidirectional git sync, WYSIWYG editor, MCP server for AI agents.
+
+## Links
+- Homepage: https://valoryx.org/
+- Documentation: https://valoryx.org/docs/
+- Pricing: https://valoryx.org/pricing/
+- Templates: https://valoryx.org/templates/
+- MCP Server: https://valoryx.org/mcp/
+- Install: https://valoryx.org/install/
+- Cloud App: https://app.valoryx.org/
+- GitHub: https://github.com/Valoryx-org/docplatform
+
+## Quick Start
+curl -fsSL https://valoryx.org/install.sh | sh
+docplatform init my-docs
+docplatform serve
+
+## MCP Integration (stdio, local)
+docplatform mcp --workspace <slug> --api-key <key>
+13 tools at launch (20 in Phase 1.5): list_pages, read_page, write_page, update_page, delete_page, move_page, search, get_context, list_workspaces, get_tree, validate_links, get_theme, update_theme
+
+## Key Features
+- Self-hosted documentation platform (single Go binary, zero dependencies)
+- Bidirectional git sync (push and pull, auto-merge)
+- WYSIWYG Tiptap editor with markdown support
+- Full-text search (Bleve engine)
+- Published documentation sites with 7 themes
+- Role-based access control (6 roles)
+- Wikilinks with auto-repair on rename
+- 95+ REST API endpoints
+- WebAuthn/passkey authentication
+- Community Edition: free, 5 editors, 3 workspaces, unlimited viewers
+
+## Pricing
+- Community (self-hosted): Free forever, 3 workspaces, 5 editors, all features
+- Cloud Free: $0/mo, 1 workspace, 3 editors
+- Cloud Team: $29/mo, 3 workspaces, 15 editors, custom domains
+- Cloud Business: $79/mo, 10 workspaces, 50 editors, SSO, analytics, audit logs

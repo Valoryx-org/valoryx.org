@@ -10,15 +10,15 @@
         <p class="text-sm text-body leading-6 mb-4">{{ i18n "footer_about_text" }}</p>
       </div>
 
-      <!-- Quick Links -->
+      <!-- Product -->
       <div>
-        <h4>{{ i18n "footer_quick_links" }}</h4>
+        <h4>{{ i18n "footer_product" | default "Product" }}</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="{{ $homeURL }}#hero"       class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_home" }}</a></li>
-          <li><a href="{{ $homeURL }}#about"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_about" }}</a></li>
-          <li><a href="{{ $homeURL }}#features"   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_features" }}</a></li>
-          <li><a href="{{ $homeURL }}#pricing"    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_pricing" }}</a></li>
-          <li><a href="{{ $homeURL }}#faq"        class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_faq" }}</a></li>
+          <li><a href="{{ absLangURL "pricing/" }}"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_pricing" }}</a></li>
+          <li><a href="{{ absLangURL "templates/" }}"    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_templates" | default "Templates" }}</a></li>
+          <li><a href="{{ absLangURL "mcp/" }}"          class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_mcp" | default "MCP Integration" }}</a></li>
+          <li><a href="{{ absLangURL "install/" }}"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_install" | default "Install" }}</a></li>
+          <li><a href="{{ absLangURL "vs/gitbook/" }}"   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_vs_gitbook" | default "vs GitBook" }}</a></li>
         </ul>
       </div>
 
@@ -37,10 +37,12 @@
       <div>
         <h4>{{ i18n "footer_resources" }}</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="{{ absLangURL "blog/" }}"                    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_blog" }}</a></li>
-          <li><a href="{{ $homeURL }}#download"                     class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_download" }}</a></li>
-          <li><a href="{{ $homeURL }}#comparison"                   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_compare" }}</a></li>
+          <li><a href="{{ absLangURL "blog/" }}"            class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_blog" }}</a></li>
+          <li><a href="{{ absLangURL "changelog/" }}"       class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_changelog" | default "Changelog" }}</a></li>
           <li><a href="{{ .Site.Params.githubURL }}" target="_blank" rel="noopener" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> GitHub</a></li>
+          <li><a href="/llms.txt"                           class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> llms.txt</a></li>
+          <li><a href="{{ absLangURL "security/" }}"        class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_security" | default "Security" }}</a></li>
+          <li><a href="{{ absLangURL "open-source/" }}"     class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_opensource" | default "Open Source" }}</a></li>
         </ul>
       </div>
 

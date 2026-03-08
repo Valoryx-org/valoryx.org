@@ -1,0 +1,242 @@
+{{ define "main" }}
+{{ $competitor := .Params.competitor | default "Competitor" }}
+{{ $pricingURL := absLangURL "pricing/" }}
+
+<!-- ======= VS Hero ======= -->
+<section class="pt-28 pb-16" style="background: var(--light);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="flex justify-center mb-6 reveal">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+        <i class="bi bi-arrow-left-right"></i>
+        {{ i18n "vs_badge" | default "Honest Comparison" }}
+      </span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-6 reveal" style="color: var(--heading); letter-spacing: -0.04em;">
+      {{ i18n "vs_hero_title" | default (printf "Valoryx vs %s" $competitor) }}
+    </h1>
+    <p class="mx-auto max-w-2xl text-base sm:text-lg reveal" style="color: var(--muted); line-height: 1.8;">
+      {{ i18n "vs_hero_subtitle" | default "A fair comparison for developer documentation." }}
+    </p>
+  </div>
+</section>
+
+<!-- ======= TL;DR Summary ======= -->
+<section class="py-20 md:py-28">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "vs_tldr_title" | default "TL;DR" }}</h2>
+    </div>
+
+    <div class="max-w-3xl mx-auto reveal">
+      <ul class="space-y-4">
+        <li class="flex items-start gap-3">
+          <i class="bi bi-check-circle-fill flex-shrink-0 mt-0.5" style="color: var(--success); font-size: 18px;"></i>
+          <span style="color: var(--body); font-size: 15px; line-height: 1.7;">{{ i18n "vs_gb_tldr1" | default "Valoryx stores every page as a real git commit with bidirectional sync. GitBook offers one-way git integration." }}</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <i class="bi bi-check-circle-fill flex-shrink-0 mt-0.5" style="color: var(--success); font-size: 18px;"></i>
+          <span style="color: var(--body); font-size: 15px; line-height: 1.7;">{{ i18n "vs_gb_tldr2" | default "Valoryx is a single self-hosted binary you own. GitBook is cloud-only SaaS with no self-hosted option." }}</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <i class="bi bi-check-circle-fill flex-shrink-0 mt-0.5" style="color: var(--success); font-size: 18px;"></i>
+          <span style="color: var(--body); font-size: 15px; line-height: 1.7;">{{ i18n "vs_gb_tldr3" | default "Valoryx exposes an MCP server so AI agents can read and write docs. GitBook has built-in AI but no agent protocol." }}</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======= Feature Comparison Table ======= -->
+<section class="py-20 md:py-28" style="background: var(--light);">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "vs_table_title" | default "Feature Comparison" }}</h2>
+      <p>{{ i18n "vs_table_subtitle" | default "Side-by-side on the features that matter most." }}</p>
+    </div>
+
+    <div class="compare-table-wrap reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th scope="col">{{ i18n "compare_feature" | default "Feature" }}</th>
+            <th scope="col" class="valoryx-head">Valoryx</th>
+            <th scope="col">{{ $competitor }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_selfhosted" | default "Self-Hosted" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_gitsync" | default "Bidirectional Git Sync" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="partial">One-way</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_singlebinary" | default "Single Binary Deploy" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_mcp" | default "MCP Server (AI Agents)" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_wysiwyg" | default "WYSIWYG Editor" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="check">&#10003;</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_published" | default "Published Doc Sites" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="check">&#10003;</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_search" | default "Full-Text Search" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="check">&#10003;</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_ai" | default "Built-In AI Features" }}</th>
+            <td class="valoryx-col"><span class="partial">MCP-based</span></td>
+            <td><span class="check">&#10003;</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_analytics" | default "Search Analytics" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="check">&#10003;</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_freetier" | default "Free Tier" }}</th>
+            <td class="valoryx-col"><span class="check">Unlimited</span></td>
+            <td><span class="partial">Limited</span></td>
+          </tr>
+          <tr>
+            <th scope="row">{{ i18n "vs_row_dataown" | default "Data Ownership" }}</th>
+            <td class="valoryx-col"><span class="check">&#10003;</span></td>
+            <td><span class="cross">&#10005;</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======= Where Valoryx Wins ======= -->
+<section class="py-20 md:py-28">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "vs_valoryx_wins_title" | default "Where Valoryx Wins" }}</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+
+      <div class="icon-box reveal reveal-delay-1">
+        <div class="icon"><i class="bi bi-git"></i></div>
+        <h4>{{ i18n "vs_win1_title" | default "Git-Native Architecture" }}</h4>
+        <p>{{ i18n "vs_win1_text" | default "Every page is a real file in a real git repo. Bidirectional sync means you can edit in the web UI or your IDE and both stay in sync. GitBook only syncs one direction." }}</p>
+      </div>
+
+      <div class="icon-box reveal reveal-delay-2">
+        <div class="icon"><i class="bi bi-robot"></i></div>
+        <h4>{{ i18n "vs_win2_title" | default "MCP for AI Agents" }}</h4>
+        <p>{{ i18n "vs_win2_text" | default "Valoryx exposes a Model Context Protocol server so Claude, Cursor, and other AI tools can read, search, and update your documentation programmatically." }}</p>
+      </div>
+
+      <div class="icon-box reveal reveal-delay-3">
+        <div class="icon"><i class="bi bi-hdd-rack"></i></div>
+        <h4>{{ i18n "vs_win3_title" | default "Self-Hosted, Single Binary" }}</h4>
+        <p>{{ i18n "vs_win3_text" | default "Download one binary, run it. No containers required, no cloud dependency. Your data stays on your infrastructure with full control." }}</p>
+      </div>
+
+      <div class="icon-box reveal reveal-delay-4">
+        <div class="icon"><i class="bi bi-unlock"></i></div>
+        <h4>{{ i18n "vs_win4_title" | default "No Vendor Lock-In" }}</h4>
+        <p>{{ i18n "vs_win4_text" | default "Your content is Markdown in git. If you leave, you take everything. No proprietary format, no export step, no data hostage." }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======= Where GitBook Wins ======= -->
+<section class="py-20 md:py-28" style="background: var(--light);">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "vs_competitor_wins_title" | default (printf "Where %s Wins" $competitor) }}</h2>
+      <p>{{ i18n "vs_competitor_wins_subtitle" | default "We believe in honest comparisons. Here is where the competition has an edge." }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+
+      <div class="icon-box reveal reveal-delay-1">
+        <div class="icon"><i class="bi bi-boxes"></i></div>
+        <h4>{{ i18n "vs_gb_win1_title" | default "Mature Ecosystem" }}</h4>
+        <p>{{ i18n "vs_gb_win1_text" | default "GitBook has been around since 2014 with a large community, extensive integrations, and battle-tested infrastructure at scale." }}</p>
+      </div>
+
+      <div class="icon-box reveal reveal-delay-2">
+        <div class="icon"><i class="bi bi-graph-up"></i></div>
+        <h4>{{ i18n "vs_gb_win2_title" | default "Built-In Search Analytics" }}</h4>
+        <p>{{ i18n "vs_gb_win2_text" | default "GitBook provides detailed insights into what users search for, which pages get visited most, and where readers drop off." }}</p>
+      </div>
+
+      <div class="icon-box reveal reveal-delay-3">
+        <div class="icon"><i class="bi bi-stars"></i></div>
+        <h4>{{ i18n "vs_gb_win3_title" | default "AI Features Built-In" }}</h4>
+        <p>{{ i18n "vs_gb_win3_text" | default "GitBook includes native AI-powered search and writing assistance without requiring external agent configuration." }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======= Key Differentiator ======= -->
+<section class="py-20 md:py-28">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "vs_diff_title" | default "The Key Difference" }}</h2>
+    </div>
+
+    <div class="max-w-3xl mx-auto text-center reveal">
+      <div class="flex justify-center gap-4 mb-8">
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+          <i class="bi bi-git"></i> Git Sync
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+          <i class="bi bi-robot"></i> MCP
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+          <i class="bi bi-diagram-3"></i> Context Graph
+        </span>
+      </div>
+      <p class="text-base leading-relaxed" style="color: var(--body);">
+        {{ i18n "vs_diff_text" | default "Valoryx combines bidirectional git sync, a Model Context Protocol server, and a context graph that understands how your pages relate to each other. This means AI agents do not just read your docs — they understand the structure, dependencies, and gaps. No other documentation platform offers this combination." }}
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======= CTA ======= -->
+<section class="cta-section">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+    <h3>{{ i18n "vs_cta_title" | default "Try Valoryx Free" }}</h3>
+    <p>{{ i18n "vs_cta_text" | default "Free for teams up to 5 editors. No credit card required. Self-hosted or Docker." }}</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="{{ $pricingURL }}" class="cta-btn">{{ i18n "vs_cta_btn" | default "Get Started" }} <i class="bi bi-arrow-right ml-2"></i></a>
+    </div>
+  </div>
+</section>
+
+{{ end }}

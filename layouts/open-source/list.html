@@ -1,0 +1,204 @@
+{{ define "main" }}
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+{{ $gh   := .Site.Params.githubURL }}
+{{ $tag  := .Site.Params.releaseTag }}
+{{ $bin  := .Site.Params.binaryName }}
+{{ $latest := printf "%s/releases/latest/download" $gh }}
+
+<!-- Hero -->
+<section class="py-28 pb-16" style="background: var(--light);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="flex justify-center mb-6 reveal">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+        <i class="bi bi-code-slash"></i>
+        {{ i18n "oss_badge" | default "Open Source" }}
+      </span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-6 reveal" style="color: var(--heading); letter-spacing: -0.04em;">
+      {{ i18n "oss_hero_title" | default "Free Documentation Platform" }}
+    </h1>
+    <p class="mx-auto max-w-2xl text-base sm:text-lg mb-10 reveal" style="color: var(--muted); line-height: 1.8;">
+      {{ i18n "oss_hero_subtitle" | default "Valoryx Community Edition is free forever. Self-host your documentation with full git sync, WYSIWYG editing, and published docs." }}
+    </p>
+    <div class="flex flex-wrap justify-center gap-3 reveal">
+      <a href="{{ $homeURL }}install/" class="btn-glow inline-flex items-center gap-2 text-white px-8 py-3.5 rounded-lg text-base font-bold no-underline" style="background: var(--accent);">
+        <i class="bi bi-download"></i> {{ i18n "oss_hero_btn_install" | default "Install Free" }}
+      </a>
+      <a href="{{ $gh }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg text-base font-bold no-underline border" style="color: var(--heading); border-color: var(--border);">
+        <i class="bi bi-github"></i> {{ i18n "oss_hero_btn_github" | default "View on GitHub" }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- What's Included -->
+<section class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "oss_included_title" | default "Community Edition" }}</h2>
+      <p>{{ i18n "oss_included_subtitle" | default "Everything you need to run a documentation platform. No license key required." }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="icon-box reveal reveal-delay-1">
+        <div class="icon"><i class="bi bi-arrow-repeat"></i></div>
+        <h4>{{ i18n "oss_feature_git_title" | default "Bidirectional Git Sync" }}</h4>
+        <p>{{ i18n "oss_feature_git_text" | default "Push and pull from any Git repository. Changes in the editor sync to Git and vice versa. Full version history." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-2">
+        <div class="icon"><i class="bi bi-pencil-square"></i></div>
+        <h4>{{ i18n "oss_feature_editor_title" | default "WYSIWYG Editor" }}</h4>
+        <p>{{ i18n "oss_feature_editor_text" | default "Block-based Tiptap editor with slash commands, markdown shortcuts, drag-and-drop, and real-time collaboration." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-3">
+        <div class="icon"><i class="bi bi-layout-text-window-reverse"></i></div>
+        <h4>{{ i18n "oss_feature_publish_title" | default "Published Docs" }}</h4>
+        <p>{{ i18n "oss_feature_publish_text" | default "Beautiful documentation sites with 7 built-in themes. Custom domains, versioning, and search included." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-1">
+        <div class="icon"><i class="bi bi-search"></i></div>
+        <h4>{{ i18n "oss_feature_search_title" | default "Full-Text Search" }}</h4>
+        <p>{{ i18n "oss_feature_search_text" | default "Bleve-powered search engine indexes all your content. Instant results with relevance ranking and highlighting." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-2">
+        <div class="icon"><i class="bi bi-people"></i></div>
+        <h4>{{ i18n "oss_feature_rbac_title" | default "Role-Based Access" }}</h4>
+        <p>{{ i18n "oss_feature_rbac_text" | default "6 roles from Viewer to Owner. Per-workspace permissions. Up to 5 editors and 3 workspaces in Community Edition." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-3">
+        <div class="icon"><i class="bi bi-terminal"></i></div>
+        <h4>{{ i18n "oss_feature_cli_title" | default "CLI & REST API" }}</h4>
+        <p>{{ i18n "oss_feature_cli_text" | default "8 CLI commands and 95+ REST API endpoints. Automate everything from content publishing to user management." }}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Download -->
+<section class="py-20 md:py-28" style="background: var(--light);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "oss_download_title" | default "Download" }}</h2>
+      <p>{{ i18n "oss_download_subtitle" | default "Get Valoryx Community Edition in your preferred format." }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+
+      <!-- Binary -->
+      <div class="p-8 rounded-lg border text-center reveal reveal-delay-1" style="border-color: var(--border); background: #ffffff; box-shadow: 0 0 29px 0 rgba(0,0,0,0.1);">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-xl flex items-center justify-center" style="background: rgba(29,127,194,0.08);">
+          <i class="bi bi-file-earmark-binary text-2xl" style="color: var(--accent);"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: var(--heading);">{{ i18n "oss_download_binary_title" | default "Binary" }}</h3>
+        <p class="text-sm mb-5" style="color: var(--muted);">{{ i18n "oss_download_binary_text" | default "Pre-built for Linux, macOS, Windows. amd64 and arm64." }}</p>
+        <a href="{{ $gh }}/releases/latest" target="_blank" rel="noopener" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+          <i class="bi bi-download"></i> {{ i18n "oss_download_binary_btn" | default "Download" }}
+        </a>
+      </div>
+
+      <!-- Docker -->
+      <div class="p-8 rounded-lg border text-center reveal reveal-delay-2" style="border-color: var(--border); background: #ffffff; box-shadow: 0 0 29px 0 rgba(0,0,0,0.1);">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-xl flex items-center justify-center" style="background: rgba(29,127,194,0.08);">
+          <i class="bi bi-box-seam text-2xl" style="color: var(--accent);"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: var(--heading);">Docker</h3>
+        <p class="text-sm mb-5" style="color: var(--muted);">{{ i18n "oss_download_docker_text" | default "Official image on GitHub Container Registry. Multi-arch support." }}</p>
+        <a href="https://github.com/Valoryx-org/docplatform/pkgs/container/docplatform" target="_blank" rel="noopener" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+          <i class="bi bi-box-seam"></i> {{ i18n "oss_download_docker_btn" | default "Pull Image" }}
+        </a>
+      </div>
+
+      <!-- GitHub -->
+      <div class="p-8 rounded-lg border text-center reveal reveal-delay-3" style="border-color: var(--border); background: #ffffff; box-shadow: 0 0 29px 0 rgba(0,0,0,0.1);">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-xl flex items-center justify-center" style="background: rgba(29,127,194,0.08);">
+          <i class="bi bi-github text-2xl" style="color: var(--accent);"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: var(--heading);">{{ i18n "oss_download_source_title" | default "Source Code" }}</h3>
+        <p class="text-sm mb-5" style="color: var(--muted);">{{ i18n "oss_download_source_text" | default "Clone, build, and contribute. Go 1.25, zero CGo dependencies." }}</p>
+        <a href="{{ $gh }}" target="_blank" rel="noopener" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+          <i class="bi bi-github"></i> {{ i18n "oss_download_source_btn" | default "View Repo" }}
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- License & Contributing -->
+<section class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+      <!-- License -->
+      <div class="reveal">
+        <div class="section-title" style="text-align: left;">
+          <h2 style="text-align: left;">{{ i18n "oss_license_title" | default "License" }}</h2>
+        </div>
+        <div class="p-6 rounded-lg border" style="border-color: var(--border); background: #ffffff;">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(29,127,194,0.08);">
+              <i class="bi bi-file-earmark-text text-lg" style="color: var(--accent);"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold" style="color: var(--heading);">{{ i18n "oss_license_type" | default "Business Source License 1.1" }}</h3>
+              <p class="text-xs" style="color: var(--muted);">{{ i18n "oss_license_converts" | default "Converts to Apache 2.0 after 3 years" }}</p>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm" style="color: var(--body);">
+            <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill text-xs mt-1" style="color: var(--success);"></i> {{ i18n "oss_license_free" | default "Free for teams up to 5 editors" }}</li>
+            <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill text-xs mt-1" style="color: var(--success);"></i> {{ i18n "oss_license_unlimited" | default "Unlimited viewers and pages" }}</li>
+            <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill text-xs mt-1" style="color: var(--success);"></i> {{ i18n "oss_license_source" | default "Full source code access" }}</li>
+            <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill text-xs mt-1" style="color: var(--success);"></i> {{ i18n "oss_license_modify" | default "Modify and self-host freely" }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contributing -->
+      <div class="reveal">
+        <div class="section-title" style="text-align: left;">
+          <h2 style="text-align: left;">{{ i18n "oss_contributing_title" | default "Contributing" }}</h2>
+        </div>
+        <div class="p-6 rounded-lg border" style="border-color: var(--border); background: #ffffff;">
+          <p class="text-sm mb-5 leading-relaxed" style="color: var(--muted);">{{ i18n "oss_contributing_text" | default "We welcome contributions of all kinds. Bug reports, feature requests, documentation improvements, and code contributions." }}</p>
+          <div class="space-y-3">
+            <a href="{{ $gh }}/issues" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border no-underline hover:border-accent transition-colors" style="border-color: var(--border);">
+              <i class="bi bi-flag text-lg" style="color: var(--accent);"></i>
+              <div>
+                <div class="text-sm font-semibold" style="color: var(--heading);">{{ i18n "oss_contributing_issues" | default "Report Issues" }}</div>
+                <div class="text-xs" style="color: var(--muted);">{{ i18n "oss_contributing_issues_text" | default "Found a bug? Let us know on GitHub." }}</div>
+              </div>
+            </a>
+            <a href="{{ $gh }}/discussions" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border no-underline hover:border-accent transition-colors" style="border-color: var(--border);">
+              <i class="bi bi-chat-dots text-lg" style="color: var(--accent);"></i>
+              <div>
+                <div class="text-sm font-semibold" style="color: var(--heading);">{{ i18n "oss_contributing_discuss" | default "Discussions" }}</div>
+                <div class="text-xs" style="color: var(--muted);">{{ i18n "oss_contributing_discuss_text" | default "Ask questions, share ideas, connect with the community." }}</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+    <h3>{{ i18n "oss_cta_title" | default "Need more than Community Edition?" }}</h3>
+    <p>{{ i18n "oss_cta_text" | default "Valoryx Enterprise adds SSO, advanced analytics, priority support, and unlimited editors." }}</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="{{ $homeURL }}#pricing" class="cta-btn">{{ i18n "oss_cta_btn_pricing" | default "View Pricing" }}</a>
+      <a href="{{ $homeURL }}#contact" class="cta-btn">{{ i18n "oss_cta_btn_contact" | default "Contact Sales" }}</a>
+    </div>
+  </div>
+</section>
+
+{{ end }}

@@ -1,0 +1,195 @@
+{{ define "main" }}
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+{{ $gh   := .Site.Params.githubURL }}
+{{ $tag  := .Site.Params.releaseTag }}
+{{ $bin  := .Site.Params.binaryName }}
+{{ $latest := printf "%s/releases/latest/download" $gh }}
+
+<!-- Hero -->
+<section class="py-28 pb-16" style="background: var(--light);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="flex justify-center mb-6 reveal">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+        <i class="bi bi-lightning-charge-fill"></i>
+        {{ i18n "install_badge" | default "Quick Start" }}
+      </span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-6 reveal" style="color: var(--heading); letter-spacing: -0.04em;">
+      {{ i18n "install_hero_title" | default "Install Valoryx in 30 Seconds" }}
+    </h1>
+    <p class="mx-auto max-w-2xl text-base sm:text-lg mb-10 reveal" style="color: var(--muted); line-height: 1.8;">
+      {{ i18n "install_hero_subtitle" | default "One command. No dependencies. Works on Linux, macOS, and Docker." }}
+    </p>
+  </div>
+</section>
+
+<!-- Install Tabs -->
+<section class="py-20 md:py-28">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "install_choose_method" | default "Choose Your Method" }}</h2>
+      <p>{{ i18n "install_choose_subtitle" | default "Pick the installation method that fits your workflow." }}</p>
+    </div>
+
+    <!-- OS Tabs -->
+    <div class="reveal">
+      <div class="flex gap-1 p-1.5 rounded-xl mx-auto max-w-md mb-8" style="background: #f0f4f8;" role="tablist" aria-label="{{ i18n "install_tab_label" | default "Installation method" }}">
+        <button class="os-tab active" data-os="linux" role="tab" aria-controls="tab-linux" aria-selected="true" onclick="switchOsTab('linux')"><i class="bi bi-terminal"></i> {{ i18n "install_tab_shell" | default "Linux / macOS" }}</button>
+        <button class="os-tab" data-os="docker" role="tab" aria-controls="tab-docker" aria-selected="false" onclick="switchOsTab('docker')"><i class="bi bi-box-seam"></i> Docker</button>
+        <button class="os-tab" data-os="manual" role="tab" aria-controls="tab-manual" aria-selected="false" onclick="switchOsTab('manual')"><i class="bi bi-download"></i> {{ i18n "install_tab_manual" | default "Manual" }}</button>
+      </div>
+
+      <!-- Linux / macOS -->
+      <div id="tab-linux" class="os-tab-content" role="tabpanel" aria-labelledby="tab-linux" style="display: block;">
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <span class="terminal-dot" style="background:#ff5f57;"></span>
+            <span class="terminal-dot" style="background:#febc2e;"></span>
+            <span class="terminal-dot" style="background:#28c840;"></span>
+            <span class="ml-2 text-xs" style="color:#8b949e;">bash</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="comment"># {{ i18n "install_shell_comment" | default "Auto-detects OS and architecture (amd64 / arm64)" }}</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://valoryx.org/install.sh | sh</span>
+              <button onclick="copyCmd('curl -fsSL https://valoryx.org/install.sh | sh', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
+            </div>
+            <div class="mt-1"><span class="success">{{ i18n "install_shell_installed" | default (printf "Installed to /usr/local/bin/%s" $bin) }}</span></div>
+          </div>
+        </div>
+
+        <div class="mt-8 p-6 rounded-lg border reveal" style="border-color: var(--border); background: #ffffff;">
+          <h3 class="text-lg font-bold mb-3" style="color: var(--heading);">{{ i18n "install_quickstart_title" | default "Quick Start" }}</h3>
+          <div class="terminal-block">
+            <div class="terminal-bar">
+              <span class="terminal-dot" style="background:#ff5f57;"></span>
+              <span class="terminal-dot" style="background:#febc2e;"></span>
+              <span class="terminal-dot" style="background:#28c840;"></span>
+              <span class="ml-2 text-xs" style="color:#8b949e;">bash</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="comment"># {{ i18n "install_quickstart_comment1" | default "Start the server" }}</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">{{ $bin }} serve</span>
+                <button onclick="copyCmd('{{ $bin }} serve', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
+              </div>
+              <div class="mt-1"><span class="success">{{ i18n "install_quickstart_running" | default "Open http://localhost:3000" }}</span></div>
+              <div class="mt-2"><span class="comment"># {{ i18n "install_quickstart_comment2" | default "Initialize a workspace with a git repo" }}</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">{{ $bin }} init --repo https://github.com/your-org/docs.git</span>
+                <button onclick="copyCmd('{{ $bin }} init --repo https://github.com/your-org/docs.git', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Docker -->
+      <div id="tab-docker" class="os-tab-content" role="tabpanel" aria-labelledby="tab-docker">
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <span class="terminal-dot" style="background:#ff5f57;"></span>
+            <span class="terminal-dot" style="background:#febc2e;"></span>
+            <span class="terminal-dot" style="background:#28c840;"></span>
+            <span class="ml-2 text-xs" style="color:#8b949e;">bash</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="comment"># {{ i18n "install_docker_comment" | default "Pull and run with persistent data" }}</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">docker run -d -p 3000:3000 -v docplatform-data:/data ghcr.io/valoryx-org/docplatform:latest</span>
+              <button onclick="copyCmd('docker run -d -p 3000:3000 -v docplatform-data:/data ghcr.io/valoryx-org/docplatform:latest', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
+            </div>
+            <div class="mt-1"><span class="success">{{ i18n "install_docker_running" | default "Running at http://localhost:3000" }}</span></div>
+          </div>
+        </div>
+
+        <div class="mt-8 p-6 rounded-lg border reveal" style="border-color: var(--border); background: #ffffff;">
+          <h3 class="text-lg font-bold mb-3" style="color: var(--heading);">{{ i18n "install_compose_title" | default "Docker Compose" }}</h3>
+          <div class="terminal-block">
+            <div class="terminal-bar">
+              <span class="terminal-dot" style="background:#ff5f57;"></span>
+              <span class="terminal-dot" style="background:#febc2e;"></span>
+              <span class="terminal-dot" style="background:#28c840;"></span>
+              <span class="ml-2 text-xs" style="color:#8b949e;">docker-compose.yml</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="cmd">services:</span></div>
+              <div><span class="cmd">  docplatform:</span></div>
+              <div><span class="cmd">    image: ghcr.io/valoryx-org/docplatform:latest</span></div>
+              <div><span class="cmd">    ports:</span></div>
+              <div><span class="cmd">      - "3000:3000"</span></div>
+              <div><span class="cmd">    volumes:</span></div>
+              <div><span class="cmd">      - docplatform-data:/data</span></div>
+              <div><span class="cmd">    restart: unless-stopped</span></div>
+              <div class="mt-1"><span class="cmd">volumes:</span></div>
+              <div><span class="cmd">  docplatform-data:</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manual -->
+      <div id="tab-manual" class="os-tab-content" role="tabpanel" aria-labelledby="tab-manual">
+        <div class="p-8 rounded-lg border text-center" style="border-color: var(--border); background: #ffffff;">
+          <div class="mb-6">
+            <i class="bi bi-github text-4xl" style="color: var(--heading);"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--heading);">{{ i18n "install_manual_title" | default "Download from GitHub Releases" }}</h3>
+          <p class="mb-6 max-w-lg mx-auto" style="color: var(--muted);">{{ i18n "install_manual_text" | default "Pre-built binaries available for Linux, macOS, and Windows across amd64 and arm64 architectures." }}</p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <a href="{{ $gh }}/releases/latest" target="_blank" rel="noopener" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+              <i class="bi bi-download"></i> {{ i18n "install_manual_btn" | default "Browse Releases" }}
+            </a>
+            <a href="https://github.com/Valoryx-org/docplatform/pkgs/container/docplatform" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+              <i class="bi bi-box-seam"></i> {{ i18n "install_manual_docker" | default "Docker Registry" }}
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+          <a href="{{ $latest }}/{{ $bin }}-linux-amd64" class="flex items-center gap-3 p-4 rounded-lg border no-underline hover:border-accent transition-colors" style="border-color: var(--border);">
+            <i class="bi bi-ubuntu text-xl" style="color: var(--accent);"></i>
+            <div>
+              <div class="text-sm font-semibold" style="color: var(--heading);">Linux amd64</div>
+              <div class="text-xs" style="color: var(--muted);">{{ i18n "install_manual_binary" | default "Binary" }}</div>
+            </div>
+          </a>
+          <a href="{{ $latest }}/{{ $bin }}-darwin-arm64" class="flex items-center gap-3 p-4 rounded-lg border no-underline hover:border-accent transition-colors" style="border-color: var(--border);">
+            <i class="bi bi-apple text-xl" style="color: var(--accent);"></i>
+            <div>
+              <div class="text-sm font-semibold" style="color: var(--heading);">macOS ARM64</div>
+              <div class="text-xs" style="color: var(--muted);">Apple Silicon</div>
+            </div>
+          </a>
+          <a href="{{ $latest }}/{{ $bin }}-windows-amd64.exe" class="flex items-center gap-3 p-4 rounded-lg border no-underline hover:border-accent transition-colors" style="border-color: var(--border);">
+            <i class="bi bi-windows text-xl" style="color: var(--accent);"></i>
+            <div>
+              <div class="text-sm font-semibold" style="color: var(--heading);">Windows amd64</div>
+              <div class="text-xs" style="color: var(--muted);">.exe</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Pills -->
+      <div class="flex flex-wrap justify-center gap-3 mt-8 reveal">
+        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_no_deps" | default "Zero Dependencies" }}</span>
+        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_single" | default "Single Binary" }}</span>
+        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_free" | default "Free Forever" }}</span>
+        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_signed" | default "Signed & Verified" }}</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+    <h3>{{ i18n "install_cta_title" | default "Need a managed solution?" }}</h3>
+    <p>{{ i18n "install_cta_text" | default "Valoryx Cloud handles hosting, backups, and updates so your team can focus on writing." }}</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="{{ $homeURL }}#contact" class="cta-btn">{{ i18n "install_cta_btn_contact" | default "Contact Us" }}</a>
+      <a href="{{ $homeURL }}docs/" class="cta-btn">{{ i18n "install_cta_btn_docs" | default "Read the Docs" }}</a>
+    </div>
+  </div>
+</section>
+
+{{ end }}

@@ -8,6 +8,7 @@
   <meta name="description" content="{{ if .IsHome }}{{ i18n "meta_description" }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta name="robots"      content="index, follow">
   <meta name="author"      content="Valoryx">
+  <meta name="llms-full"   content="https://valoryx.org/llms-full.txt">
   <link rel="icon" type="image/svg+xml" href="{{ "assets/favicon.svg" | relURL }}">
 
   <!-- Canonical -->
@@ -82,6 +83,17 @@
     "operatingSystem": "Linux, macOS, Windows, Docker",
     "description": "{{ i18n "meta_description" }}",
     "url": "{{ .Site.BaseURL }}",
+    "featureList": [
+      "Bidirectional git sync",
+      "WYSIWYG Tiptap editor",
+      "Full-text search (Bleve)",
+      "Published docs with 7 themes",
+      "Built-in MCP server (13 AI tools)",
+      "Context Graph API for AI agents",
+      "Role-based access control (6 roles)",
+      "WebAuthn/passkey authentication",
+      "95+ REST API endpoints"
+    ],
     "offers": [
       { "@type": "Offer", "name": "Community", "price": "0",  "priceCurrency": "USD" },
       { "@type": "Offer", "name": "Team",      "price": "29", "priceCurrency": "USD" },

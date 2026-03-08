@@ -1,0 +1,193 @@
+{{ define "main" }}
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+
+<!-- Hero -->
+<section class="py-28 pb-16" style="background: var(--light);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="flex justify-center mb-6 reveal">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+        <i class="bi bi-shield-lock-fill"></i>
+        {{ i18n "security_badge" | default "Security First" }}
+      </span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-6 reveal" style="color: var(--heading); letter-spacing: -0.04em;">
+      {{ i18n "security_hero_title" | default "Security at Valoryx" }}
+    </h1>
+    <p class="mx-auto max-w-2xl text-base sm:text-lg mb-10 reveal" style="color: var(--muted); line-height: 1.8;">
+      {{ i18n "security_hero_subtitle" | default "Your documentation is sensitive. We treat security as a core feature, not an afterthought." }}
+    </p>
+  </div>
+</section>
+
+<!-- Data Protection -->
+<section class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "security_data_title" | default "Data Protection" }}</h2>
+      <p>{{ i18n "security_data_subtitle" | default "Your data stays on your infrastructure. Always." }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="icon-box reveal reveal-delay-1">
+        <div class="icon"><i class="bi bi-hdd-rack"></i></div>
+        <h4>{{ i18n "security_data_selfhosted_title" | default "Self-Hosted by Design" }}</h4>
+        <p>{{ i18n "security_data_selfhosted_text" | default "Valoryx runs on your servers. Documentation never leaves your infrastructure. No third-party cloud storage." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-2">
+        <div class="icon"><i class="bi bi-database-lock"></i></div>
+        <h4>{{ i18n "security_data_encrypted_title" | default "Encrypted at Rest" }}</h4>
+        <p>{{ i18n "security_data_encrypted_text" | default "SQLite database with filesystem-level encryption. Sensitive fields use AES-256-GCM encryption." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-3">
+        <div class="icon"><i class="bi bi-lock"></i></div>
+        <h4>{{ i18n "security_data_transit_title" | default "Encrypted in Transit" }}</h4>
+        <p>{{ i18n "security_data_transit_text" | default "All connections use TLS 1.2+. Git sync over SSH or HTTPS. API endpoints enforce HTTPS." }}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Authentication -->
+<section class="py-20 md:py-28" style="background: var(--light);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "security_auth_title" | default "Authentication" }}</h2>
+      <p>{{ i18n "security_auth_subtitle" | default "Multiple authentication methods with enterprise-grade session management." }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="icon-box reveal reveal-delay-1">
+        <div class="icon"><i class="bi bi-fingerprint"></i></div>
+        <h4>{{ i18n "security_auth_passkeys_title" | default "WebAuthn & Passkeys" }}</h4>
+        <p>{{ i18n "security_auth_passkeys_text" | default "Passwordless authentication with FIDO2 security keys and platform biometrics. Phishing-resistant by design." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-2">
+        <div class="icon"><i class="bi bi-people"></i></div>
+        <h4>{{ i18n "security_auth_rbac_title" | default "6-Role RBAC" }}</h4>
+        <p>{{ i18n "security_auth_rbac_text" | default "Fine-grained role-based access control. Owner, Admin, Editor, Author, Reviewer, Viewer. Per-workspace permissions." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-3">
+        <div class="icon"><i class="bi bi-key"></i></div>
+        <h4>{{ i18n "security_auth_sessions_title" | default "Secure Sessions" }}</h4>
+        <p>{{ i18n "security_auth_sessions_text" | default "HTTP-only cookies, CSRF protection, automatic session expiry. Configurable session duration and idle timeout." }}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Infrastructure -->
+<section class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "security_infra_title" | default "Infrastructure Security" }}</h2>
+      <p>{{ i18n "security_infra_subtitle" | default "Built with security best practices at every layer." }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="icon-box reveal reveal-delay-1">
+        <div class="icon"><i class="bi bi-shield-check"></i></div>
+        <h4>{{ i18n "security_infra_binary_title" | default "Signed Binaries" }}</h4>
+        <p>{{ i18n "security_infra_binary_text" | default "All releases are signed with Sigstore cosign. SBOM (Software Bill of Materials) included with every release. Reproducible builds via GoReleaser." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-2">
+        <div class="icon"><i class="bi bi-bug"></i></div>
+        <h4>{{ i18n "security_infra_scanning_title" | default "Dependency Scanning" }}</h4>
+        <p>{{ i18n "security_infra_scanning_text" | default "Automated vulnerability scanning in CI/CD pipeline. Go module checksums verified. Docker images scanned with Trivy." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-3">
+        <div class="icon"><i class="bi bi-braces"></i></div>
+        <h4>{{ i18n "security_infra_headers_title" | default "Security Headers" }}</h4>
+        <p>{{ i18n "security_infra_headers_text" | default "X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Content-Security-Policy. A+ rating on security header scanners." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-4">
+        <div class="icon"><i class="bi bi-arrow-repeat"></i></div>
+        <h4>{{ i18n "security_infra_backup_title" | default "Automated Backups" }}</h4>
+        <p>{{ i18n "security_infra_backup_text" | default "Built-in backup command with configurable retention. Git sync provides an additional layer of data redundancy." }}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MCP Server Security -->
+<section class="py-20 md:py-28" style="background: var(--light);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "security_mcp_title" | default "MCP Server Security" }}</h2>
+      <p>{{ i18n "security_mcp_subtitle" | default "AI integrations with strict access controls." }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="icon-box reveal reveal-delay-1">
+        <div class="icon"><i class="bi bi-cpu"></i></div>
+        <h4>{{ i18n "security_mcp_scoped_title" | default "Scoped Permissions" }}</h4>
+        <p>{{ i18n "security_mcp_scoped_text" | default "MCP tools operate within the same RBAC system. AI assistants inherit the connecting user's permission level." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-2">
+        <div class="icon"><i class="bi bi-journal-text"></i></div>
+        <h4>{{ i18n "security_mcp_audit_title" | default "Audit Logging" }}</h4>
+        <p>{{ i18n "security_mcp_audit_text" | default "All MCP tool invocations are logged with timestamps, user identity, and parameters. Full audit trail for compliance." }}</p>
+      </div>
+      <div class="icon-box reveal reveal-delay-3">
+        <div class="icon"><i class="bi bi-plug"></i></div>
+        <h4>{{ i18n "security_mcp_local_title" | default "Local Transport" }}</h4>
+        <p>{{ i18n "security_mcp_local_text" | default "MCP server runs as a local process. No data leaves your network for AI features. Bring your own LLM provider." }}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Vulnerability Disclosure -->
+<section class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "security_disclosure_title" | default "Vulnerability Disclosure" }}</h2>
+      <p>{{ i18n "security_disclosure_subtitle" | default "We take security reports seriously." }}</p>
+    </div>
+
+    <div class="max-w-2xl mx-auto reveal">
+      <div class="p-8 rounded-lg border" style="border-color: var(--border); background: #ffffff; box-shadow: 0 0 29px 0 rgba(0,0,0,0.1);">
+        <div class="flex items-start gap-4 mb-6">
+          <div class="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style="background: rgba(29,127,194,0.08);">
+            <i class="bi bi-envelope-paper text-xl" style="color: var(--accent);"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-2" style="color: var(--heading);">{{ i18n "security_disclosure_report_title" | default "Report a Vulnerability" }}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--muted);">{{ i18n "security_disclosure_report_text" | default "If you discover a security vulnerability, please report it responsibly. We aim to acknowledge reports within 24 hours and provide a fix timeline within 72 hours." }}</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="mailto:security@valoryx.org" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+            <i class="bi bi-envelope"></i> security@valoryx.org
+          </a>
+          <a href="{{ .Site.Params.githubURL | replaceRE `/releases$` `` }}/security/advisories" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+            <i class="bi bi-github"></i> {{ i18n "security_disclosure_advisory" | default "GitHub Advisory" }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+    <h3>{{ i18n "security_cta_title" | default "Security you can verify" }}</h3>
+    <p>{{ i18n "security_cta_text" | default "Valoryx is open source. Audit the code, review the dependencies, run your own security scans." }}</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="{{ $homeURL }}open-source/" class="cta-btn">{{ i18n "security_cta_btn_source" | default "View Source" }}</a>
+      <a href="{{ $homeURL }}install/" class="cta-btn">{{ i18n "security_cta_btn_install" | default "Install Now" }}</a>
+    </div>
+  </div>
+</section>
+
+{{ end }}

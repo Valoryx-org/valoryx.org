@@ -1,0 +1,71 @@
+{{ define "main" }}
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+
+<!-- Hero -->
+<section class="py-28 pb-16" style="background: var(--light);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="flex justify-center mb-6 reveal">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+        <i class="bi bi-clock-history"></i>
+        {{ i18n "changelog_badge" | default "Release Notes" }}
+      </span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-6 reveal" style="color: var(--heading); letter-spacing: -0.04em;">
+      {{ i18n "changelog_hero_title" | default "Changelog" }}
+    </h1>
+    <p class="mx-auto max-w-2xl text-base sm:text-lg mb-10 reveal" style="color: var(--muted); line-height: 1.8;">
+      {{ i18n "changelog_hero_subtitle" | default "Track every improvement, feature, and fix across Valoryx releases." }}
+    </p>
+  </div>
+</section>
+
+<!-- Release List -->
+<section class="py-20 md:py-28">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {{ if .Pages }}
+      <div class="space-y-6">
+        {{ range .Pages.ByDate.Reverse }}
+        <article class="reveal" style="border-left: 3px solid var(--accent); padding-left: 24px;">
+          <div class="flex flex-wrap items-center gap-3 mb-2">
+            <h2 class="text-xl font-bold" style="color: var(--heading);">
+              <a href="{{ .RelPermalink }}" class="no-underline hover:underline" style="color: inherit;">{{ .Title }}</a>
+            </h2>
+            {{ with .Params.tag }}
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+              <i class="bi bi-tag"></i> {{ . }}
+            </span>
+            {{ end }}
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <time class="text-sm" style="color: var(--muted);" datetime="{{ .Date.Format "2006-01-02" }}">
+              <i class="bi bi-calendar3 text-xs"></i> {{ .Date.Format "January 2, 2006" }}
+            </time>
+          </div>
+          <p class="text-sm leading-relaxed mb-3" style="color: var(--body);">{{ .Description }}</p>
+          <a href="{{ .RelPermalink }}" class="inline-flex items-center gap-1.5 text-sm font-semibold no-underline" style="color: var(--accent);">
+            {{ i18n "changelog_read_more" | default "View release details" }} <i class="bi bi-arrow-right text-xs"></i>
+          </a>
+        </article>
+        {{ end }}
+      </div>
+    {{ else }}
+      <p class="text-center py-20" style="color: var(--muted);">{{ i18n "changelog_empty" | default "No releases yet." }}</p>
+    {{ end }}
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+    <h3>{{ i18n "changelog_cta_title" | default "Stay up to date" }}</h3>
+    <p>{{ i18n "changelog_cta_text" | default "Get the latest version of Valoryx and enjoy new features as they ship." }}</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="{{ $homeURL }}install/" class="cta-btn">{{ i18n "changelog_cta_btn_install" | default "Install Latest" }}</a>
+      <a href="{{ .Site.Params.githubURL }}/releases" target="_blank" rel="noopener" class="cta-btn">{{ i18n "changelog_cta_btn_github" | default "GitHub Releases" }}</a>
+    </div>
+  </div>
+</section>
+
+{{ end }}

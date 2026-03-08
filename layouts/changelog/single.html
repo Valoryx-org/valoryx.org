@@ -1,0 +1,65 @@
+{{ define "main" }}
+{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+{{ $gh := .Site.Params.githubURL }}
+
+<!-- Header -->
+<section class="py-28 pb-16" style="background: var(--light);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-6 reveal">
+      <a href="{{ $homeURL }}changelog/" class="inline-flex items-center gap-1.5 text-sm font-semibold no-underline" style="color: var(--accent);">
+        <i class="bi bi-arrow-left text-xs"></i> {{ i18n "changelog_back" | default "All Releases" }}
+      </a>
+    </div>
+    <div class="flex flex-wrap items-center gap-3 mb-4 reveal">
+      <h1 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--heading); letter-spacing: -0.04em;">{{ .Title }}</h1>
+      {{ with .Params.tag }}
+      <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+        <i class="bi bi-tag"></i> {{ . }}
+      </span>
+      {{ end }}
+    </div>
+    <div class="flex flex-wrap items-center gap-4 reveal">
+      <time class="text-sm" style="color: var(--muted);" datetime="{{ .Date.Format "2006-01-02" }}">
+        <i class="bi bi-calendar3 text-xs"></i> {{ .Date.Format "January 2, 2006" }}
+      </time>
+      {{ with .Params.tag }}
+      <a href="{{ $gh }}/releases/tag/{{ . }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-sm font-semibold no-underline" style="color: var(--accent);">
+        <i class="bi bi-github"></i> {{ $.Scratch.Set "tmp" "" }}{{ i18n "changelog_view_github" | default "View on GitHub" }}
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- Content -->
+<section class="py-20 md:py-28">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="article-body reveal">
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+
+<!-- Nav -->
+<section class="py-10" style="background: var(--light);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center">
+      {{ with .PrevInSection }}
+      <a href="{{ .RelPermalink }}" class="inline-flex items-center gap-1.5 text-sm font-semibold no-underline" style="color: var(--accent);">
+        <i class="bi bi-arrow-left text-xs"></i> {{ .Title }}
+      </a>
+      {{ else }}
+      <span></span>
+      {{ end }}
+      {{ with .NextInSection }}
+      <a href="{{ .RelPermalink }}" class="inline-flex items-center gap-1.5 text-sm font-semibold no-underline" style="color: var(--accent);">
+        {{ .Title }} <i class="bi bi-arrow-right text-xs"></i>
+      </a>
+      {{ else }}
+      <span></span>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+{{ end }}

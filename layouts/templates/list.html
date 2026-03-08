@@ -1,0 +1,209 @@
+{{ define "main" }}
+
+<!-- ======= Templates Hero ======= -->
+<section class="pt-28 pb-16" style="background: var(--light);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="flex justify-center mb-6 reveal">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style="background: rgba(29,127,194,0.08); color: var(--accent);">
+        <i class="bi bi-collection"></i>
+        {{ i18n "tpl_badge" | default "Use Cases & Starter Templates" }}
+      </span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-6 reveal" style="color: var(--heading); letter-spacing: -0.04em;">
+      {{ i18n "tpl_hero_title" | default "Documentation Templates" }}
+    </h1>
+    <p class="mx-auto max-w-2xl text-base sm:text-lg reveal" style="color: var(--muted); line-height: 1.8;">
+      {{ i18n "tpl_hero_subtitle" | default "Start with a proven structure. Customize everything." }}
+    </p>
+  </div>
+</section>
+
+<!-- ======= Filter Tabs + Template Cards ======= -->
+<section class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap justify-center gap-2 mb-14 reveal" id="templateFilters">
+      <button class="tpl-filter active" data-filter="all">{{ i18n "tpl_filter_all" | default "All" }}</button>
+      <button class="tpl-filter" data-filter="api">{{ i18n "tpl_filter_api" | default "API Docs" }}</button>
+      <button class="tpl-filter" data-filter="kb">{{ i18n "tpl_filter_kb" | default "Knowledge Base" }}</button>
+      <button class="tpl-filter" data-filter="wiki">{{ i18n "tpl_filter_wiki" | default "Team Wiki" }}</button>
+      <button class="tpl-filter" data-filter="oss">{{ i18n "tpl_filter_oss" | default "Open Source" }}</button>
+    </div>
+
+    <!-- Template Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="templateGrid">
+
+      <!-- 1. API Documentation -->
+      <div class="service-item item-cyan reveal reveal-delay-1" data-category="api">
+        <div class="icon">
+          <i class="bi bi-file-code"></i>
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
+        </div>
+        <h3>{{ i18n "tpl_api_title" | default "API Documentation" }}</h3>
+        <p>{{ i18n "tpl_api_desc" | default "Ship API docs that live in your git repo." }}</p>
+        <div class="flex flex-wrap justify-center gap-2 mt-5">
+          <span class="tpl-tag">Git Sync</span>
+          <span class="tpl-tag">Versioning</span>
+          <span class="tpl-tag">Published Docs</span>
+        </div>
+      </div>
+
+      <!-- 2. Engineering Knowledge Base -->
+      <div class="service-item item-orange reveal reveal-delay-2" data-category="kb wiki">
+        <div class="icon">
+          <i class="bi bi-building"></i>
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
+        </div>
+        <h3>{{ i18n "tpl_kb_title" | default "Engineering Knowledge Base" }}</h3>
+        <p>{{ i18n "tpl_kb_desc" | default "Internal docs your team actually maintains." }}</p>
+        <div class="flex flex-wrap justify-center gap-2 mt-5">
+          <span class="tpl-tag">Search</span>
+          <span class="tpl-tag">RBAC</span>
+          <span class="tpl-tag">Editor</span>
+        </div>
+      </div>
+
+      <!-- 3. Open Source Project Docs -->
+      <div class="service-item item-teal reveal reveal-delay-3" data-category="oss">
+        <div class="icon">
+          <i class="bi bi-globe"></i>
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
+        </div>
+        <h3>{{ i18n "tpl_oss_title" | default "Open Source Project Docs" }}</h3>
+        <p>{{ i18n "tpl_oss_desc" | default "Beautiful docs from your README." }}</p>
+        <div class="flex flex-wrap justify-center gap-2 mt-5">
+          <span class="tpl-tag">Git Sync</span>
+          <span class="tpl-tag">Themes</span>
+          <span class="tpl-tag">Published Docs</span>
+        </div>
+      </div>
+
+      <!-- 4. Product Changelog -->
+      <div class="service-item item-red reveal reveal-delay-1" data-category="oss api">
+        <div class="icon">
+          <i class="bi bi-clock-history"></i>
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
+        </div>
+        <h3>{{ i18n "tpl_changelog_title" | default "Product Changelog" }}</h3>
+        <p>{{ i18n "tpl_changelog_desc" | default "Keep users informed with git-backed updates." }}</p>
+        <div class="flex flex-wrap justify-center gap-2 mt-5">
+          <span class="tpl-tag">Published Docs</span>
+          <span class="tpl-tag">RSS</span>
+        </div>
+      </div>
+
+      <!-- 5. AI-Maintained Documentation -->
+      <div class="service-item item-indigo reveal reveal-delay-2" data-category="api kb">
+        <div class="icon">
+          <i class="bi bi-robot"></i>
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
+        </div>
+        <h3>{{ i18n "tpl_ai_title" | default "AI-Maintained Documentation" }}</h3>
+        <p>{{ i18n "tpl_ai_desc" | default "Let AI agents write and update your docs via MCP." }}</p>
+        <div class="flex flex-wrap justify-center gap-2 mt-5">
+          <span class="tpl-tag">MCP</span>
+          <span class="tpl-tag">Automation</span>
+        </div>
+      </div>
+
+      <!-- 6. Compliance Documentation -->
+      <div class="service-item item-pink reveal reveal-delay-3" data-category="kb wiki">
+        <div class="icon">
+          <i class="bi bi-shield-check"></i>
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
+        </div>
+        <h3>{{ i18n "tpl_compliance_title" | default "Compliance Documentation" }}</h3>
+        <p>{{ i18n "tpl_compliance_desc" | default "SOC2/HIPAA docs with version history." }}</p>
+        <div class="flex flex-wrap justify-center gap-2 mt-5">
+          <span class="tpl-tag">Versioning</span>
+          <span class="tpl-tag">RBAC</span>
+          <span class="tpl-tag">Audit Logs</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======= How It Works ======= -->
+<section class="py-20 md:py-28" style="background: var(--light);">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="section-title reveal">
+      <h2>{{ i18n "tpl_how_title" | default "How It Works" }}</h2>
+      <p>{{ i18n "tpl_how_subtitle" | default "Three steps from zero to published documentation." }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <!-- Step 1 -->
+      <div class="text-center reveal reveal-delay-1">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-full flex items-center justify-center" style="background: rgba(29,127,194,0.08);">
+          <span class="text-2xl font-extrabold" style="color: var(--accent); font-family: 'Plus Jakarta Sans', sans-serif;">1</span>
+        </div>
+        <h3 class="text-lg font-bold mb-3" style="color: var(--heading);">{{ i18n "tpl_step1_title" | default "Create Workspace" }}</h3>
+        <p class="text-sm" style="color: var(--muted); line-height: 1.7;">{{ i18n "tpl_step1_text" | default "Set up a workspace and connect your git repository. Your existing Markdown files are imported automatically." }}</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="text-center reveal reveal-delay-2">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-full flex items-center justify-center" style="background: rgba(29,127,194,0.08);">
+          <span class="text-2xl font-extrabold" style="color: var(--accent); font-family: 'Plus Jakarta Sans', sans-serif;">2</span>
+        </div>
+        <h3 class="text-lg font-bold mb-3" style="color: var(--heading);">{{ i18n "tpl_step2_title" | default "Write or Import" }}</h3>
+        <p class="text-sm" style="color: var(--muted); line-height: 1.7;">{{ i18n "tpl_step2_text" | default "Use the WYSIWYG editor or push from your IDE. Every change syncs bidirectionally with git." }}</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="text-center reveal reveal-delay-3">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-full flex items-center justify-center" style="background: rgba(29,127,194,0.08);">
+          <span class="text-2xl font-extrabold" style="color: var(--accent); font-family: 'Plus Jakarta Sans', sans-serif;">3</span>
+        </div>
+        <h3 class="text-lg font-bold mb-3" style="color: var(--heading);">{{ i18n "tpl_step3_title" | default "Publish" }}</h3>
+        <p class="text-sm" style="color: var(--muted); line-height: 1.7;">{{ i18n "tpl_step3_text" | default "One click to publish beautiful, searchable documentation. Custom domains, themes, and access control included." }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======= CTA ======= -->
+{{ $pricingURL := absLangURL "pricing/" }}
+<section class="cta-section">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+    <h3>{{ i18n "tpl_cta_title" | default "Start Building" }}</h3>
+    <p>{{ i18n "tpl_cta_text" | default "Pick a template, connect your repo, and publish in minutes. Free for teams up to 5." }}</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="{{ $pricingURL }}" class="cta-btn">{{ i18n "tpl_cta_btn" | default "Get Started Free" }} <i class="bi bi-arrow-right ml-2"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- Template filter JS -->
+<script>
+(function() {
+  var filters = document.querySelectorAll('.tpl-filter');
+  var cards = document.querySelectorAll('#templateGrid > [data-category]');
+
+  filters.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      filters.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+
+      var filter = btn.getAttribute('data-filter');
+
+      cards.forEach(function(card) {
+        if (filter === 'all') {
+          card.style.display = '';
+        } else {
+          var cats = card.getAttribute('data-category').split(' ');
+          card.style.display = cats.indexOf(filter) !== -1 ? '' : 'none';
+        }
+      });
+    });
+  });
+})();
+</script>
+
+{{ end }}

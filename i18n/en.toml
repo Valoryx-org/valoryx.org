@@ -38,9 +38,9 @@ other = "Scroll to top"
 [hero_badge]
 other = "Self-Hosted · Git-Native · Open Source"
 [hero_title]
-other = "Documentation that<br class=\"hidden sm:block\"> lives in git"
+other = "Documentation your team writes.<br class=\"hidden sm:block\"> Documentation your AI maintains."
 [hero_subtitle]
-other = "Bidirectional git sync, WYSIWYG editor, and beautiful published sites. Single binary or Docker — zero dependencies."
+other = "Git-native docs platform with a built-in MCP server. Write, publish, and let AI agents keep your docs accurate. Single binary, zero dependencies."
 [hero_cta]
 other = "Get Started Free"
 [hero_box1_title]
@@ -381,3 +381,151 @@ other = "Self-hosted, single binary, free for teams up to 5 editors."
 other = "Docs"
 [docs_sidebar_title]
 other = "Documentation"
+
+# ── Templates Page ───────────────────────────────────────────────────────────
+[tpl_badge]
+other = "Use Cases & Starter Templates"
+[tpl_hero_title]
+other = "Documentation Templates"
+[tpl_hero_subtitle]
+other = "Start with a proven structure. Customize everything."
+[tpl_filter_all]
+other = "All"
+[tpl_filter_api]
+other = "API Docs"
+[tpl_filter_kb]
+other = "Knowledge Base"
+[tpl_filter_wiki]
+other = "Team Wiki"
+[tpl_filter_oss]
+other = "Open Source"
+[tpl_api_title]
+other = "API Documentation"
+[tpl_api_desc]
+other = "Ship API docs that live in your git repo."
+[tpl_kb_title]
+other = "Engineering Knowledge Base"
+[tpl_kb_desc]
+other = "Internal docs your team actually maintains."
+[tpl_oss_title]
+other = "Open Source Project Docs"
+[tpl_oss_desc]
+other = "Beautiful docs from your README."
+[tpl_changelog_title]
+other = "Product Changelog"
+[tpl_changelog_desc]
+other = "Keep users informed with git-backed updates."
+[tpl_ai_title]
+other = "AI-Maintained Documentation"
+[tpl_ai_desc]
+other = "Let AI agents write and update your docs via MCP."
+[tpl_compliance_title]
+other = "Compliance Documentation"
+[tpl_compliance_desc]
+other = "SOC2/HIPAA docs with version history."
+[tpl_how_title]
+other = "How It Works"
+[tpl_how_subtitle]
+other = "Three steps from zero to published documentation."
+[tpl_step1_title]
+other = "Create Workspace"
+[tpl_step1_text]
+other = "Set up a workspace and connect your git repository. Your existing Markdown files are imported automatically."
+[tpl_step2_title]
+other = "Write or Import"
+[tpl_step2_text]
+other = "Use the WYSIWYG editor or push from your IDE. Every change syncs bidirectionally with git."
+[tpl_step3_title]
+other = "Publish"
+[tpl_step3_text]
+other = "One click to publish beautiful, searchable documentation. Custom domains, themes, and access control included."
+[tpl_cta_title]
+other = "Start Building"
+[tpl_cta_text]
+other = "Pick a template, connect your repo, and publish in minutes. Free for teams up to 5."
+[tpl_cta_btn]
+other = "Get Started Free"
+
+# ── VS Comparison Pages ─────────────────────────────────────────────────────
+[vs_badge]
+other = "Honest Comparison"
+[vs_hero_subtitle]
+other = "A fair comparison for developer documentation."
+[vs_tldr_title]
+other = "TL;DR"
+[vs_table_title]
+other = "Feature Comparison"
+[vs_table_subtitle]
+other = "Side-by-side on the features that matter most."
+[vs_row_selfhosted]
+other = "Self-Hosted"
+[vs_row_gitsync]
+other = "Bidirectional Git Sync"
+[vs_row_singlebinary]
+other = "Single Binary Deploy"
+[vs_row_mcp]
+other = "MCP Server (AI Agents)"
+[vs_row_wysiwyg]
+other = "WYSIWYG Editor"
+[vs_row_published]
+other = "Published Doc Sites"
+[vs_row_search]
+other = "Full-Text Search"
+[vs_row_ai]
+other = "Built-In AI Features"
+[vs_row_analytics]
+other = "Search Analytics"
+[vs_row_freetier]
+other = "Free Tier"
+[vs_row_dataown]
+other = "Data Ownership"
+[vs_valoryx_wins_title]
+other = "Where Valoryx Wins"
+[vs_win1_title]
+other = "Git-Native Architecture"
+[vs_win1_text]
+other = "Every page is a real file in a real git repo. Bidirectional sync means you can edit in the web UI or your IDE and both stay in sync. GitBook only syncs one direction."
+[vs_win2_title]
+other = "MCP for AI Agents"
+[vs_win2_text]
+other = "Valoryx exposes a Model Context Protocol server so Claude, Cursor, and other AI tools can read, search, and update your documentation programmatically."
+[vs_win3_title]
+other = "Self-Hosted, Single Binary"
+[vs_win3_text]
+other = "Download one binary, run it. No containers required, no cloud dependency. Your data stays on your infrastructure with full control."
+[vs_win4_title]
+other = "No Vendor Lock-In"
+[vs_win4_text]
+other = "Your content is Markdown in git. If you leave, you take everything. No proprietary format, no export step, no data hostage."
+[vs_diff_title]
+other = "The Key Difference"
+[vs_diff_text]
+other = "Valoryx combines bidirectional git sync, a Model Context Protocol server, and a context graph that understands how your pages relate to each other. This means AI agents do not just read your docs — they understand the structure, dependencies, and gaps. No other documentation platform offers this combination."
+[vs_cta_title]
+other = "Try Valoryx Free"
+[vs_cta_text]
+other = "Free for teams up to 5 editors. No credit card required. Self-hosted or Docker."
+[vs_cta_btn]
+other = "Get Started"
+
+# ── VS GitBook ──────────────────────────────────────────────────────────────
+[vs_gb_tldr1]
+other = "Valoryx stores every page as a real git commit with bidirectional sync. GitBook offers one-way git integration."
+[vs_gb_tldr2]
+other = "Valoryx is a single self-hosted binary you own. GitBook is cloud-only SaaS with no self-hosted option."
+[vs_gb_tldr3]
+other = "Valoryx exposes an MCP server so AI agents can read and write docs. GitBook has built-in AI but no agent protocol."
+[vs_gb_win1_title]
+other = "Mature Ecosystem"
+[vs_gb_win1_text]
+other = "GitBook has been around since 2014 with a large community, extensive integrations, and battle-tested infrastructure at scale."
+[vs_gb_win2_title]
+other = "Built-In Search Analytics"
+[vs_gb_win2_text]
+other = "GitBook provides detailed insights into what users search for, which pages get visited most, and where readers drop off."
+[vs_gb_win3_title]
+other = "AI Features Built-In"
+[vs_gb_win3_text]
+other = "GitBook includes native AI-powered search and writing assistance without requiring external agent configuration."
+[vs_competitor_wins_subtitle]
+other = "We believe in honest comparisons. Here is where the competition has an edge."

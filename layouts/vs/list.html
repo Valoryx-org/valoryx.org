@@ -1,0 +1,22 @@
+{{ define "main" }}
+<section class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-title reveal">
+      <h2>Valoryx vs Alternatives</h2>
+      <p>Honest comparisons so you can choose the right tool for your team.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+      {{ range .Pages }}
+      <a href="{{ .Permalink }}" class="service-item item-cyan reveal block no-underline hover:no-underline">
+        <div class="icon">
+          <i class="bi bi-arrow-left-right"></i>
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
+        </div>
+        <h3>{{ .Params.competitor | default .Title }}</h3>
+        <p>{{ .Description }}</p>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

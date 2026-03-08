@@ -229,6 +229,14 @@ button:focus:not(:focus-visible), a:focus:not(:focus-visible) { outline: none; }
 /* Reading progress bar */
 #readProgress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); z-index: 9999; width: 0%; transition: width 0.1s linear; border-radius: 0 2px 2px 0; }
 
+/* Template Filter Tabs */
+.tpl-filter { padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--muted); background: transparent; border: 1px solid var(--border); cursor: pointer; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+.tpl-filter:hover { border-color: rgba(29,127,194,0.4); color: var(--heading); }
+.tpl-filter.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Template Tag Pills */
+.tpl-tag { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 10px; border-radius: 20px; background: rgba(29,127,194,0.08); color: var(--accent); font-family: 'Plus Jakarta Sans', sans-serif; }
+
 /* Responsive */
 @media (max-width: 768px) {
   .section-title h2 { font-size: 24px; letter-spacing: 0.02em; }

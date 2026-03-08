@@ -1,0 +1,187 @@
+# Valoryx — Complete Reference for AI Agents
+
+> Self-hosted, AI-native documentation platform. Single Go binary. Git-native version control, WYSIWYG editor, full-text search, published docs with themes, built-in MCP server.
+
+## Product Overview
+
+Valoryx is a documentation platform that treats docs as code. Every page is a markdown file in a git repository. The platform provides a web editor, published documentation sites, full-text search, and a built-in MCP server for AI agent integration.
+
+Key differentiators:
+- Only documentation platform with a built-in MCP server (13 tools)
+- Bidirectional git sync (not just one-way export)
+- Context Graph API — AI gets page + parent + siblings + linked pages in one call
+- Single binary deployment, no external dependencies
+- Self-hosted or cloud, same feature set
+
+## Installation
+
+### Linux / macOS
+```bash
+curl -fsSL https://valoryx.org/install.sh | sh
+```
+
+### Docker
+```bash
+docker run -p 3000:3000 -v docplatform-data:/data ghcr.io/valoryx-org/docplatform:latest
+```
+
+### Quick Start
+```bash
+docplatform init my-docs
+docplatform serve --port 3000
+# Open http://localhost:3000
+```
+
+## MCP Server
+
+### What It Does
+The MCP server lets AI assistants (Claude, Cursor, VS Code Copilot, etc.) directly interact with documentation workspaces. AI agents can read, write, search, and validate docs through structured tool calls.
+
+### Setup (stdio transport)
+```json
+{
+  "mcpServers": {
+    "docplatform": {
+      "type": "stdio",
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "<slug>"],
+      "env": {
+        "DOCPLATFORM_API_KEY": "<your-api-key>"
+      }
+    }
+  }
+}
+```
+
+### Tool Reference (13 Tools)
+
+#### Content Tools (6)
+
+**docplatform_list_pages**
+List all pages in the workspace.
+- Input: `{ "workspace": "string" }`
+- Output: Array of `{ path, title, content_hash, updated_at }`
+
+**docplatform_read_page**
+Read full page content and metadata.
+- Input: `{ "workspace": "string", "path": "string" }`
+- Output: `{ path, title, body (markdown), content_hash, frontmatter, created_at, updated_at }`
+
+**docplatform_write_page**
+Create a new page with path, title, and markdown body.
+- Input: `{ "workspace": "string", "path": "string", "title": "string", "body": "string" }`
+- Output: `{ path, content_hash }`
+
+**docplatform_update_page**
+Update page content with optimistic concurrency (hash-based conflict detection).
+- Input: `{ "workspace": "string", "path": "string", "body": "string", "expected_hash": "string" }`
+- Output: `{ path, new_content_hash }`
+- Error: `CONFLICT` if expected_hash doesn't match current hash
+
+**docplatform_delete_page**
+Soft-delete a page by path.
+- Input: `{ "workspace": "string", "path": "string" }`
+- Output: `{ deleted: true }`
+
+**docplatform_move_page**
+Move/rename a page. Wikilinks across the workspace are auto-updated.
+- Input: `{ "workspace": "string", "old_path": "string", "new_path": "string" }`
+- Output: `{ old_path, new_path, links_updated: number }`
+
+#### Discovery Tools (4)
+
+**docplatform_search**
+Full-text search across all pages using Bleve engine.
+- Input: `{ "workspace": "string", "query": "string", "limit?": number }`
+- Output: Array of `{ path, title, snippet, score }`
+
+**docplatform_get_context**
+RAG context bundle: returns the target page plus its parent, children, siblings, and wikilinked pages. This is the key tool for AI agents — it provides full relationship context in a single call.
+- Input: `{ "workspace": "string", "path": "string" }`
+- Output: `{ page, parent, children, siblings, linked, metadata }`
+
+**docplatform_list_workspaces**
+List all workspaces accessible to the authenticated user.
+- Input: `{}`
+- Output: Array of `{ slug, name, description, page_count }`
+
+**docplatform_get_tree**
+Full page tree hierarchy with paths and titles.
+- Input: `{ "workspace": "string" }`
+- Output: Nested tree structure `{ path, title, children[] }`
+
+#### Quality Tools (1)
+
+**docplatform_validate_links**
+Scan all pages for broken wikilinks.
+- Input: `{ "workspace": "string" }`
+- Output: `{ total_links, broken_links, broken: [{ source_path, target, line }] }`
+
+#### Settings Tools (2)
+
+**docplatform_get_theme**
+Get the published site theme.
+- Input: `{ "workspace": "string" }`
+- Output: `{ theme_name, available_themes[] }`
+
+**docplatform_update_theme**
+Update the published site theme. 7 themes available.
+- Input: `{ "workspace": "string", "theme": "string" }`
+- Output: `{ theme_name }`
+
+### Authentication
+API keys with `dp_live_` prefix. Create via Settings > API Keys in the web UI. Keys are SHA-256 hashed with pepper — the plaintext is shown only once at creation.
+
+### Conflict Detection
+The `update_page` tool uses hash-based optimistic concurrency. Before updating, read the page to get the current `content_hash`. Pass it as `expected_hash`. If another user edited the page between your read and write, the server returns a CONFLICT error. Re-read, merge, and retry.
+
+## CLI Commands
+
+```
+docplatform serve [--port 3000]     Start the web server
+docplatform init <name>             Initialize a new workspace
+docplatform mcp --workspace <slug>  Start MCP server (stdio)
+docplatform export --workspace <slug> --output <dir>  Export as static site
+docplatform backup                  Create database backup
+docplatform rebuild                 Rebuild search index from git
+docplatform doctor                  Run diagnostic checks
+docplatform version                 Print version
+```
+
+## REST API (95+ endpoints)
+
+Base URL: `http://localhost:3000/api/v1/`
+
+Key endpoints:
+- `POST /api/v1/auth/login` — Email/password login
+- `GET /api/v1/workspaces` — List workspaces
+- `GET /api/v1/workspaces/:slug/pages` — List pages
+- `GET /api/v1/workspaces/:slug/pages/*path` — Read page
+- `POST /api/v1/workspaces/:slug/pages` — Create page
+- `PATCH /api/v1/workspaces/:slug/pages/*path` — Update page
+- `GET /api/v1/workspaces/:slug/search?q=query` — Search
+- `POST /api/v1/workspaces/:slug/git/sync` — Trigger git sync
+- `GET /api/v1/workspaces/:slug/tree` — Page tree
+- `POST /api/v1/api-keys` — Create API key
+- `GET /api/v1/api-keys` — List API keys
+
+## Architecture
+
+- **Storage**: SQLite (main DB) + SQLite (analytics DB) on NVMe
+- **Search**: Bleve embedded full-text search engine
+- **Git**: Bidirectional sync with any Git remote (SSH or HTTPS)
+- **Editor**: Tiptap (ProseMirror) WYSIWYG with markdown import/export
+- **Auth**: JWT + refresh tokens, OAuth 2.0/OIDC, WebAuthn/passkeys
+- **RBAC**: 6 roles (viewer, commenter, editor, admin, owner, super_admin)
+- **Publishing**: Static HTML generation with 7 themes
+- **MCP**: JSON-RPC 2.0 over stdio (Phase 1), Streamable HTTP (Phase 1.5)
+
+## Links
+
+- Homepage: https://valoryx.org/
+- Documentation: https://valoryx.org/docs/
+- MCP Integration: https://valoryx.org/mcp/
+- Pricing: https://valoryx.org/pricing/
+- GitHub: https://github.com/Valoryx-org/docplatform
+- Docker: ghcr.io/valoryx-org/docplatform:latest
+- Install Script: https://valoryx.org/install.sh
