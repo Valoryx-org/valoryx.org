@@ -1,7 +1,7 @@
 #!/bin/sh
 # DocPlatform installer — https://valoryx.org
 # Usage: curl -fsSL https://valoryx.org/install.sh | sh
-#        curl -fsSL https://valoryx.org/install.sh | sh -s -- --version v0.5.0
+#        curl -fsSL https://valoryx.org/install.sh | sh -s -- --version v0.5.2
 set -e
 
 REPO="Valoryx-org/releases"
@@ -18,7 +18,7 @@ while [ $# -gt 0 ]; do
       echo "Usage: curl -fsSL https://valoryx.org/install.sh | sh -s -- [OPTIONS]"
       echo ""
       echo "Options:"
-      echo "  --version, -v VERSION   Install a specific version (e.g. v0.5.0)"
+      echo "  --version, -v VERSION   Install a specific version (e.g. v0.5.2)"
       echo "  --dir, -d DIR           Install to DIR instead of /usr/local/bin"
       echo "  --help, -h              Show this help"
       exit 0

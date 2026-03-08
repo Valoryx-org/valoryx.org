@@ -147,9 +147,9 @@ function copyCmd(text, btn) {
 // Auto-detect OS on load
 (function() {
   const ua = navigator.userAgent;
-  let os = 'docker';
+  let os = 'linux';
   if (/Win/i.test(ua))   os = 'windows';
-  else if (/Mac/i.test(ua))   os = 'macos';
+  else if (/Mac/i.test(ua))   os = 'linux';
   else if (/Linux/i.test(ua)) os = 'linux';
   switchOsTab(os);
 })();
