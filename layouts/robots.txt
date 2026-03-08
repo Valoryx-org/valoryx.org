@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://valoryx.org/sitemap.xml
+Sitemap: {{ "sitemap.xml" | absURL }}
 
 # AI discovery files
 Allow: /llms.txt
