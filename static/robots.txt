@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://valoryx.org/sitemap.xml
+
+# AI discovery files
+Allow: /llms.txt
+Allow: /llms-full.txt
