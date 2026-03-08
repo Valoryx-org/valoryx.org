@@ -34,7 +34,7 @@ El primer usuario en registrarse se convierte en **SuperAdmin** con acceso compl
 ```bash
 # Verify the container started correctly
 docker logs docplatform
-# → INFO  Server starting            port=3000 version=v0.5.0
+# → INFO  Server starting            port=3000 version=v0.5.2
 # → INFO  Database initialized       path=/data/data.db
 # → INFO  Search index ready         documents=0
 # → INFO  Listening on               http://0.0.0.0:3000
@@ -93,7 +93,7 @@ docker compose up -d
 | Tag | Descripción |
 |---|---|
 | `latest` | Versión estable más reciente |
-| `v0.5.0` | Versión específica |
+| `v0.5.2` | Versión específica |
 | `v0.5` | Último parche de v0.5.x |
 
 ## Volúmenes

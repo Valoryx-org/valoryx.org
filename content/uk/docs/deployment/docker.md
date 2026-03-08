@@ -34,7 +34,7 @@ docker run -d \
 ```bash
 # Verify the container started correctly
 docker logs docplatform
-# → INFO  Server starting            port=3000 version=v0.5.0
+# → INFO  Server starting            port=3000 version=v0.5.2
 # → INFO  Database initialized       path=/data/data.db
 # → INFO  Search index ready         documents=0
 # → INFO  Listening on               http://0.0.0.0:3000
@@ -93,7 +93,7 @@ docker compose up -d
 | Тег | Опис |
 |---|---|
 | `latest` | Найновіший стабільний реліз |
-| `v0.5.0` | Конкретна версія |
+| `v0.5.2` | Конкретна версія |
 | `v0.5` | Останній патч для v0.5.x |
 
 ## Томи

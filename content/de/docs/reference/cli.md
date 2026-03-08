@@ -91,7 +91,7 @@ docplatform serve --data-dir /var/lib/docplatform
 ### Ausgabe
 
 ```
-INFO  Server starting            port=3000 version=v0.5.0
+INFO  Server starting            port=3000 version=v0.5.2
 INFO  Database initialized       path=.docplatform/data.db wal=true
 INFO  Migrations applied         count=1
 INFO  Search index ready         documents=42
@@ -320,7 +320,7 @@ docplatform version
 ### Ausgabe
 
 ```
-docplatform v0.5.0 (commit: abc1234, built: 2025-01-15T10:00:00Z)
+docplatform v0.5.2 (commit: abc1234, built: 2026-03-08T10:00:00Z)
 ```
 
 Die Versionsinformationen werden beim Build über Linker-Flags eingebettet. Nützlich zur Verifizierung, welches Release deployt ist, und für Support-Anfragen.

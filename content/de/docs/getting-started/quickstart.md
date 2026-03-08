@@ -71,7 +71,7 @@ docplatform serve
 ```
 
 ```
-INFO  Server starting            port=3000 version=v0.5.0
+INFO  Server starting            port=3000 version=v0.5.2
 INFO  Database initialized       path=.docplatform/data.db
 INFO  Search index ready         documents=0
 INFO  Workspace loaded           name="My Docs" slug=my-docs

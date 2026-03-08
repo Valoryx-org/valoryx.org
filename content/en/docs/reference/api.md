@@ -204,7 +204,7 @@ Returns all pages the current user has permission to view.
       "tags": ["guide"],
       "published": true,
       "access": "public",
-      "created_at": "2025-01-15T10:00:00Z",
+      "created_at": "2026-03-08T10:00:00Z",
       "updated_at": "2025-01-16T14:30:00Z",
       "author_id": "01HJK..."
     }
@@ -236,7 +236,7 @@ GET /api/v1/workspaces/{workspace_id}/pages/{page_id}
   "published": true,
   "access": "public",
   "parent_id": null,
-  "created_at": "2025-01-15T10:00:00Z",
+  "created_at": "2026-03-08T10:00:00Z",
   "updated_at": "2025-01-16T14:30:00Z",
   "author_id": "01HJK..."
 }

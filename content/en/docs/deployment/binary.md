@@ -22,7 +22,7 @@ chmod +x docplatform-linux-amd64
 sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
 # Or download a specific version
-curl -sLO https://github.com/Valoryx-org/releases/releases/download/v0.5.0/docplatform-linux-amd64
+curl -sLO https://github.com/Valoryx-org/releases/releases/download/v0.5.2/docplatform-linux-amd64
 ```
 
 Available platforms:
@@ -38,11 +38,11 @@ Archives (with version):
 
 | OS | Architecture | Archive |
 |---|---|---|
-| Linux | amd64 | `docplatform_0.5.0_linux_amd64.tar.gz` |
-| Linux | arm64 | `docplatform_0.5.0_linux_arm64.tar.gz` |
-| macOS | amd64 (Intel) | `docplatform_0.5.0_darwin_amd64.tar.gz` |
-| macOS | arm64 (Apple Silicon) | `docplatform_0.5.0_darwin_arm64.tar.gz` |
-| Windows | amd64 | `docplatform_0.5.0_windows_amd64.zip` |
+| Linux | amd64 | `docplatform_0.5.2_linux_amd64.tar.gz` |
+| Linux | arm64 | `docplatform_0.5.2_linux_arm64.tar.gz` |
+| macOS | amd64 (Intel) | `docplatform_0.5.2_darwin_amd64.tar.gz` |
+| macOS | arm64 (Apple Silicon) | `docplatform_0.5.2_darwin_arm64.tar.gz` |
+| Windows | amd64 | `docplatform_0.5.2_windows_amd64.zip` |
 
 ### Verify the download
 
@@ -66,7 +66,7 @@ Verify:
 
 ```bash
 docplatform version
-# docplatform v0.5.0 (commit: abc1234, built: 2025-01-15T10:00:00Z)
+# docplatform v0.5.2 (commit: abc1234, built: 2026-03-08T10:00:00Z)
 ```
 
 ## Initialize

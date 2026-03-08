@@ -30,8 +30,24 @@ docplatform version
 **Expected output:**
 
 ```
-docplatform v0.5.0 (commit: abc1234, built: 2025-01-15T10:00:00Z)
+docplatform v0.5.2 (commit: abc1234, built: 2026-03-08T10:00:00Z)
 ```
+
+
+### Windows
+
+```powershell
+# Download and run
+Invoke-WebRequest https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-windows-amd64.exe -OutFile docplatform.exe
+
+# Verify
+.\docplatform.exe version
+
+# Start the server
+.\docplatform.exe serve
+```
+
+Open [http://localhost:3000](http://localhost:3000) to get started.
 
 ### Download manually
 
@@ -43,6 +59,7 @@ If you prefer to download manually, visit the [GitHub Releases](https://github.c
 | Linux | arm64 | `docplatform-linux-arm64` |
 | macOS | amd64 (Intel) | `docplatform-darwin-amd64` |
 | macOS | arm64 (Apple Silicon) | `docplatform-darwin-arm64` |
+| Windows | amd64 | `docplatform-windows-amd64.exe` |
 
 Each release includes SHA-256 checksums for verification.
 

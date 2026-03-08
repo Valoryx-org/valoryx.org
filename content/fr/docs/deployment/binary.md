@@ -22,7 +22,7 @@ chmod +x docplatform-linux-amd64
 sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
 # Ou téléchargement d'une version spécifique
-curl -sLO https://github.com/Valoryx-org/releases/releases/download/v0.5.0/docplatform-linux-amd64
+curl -sLO https://github.com/Valoryx-org/releases/releases/download/v0.5.2/docplatform-linux-amd64
 ```
 
 Plateformes disponibles :
@@ -33,16 +33,17 @@ Plateformes disponibles :
 | Linux | arm64 | `docplatform-linux-arm64` |
 | macOS | amd64 (Intel) | `docplatform-darwin-amd64` |
 | macOS | arm64 (Apple Silicon) | `docplatform-darwin-arm64` |
+| Windows | amd64 | `docplatform-windows-amd64.exe` |
 
 Archives (avec version) :
 
 | OS | Architecture | Archive |
 |---|---|---|
-| Linux | amd64 | `docplatform_0.5.0_linux_amd64.tar.gz` |
-| Linux | arm64 | `docplatform_0.5.0_linux_arm64.tar.gz` |
-| macOS | amd64 (Intel) | `docplatform_0.5.0_darwin_amd64.tar.gz` |
-| macOS | arm64 (Apple Silicon) | `docplatform_0.5.0_darwin_arm64.tar.gz` |
-| Windows | amd64 | `docplatform_0.5.0_windows_amd64.zip` |
+| Linux | amd64 | `docplatform_0.5.2_linux_amd64.tar.gz` |
+| Linux | arm64 | `docplatform_0.5.2_linux_arm64.tar.gz` |
+| macOS | amd64 (Intel) | `docplatform_0.5.2_darwin_amd64.tar.gz` |
+| macOS | arm64 (Apple Silicon) | `docplatform_0.5.2_darwin_arm64.tar.gz` |
+| Windows | amd64 | `docplatform_0.5.2_windows_amd64.zip` |
 
 ### Vérifier le téléchargement
 
@@ -66,7 +67,7 @@ Vérification :
 
 ```bash
 docplatform version
-# docplatform v0.5.0 (commit: abc1234, built: 2025-01-15T10:00:00Z)
+# docplatform v0.5.2 (commit: abc1234, built: 2026-03-08T10:00:00Z)
 ```
 
 ## Initialisation

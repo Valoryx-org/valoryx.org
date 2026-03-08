@@ -34,7 +34,7 @@ Der erste Benutzer, der sich registriert, wird zum **SuperAdmin** mit vollem Pla
 ```bash
 # Überprüfen, ob der Container korrekt gestartet ist
 docker logs docplatform
-# → INFO  Server starting            port=3000 version=v0.5.0
+# → INFO  Server starting            port=3000 version=v0.5.2
 # → INFO  Database initialized       path=/data/data.db
 # → INFO  Search index ready         documents=0
 # → INFO  Listening on               http://0.0.0.0:3000
@@ -93,7 +93,7 @@ docker compose up -d
 | Tag | Beschreibung |
 |---|---|
 | `latest` | Neuestes stabiles Release |
-| `v0.5.0` | Spezifische Version |
+| `v0.5.2` | Spezifische Version |
 | `v0.5` | Neuester Patch für v0.5.x |
 
 ## Volumes
