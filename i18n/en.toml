@@ -1,6 +1,6 @@
 # ── Meta ──────────────────────────────────────────────────────────────────────
 [meta_title]
-other = "Valoryx — Git-Native Documentation Platform | Self-Hosted, Open Source"
+other = "Valoryx — Git-Native Documentation Platform | Self-Hosted, Free Forever"
 [meta_description]
 other = "Self-hosted documentation platform with bidirectional git sync, WYSIWYG editor, and beautiful published docs. Single Go binary, zero dependencies. Free for teams up to 5."
 [og_title]
@@ -36,7 +36,7 @@ other = "Scroll to top"
 
 # ── Hero ──────────────────────────────────────────────────────────────────────
 [hero_badge]
-other = "Self-Hosted · Git-Native · Open Source"
+other = "Self-Hosted · Git-Native · Free Forever"
 [hero_title]
 other = "Documentation your team writes.<br class=\"hidden sm:block\"> Documentation your AI maintains."
 [hero_subtitle]
@@ -66,7 +66,7 @@ other = "Beautiful documentation sites with themes and versioning. One click to 
 [hero_box4_title]
 other = "Access Control"
 [hero_box4_text]
-other = "Role-based permissions, SSO support, and audit logging. Enterprise-ready from day one."
+other = "Role-based permissions, WebAuthn passkeys, and audit logging. Granular access control from day one."
 [hero_learn_more]
 other = "Learn More"
 
@@ -150,7 +150,7 @@ other = "Blazing-fast search across all your documentation. Built-in FTS5 engine
 [feat6_title]
 other = "Access Control"
 [feat6_text]
-other = "Granular role-based permissions — viewer, editor, admin. SSO with SAML/OIDC, audit logging, and workspace isolation. Enterprise-grade security."
+other = "Granular role-based permissions — viewer, editor, admin. WebAuthn passkeys, audit logging, and workspace isolation. Enterprise-grade access control."
 
 # ── CTA ───────────────────────────────────────────────────────────────────────
 [cta_title]

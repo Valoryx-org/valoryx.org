@@ -1,5 +1,5 @@
 [meta_title]
-other = "Valoryx — Git-Native Dokumentationsplattform | Self-Hosted, Open Source"
+other = "Valoryx — Git-Native Dokumentationsplattform | Self-Hosted, Für immer kostenlos"
 [meta_description]
 other = "Self-hosted Dokumentationsplattform mit bidirektionaler Git-Synchronisierung, WYSIWYG-Editor und schönen veröffentlichten Docs. Ein Go-Binary, keine Abhängigkeiten. Kostenlos für Teams bis 5."
 [og_title]
@@ -33,7 +33,7 @@ other = "Menü schließen"
 other = "Nach oben"
 
 [hero_badge]
-other = "Self-Hosted · Git-Native · Open Source"
+other = "Self-Hosted · Git-Native · Free Forever"
 [hero_title]
 other = "Dokumentation, die<br class=\"hidden sm:block\"> in git lebt"
 [hero_subtitle]
@@ -55,7 +55,7 @@ other = "Schöne Dokumentationswebsites mit Themes und Versionierung. Ein Klick 
 [hero_box4_title]
 other = "Zugriffskontrolle"
 [hero_box4_text]
-other = "Rollenbasierte Berechtigungen, SSO-Unterstützung und Audit-Logging. Enterprise-ready von Anfang an."
+other = "Rollenbasierte Berechtigungen, WebAuthn-Passkeys und Audit-Logging. Granulare Zugriffskontrolle von Anfang an."
 [hero_learn_more]
 other = "Mehr erfahren"
 
@@ -135,7 +135,7 @@ other = "Blitzschnelle Suche über all Ihre Dokumentation. Eingebaute FTS5-Engin
 [feat6_title]
 other = "Zugriffskontrolle"
 [feat6_text]
-other = "Granulare rollenbasierte Berechtigungen — Betrachter, Editor, Admin. SSO mit SAML/OIDC, Audit-Logging und Arbeitsbereich-Isolation."
+other = "Granulare rollenbasierte Berechtigungen — Betrachter, Editor, Admin. WebAuthn-Passkeys, Audit-Logging und Arbeitsbereich-Isolation. Enterprise-Zugriffskontrolle."
 
 [cta_title]
 other = "Ihre Docs Verdienen Besser als einen Ummauerten Garten"

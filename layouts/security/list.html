@@ -168,7 +168,7 @@
           <a href="mailto:security@valoryx.org" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
             <i class="bi bi-envelope"></i> security@valoryx.org
           </a>
-          <a href="{{ .Site.Params.githubURL | replaceRE `/releases$` `` }}/security/advisories" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+          <a href="https://github.com/Valoryx-org/docplatform/security/advisories" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
             <i class="bi bi-github"></i> {{ i18n "security_disclosure_advisory" | default "GitHub Advisory" }}
           </a>
         </div>
@@ -182,9 +182,9 @@
 <section class="cta-section">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
     <h3>{{ i18n "security_cta_title" | default "Security you can verify" }}</h3>
-    <p>{{ i18n "security_cta_text" | default "Valoryx is open source. Audit the code, review the dependencies, run your own security scans." }}</p>
+    <p>{{ i18n "security_cta_text" | default "Valoryx is source-available under BSL 1.1. Review the code, check dependencies, run your own security scans." }}</p>
     <div class="flex flex-wrap justify-center gap-3">
-      <a href="{{ $homeURL }}open-source/" class="cta-btn">{{ i18n "security_cta_btn_source" | default "View Source" }}</a>
+      <a href="{{ $homeURL }}open-source/" class="cta-btn">{{ i18n "security_cta_btn_source" | default "Community Edition" }}</a>
       <a href="{{ $homeURL }}install/" class="cta-btn">{{ i18n "security_cta_btn_install" | default "Install Now" }}</a>
     </div>
   </div>

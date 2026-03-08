@@ -1,5 +1,5 @@
 [meta_title]
-other = "Valoryx — Plataforma de Documentación Git-Native | Auto-alojada, Open Source"
+other = "Valoryx — Plataforma de Documentación Git-Native | Auto-alojada, Gratis para siempre"
 [meta_description]
 other = "Plataforma de documentación auto-alojada con sincronización git bidireccional, editor WYSIWYG y hermosos sitios publicados. Binario Go único, cero dependencias. Gratis para equipos de hasta 5."
 [og_title]
@@ -33,7 +33,7 @@ other = "Cerrar menú"
 other = "Volver arriba"
 
 [hero_badge]
-other = "Auto-alojado · Git-Native · Open Source"
+other = "Auto-alojado · Git-Native · Gratis para siempre"
 [hero_title]
 other = "Documentación que<br class=\"hidden sm:block\"> vive en git"
 [hero_subtitle]
@@ -55,7 +55,7 @@ other = "Hermosos sitios de documentación con temas y versioning. Un clic para 
 [hero_box4_title]
 other = "Control de Acceso"
 [hero_box4_text]
-other = "Permisos basados en roles, soporte SSO y audit logging. Listo para empresa desde el primer día."
+other = "Permisos basados en roles, passkeys WebAuthn y audit logging. Control de acceso granular desde el primer día."
 [hero_learn_more]
 other = "Saber más"
 
@@ -135,7 +135,7 @@ other = "Búsqueda ultra-rápida en toda tu documentación. Motor FTS5 integrado
 [feat6_title]
 other = "Control de Acceso"
 [feat6_text]
-other = "Permisos granulares basados en roles — espectador, editor, admin. SSO con SAML/OIDC, audit logging y aislamiento de espacios de trabajo."
+other = "Permisos granulares basados en roles — espectador, editor, admin. Passkeys WebAuthn, audit logging y aislamiento de espacios de trabajo. Control de acceso empresarial."
 
 [cta_title]
 other = "Tus Docs Merecen Algo Mejor que un Jardín Amurallado"

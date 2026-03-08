@@ -160,7 +160,7 @@ Measured on Apple M2, NVMe SSD, 1,000-page workspace:
 | Single binary (zero deps) | Yes | N/A | N/A | No (Node.js) | N/A | Docker |
 | Built-in RBAC | Yes | Paid | Paid | No | Yes | Yes |
 | Published docs site | Yes | Yes | Yes | Yes | Yes | Yes |
-| Open source | Yes | No | No | Yes | No | Yes |
+| Free tier | Yes | No | No | Yes | No | Yes |
 | Offline capable | Yes | No | No | Yes | No | No |
 
 ## Community Edition limits

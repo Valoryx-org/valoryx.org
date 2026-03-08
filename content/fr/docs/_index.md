@@ -160,7 +160,7 @@ Mesurées sur Apple M2, SSD NVMe, espace de travail de 1 000 pages :
 | Binaire unique (zéro dépendance) | Oui | N/A | N/A | Non (Node.js) | N/A | Docker |
 | RBAC intégré | Oui | Payant | Payant | Non | Oui | Oui |
 | Site de documentation publié | Oui | Oui | Oui | Oui | Oui | Oui |
-| Open source | Oui | Non | Non | Oui | Non | Oui |
+| Offre gratuite | Oui | Non | Non | Oui | Non | Oui |
 | Fonctionne hors ligne | Oui | Non | Non | Oui | Non | Non |
 
 ## Limites de la Community Edition

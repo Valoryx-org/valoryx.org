@@ -1,5 +1,5 @@
 [meta_title]
-other = "Valoryx — Plateforme de Documentation Git-Native | Auto-hébergée, Open Source"
+other = "Valoryx — Plateforme de Documentation Git-Native | Auto-hébergée, Gratuite pour toujours"
 [meta_description]
 other = "Plateforme de documentation auto-hébergée avec synchronisation git bidirectionnelle, éditeur WYSIWYG et beaux sites publiés. Binaire Go unique, zéro dépendance. Gratuit pour les équipes de 5."
 [og_title]
@@ -33,7 +33,7 @@ other = "Fermer le menu"
 other = "Haut de page"
 
 [hero_badge]
-other = "Auto-hébergé · Git-Native · Open Source"
+other = "Auto-hébergé · Git-Native · Gratuit pour toujours"
 [hero_title]
 other = "La documentation qui<br class=\"hidden sm:block\"> vit dans git"
 [hero_subtitle]
@@ -55,7 +55,7 @@ other = "Beaux sites de documentation avec thèmes et versioning. Un clic pour p
 [hero_box4_title]
 other = "Contrôle d'Accès"
 [hero_box4_text]
-other = "Permissions par rôle, SSO et audit logging. Prêt pour l'entreprise dès le premier jour."
+other = "Permissions par rôle, passkeys WebAuthn et audit logging. Contrôle d'accès granulaire dès le premier jour."
 [hero_learn_more]
 other = "En savoir plus"
 
@@ -135,7 +135,7 @@ other = "Recherche ultra-rapide dans toute votre documentation. Moteur FTS5 int�
 [feat6_title]
 other = "Contrôle d'Accès"
 [feat6_text]
-other = "Permissions granulaires par rôle — lecteur, éditeur, admin. SSO avec SAML/OIDC, audit logging et isolation des espaces de travail."
+other = "Permissions granulaires par rôle — lecteur, éditeur, admin. Passkeys WebAuthn, audit logging et isolation des espaces de travail. Contrôle d'accès entreprise."
 
 [cta_title]
 other = "Vos Docs Méritent Mieux qu'un Jardin Fermé"

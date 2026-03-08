@@ -1,5 +1,5 @@
 [meta_title]
-other = "Valoryx — Git-Native Платформа Документации | Self-Hosted, Open Source"
+other = "Valoryx — Git-Native Платформа Документации | Self-Hosted, Бесплатно навсегда"
 [meta_description]
 other = "Self-hosted платформа документации с двунаправленной синхронизацией git, WYSIWYG-редактором и красивыми опубликованными доками. Один бинарный файл Go, никаких зависимостей. Бесплатно для команд до 5 человек."
 [og_title]
@@ -33,7 +33,7 @@ other = "Закрыть меню"
 other = "Наверх"
 
 [hero_badge]
-other = "Self-Hosted · Git-Native · Open Source"
+other = "Self-Hosted · Git-Native · Free Forever"
 [hero_title]
 other = "Документация,<br class=\"hidden sm:block\"> живущая в git"
 [hero_subtitle]
@@ -55,7 +55,7 @@ other = "Красивые сайты документации с темами и
 [hero_box4_title]
 other = "Контроль Доступа"
 [hero_box4_text]
-other = "Ролевые разрешения, поддержка SSO и audit logging. Готово для предприятий с первого дня."
+other = "Ролевые разрешения, пасcки WebAuthn и audit logging. Гранулярный контроль доступа с первого дня."
 [hero_learn_more]
 other = "Подробнее"
 
@@ -135,7 +135,7 @@ other = "Молниеносный поиск по всей вашей докум
 [feat6_title]
 other = "Контроль Доступа"
 [feat6_text]
-other = "Гранулярные ролевые разрешения — наблюдатель, редактор, администратор. SSO с SAML/OIDC, audit logging и изоляция рабочих пространств."
+other = "Гранулярные ролевые разрешения — наблюдатель, редактор, администратор. Паcски WebAuthn, audit logging и изоляция рабочих пространств. Корпоративный контроль доступа."
 
 [cta_title]
 other = "Ваши Доки Заслуживают Большего, Чем Огороженный Сад"

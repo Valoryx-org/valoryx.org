@@ -160,7 +160,7 @@ Gemessen auf Apple M2, NVMe SSD, 1.000-Seiten-Workspace:
 | Einzelne Binärdatei (keine Abhängigkeiten) | Ja | N/A | N/A | Nein (Node.js) | N/A | Docker |
 | Integriertes RBAC | Ja | Kostenpflichtig | Kostenpflichtig | Nein | Ja | Ja |
 | Veröffentlichte Dokumentationsseite | Ja | Ja | Ja | Ja | Ja | Ja |
-| Open Source | Ja | Nein | Nein | Ja | Nein | Ja |
+| Kostenlose Stufe | Ja | Nein | Nein | Ja | Nein | Ja |
 | Offline-fähig | Ja | Nein | Nein | Ja | Nein | Nein |
 
 ## Community Edition Limits

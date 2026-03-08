@@ -1,5 +1,5 @@
 ---
-title: "Open Source"
-description: "Valoryx is open-source documentation software. MIT license, community-driven, built with Go. View source, contribute, self-host."
+title: "Community Edition"
+description: "Valoryx Community Edition is free forever. Self-host your documentation with 5 editors, 3 workspaces, and all features included."
 layout: "list"
 ---
