@@ -367,3 +367,180 @@ other = "Auto-hébergé, binaire unique, gratuit pour les équipes jusqu'à 5 é
 other = "Docs"
 [docs_sidebar_title]
 other = "Documentation"
+
+
+# ── Missing keys added by translate_missing.py ─────────────────────────────
+[skip_to_content]
+other = "Aller au contenu"
+[download_cloud_cta]
+other = "Ouvrir Valoryx Cloud"
+[download_cloud_description]
+other = "Aucune installation nécessaire. Créez votre espace de travail en quelques secondes. Nous gérons l'infrastructure, les mises à jour et les sauvegardes."
+[download_cloud_free_note]
+other = "Plan gratuit : 1 espace de travail · 3 éditeurs · 50 pages publiées"
+[download_cloud_pill1]
+other = "Aucune configuration requise"
+[download_cloud_pill2]
+other = "Mises à jour automatiques"
+[download_cloud_pill3]
+other = "Plan gratuit permanent"
+[download_cloud_prefer_selfhosted]
+other = "Vous préférez le contrôle total ?"
+[download_cloud_switch_selfhosted]
+other = "Téléchargez l'édition auto-hébergée"
+[download_cloud_title]
+other = "Commencez avec Valoryx Cloud"
+[download_deploy_cloud]
+other = "Cloud"
+[download_deploy_selfhosted]
+other = "Auto-hébergé"
+[hero_cta_cloud]
+other = "Essayer Cloud Gratuit"
+[hero_cta_cloud_sub]
+other = "Nous hébergeons · Pas de configuration · Démarrez en 30 secondes"
+[hero_cta_selfhosted]
+other = "Télécharger Gratuit"
+[hero_cta_selfhosted_sub]
+other = "Auto-hébergé · Binaire unique · Gratuit pour toujours"
+[tpl_ai_desc]
+other = "Laissez les agents IA écrire et mettre à jour vos docs via MCP."
+[tpl_ai_title]
+other = "Documentation Maintenue par IA"
+[tpl_api_desc]
+other = "Publiez des docs API qui vivent dans votre dépôt git."
+[tpl_api_title]
+other = "Documentation API"
+[tpl_badge]
+other = "Cas d'utilisation & Modèles de départ"
+[tpl_changelog_desc]
+other = "Tenez les utilisateurs informés avec des mises à jour versionnées dans git."
+[tpl_changelog_title]
+other = "Changelog Produit"
+[tpl_compliance_desc]
+other = "Documents SOC2/HIPAA avec historique de versions."
+[tpl_compliance_title]
+other = "Documentation de Conformité"
+[tpl_cta_btn]
+other = "Commencer Gratuitement"
+[tpl_cta_text]
+other = "Choisissez un modèle, connectez votre dépôt et publiez en minutes. Gratuit pour les équipes jusqu'à 5."
+[tpl_cta_title]
+other = "Commencez à Construire"
+[tpl_filter_all]
+other = "Tout"
+[tpl_filter_api]
+other = "Docs API"
+[tpl_filter_kb]
+other = "Base de Connaissances"
+[tpl_filter_oss]
+other = "Open Source"
+[tpl_filter_wiki]
+other = "Wiki d'Équipe"
+[tpl_hero_subtitle]
+other = "Commencez avec une structure éprouvée. Personnalisez tout."
+[tpl_hero_title]
+other = "Modèles de Documentation"
+[tpl_how_subtitle]
+other = "Trois étapes de zéro à la documentation publiée."
+[tpl_how_title]
+other = "Comment ça Marche"
+[tpl_kb_desc]
+other = "Des docs internes que votre équipe maintient réellement."
+[tpl_kb_title]
+other = "Base de Connaissances Ingénierie"
+[tpl_oss_desc]
+other = "De belles docs à partir de votre README."
+[tpl_oss_title]
+other = "Docs de Projet Open Source"
+[tpl_step1_text]
+other = "Créez un espace de travail et connectez votre dépôt git. Vos fichiers Markdown existants sont importés automatiquement."
+[tpl_step1_title]
+other = "Créer un Espace de Travail"
+[tpl_step2_text]
+other = "Utilisez l'éditeur WYSIWYG ou poussez depuis votre IDE. Chaque modification se synchronise bidirectionnellement avec git."
+[tpl_step2_title]
+other = "Écrire ou Importer"
+[tpl_step3_text]
+other = "Un clic pour publier une documentation belle et consultable. Domaines personnalisés, thèmes et contrôle d'accès inclus."
+[tpl_step3_title]
+other = "Publier"
+[vs_badge]
+other = "Comparaison Honnête"
+[vs_competitor_wins_subtitle]
+other = "Nous croyons aux comparaisons honnêtes. Voici où la concurrence a un avantage."
+[vs_cta_btn]
+other = "Commencer"
+[vs_cta_text]
+other = "Gratuit pour les équipes jusqu'à 5 éditeurs. Sans carte de crédit. Auto-hébergé ou Docker."
+[vs_cta_title]
+other = "Essayez Valoryx Gratuitement"
+[vs_diff_text]
+other = "Valoryx combine la synchronisation git bidirectionnelle, un serveur Model Context Protocol et un graphe de contexte qui comprend les relations entre vos pages. Les agents IA ne se contentent pas de lire vos docs — ils comprennent la structure, les dépendances et les lacunes. Aucune autre plateforme de documentation n'offre cette combinaison."
+[vs_diff_title]
+other = "La Différence Clé"
+[vs_gb_tldr1]
+other = "Valoryx stocke chaque page comme un vrai commit git avec synchronisation bidirectionnelle. GitBook offre une intégration git unidirectionnelle."
+[vs_gb_tldr2]
+other = "Valoryx est un binaire unique auto-hébergé que vous possédez. GitBook est un SaaS cloud uniquement sans option auto-hébergée."
+[vs_gb_tldr3]
+other = "Valoryx expose un serveur MCP pour que les agents IA puissent lire et écrire les docs. GitBook a une IA intégrée mais pas de protocole agent."
+[vs_gb_win1_text]
+other = "GitBook existe depuis 2014 avec une grande communauté, des intégrations étendues et une infrastructure éprouvée à grande échelle."
+[vs_gb_win1_title]
+other = "Écosystème Mature"
+[vs_gb_win2_text]
+other = "GitBook fournit des informations détaillées sur les recherches des utilisateurs, les pages les plus visitées et les points d'abandon des lecteurs."
+[vs_gb_win2_title]
+other = "Analytique de Recherche Intégrée"
+[vs_gb_win3_text]
+other = "GitBook inclut une recherche et une assistance à l'écriture alimentées par l'IA nativement, sans configuration d'agent externe."
+[vs_gb_win3_title]
+other = "Fonctionnalités IA Intégrées"
+[vs_hero_subtitle]
+other = "Une comparaison équitable pour la documentation développeur."
+[vs_row_ai]
+other = "Fonctionnalités IA Intégrées"
+[vs_row_analytics]
+other = "Analytique de Recherche"
+[vs_row_dataown]
+other = "Propriété des Données"
+[vs_row_freetier]
+other = "Plan Gratuit"
+[vs_row_gitsync]
+other = "Synchronisation Git Bidirectionnelle"
+[vs_row_mcp]
+other = "Serveur MCP (Agents IA)"
+[vs_row_published]
+other = "Sites de Docs Publiés"
+[vs_row_search]
+other = "Recherche Plein Texte"
+[vs_row_selfhosted]
+other = "Auto-Hébergé"
+[vs_row_singlebinary]
+other = "Déploiement Binaire Unique"
+[vs_row_wysiwyg]
+other = "Éditeur WYSIWYG"
+[vs_table_subtitle]
+other = "Côte à côte sur les fonctionnalités qui comptent le plus."
+[vs_table_title]
+other = "Comparaison des Fonctionnalités"
+[vs_tldr_title]
+other = "TL;DR"
+[vs_valoryx_wins_title]
+other = "Où Valoryx Gagne"
+[vs_win1_text]
+other = "Chaque page est un vrai fichier dans un vrai dépôt git. La synchronisation bidirectionnelle signifie que vous pouvez éditer dans l'interface web ou votre IDE et les deux restent synchronisés. GitBook ne synchronise que dans un sens."
+[vs_win1_title]
+other = "Architecture Git-Native"
+[vs_win2_text]
+other = "Valoryx expose un serveur Model Context Protocol pour que Claude, Cursor et d'autres outils IA puissent lire, rechercher et mettre à jour votre documentation programmatiquement."
+[vs_win2_title]
+other = "MCP pour les Agents IA"
+[vs_win3_text]
+other = "Téléchargez un binaire, exécutez-le. Pas de conteneurs nécessaires, pas de dépendance cloud. Vos données restent sur votre infrastructure avec un contrôle total."
+[vs_win3_title]
+other = "Auto-Hébergé, Binaire Unique"
+[vs_win4_text]
+other = "Votre contenu est du Markdown dans git. Si vous partez, vous emportez tout. Pas de format propriétaire, pas d'étape d'export, pas de données otage."
+[vs_win4_title]
+other = "Pas de Verrouillage Fournisseur"
