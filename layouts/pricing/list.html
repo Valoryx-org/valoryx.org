@@ -13,6 +13,20 @@
   </div>
 </section>
 
+<!-- ======= Per-Workspace Callout ======= -->
+<section class="pb-4">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-xl p-6 text-center reveal" style="background: rgba(29,127,194,0.06); border: 1px solid rgba(29,127,194,0.15);">
+      <p class="text-lg font-semibold" style="color: var(--heading);">
+        {{ i18n "pricing_perworkspace_title" | default "Unlike per-seat pricing, Valoryx charges per workspace." }}
+      </p>
+      <p class="text-sm mt-2" style="color: var(--muted);">
+        {{ i18n "pricing_perworkspace_desc" | default "A 15-person team on Team plan pays $29/mo total — not $142+ like per-seat alternatives." }}
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- ======= Deployment Toggle ======= -->
 <section class="py-16 md:py-20">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,6 +50,7 @@
       <div class="reveal reveal-delay-1">
         <div class="pricing-item">
           <h3>{{ i18n "pricing_free" | default "Free" }}</h3>
+          <p class="text-xs mb-4" style="color: var(--muted);">{{ i18n "pricing_persona_free" | default "For individuals and small teams getting started" }}</p>
           <h4>$0 <span>/ {{ i18n "plan_forever" | default "forever" }}</span></h4>
           <ul>
             <li><i class="bi bi-check"></i> {{ i18n "pf_feat1" | default "1 Workspace" }}</li>
@@ -57,6 +72,7 @@
         <div class="pricing-item">
           <span class="plan-badge">{{ i18n "pricing_popular" | default "Most Popular" }}</span>
           <h3>{{ i18n "plan_team" | default "Team" }}</h3>
+          <p class="text-xs mb-4" style="color: var(--muted);">{{ i18n "pricing_persona_team" | default "For growing teams that need collaboration and publishing" }}</p>
           <h4><sup>$</sup>29 <span>/ {{ i18n "plan_mo" | default "mo" }}</span></h4>
           <ul>
             <li><i class="bi bi-check"></i> {{ i18n "pt_feat1" | default "3 Workspaces" }}</li>
@@ -76,6 +92,7 @@
       <div class="reveal reveal-delay-3">
         <div class="pricing-item">
           <h3>{{ i18n "plan_business" | default "Business" }}</h3>
+          <p class="text-xs mb-4" style="color: var(--muted);">{{ i18n "pricing_persona_business" | default "For organizations that need security, compliance, and scale" }}</p>
           <h4><sup>$</sup>79 <span>/ {{ i18n "plan_mo" | default "mo" }}</span></h4>
           <ul>
             <li><i class="bi bi-check"></i> {{ i18n "pb_feat1" | default "10 Workspaces" }}</li>
@@ -91,6 +108,13 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- Trust Signals -->
+    <div class="flex flex-wrap justify-center gap-6 mt-8 text-sm reveal" style="color: var(--muted);">
+      <span><i class="bi bi-credit-card mr-1" style="color: var(--success);"></i> No credit card required</span>
+      <span><i class="bi bi-arrow-repeat mr-1" style="color: var(--success);"></i> Cancel anytime</span>
+      <span><i class="bi bi-shield-check mr-1" style="color: var(--success);"></i> 14-day money-back guarantee</span>
     </div>
 
     <!-- Self-Hosted Plan -->
@@ -118,6 +142,44 @@
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- ======= Feature Comparison Table ======= -->
+<section class="py-16 md:py-20">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-title reveal">
+      <h2>{{ i18n "pricing_compare_title" | default "Compare Plans" }}</h2>
+    </div>
+    <div class="overflow-x-auto reveal">
+      <table class="compare-table w-full text-sm">
+        <thead>
+          <tr>
+            <th class="text-left py-3 px-4" style="color: var(--heading);">Feature</th>
+            <th class="text-center py-3 px-4" style="color: var(--heading);">Free</th>
+            <th class="text-center py-3 px-4" style="color: var(--heading);">Team</th>
+            <th class="text-center py-3 px-4" style="color: var(--heading);">Business</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="py-2.5 px-4">Workspaces</td><td class="text-center">1</td><td class="text-center">3</td><td class="text-center">10</td></tr>
+          <tr><td class="py-2.5 px-4">Editors</td><td class="text-center">3</td><td class="text-center">15</td><td class="text-center">50</td></tr>
+          <tr><td class="py-2.5 px-4">Published Pages</td><td class="text-center">50</td><td class="text-center">Unlimited</td><td class="text-center">Unlimited</td></tr>
+          <tr><td class="py-2.5 px-4">Git Sync</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+          <tr><td class="py-2.5 px-4">WYSIWYG Editor</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+          <tr><td class="py-2.5 px-4">Full-Text Search</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+          <tr><td class="py-2.5 px-4">MCP Server (stdio)</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+          <tr><td class="py-2.5 px-4">Custom Domains</td><td class="text-center" style="color: var(--muted);">—</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+          <tr><td class="py-2.5 px-4">Priority Support</td><td class="text-center" style="color: var(--muted);">—</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+          <tr><td class="py-2.5 px-4">SSO / SAML</td><td class="text-center" style="color: var(--muted);">—</td><td class="text-center" style="color: var(--muted);">—</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+          <tr><td class="py-2.5 px-4">Analytics Dashboard</td><td class="text-center" style="color: var(--muted);">—</td><td class="text-center" style="color: var(--muted);">—</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+          <tr><td class="py-2.5 px-4">Audit Logs</td><td class="text-center" style="color: var(--muted);">—</td><td class="text-center" style="color: var(--muted);">—</td><td class="text-center"><i class="bi bi-check-lg" style="color: var(--success);"></i></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-center text-sm mt-6 reveal" style="color: var(--muted);">
+      {{ i18n "pricing_enterprise_note" | default "Need more? " }}<a href="#contact" style="color: var(--accent); font-weight: 600;">{{ i18n "pricing_enterprise_cta" | default "Contact us for Enterprise pricing" }}</a>
+    </p>
   </div>
 </section>
 
@@ -156,6 +218,34 @@
           <i class="bi bi-chevron-down faq-icon"></i>
         </h3>
         <div class="faq-content"><p>{{ i18n "pfaq4_a" | default "Coming soon. In the meantime, start with the Free tier — it includes all core features with no time limit." }}</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3 class="faq-trigger">
+          <span>{{ i18n "pfaq5_q" | default "What happens if I exceed my plan limits?" }}</span>
+          <i class="bi bi-chevron-down faq-icon"></i>
+        </h3>
+        <div class="faq-content"><p>{{ i18n "pfaq5_a" | default "You'll see a clear message. Existing content remains fully accessible — we never lock your data. Upgrade instantly or adjust your usage." }}</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3 class="faq-trigger">
+          <span>{{ i18n "pfaq6_q" | default "What payment methods do you accept?" }}</span>
+          <i class="bi bi-chevron-down faq-icon"></i>
+        </h3>
+        <div class="faq-content"><p>{{ i18n "pfaq6_a" | default "All major credit and debit cards via Stripe. Invoice billing available for Business and Enterprise plans." }}</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3 class="faq-trigger">
+          <span>{{ i18n "pfaq7_q" | default "Can I upgrade or downgrade at any time?" }}</span>
+          <i class="bi bi-chevron-down faq-icon"></i>
+        </h3>
+        <div class="faq-content"><p>{{ i18n "pfaq7_a" | default "Yes. Upgrades take effect immediately. Downgrades activate at the end of your billing period. No penalties, no lock-in." }}</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3 class="faq-trigger">
+          <span>{{ i18n "pfaq8_q" | default "What is a workspace?" }}</span>
+          <i class="bi bi-chevron-down faq-icon"></i>
+        </h3>
+        <div class="faq-content"><p>{{ i18n "pfaq8_a" | default "A workspace is an independent documentation project with its own pages, git repo, published docs site, and team. Each workspace can have its own custom domain." }}</p></div>
       </div>
     </div>
   </div>

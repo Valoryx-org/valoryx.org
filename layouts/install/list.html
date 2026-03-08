@@ -23,6 +23,22 @@
   </div>
 </section>
 
+<!-- System Requirements -->
+<section class="pb-8">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-xl p-6 reveal" style="background: var(--light);">
+      <h3 class="text-lg font-bold mb-4" style="color: var(--heading);">{{ i18n "install_reqs_title" | default "System Requirements" }}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm" style="color: var(--body);">
+        <div><strong>OS:</strong> Linux (amd64/arm64), macOS (Intel/Apple Silicon), Windows (amd64)</div>
+        <div><strong>Disk:</strong> ~50 MB (binary + SQLite database)</div>
+        <div><strong>RAM:</strong> 128 MB minimum, 256 MB recommended</div>
+        <div><strong>Port:</strong> 3000 (default, configurable)</div>
+      </div>
+      <p class="text-xs mt-3" style="color: var(--muted);">No external dependencies. Single binary includes everything.</p>
+    </div>
+  </div>
+</section>
+
 <!-- Install Tabs -->
 <section class="py-20 md:py-28">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -177,6 +193,51 @@
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- Verification -->
+<section class="py-8">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-xl p-8 reveal" style="background: rgba(5,150,82,0.06); border: 1px solid rgba(5,150,82,0.15);">
+      <h3 class="text-xl font-bold mb-4" style="color: var(--heading);">{{ i18n "install_verify_title" | default "You're all set!" }}</h3>
+      <div class="terminal-block mb-6">
+        <div class="terminal-bar">
+          <span class="terminal-dot" style="background:#ff5f57;"></span>
+          <span class="terminal-dot" style="background:#febc2e;"></span>
+          <span class="terminal-dot" style="background:#28c840;"></span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">docplatform version</span></div>
+          <div><span class="success">DocPlatform v0.5.2</span></div>
+          <div class="mt-1"><span class="prompt">$</span> <span class="cmd">docplatform serve</span></div>
+          <div><span class="success">Server running at http://localhost:3000</span></div>
+        </div>
+      </div>
+      <h4 class="text-base font-bold mb-3" style="color: var(--heading);">What's Next</h4>
+      <div class="space-y-2">
+        <a href="/docs/getting-started/quickstart/" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Quick Start Guide</a>
+        <a href="/docs/getting-started/first-workspace/" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Create Your First Workspace</a>
+        <a href="/docs/guides/git-integration/" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Connect a Git Repository</a>
+        <a href="/mcp/" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Set Up MCP for AI Agents</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Troubleshooting -->
+<section class="py-8">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-xl p-6 reveal" style="background: var(--light);">
+      <h3 class="text-lg font-bold mb-4" style="color: var(--heading);">{{ i18n "install_trouble_title" | default "Troubleshooting" }}</h3>
+      <div class="space-y-3 text-sm" style="color: var(--body);">
+        <div><strong style="color: var(--heading);">Permission denied</strong> — Run with sudo: <code class="text-xs px-1.5 py-0.5 rounded" style="background: rgba(29,127,194,0.08);">sudo curl -fsSL https://valoryx.org/install.sh | sh</code></div>
+        <div><strong style="color: var(--heading);">Port 3000 in use</strong> — Use a different port: <code class="text-xs px-1.5 py-0.5 rounded" style="background: rgba(29,127,194,0.08);">docplatform serve --port 8080</code></div>
+        <div><strong style="color: var(--heading);">Wrong binary</strong> — Check your OS/arch: <code class="text-xs px-1.5 py-0.5 rounded" style="background: rgba(29,127,194,0.08);">uname -sm</code></div>
+        <div><strong style="color: var(--heading);">Behind a proxy</strong> — Set <code class="text-xs px-1.5 py-0.5 rounded" style="background: rgba(29,127,194,0.08);">HTTP_PROXY</code> and <code class="text-xs px-1.5 py-0.5 rounded" style="background: rgba(29,127,194,0.08);">HTTPS_PROXY</code> before running the installer</div>
+      </div>
+      <p class="text-xs mt-4" style="color: var(--muted);">Still stuck? <a href="https://github.com/Valoryx-org/releases/issues" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600;">Open an issue on GitHub</a></p>
+    </div>
   </div>
 </section>
 

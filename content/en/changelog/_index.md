@@ -1,5 +1,5 @@
 ---
 title: "Changelog"
-description: "Valoryx release notes and changelog. Track every feature, improvement, and fix across versions."
+description: "Valoryx release history. New features, improvements, and bug fixes for every version."
 layout: "list"
 ---

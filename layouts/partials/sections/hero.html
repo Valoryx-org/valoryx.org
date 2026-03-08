@@ -21,10 +21,31 @@
       {{ i18n "hero_subtitle" }}
     </p>
 
-    <!-- CTA -->
-    <div class="flex justify-center mb-16 reveal">
-      <a href="{{ $homeURL }}#download" class="btn-glow inline-block text-white px-8 py-3.5 rounded-lg text-base font-bold no-underline" style="background: var(--accent); transition: background 0.3s ease, transform 0.2s ease;">
-        {{ i18n "hero_cta" }} <i class="bi bi-arrow-right ml-2"></i>
+    <!-- Dual-Path CTA -->
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16 reveal">
+      <!-- Self-Hosted -->
+      <a href="{{ $homeURL }}#download"
+         class="btn-glow inline-flex items-center gap-3 text-white px-8 py-4 rounded-lg text-base font-bold no-underline group"
+         style="background: var(--accent); transition: background 0.3s ease, transform 0.2s ease;">
+        <i class="bi bi-download text-lg"></i>
+        <span class="text-left">
+          <span class="block text-[15px] font-bold">{{ i18n "hero_cta_selfhosted" }}</span>
+          <span class="block text-[11px] font-normal opacity-80">{{ i18n "hero_cta_selfhosted_sub" }}</span>
+        </span>
+        <i class="bi bi-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
+      </a>
+      <!-- Cloud -->
+      <a href="https://app.valoryx.dev/"
+         class="inline-flex items-center gap-3 px-8 py-4 rounded-lg text-base font-bold no-underline border-2 group"
+         style="color: var(--heading); border-color: var(--accent); transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;"
+         onmouseover="this.style.background='var(--accent)';this.style.color='#fff';this.style.borderColor='var(--accent)'"
+         onmouseout="this.style.background='transparent';this.style.color='var(--heading)';this.style.borderColor='var(--accent)'">
+        <i class="bi bi-cloud text-lg"></i>
+        <span class="text-left">
+          <span class="block text-[15px] font-bold">{{ i18n "hero_cta_cloud" }}</span>
+          <span class="block text-[11px] font-normal opacity-70">{{ i18n "hero_cta_cloud_sub" }}</span>
+        </span>
+        <i class="bi bi-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
       </a>
     </div>
 
@@ -32,25 +53,25 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <div class="icon-box reveal reveal-delay-1">
         <div class="icon"><i class="bi bi-arrow-repeat"></i></div>
-        <h4><a href="{{ absLangURL "docs/guides/git-integration/" }}">{{ i18n "hero_box1_title" }}</a></h4>
+        <h3 class="text-lg font-bold" style="color: var(--heading);"><a href="{{ absLangURL "docs/guides/git-integration/" }}">{{ i18n "hero_box1_title" }}</a></h3>
         <p>{{ i18n "hero_box1_text" }}</p>
         <a href="{{ absLangURL "docs/guides/git-integration/" }}" class="inline-flex items-center gap-1 mt-3 text-xs font-semibold no-underline" style="color: var(--accent);">{{ i18n "hero_learn_more" }} <i class="bi bi-arrow-right text-[10px]"></i></a>
       </div>
       <div class="icon-box reveal reveal-delay-2">
         <div class="icon"><i class="bi bi-pencil-square"></i></div>
-        <h4><a href="{{ absLangURL "docs/guides/editor/" }}">{{ i18n "hero_box2_title" }}</a></h4>
+        <h3 class="text-lg font-bold" style="color: var(--heading);"><a href="{{ absLangURL "docs/guides/editor/" }}">{{ i18n "hero_box2_title" }}</a></h3>
         <p>{{ i18n "hero_box2_text" }}</p>
         <a href="{{ absLangURL "docs/guides/editor/" }}" class="inline-flex items-center gap-1 mt-3 text-xs font-semibold no-underline" style="color: var(--accent);">{{ i18n "hero_learn_more" }} <i class="bi bi-arrow-right text-[10px]"></i></a>
       </div>
       <div class="icon-box reveal reveal-delay-3">
         <div class="icon"><i class="bi bi-layout-text-window-reverse"></i></div>
-        <h4><a href="{{ absLangURL "docs/guides/publishing/" }}">{{ i18n "hero_box3_title" }}</a></h4>
+        <h3 class="text-lg font-bold" style="color: var(--heading);"><a href="{{ absLangURL "docs/guides/publishing/" }}">{{ i18n "hero_box3_title" }}</a></h3>
         <p>{{ i18n "hero_box3_text" }}</p>
         <a href="{{ absLangURL "docs/guides/publishing/" }}" class="inline-flex items-center gap-1 mt-3 text-xs font-semibold no-underline" style="color: var(--accent);">{{ i18n "hero_learn_more" }} <i class="bi bi-arrow-right text-[10px]"></i></a>
       </div>
       <div class="icon-box reveal reveal-delay-4">
         <div class="icon"><i class="bi bi-shield-lock"></i></div>
-        <h4><a href="{{ absLangURL "docs/configuration/permissions/" }}">{{ i18n "hero_box4_title" }}</a></h4>
+        <h3 class="text-lg font-bold" style="color: var(--heading);"><a href="{{ absLangURL "docs/configuration/permissions/" }}">{{ i18n "hero_box4_title" }}</a></h3>
         <p>{{ i18n "hero_box4_text" }}</p>
         <a href="{{ absLangURL "docs/configuration/permissions/" }}" class="inline-flex items-center gap-1 mt-3 text-xs font-semibold no-underline" style="color: var(--accent);">{{ i18n "hero_learn_more" }} <i class="bi bi-arrow-right text-[10px]"></i></a>
       </div>

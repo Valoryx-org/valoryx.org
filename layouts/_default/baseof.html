@@ -2,8 +2,11 @@
 <html lang="{{ .Language.Lang }}">
 {{- partial "head.html" . }}
 <body class="bg-white">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:shadow-lg" style="color: var(--accent);">
+    {{ i18n "skip_to_content" }}
+  </a>
   {{- partial "header.html" . }}
-  <main>
+  <main id="main-content">
     {{- block "main" . }}{{- end }}
   </main>
   {{- partial "footer.html" . }}

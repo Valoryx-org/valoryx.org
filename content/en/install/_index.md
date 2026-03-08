@@ -1,6 +1,6 @@
 ---
 title: "Install"
-description: "Install Valoryx in 30 seconds. One command for Linux, macOS, or Docker. Zero dependencies, single binary."
+description: "Install Valoryx with one command. Single Go binary, zero dependencies. Linux, macOS, Windows, Docker. Running in under 30 seconds."
 layout: "list"
 weight: 1
 ---

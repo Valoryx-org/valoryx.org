@@ -5,6 +5,7 @@ defaultContentLanguage          = "en"
 defaultContentLanguageInSubdir  = false   # EN lives at root /
 enableRobotsTXT                 = true
 enableEmoji                     = false
+disableHugoGeneratorInject      = true
 
 [sitemap]
   changefreq = "weekly"
@@ -55,7 +56,7 @@ enableEmoji                     = false
   noJSConfigInAssets = true
 
 [outputs]
-  home     = ["HTML"]
+  home     = ["HTML", "RSS"]
   page     = ["HTML"]
   taxonomy = ["HTML"]
   term     = ["HTML"]

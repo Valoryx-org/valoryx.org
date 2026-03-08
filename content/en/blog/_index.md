@@ -1,4 +1,4 @@
 ---
 title: "Blog"
-description: "Thoughts on documentation, git workflows, and developer tooling from the Valoryx team."
+description: "Technical blog about documentation engineering, self-hosted tools, git workflows, and AI-powered documentation maintenance."
 ---

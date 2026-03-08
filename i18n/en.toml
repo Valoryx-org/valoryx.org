@@ -43,6 +43,14 @@ other = "Documentation your team writes.<br class=\"hidden sm:block\"> Documenta
 other = "Git-native docs platform with a built-in MCP server. Write, publish, and let AI agents keep your docs accurate. Single binary, zero dependencies."
 [hero_cta]
 other = "Get Started Free"
+[hero_cta_selfhosted]
+other = "Download Free"
+[hero_cta_selfhosted_sub]
+other = "Self-hosted · Single binary · Free forever"
+[hero_cta_cloud]
+other = "Try Cloud Free"
+[hero_cta_cloud_sub]
+other = "We host it · No setup · Start in 30 seconds"
 [hero_box1_title]
 other = "Bidirectional Git Sync"
 [hero_box1_text]
@@ -529,3 +537,31 @@ other = "AI Features Built-In"
 other = "GitBook includes native AI-powered search and writing assistance without requiring external agent configuration."
 [vs_competitor_wins_subtitle]
 other = "We believe in honest comparisons. Here is where the competition has an edge."
+
+# ── Download Deploy Toggle ──────────────────────────────────────────────────
+[download_deploy_selfhosted]
+other = "Self-Hosted"
+[download_deploy_cloud]
+other = "Cloud"
+[download_cloud_title]
+other = "Start with Valoryx Cloud"
+[download_cloud_description]
+other = "No installation needed. Create your workspace in seconds. We handle infrastructure, updates, and backups."
+[download_cloud_cta]
+other = "Open Valoryx Cloud"
+[download_cloud_free_note]
+other = "Free plan: 1 workspace · 3 editors · 50 published pages"
+[download_cloud_pill1]
+other = "No setup required"
+[download_cloud_pill2]
+other = "Automatic updates"
+[download_cloud_pill3]
+other = "Free forever tier"
+[download_cloud_prefer_selfhosted]
+other = "Prefer full control?"
+[download_cloud_switch_selfhosted]
+other = "Download the self-hosted edition"
+
+# ── Accessibility ────────────────────────────────────────────────────────────
+[skip_to_content]
+other = "Skip to content"

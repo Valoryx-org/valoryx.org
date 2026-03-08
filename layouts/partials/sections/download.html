@@ -11,6 +11,21 @@
       <p>{{ i18n "download_subtitle" }}</p>
     </div>
 
+    <!-- Deployment Toggle -->
+    <div class="flex justify-center mb-8 reveal">
+      <div class="inline-flex rounded-xl p-1.5" style="background: #f0f4f8;" role="tablist" aria-label="Deployment type">
+        <button class="deploy-tab px-5 py-2 rounded-lg text-sm font-semibold" data-deploy="selfhosted" onclick="switchDeployTab('selfhosted')" role="tab" style="background: white; color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+          <i class="bi bi-hdd-rack mr-1.5"></i>{{ i18n "download_deploy_selfhosted" | default "Self-Hosted" }}
+        </button>
+        <button class="deploy-tab px-5 py-2 rounded-lg text-sm font-semibold" data-deploy="cloud" onclick="switchDeployTab('cloud')" role="tab" style="background: transparent; color: var(--body); box-shadow: none;">
+          <i class="bi bi-cloud mr-1.5"></i>{{ i18n "download_deploy_cloud" | default "Cloud" }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Self-Hosted Option -->
+    <div id="deploy-selfhosted">
+
     <!-- OS Tabs -->
     <div class="reveal">
       <div class="flex gap-1 p-1.5 rounded-xl mx-auto max-w-md mb-8" style="background: #f0f4f8;" role="tablist" aria-label="{{ i18n "download_tab_label" }}">
@@ -142,5 +157,42 @@
       </div>
     </div>
 
+    </div><!-- /deploy-selfhosted -->
+
+    <!-- Cloud Option -->
+    <div id="deploy-cloud" class="hidden">
+      <div class="max-w-lg mx-auto">
+        <div class="rounded-2xl p-8 text-center" style="background: var(--light); border: 2px solid rgba(29,127,194,0.15);">
+          <div class="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center" style="background: var(--accent); box-shadow: 0 8px 24px rgba(29,127,194,0.2);">
+            <i class="bi bi-cloud-check text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--heading);">{{ i18n "download_cloud_title" | default "Start with Valoryx Cloud" }}</h3>
+          <p class="text-sm mb-6" style="color: var(--muted); line-height: 1.7;">{{ i18n "download_cloud_description" | default "No installation needed. Create your workspace in seconds. We handle infrastructure, updates, and backups." }}</p>
+          <a href="https://app.valoryx.dev/" class="btn-glow inline-flex items-center gap-2 text-white px-8 py-3 rounded-lg text-base font-bold no-underline" style="background: var(--accent);">
+            <i class="bi bi-box-arrow-up-right"></i> {{ i18n "download_cloud_cta" | default "Open Valoryx Cloud" }}
+          </a>
+          <p class="text-xs mt-4" style="color: var(--muted);">{{ i18n "download_cloud_free_note" | default "Free plan: 1 workspace · 3 editors · 50 published pages" }}</p>
+          <div class="flex flex-wrap justify-center gap-3 mt-6">
+            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_cloud_pill1" | default "No setup required" }}</span>
+            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_cloud_pill2" | default "Automatic updates" }}</span>
+            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_cloud_pill3" | default "Free forever tier" }}</span>
+          </div>
+          <p class="text-xs mt-6" style="color: var(--muted);">{{ i18n "download_cloud_prefer_selfhosted" | default "Prefer full control?" }} <a href="#" onclick="switchDeployTab('selfhosted');return false;" style="color: var(--accent); font-weight: 600;">{{ i18n "download_cloud_switch_selfhosted" | default "Download the self-hosted edition" }}</a></p>
+        </div>
+      </div>
+    </div>
+
   </div>
+<script>
+function switchDeployTab(target) {
+  document.querySelectorAll('.deploy-tab').forEach(function(btn) {
+    var isActive = btn.dataset.deploy === target;
+    btn.style.background = isActive ? 'white' : 'transparent';
+    btn.style.color = isActive ? 'var(--accent)' : 'var(--body)';
+    btn.style.boxShadow = isActive ? '0 1px 3px rgba(0,0,0,0.1)' : 'none';
+  });
+  document.getElementById('deploy-selfhosted').classList.toggle('hidden', target === 'cloud');
+  document.getElementById('deploy-cloud').classList.toggle('hidden', target !== 'cloud');
+}
+</script>
 </section>
