@@ -9,7 +9,7 @@
 - Templates: https://valoryx.org/templates/
 - MCP Server: https://valoryx.org/mcp/
 - Install: https://valoryx.org/install/
-- Cloud App: https://app.valoryx.org/
+- Cloud App: https://app.valoryx.dev/
 - GitHub: https://github.com/Valoryx-org/docplatform
 
 ## Quick Start
