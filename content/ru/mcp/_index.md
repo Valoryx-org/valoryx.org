@@ -1,5 +1,5 @@
 ---
-title: "MCP Integration"
-description: "Connect your documentation to Claude, Cursor, VS Code, and any MCP client. 13 AI tools for reading, writing, searching, and maintaining your docs."
+title: "Интеграция MCP"
+description: "Встроенный MCP-сервер с 13 инструментами для Claude, Cursor и VS Code. Позвольте AI-агентам читать, писать, искать и валидировать вашу документацию автоматически."
 layout: "list"
 ---

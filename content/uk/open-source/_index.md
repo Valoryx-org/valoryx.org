@@ -1,5 +1,5 @@
 ---
-title: "Community Edition"
-description: "Valoryx Community Edition — free, self-hosted documentation platform with git sync, WYSIWYG editor, and published docs. No license key required."
+title: "Версія Community"
+description: "Valoryx Community Edition безкоштовна назавжди. Розгортайте документацію самостійно з 5 редакторами, 3 робочими просторами та всіма функціями включно."
 layout: "list"
 ---

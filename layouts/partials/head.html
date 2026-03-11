@@ -135,8 +135,26 @@
   </script>
   {{ end }}
 
-  <!-- FAQPage JSON-LD -->
-  {{ if .Params.faq }}
+  <!-- FAQPage JSON-LD — homepage uses i18n keys; other pages use .Params.faq -->
+  {{ if .IsHome }}
+  {{ $faq1q := i18n "faq1_q" }}
+  {{ if $faq1q }}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": {{ $faq1q | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq1_a" | jsonify }} } },
+      { "@type": "Question", "name": {{ i18n "faq2_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq2_a" | jsonify }} } },
+      { "@type": "Question", "name": {{ i18n "faq3_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq3_a" | jsonify }} } },
+      { "@type": "Question", "name": {{ i18n "faq4_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq4_a" | jsonify }} } },
+      { "@type": "Question", "name": {{ i18n "faq5_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq5_a" | jsonify }} } },
+      { "@type": "Question", "name": {{ i18n "faq6_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq6_a" | jsonify }} } }
+    ]
+  }
+  </script>
+  {{ end }}
+  {{ else if .Params.faq }}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

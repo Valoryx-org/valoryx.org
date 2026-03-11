@@ -142,8 +142,8 @@
           </div>
         </div>
         <div class="flex flex-wrap justify-center gap-3 mt-5">
-          <a href="https://github.com/Valoryx-org/docplatform/pkgs/container/docplatform" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
-            <i class="bi bi-box-seam"></i> View on GHCR
+          <a href="https://github.com/Valoryx-org/releases" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+            <i class="bi bi-github"></i> View Releases
           </a>
         </div>
       </div>
@@ -177,7 +177,7 @@
             <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_cloud_pill2" | default "Automatic updates" }}</span>
             <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_cloud_pill3" | default "Free forever tier" }}</span>
           </div>
-          <p class="text-xs mt-6" style="color: var(--muted);">{{ i18n "download_cloud_prefer_selfhosted" | default "Prefer full control?" }} <a href="#" onclick="switchDeployTab('selfhosted');return false;" style="color: var(--accent); font-weight: 600;">{{ i18n "download_cloud_switch_selfhosted" | default "Download the self-hosted edition" }}</a></p>
+          <p class="text-xs mt-6" style="color: var(--muted);">{{ i18n "download_cloud_prefer_selfhosted" | default "Prefer full control?" }} <a href="#download" onclick="switchDeployTab('selfhosted');return false;" style="color: var(--accent); font-weight: 600;">{{ i18n "download_cloud_switch_selfhosted" | default "Download the self-hosted edition" }}</a></p>
         </div>
       </div>
     </div>

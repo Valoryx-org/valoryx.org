@@ -33,7 +33,7 @@ other = "Закрыть меню"
 other = "Наверх"
 
 [hero_badge]
-other = "Self-Hosted · Git-Native · Free Forever"
+other = "Self-Hosted · Git-Native · Бесплатно навсегда"
 [hero_title]
 other = "Документация,<br class=\"hidden sm:block\"> живущая в git"
 [hero_subtitle]

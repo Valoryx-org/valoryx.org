@@ -56,7 +56,8 @@ disableHugoGeneratorInject      = true
   noJSConfigInAssets = true
 
 [outputs]
-  home     = ["HTML", "RSS"]
+  home     = ["HTML", "RSS", "Sitemap"]
+  section  = ["HTML", "RSS"]
   page     = ["HTML"]
   taxonomy = ["HTML"]
   term     = ["HTML"]

@@ -1,6 +1,6 @@
 ---
-title: "Valoryx vs GitBook — A Fair Comparison"
-description: "How Valoryx compares to GitBook for developer documentation. Git-native architecture, self-hosted deployment, and MCP integration vs mature cloud ecosystem."
+title: "Valoryx vs GitBook — Comparaison équitable"
+description: "Comment Valoryx se compare à GitBook pour la documentation développeur. Architecture native git, déploiement auto-hébergé et intégration MCP face à un écosystème cloud mature."
 layout: single
 competitor: "GitBook"
 ---

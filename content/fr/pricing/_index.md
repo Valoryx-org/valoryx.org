@@ -1,5 +1,5 @@
 ---
-title: "Pricing"
-description: "Simple, transparent pricing for Valoryx documentation platform. Free Community Edition for self-hosted. Cloud plans starting at $29/mo."
+title: "Tarifs"
+description: "Tarification simple et transparente pour la plateforme de documentation Valoryx. Édition Communautaire gratuite en auto-hébergement. Offres cloud à partir de 29 $/mois."
 layout: "list"
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Security"
-description: "Valoryx security practices. Self-hosted, encrypted, WebAuthn authentication, signed binaries, and responsible vulnerability disclosure."
+title: "Sécurité"
+description: "Pratiques de sécurité Valoryx. Auto-hébergé, chiffré, authentification WebAuthn, binaires signés et divulgation responsable des vulnérabilités."
 layout: "list"
 ---

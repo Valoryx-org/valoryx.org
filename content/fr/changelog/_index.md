@@ -1,5 +1,5 @@
 ---
-title: "Changelog"
-description: "Valoryx release notes and changelog. Track every feature, improvement, and fix across versions."
+title: "Journal des modifications"
+description: "Notes de version et journal des modifications Valoryx. Suivez chaque fonctionnalité, amélioration et correctif à travers les versions."
 layout: "list"
 ---

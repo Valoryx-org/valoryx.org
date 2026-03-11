@@ -1,5 +1,5 @@
 ---
 title: "Valoryx vs Alternatives"
-description: "See how Valoryx compares to other documentation platforms."
+description: "Découvrez comment Valoryx se compare aux autres plateformes de documentation."
 layout: "list"
 ---

@@ -1,0 +1,24 @@
+{{ define "main" }}
+<section class="py-28 text-center">
+  <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <span class="text-8xl font-extrabold" style="color: var(--accent); font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.04em;">404</span>
+    </div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold mb-4" style="color: var(--heading);">
+      {{ i18n "404_title" | default "Page not found" }}
+    </h1>
+    <p class="text-base mb-8" style="color: var(--muted); line-height: 1.7;">
+      {{ i18n "404_text" | default "The page you're looking for doesn't exist or has been moved." }}
+    </p>
+    <div class="flex flex-wrap justify-center gap-3">
+      {{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
+      <a href="{{ $homeURL }}" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
+        <i class="bi bi-house"></i> {{ i18n "404_home" | default "Back to Home" }}
+      </a>
+      <a href="{{ $homeURL }}docs/" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+        <i class="bi bi-book"></i> {{ i18n "404_docs" | default "Documentation" }}
+      </a>
+    </div>
+  </div>
+</section>
+{{ end }}

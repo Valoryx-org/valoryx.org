@@ -1,5 +1,5 @@
 ---
-title: "Documentation Templates — Valoryx"
-description: "Start with a proven documentation structure. API docs, knowledge bases, changelogs, and more — all git-native and self-hosted."
+title: "Dokumentationsvorlagen — Valoryx"
+description: "6 sofort einsetzbare Dokumentationsvorlagen: API-Docs, Wissensdatenbank, Open Source, Changelog, KI-gepflegt und Compliance. Git-nativ, kostenlos."
 layout: list
 ---

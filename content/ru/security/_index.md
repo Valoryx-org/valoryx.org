@@ -1,5 +1,5 @@
 ---
-title: "Security"
-description: "Valoryx security practices. Self-hosted, encrypted, WebAuthn authentication, signed binaries, and responsible vulnerability disclosure."
+title: "Безопасность"
+description: "Платформа документации с приоритетом безопасности. TLS, RBAC, WebAuthn, подписанные бинарные файлы и политика ответственного раскрытия уязвимостей."
 layout: "list"
 ---

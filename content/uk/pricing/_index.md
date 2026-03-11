@@ -1,5 +1,5 @@
 ---
-title: "Pricing"
-description: "Simple, transparent pricing for Valoryx documentation platform. Free Community Edition for self-hosted. Cloud plans starting at $29/mo."
+title: "Ціни"
+description: "Безкоштовно назавжди для 5 редакторів. Team $29/міс, Business $79/міс. Самостійне розгортання або хмара. Без прив'язки до постачальника — ваша документація залишається в git."
 layout: "list"
 ---

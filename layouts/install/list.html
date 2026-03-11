@@ -204,8 +204,8 @@
             <a href="{{ $gh }}/releases/latest" target="_blank" rel="noopener" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
               <i class="bi bi-download"></i> {{ i18n "install_manual_btn" | default "Browse Releases" }}
             </a>
-            <a href="https://github.com/Valoryx-org/docplatform/pkgs/container/docplatform" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
-              <i class="bi bi-box-seam"></i> {{ i18n "install_manual_docker" | default "Docker Registry" }}
+            <a href="https://github.com/Valoryx-org/releases" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
+              <i class="bi bi-github"></i> {{ i18n "install_manual_docker" | default "View Releases" }}
             </a>
           </div>
         </div>
@@ -267,10 +267,10 @@
       </div>
       <h4 class="text-base font-bold mb-3" style="color: var(--heading);">What's Next</h4>
       <div class="space-y-2">
-        <a href="/docs/getting-started/quickstart/" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Quick Start Guide</a>
-        <a href="/docs/getting-started/first-workspace/" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Create Your First Workspace</a>
-        <a href="/docs/guides/git-integration/" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Connect a Git Repository</a>
-        <a href="/mcp/" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Set Up MCP for AI Agents</a>
+        <a href="{{ "docs/getting-started/quickstart/" | relLangURL }}" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Quick Start Guide</a>
+        <a href="{{ "docs/getting-started/first-workspace/" | relLangURL }}" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Create Your First Workspace</a>
+        <a href="{{ "docs/guides/git-integration/" | relLangURL }}" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Connect a Git Repository</a>
+        <a href="{{ "mcp/" | relLangURL }}" class="block text-sm font-semibold no-underline" style="color: var(--accent);"><i class="bi bi-arrow-right mr-1"></i> Set Up MCP for AI Agents</a>
       </div>
     </div>
   </div>

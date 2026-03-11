@@ -1,5 +1,5 @@
 ---
-title: "Community Edition"
-description: "Valoryx Community Edition — free, self-hosted documentation platform with git sync, WYSIWYG editor, and published docs. No license key required."
+title: "Édition Communautaire"
+description: "Valoryx Édition Communautaire — plateforme de documentation gratuite et auto-hébergée avec synchronisation git, éditeur WYSIWYG et documentation publiée. Aucune clé de licence requise."
 layout: "list"
 ---

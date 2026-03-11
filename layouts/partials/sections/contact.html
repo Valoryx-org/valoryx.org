@@ -9,7 +9,7 @@
 
     <form class="contact-form space-y-5 reveal" onsubmit="handleSubmit(event)" data-webhook="{{ .Site.Params.n8nWebhook }}">
       <!-- Honeypot — hidden from real users, bots fill it -->
-      <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true">
+      <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true" aria-label="Do not fill this field">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <label for="contact-name" class="sr-only">{{ i18n "contact_name_ph" }}</label>
         <input type="text" id="contact-name" name="name" placeholder="{{ i18n "contact_name_ph" }}" required autocomplete="name">
