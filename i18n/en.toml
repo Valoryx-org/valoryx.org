@@ -589,3 +589,591 @@ other = "Got it"
 # ── Accessibility ────────────────────────────────────────────────────────────
 [skip_to_content]
 other = "Skip to content"
+
+# ── 404 Page ─────────────────────────────────────────────────────────────────
+[404_title]
+other = "Page not found"
+[404_text]
+other = "The page you are looking for does not exist or has been moved."
+[404_home]
+other = "Back to Home"
+[404_docs]
+other = "Documentation"
+
+# ── Changelog ────────────────────────────────────────────────────────────────
+[changelog_badge]
+other = "Release Notes"
+[changelog_hero_title]
+other = "Changelog"
+[changelog_hero_subtitle]
+other = "Track every improvement, feature, and fix across Valoryx releases."
+[changelog_read_more]
+other = "View release details"
+[changelog_empty]
+other = "No releases yet."
+[changelog_cta_title]
+other = "Stay up to date"
+[changelog_cta_text]
+other = "Get the latest version of Valoryx and enjoy new features as they ship."
+[changelog_cta_btn_install]
+other = "Install Latest"
+[changelog_cta_btn_github]
+other = "GitHub Releases"
+[changelog_back]
+other = "All Releases"
+[changelog_view_github]
+other = "View on GitHub"
+
+# ── Install Page ─────────────────────────────────────────────────────────────
+[install_badge]
+other = "Quick Start"
+[install_hero_title]
+other = "Install Valoryx in 30 Seconds"
+[install_hero_subtitle]
+other = "One command. No dependencies. Works on Linux, macOS, Windows, and Docker."
+[install_reqs_title]
+other = "System Requirements"
+[install_choose_method]
+other = "Choose Your Method"
+[install_choose_subtitle]
+other = "Pick the installation method that fits your workflow."
+[install_tab_label]
+other = "Installation method"
+[install_tab_shell]
+other = "Linux / macOS"
+[install_tab_manual]
+other = "Manual"
+[install_shell_comment]
+other = "Auto-detects OS and architecture (amd64 / arm64)"
+[install_shell_installed]
+other = "Installed to /usr/local/bin/docplatform"
+[install_quickstart_title]
+other = "Quick Start"
+[install_quickstart_comment1]
+other = "Start the server"
+[install_quickstart_running]
+other = "Open http://localhost:3000"
+[install_quickstart_comment2]
+other = "Initialize a workspace with a git repo"
+[install_win_comment1]
+other = "Download the latest Windows binary"
+[install_win_comment2]
+other = "Optional: move to a directory in your PATH"
+[install_win_btn_download]
+other = "Download .exe (amd64)"
+[install_docker_comment]
+other = "Pull and run with persistent data"
+[install_docker_running]
+other = "Running at http://localhost:3000"
+[install_compose_title]
+other = "Docker Compose"
+[install_manual_title]
+other = "Download from GitHub Releases"
+[install_manual_text]
+other = "Pre-built binaries available for Linux, macOS, and Windows across amd64 and arm64 architectures."
+[install_manual_btn]
+other = "Browse Releases"
+[install_manual_docker]
+other = "View Releases"
+[install_manual_binary]
+other = "Binary"
+[install_pill_no_deps]
+other = "Zero Dependencies"
+[install_pill_single]
+other = "Single Binary"
+[install_pill_free]
+other = "Free Forever"
+[install_pill_signed]
+other = "Signed and Verified"
+[install_verify_title]
+other = "You are all set!"
+[install_trouble_title]
+other = "Troubleshooting"
+[install_cta_title]
+other = "Need a managed solution?"
+[install_cta_text]
+other = "Valoryx Cloud handles hosting, backups, and updates so your team can focus on writing."
+[install_cta_btn_contact]
+other = "Contact Us"
+[install_cta_btn_docs]
+other = "Read the Docs"
+
+# ── MCP Page ─────────────────────────────────────────────────────────────────
+[mcp_badge]
+other = "AI-Native Documentation"
+[mcp_hero_title]
+other = "Connect your docs to AI"
+[mcp_hero_subtitle]
+other = "Valoryx includes a built-in MCP server. Connect to Claude, Cursor, VS Code, and any MCP client. 13 tools for reading, writing, searching, and maintaining documentation."
+[mcp_what_title]
+other = "What is MCP?"
+[mcp_what_text]
+other = "The Model Context Protocol (MCP) is an open standard that lets AI assistants interact with external tools. Valoryx MCP server gives AI agents direct access to your documentation."
+[mcp_learn_protocol]
+other = "Learn about MCP"
+[mcp_local_title]
+other = "Local (stdio)"
+[mcp_available]
+other = "Available now"
+[mcp_local_desc]
+other = "Runs alongside the binary on your machine. Zero network overhead. Works with self-hosted and cloud installations."
+[mcp_cloud_title]
+other = "Cloud (remote HTTP)"
+[mcp_coming_soon]
+other = "Coming in Phase 1.5"
+[mcp_cloud_desc]
+other = "No binary needed. Connect via HTTPS with your API key. For cloud users on Team and Business plans."
+[mcp_setup_title]
+other = "Quick Setup"
+[mcp_cc_desc]
+other = "Add to your project .mcp.json:"
+[mcp_cd_desc]
+other = "Add to Claude Desktop settings (Settings, Developer, MCP Servers):"
+[mcp_cursor_desc]
+other = "Add to .cursor/mcp.json in your project:"
+[mcp_tools_title]
+other = "13 Tools"
+[mcp_tools_subtitle]
+other = "Everything your AI assistant needs to manage documentation"
+[mcp_cat_content]
+other = "Content (6 tools)"
+[mcp_tool_list]
+other = "List all pages in workspace"
+[mcp_tool_read]
+other = "Read page content and metadata"
+[mcp_tool_write]
+other = "Create a new page"
+[mcp_tool_update]
+other = "Update with conflict detection"
+[mcp_tool_delete]
+other = "Soft-delete a page"
+[mcp_tool_move]
+other = "Move/rename (auto-updates wikilinks)"
+[mcp_cat_discovery]
+other = "Discovery (4 tools)"
+[mcp_tool_search]
+other = "Full-text search across all pages"
+[mcp_tool_context]
+other = "RAG context: page + parent + siblings + linked"
+[mcp_tool_workspaces]
+other = "List accessible workspaces"
+[mcp_tool_tree]
+other = "Full page tree hierarchy"
+[mcp_cat_quality]
+other = "Quality (1 tool)"
+[mcp_tool_validate]
+other = "Scan for broken wikilinks"
+[mcp_cat_settings]
+other = "Settings (2 tools)"
+[mcp_tool_gettheme]
+other = "Get published site theme"
+[mcp_tool_settheme]
+other = "Update published site theme"
+[mcp_demo_title]
+other = "See It in Action"
+[mcp_demo_subtitle]
+other = "A real AI session updating documentation"
+[mcp_context_title]
+other = "Context Graph"
+[mcp_context_subtitle]
+other = "When your AI reads a page, it gets the full picture"
+[mcp_context_note]
+other = "No other documentation platform provides this level of context to AI agents."
+[mcp_security_title]
+other = "Security"
+[mcp_sec1_title]
+other = "API Key Auth"
+[mcp_sec1_text]
+other = "Scoped per workspace. SHA-256 hashed with pepper."
+[mcp_sec2_title]
+other = "Conflict Detection"
+[mcp_sec2_text]
+other = "Hash-based optimistic concurrency prevents data loss."
+[mcp_sec3_title]
+other = "Audit Trail"
+[mcp_sec3_text]
+other = "Every mutation logged with user, timestamp, and operation."
+[mcp_sec4_title]
+other = "Git Sync"
+[mcp_sec4_text]
+other = "Every MCP write becomes a git commit. Full history."
+[mcp_trouble_title]
+other = "Troubleshooting"
+[mcp_trouble_issue]
+other = "Issue"
+[mcp_trouble_solution]
+other = "Solution"
+[mcp_ts1]
+other = "Verify slug matches URL in app settings"
+[mcp_ts2]
+other = "Check key has not been rotated; regenerate in Settings, API Keys"
+[mcp_ts3]
+other = "Verify binary is in PATH (which docplatform)"
+[mcp_ts4]
+other = "Fully quit and reopen your MCP client (servers load on startup)"
+[mcp_ts5]
+other = "Ensure docplatform serve is running before starting MCP client"
+[mcp_ts6]
+other = "Re-read with read_page, merge changes, retry update"
+[mcp_cta_title]
+other = "Ready to connect AI to your docs?"
+[mcp_cta_text]
+other = "Get your API key and start using MCP in under a minute."
+[mcp_cta_install]
+other = "Install Valoryx"
+[mcp_cta_docs]
+other = "Read the Guide"
+
+# ── Open Source Page ─────────────────────────────────────────────────────────
+[oss_badge]
+other = "Free Forever"
+[oss_hero_title]
+other = "Free Documentation Platform"
+[oss_hero_subtitle]
+other = "Valoryx Community Edition is free forever. Self-host your documentation with full git sync, WYSIWYG editing, and published docs."
+[oss_hero_btn_install]
+other = "Install Free"
+[oss_included_title]
+other = "Community Edition"
+[oss_included_subtitle]
+other = "Everything you need to run a documentation platform. No license key required."
+[oss_feature_git_title]
+other = "Bidirectional Git Sync"
+[oss_feature_git_text]
+other = "Push and pull from any Git repository. Changes in the editor sync to Git and vice versa."
+[oss_feature_editor_title]
+other = "WYSIWYG Editor"
+[oss_feature_editor_text]
+other = "Block-based Tiptap editor with slash commands, markdown shortcuts, and drag-and-drop."
+[oss_feature_publish_title]
+other = "Published Docs"
+[oss_feature_publish_text]
+other = "Beautiful documentation sites with 5 built-in themes. Custom domains, versioning, and search included."
+[oss_feature_search_title]
+other = "Full-Text Search"
+[oss_feature_search_text]
+other = "Bleve-powered search engine indexes all your content. Instant results with relevance ranking."
+[oss_feature_rbac_title]
+other = "Role-Based Access"
+[oss_feature_rbac_text]
+other = "6 roles from Viewer to Owner. Per-workspace permissions. Up to 5 editors and 3 workspaces."
+[oss_feature_cli_title]
+other = "CLI and REST API"
+[oss_feature_cli_text]
+other = "8 CLI commands and 95+ REST API endpoints. Automate everything."
+[oss_download_title]
+other = "Download"
+[oss_download_subtitle]
+other = "Get Valoryx Community Edition in your preferred format."
+[oss_download_binary_title]
+other = "Binary"
+[oss_download_binary_text]
+other = "Pre-built for Linux, macOS, Windows. amd64 and arm64."
+[oss_download_binary_btn]
+other = "Download"
+[oss_download_docker_text]
+other = "Official image on GitHub Container Registry. Multi-arch support."
+[oss_download_docker_btn]
+other = "View Releases"
+[oss_license_title]
+other = "License"
+[oss_license_type]
+other = "Business Source License 1.1"
+[oss_license_converts]
+other = "Converts to Apache 2.0 after 3 years"
+[oss_license_free]
+other = "Free for teams up to 5 editors"
+[oss_license_unlimited]
+other = "Unlimited viewers and pages"
+[oss_license_source]
+other = "Source-available on GitHub"
+[oss_license_modify]
+other = "Modify and self-host freely"
+[oss_contributing_title]
+other = "Community and Support"
+[oss_contributing_text]
+other = "Have a question, found a bug, or want to suggest a feature?"
+[oss_contributing_issues]
+other = "Report a Bug"
+[oss_contributing_issues_text]
+other = "Found a bug? Open an issue."
+[oss_contributing_discuss]
+other = "Discussions"
+[oss_contributing_discuss_text]
+other = "Ask questions, share ideas, and connect with other users."
+[oss_cta_title]
+other = "Need more than Community Edition?"
+[oss_cta_text]
+other = "Valoryx Enterprise adds SSO, advanced analytics, priority support, and unlimited editors."
+[oss_cta_btn_pricing]
+other = "View Pricing"
+[oss_cta_btn_contact]
+other = "Contact Sales"
+
+# ── Pricing Page ─────────────────────────────────────────────────────────────
+[pricing_page_title]
+other = "Simple, transparent pricing"
+[pricing_page_subtitle]
+other = "Start free. Upgrade when your team grows."
+[pricing_perworkspace_title]
+other = "Unlike per-seat pricing, Valoryx charges a flat rate per plan."
+[pricing_perworkspace_desc]
+other = "A 15-person team on Team plan pays $29/mo total. No per-user fees, ever."
+[pricing_cloud]
+other = "Cloud — We host it"
+[pricing_selfhosted]
+other = "Self-Hosted — You host it"
+[pricing_free]
+other = "Free"
+[pricing_persona_free]
+other = "For individuals and small teams getting started"
+[pf_feat1]
+other = "1 Workspace"
+[pf_feat2]
+other = "3 Editors"
+[pf_feat3]
+other = "50 Published Pages"
+[pf_feat4]
+other = "Git Sync"
+[pf_feat5]
+other = "WYSIWYG Editor"
+[pf_feat6]
+other = "Full-Text Search"
+[pf_feat7]
+other = "MCP Server (stdio)"
+[pf_feat8]
+other = "Custom Domains"
+[pf_feat9]
+other = "SSO / SAML"
+[pricing_popular]
+other = "Most Popular"
+[pricing_persona_team]
+other = "For growing teams that need collaboration and publishing"
+[plan_mo]
+other = "mo"
+[pt_feat1]
+other = "3 Workspaces"
+[pt_feat2]
+other = "15 Editors"
+[pt_feat3]
+other = "Unlimited Published Pages"
+[pt_feat4]
+other = "Everything in Free"
+[pt_feat5]
+other = "Custom Domains"
+[pt_feat6]
+other = "Priority Support"
+[pt_feat7]
+other = "MCP Server (stdio)"
+[pt_feat8]
+other = "SSO / SAML"
+[pricing_upgrade]
+other = "Upgrade"
+[pricing_persona_business]
+other = "For organizations that need security, compliance, and scale"
+[pb_feat1]
+other = "10 Workspaces"
+[pb_feat2]
+other = "50 Editors"
+[pb_feat3]
+other = "Unlimited Published Pages"
+[pb_feat4]
+other = "Everything in Team"
+[pb_feat5]
+other = "SSO / SAML"
+[pb_feat6]
+other = "Analytics Dashboard"
+[pb_feat7]
+other = "Audit Logs"
+[pb_feat8]
+other = "MCP Server (stdio)"
+[pricing_community]
+other = "Community Edition"
+[pricing_ce_desc]
+other = "3 Workspaces, 5 Editors, Unlimited Pages, Full feature set"
+[pce_feat1]
+other = "Full editor, git sync, search, publishing"
+[pce_feat2]
+other = "MCP server (13 tools, stdio)"
+[pce_feat3]
+other = "No license key required"
+[pce_feat4]
+other = "You own your data"
+[pce_feat5]
+other = "Your infrastructure"
+[pricing_download]
+other = "Download"
+[pricing_github]
+other = "View on GitHub"
+[pricing_enterprise]
+other = "Need enterprise support?"
+[pricing_contact]
+other = "Contact us"
+[pricing_compare_title]
+other = "Compare Plans"
+[pricing_enterprise_note]
+other = "Need more? "
+[pricing_enterprise_cta]
+other = "Contact us for Enterprise pricing"
+[pricing_faq_title]
+other = "Frequently Asked Questions"
+[pfaq1_q]
+other = "What is the difference between Cloud and Self-Hosted?"
+[pfaq1_a]
+other = "Cloud is hosted by us at app.valoryx.dev. Self-Hosted runs on your infrastructure. Both include the full feature set including MCP server."
+[pfaq2_q]
+other = "Can I migrate between Cloud and Self-Hosted?"
+[pfaq2_a]
+other = "Yes. Since Valoryx is git-native, your content syncs to a git repository. Point the new instance at the same repo."
+[pfaq3_q]
+other = "Do you offer annual billing?"
+[pfaq3_a]
+other = "Coming soon with a 20% discount. Start with monthly billing today."
+[pfaq4_q]
+other = "Is there a trial period?"
+[pfaq4_a]
+other = "Coming soon. In the meantime, start with the Free tier."
+[pfaq5_q]
+other = "What happens if I exceed my plan limits?"
+[pfaq5_a]
+other = "Existing content remains fully accessible. We never lock your data. Upgrade instantly or adjust your usage."
+[pfaq6_q]
+other = "What payment methods do you accept?"
+[pfaq6_a]
+other = "All major credit and debit cards via Stripe. Invoice billing available for Business and Enterprise plans."
+[pfaq7_q]
+other = "Can I upgrade or downgrade at any time?"
+[pfaq7_a]
+other = "Yes. Upgrades take effect immediately. Downgrades activate at the end of your billing period."
+[pfaq8_q]
+other = "What is a workspace?"
+[pfaq8_a]
+other = "A workspace is an independent documentation project with its own pages, git repo, published docs site, and team."
+
+# ── Security Page ────────────────────────────────────────────────────────────
+[security_badge]
+other = "Security First"
+[security_hero_title]
+other = "Security at Valoryx"
+[security_hero_subtitle]
+other = "Your documentation is sensitive. We treat security as a core feature, not an afterthought."
+[security_data_title]
+other = "Data Protection"
+[security_data_subtitle]
+other = "Your data stays on your infrastructure. Always."
+[security_data_selfhosted_title]
+other = "Self-Hosted by Design"
+[security_data_selfhosted_text]
+other = "Valoryx runs on your servers. Documentation never leaves your infrastructure."
+[security_data_encrypted_title]
+other = "Encrypted at Rest"
+[security_data_encrypted_text]
+other = "SQLite database with filesystem-level encryption. Sensitive fields use AES-256-GCM."
+[security_data_transit_title]
+other = "Encrypted in Transit"
+[security_data_transit_text]
+other = "All connections use TLS 1.2+. Git sync over SSH or HTTPS."
+[security_auth_title]
+other = "Authentication"
+[security_auth_subtitle]
+other = "Multiple authentication methods with enterprise-grade session management."
+[security_auth_passkeys_title]
+other = "WebAuthn and Passkeys"
+[security_auth_passkeys_text]
+other = "Passwordless authentication with FIDO2 security keys and platform biometrics."
+[security_auth_rbac_title]
+other = "6-Role RBAC"
+[security_auth_rbac_text]
+other = "Fine-grained role-based access control. Owner, Admin, Editor, Author, Reviewer, Viewer."
+[security_auth_sessions_title]
+other = "Secure Sessions"
+[security_auth_sessions_text]
+other = "HTTP-only cookies, CSRF protection, automatic session expiry."
+[security_infra_title]
+other = "Infrastructure Security"
+[security_infra_subtitle]
+other = "Built with security best practices at every layer."
+[security_infra_binary_title]
+other = "Signed Binaries"
+[security_infra_binary_text]
+other = "All releases signed with Sigstore cosign. SBOM included. Reproducible builds via GoReleaser."
+[security_infra_scanning_title]
+other = "Dependency Scanning"
+[security_infra_scanning_text]
+other = "Automated vulnerability scanning in CI/CD. Go module checksums verified."
+[security_infra_headers_title]
+other = "Security Headers"
+[security_infra_headers_text]
+other = "CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy. A+ rating."
+[security_infra_backup_title]
+other = "Automated Backups"
+[security_infra_backup_text]
+other = "Built-in backup command with configurable retention. Git sync provides additional redundancy."
+[security_mcp_title]
+other = "MCP Server Security"
+[security_mcp_subtitle]
+other = "AI integrations with strict access controls."
+[security_mcp_scoped_title]
+other = "Scoped Permissions"
+[security_mcp_scoped_text]
+other = "MCP tools operate within the same RBAC system."
+[security_mcp_audit_title]
+other = "Audit Logging"
+[security_mcp_audit_text]
+other = "All MCP tool invocations logged with timestamps, user identity, and parameters."
+[security_mcp_local_title]
+other = "Local Transport"
+[security_mcp_local_text]
+other = "MCP server runs as a local process. No data leaves your network."
+[security_disclosure_title]
+other = "Vulnerability Disclosure"
+[security_disclosure_subtitle]
+other = "We take security reports seriously."
+[security_disclosure_report_title]
+other = "Report a Vulnerability"
+[security_disclosure_report_text]
+other = "We aim to acknowledge reports within 24 hours and provide a fix timeline within 72 hours."
+[security_disclosure_advisory]
+other = "GitHub Advisory"
+[security_cta_title]
+other = "Security you can verify"
+[security_cta_text]
+other = "Valoryx is source-available under BSL 1.1. Review the code, check dependencies, run your own scans."
+[security_cta_btn_source]
+other = "Community Edition"
+[security_cta_btn_install]
+other = "Install Now"
+
+# ── VS Comparison Pages (additional) ────────────────────────────────────────
+[vs_hero_title]
+other = "Valoryx vs %s"
+[vs_competitor_wins_title]
+other = "Where %s Wins"
+
+# ── Footer (additional) ─────────────────────────────────────────────────────
+[footer_product]
+other = "Product"
+[footer_mcp]
+other = "MCP Integration"
+[footer_install]
+other = "Install"
+[footer_vs_gitbook]
+other = "vs GitBook"
+[footer_changelog]
+other = "Changelog"
+[footer_community]
+other = "Community"
+[footer_security]
+other = "Security"
+[footer_opensource]
+other = "Community Edition"
+
+# ── Comparison Section (additional) ──────────────────────────────────────────
+[cf_mcp]
+other = "MCP Server (AI agents)"
+[cf_context_graph]
+other = "Context Graph API"
+
+# ── Stats Section (additional) ───────────────────────────────────────────────
+[stats5_label]
+other = "MCP Tools"
