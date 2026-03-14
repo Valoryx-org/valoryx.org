@@ -57,7 +57,7 @@ disableHugoGeneratorInject      = true
 
 [outputs]
   home     = ["HTML", "RSS", "Sitemap"]
-  section  = ["HTML", "RSS"]
+  section  = ["HTML", "RSS", "Sitemap"]
   page     = ["HTML"]
   taxonomy = ["HTML"]
   term     = ["HTML"]

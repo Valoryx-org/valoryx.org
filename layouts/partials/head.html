@@ -20,7 +20,8 @@
   {{ range .AllTranslations -}}
   <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
   {{ end -}}
-  <link rel="alternate" hreflang="x-default" href="{{ .Site.Home.Permalink }}">
+  {{- $enPage := index (where .AllTranslations "Language.Lang" "en") 0 -}}
+  <link rel="alternate" hreflang="x-default" href="{{ if $enPage }}{{ $enPage.Permalink }}{{ else }}{{ .Permalink }}{{ end }}">
 
   <!-- Open Graph -->
   {{ $ogImage := .Params.ogImage | default "/images/og-default.png" | absURL }}

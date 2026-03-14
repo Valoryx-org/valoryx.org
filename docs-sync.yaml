@@ -52,6 +52,9 @@ weights:
   "guides/collaboration.md": 4
   "guides/publishing.md": 5
   "guides/search.md": 6
+  "guides/ai-features.md": 7
+  "guides/analytics.md": 8
+  "guides/billing.md": 9
 
   # Configuration (section weight = 3)
   "configuration/index.md": 3
