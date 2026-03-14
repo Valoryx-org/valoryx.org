@@ -562,6 +562,30 @@ other = "Prefer full control?"
 [download_cloud_switch_selfhosted]
 other = "Download the self-hosted edition"
 
+# ── Navigation (additional) ──────────────────────────────────────────────────
+[nav_templates]
+other = "Templates"
+
+# ── Features (additional) ───────────────────────────────────────────────────
+[feat7_title]
+other = "MCP Server"
+[feat7_text]
+other = "Built-in Model Context Protocol server with 13 tools. AI agents can read, search, and update your docs programmatically. The most AI-accessible documentation platform."
+
+# ── Pricing (additional) ────────────────────────────────────────────────────
+[pricing_start_free]
+other = "Start Free"
+
+# ── Cookie Consent ──────────────────────────────────────────────────────────
+[cookie_title]
+other = "Cookie Notice"
+[cookie_text]
+other = "We use cookies to improve your experience. No tracking cookies are used."
+[cookie_learn]
+other = "Learn more"
+[cookie_accept]
+other = "Got it"
+
 # ── Accessibility ────────────────────────────────────────────────────────────
 [skip_to_content]
 other = "Skip to content"

@@ -149,7 +149,7 @@ function copyCmd(text, btn) {
   const ua = navigator.userAgent;
   let os = 'linux';
   if (/Win/i.test(ua))   os = 'windows';
-  else if (/Mac/i.test(ua))   os = 'linux';
+  else if (/Mac/i.test(ua))   os = 'macos';
   else if (/Linux/i.test(ua)) os = 'linux';
   switchOsTab(os);
 })();

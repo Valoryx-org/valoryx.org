@@ -544,3 +544,21 @@ other = "Auto-Hébergé, Binaire Unique"
 other = "Votre contenu est du Markdown dans git. Si vous partez, vous emportez tout. Pas de format propriétaire, pas d'étape d'export, pas de données otage."
 [vs_win4_title]
 other = "Pas de Verrouillage Fournisseur"
+
+# ── Navigation (additional) ──────────────────────────────────────────────────
+[nav_templates]
+other = "Modèles"
+[feat7_title]
+other = "Serveur MCP"
+[feat7_text]
+other = "Serveur Model Context Protocol intégré avec 13 outils. Les agents IA peuvent lire, rechercher et mettre à jour votre documentation. La plateforme de documentation la plus accessible à l'IA."
+[pricing_start_free]
+other = "Commencer gratuitement"
+[cookie_title]
+other = "Avis sur les cookies"
+[cookie_text]
+other = "Nous utilisons des cookies pour améliorer votre expérience. Aucun cookie de suivi."
+[cookie_learn]
+other = "En savoir plus"
+[cookie_accept]
+other = "Compris"

@@ -544,3 +544,21 @@ other = "Self-Hosted, Einzelnes Binary"
 other = "Ihr Content ist Markdown in Git. Wenn Sie gehen, nehmen Sie alles mit. Kein proprietäres Format, kein Export-Schritt, keine Datengeiselnahme."
 [vs_win4_title]
 other = "Kein Vendor Lock-In"
+
+# ── Navigation (additional) ──────────────────────────────────────────────────
+[nav_templates]
+other = "Vorlagen"
+[feat7_title]
+other = "MCP-Server"
+[feat7_text]
+other = "Eingebauter Model-Context-Protocol-Server mit 13 Tools. KI-Agenten können Ihre Dokumentation lesen, durchsuchen und aktualisieren. Die KI-freundlichste Dokumentationsplattform."
+[pricing_start_free]
+other = "Kostenlos starten"
+[cookie_title]
+other = "Cookie-Hinweis"
+[cookie_text]
+other = "Wir verwenden Cookies zur Verbesserung Ihrer Erfahrung. Keine Tracking-Cookies."
+[cookie_learn]
+other = "Mehr erfahren"
+[cookie_accept]
+other = "Verstanden"

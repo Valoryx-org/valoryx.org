@@ -544,3 +544,21 @@ other = "Self-Hosted, Один Бинарник"
 other = "Ваш контент — Markdown в git. Если уходите — забираете всё. Без проприетарного формата, без шагов экспорта, без захвата данных."
 [vs_win4_title]
 other = "Без Привязки к Вендору"
+
+# ── Navigation (additional) ──────────────────────────────────────────────────
+[nav_templates]
+other = "Шаблоны"
+[feat7_title]
+other = "MCP-сервер"
+[feat7_text]
+other = "Встроенный сервер Model Context Protocol с 13 инструментами. ИИ-агенты могут читать, искать и обновлять вашу документацию. Самая доступная для ИИ платформа документации."
+[pricing_start_free]
+other = "Начать бесплатно"
+[cookie_title]
+other = "Уведомление о cookies"
+[cookie_text]
+other = "Мы используем cookies для улучшения вашего опыта. Без отслеживающих cookies."
+[cookie_learn]
+other = "Подробнее"
+[cookie_accept]
+other = "Понятно"
