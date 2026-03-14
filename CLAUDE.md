@@ -66,8 +66,7 @@ valoryx-hugo/
 │   └── _headers                 — Cloudflare security + cache headers
 │   └── _redirects               — URL redirects
 ├── BRAND.md                     — Complete design system reference
-├── CLAUDE.md                    — This file
-└── SITE-SPEC.md                 — Page section specifications
+└── CLAUDE.md                    — This file
 ```
 
 ## i18n — 6 Languages
@@ -170,18 +169,6 @@ Hugo binary location: system PATH or `C:/Users/apmin/AppData/Local/Microsoft/Win
 5. **No JS/IP-based redirects** to language — hides content from Googlebot
 6. **Subdirectory i18n** — consolidates SEO authority under one domain
 
-## Domain Strategy
+## Product Context
 
-- **valoryx.org** = Community Edition (free, self-hosted, downloads, docs) — LIVE
-- **valoryx.dev** = Commercial cloud platform (future, not yet live)
-- Community Edition: Free forever, 5 editors, 3 workspaces, no license key
-
-## Product Reference
-
-- **Product:** DocPlatform (branded as Valoryx)
-- **Version:** v0.5.0 (Founders Edition / public beta)
-- **Tech:** Single Go binary, Next.js editor (Tiptap), SQLite, Bleve search, bidirectional git sync
-- **Docker:** `ghcr.io/valoryx-org/docplatform:latest`
-- **Install:** `curl -fsSL https://valoryx.org/install.sh | sh`
-- **Docs repo:** `Valoryx-org/docplatform-docs` (served via DocPlatform git sync)
-- **Releases:** `Valoryx-org/releases` (GitHub Releases for binaries)
+For product decisions, pricing, domain strategy, and competitive positioning, see `C:\Valoryx\.workspace\DECISIONS.md` (private repo, not committed here).
