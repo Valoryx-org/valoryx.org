@@ -1,12 +1,12 @@
 ---
 title: Publishing Docs
-description: Publish your documentation as a beautiful public site with syntax highlighting, SEO support, and optional team-only access.
+description: Publish your documentation as a beautiful site with syntax highlighting, SEO support, and per-workspace access control.
 weight: 5
 ---
 
 # Publishing Docs
 
-DocPlatform can serve your documentation as a public website — complete with a navigation sidebar, syntax highlighting, and SEO metadata. No separate static site generator required.
+DocPlatform can serve your documentation as a website — complete with a navigation sidebar, syntax highlighting, and SEO metadata. No separate static site generator required. By default, published docs are visible only to authenticated workspace members. Admins can opt in to make them fully public.
 
 ## How publishing works
 
@@ -144,25 +144,29 @@ DocPlatform generates SEO metadata automatically from your page frontmatter:
 
 ### Access control
 
-By default, published docs are **public** — no login required. Anyone with the URL can view them.
+By default, published docs require **viewer authentication** — only logged-in workspace members can read them. This protects your documentation from accidental public exposure.
 
-To restrict your entire published site to workspace members only, set `PUBLISH_REQUIRE_AUTH`:
+To make a workspace's published docs fully public (world-readable without login), a workspace admin must explicitly set the visibility to "public" in the workspace settings:
 
-```bash
-# .env
-PUBLISH_REQUIRE_AUTH=true
+```
+PUT /api/v1/workspaces/:id/admin/settings
+{ "visibility": "public" }
 ```
 
-When enabled:
+| Visibility | Who can read | When to use |
+|---|---|---|
+| **authenticated** (default) | Logged-in workspace members only | Internal docs, client portals, team knowledge bases |
+| **public** | Anyone with the URL | Open-source docs, product documentation, public guides |
+
+When visibility is "authenticated":
 
 - Visitors who are not logged in are redirected to `/#/login?next=<url>`
 - After signing in, they are returned to the page they requested
-- Any workspace member (any role) can view — even Viewers
-- Non-members who log in are still redirected away
+- Any workspace member (any role, including Viewer) can read published pages
+- Non-members are redirected away even after logging in
+- Sitemaps, robots.txt, and RSS feeds are also protected
 
-Restart the server for this change to take effect. No rebuild required.
-
-> **Per-page access control** (restricting individual pages to specific roles) is planned for a future release. In v0.5, access control is all-or-nothing at the site level via `PUBLISH_REQUIRE_AUTH`.
+**Server-level override:** The `PUBLISH_REQUIRE_AUTH=true` environment variable forces authentication on **all** published sites, regardless of their per-workspace visibility setting. This is useful for fully private installations where no documentation should ever be public.
 
 ## Built-in components
 
