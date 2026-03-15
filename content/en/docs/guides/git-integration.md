@@ -46,6 +46,41 @@ DocPlatform's bidirectional git sync lets your team work however they prefer. Te
 4. Content Ledger reconciles: filesystem → database → search index
 5. WebSocket broadcasts the update to connected browsers
 
+### How reconciliation works
+
+When DocPlatform pulls new commits from the remote, it runs a full reconciliation to sync the filesystem with the database:
+
+```
+For each .md file on disk:
+  1. Parse frontmatter (extract id, title, tags, etc.)
+  2. Match to existing DB page using three-tier lookup:
+     ├─ Tier 1: Frontmatter ID (strongest — handles moved/renamed files)
+     ├─ Tier 2: File path match (normal case — same path, same page)
+     └─ Tier 3: Content hash match on recently deleted pages (ghost recovery)
+  3. Compute content hash and frontmatter hash
+  4. If no match found → CREATE new DB record (assign new ULID)
+  5. If match found but hashes differ → UPDATE DB record
+  6. If match found and hashes match → SKIP (no change)
+  7. If file has no `id:` in frontmatter → inject one and rewrite the file
+
+For each DB page with no matching file on disk:
+  → Soft-delete (set deleted_at timestamp, page recoverable for 24h)
+
+Important: the reconciler uses the ledger's internal upsert — it does NOT
+go through the HTTP API. This is by design: the filesystem is the source
+of truth during sync, and the API's create-only (409) semantics don't
+apply to reconciliation.
+```
+
+The three-tier matching ensures that:
+- **Renamed files** are detected (tier 1 — frontmatter ID stays the same)
+- **Normal edits** are fast (tier 2 — path hasn't changed)
+- **Deleted-then-recreated files** are recovered (tier 3 — content hash matches a recently deleted page)
+
+### What happens when the workspace directory is missing
+
+If the workspace `docs/` directory is missing or empty when a sync runs (e.g., due to a failed clone, a misconfigured path, or a filesystem error), the reconciler **refuses to delete** any pages and returns an error instead of proceeding. Without this safety check, the reconciler would see zero files on disk and soft-delete every page in the database — a catastrophic outcome for a corrupted or misconfigured workspace. The sync logs the error as `reconcile: workspace directory missing or empty, aborting` and the workspace enters a `sync_error` state visible in the admin dashboard.
+
 ## Setup
 
 ### Connect a remote repository

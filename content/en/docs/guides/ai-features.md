@@ -189,6 +189,28 @@ The MCP server exposes 20 tools organized into four categories:
 | `docplatform_update_frontmatter` | Update page frontmatter fields without changing body content |
 | `docplatform_batch_update` | Update multiple pages in a single transaction |
 
+#### How `write_page` works (smart upsert)
+
+The `write_page` tool provides a single "just write" operation for AI agent convenience, while the underlying HTTP API enforces strict create/update separation:
+
+1. **Page doesn't exist** → creates it via `POST` (new page with auto-generated ID)
+2. **Page already exists** → reads the current content hash, then updates via `PUT` with optimistic locking
+
+This means AI agents never need to check if a page exists before writing — the tool handles it automatically. Under the hood:
+
+```
+write_page("guides/deploy", title="Deploy Guide", body="# Deploy...")
+    │
+    ├─ Page doesn't exist → CreatePage() → 201 Created
+    │
+    └─ Page exists (hash: sha256:abc...)
+         → UpdatePage(lastKnownHash="sha256:abc...") → 200 OK
+```
+
+If you need explicit control, use `update_page` (which requires `lastKnownHash` and fails if the page was modified since you last read it) or check existence first with `read_page`.
+
+**Important:** The HTTP API (`POST /api/v1/content/:workspace/:path`) is strict — it returns `409 Conflict` if the page already exists. The MCP tool abstracts this complexity.
+
 #### Maintain
 
 | Tool | Description |

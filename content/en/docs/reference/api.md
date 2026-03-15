@@ -15,6 +15,61 @@ DocPlatform exposes a RESTful JSON API. Business endpoints live under `/api/v1/`
 /api/*      — infrastructure endpoints (auth, health, git webhook, AI)
 ```
 
+## API Quickstart
+
+### Create a page
+
+```bash
+# 1. Create a new page
+curl -X POST https://app.example.com/api/v1/content/{workspace_id}/guides/deployment \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Deployment Guide",
+    "body": "# Deployment\n\nFollow these steps to deploy DocPlatform.",
+    "tags": ["devops", "getting-started"],
+    "publish": false
+  }'
+# Response: 201 Created
+# If page already exists: 409 Conflict — use PUT to update
+```
+
+### Update a page (read-modify-write)
+
+Updating requires a three-step flow to prevent concurrent edit conflicts:
+
+```bash
+# 1. Read the page to get the current content_hash
+curl https://app.example.com/api/v1/content/{workspace_id}/guides/deployment \
+  -H "Authorization: Bearer {token}"
+# Response includes: "content_hash": "sha256:abc123..."
+
+# 2. Modify the content locally, then PUT with the hash
+curl -X PUT https://app.example.com/api/v1/content/{workspace_id}/guides/deployment \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "body": "# Deployment\n\nUpdated deployment instructions...",
+    "lastKnownHash": "sha256:abc123...",
+    "frontmatter": {
+      "title": "Deployment Guide (v2)"
+    }
+  }'
+# Response: 200 OK with updated page
+
+# If someone else edited the page since you read it:
+# Response: 409 Conflict with current_hash — re-read and retry
+```
+
+### When to use POST vs PUT
+
+| Scenario | Method | What happens |
+|----------|--------|-------------|
+| Creating a brand new page | `POST` | 201 if created, 409 if path already taken |
+| Updating an existing page | `PUT` | 200 if hash matches, 409 if page was modified by someone else |
+| Page might or might not exist (scripts, imports) | `POST`, catch 409, then `PUT` | Safe upsert pattern |
+| AI agent writing via MCP | `write_page` tool | Handles create/update automatically |
+
 ## Authentication
 
 Most endpoints require a JWT access token in the `Authorization` header:
