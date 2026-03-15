@@ -45,7 +45,7 @@ The collapsible frontmatter section at the top of the editor provides form field
 | **Description** | Summary shown in search results and SEO meta tags | No |
 | **Tags** | Categorization labels for filtering and discovery | No |
 | **Published** | Toggle to include/exclude from the public site | No |
-| **Access** | Visibility level: `public`, `workspace`, `restricted` | No |
+| **Access** | Per-operation access rules (read/write/admin by role) | No |
 
 Changes to frontmatter fields update the YAML block in the `.md` file automatically.
 
@@ -119,7 +119,7 @@ Insert tables from the toolbar. Tables support:
 
 ### Code blocks
 
-Insert code blocks with the toolbar or by typing triple backticks (`` ``` ``). Select a language for syntax highlighting — Shiki supports 200+ languages.
+Insert code blocks with the toolbar or by typing triple backticks (`` ``` ``). Select a language for syntax highlighting — Chroma supports 200+ languages.
 
 ```javascript
 // Code blocks with syntax highlighting
@@ -133,7 +133,7 @@ function greet(name) {
 Link to other pages in your workspace using standard Markdown links:
 
 ```markdown
-See the [API Authentication]({{< relref "/docs/reference/api" >}}) guide.
+See the [API Authentication](api/authentication.md) guide.
 ```
 
 DocPlatform validates internal links and the `doctor` command reports broken references.

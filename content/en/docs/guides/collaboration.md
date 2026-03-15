@@ -53,7 +53,7 @@ DocPlatform uses a 6-level role hierarchy. Higher roles inherit all permissions 
 ```
 SuperAdmin
     └── WorkspaceAdmin
-            └── Admin
+            └── SpaceAdmin
                   └── Editor
                         └── Commenter
                               └── Viewer
@@ -64,8 +64,8 @@ SuperAdmin
 | **Viewer** | Workspace | View pages and search |
 | **Commenter** | Workspace | View + leave comments on pages |
 | **Editor** | Workspace | View + comment + create, edit, delete pages |
-| **Admin** | Workspace | Editor + manage members and roles |
-| **WorkspaceAdmin** | Workspace | Admin + manage workspace settings, git config, theme |
+| **SpaceAdmin** | Path-scoped | Editor + manage pages under assigned path patterns |
+| **WorkspaceAdmin** | Workspace | Full workspace management (settings, git, theme, members) |
 | **SuperAdmin** | Platform | Full access to all workspaces + platform settings |
 
 ### Default role for new members
@@ -80,17 +80,18 @@ permissions:
 
 ### Page-level access
 
-Restrict individual pages to specific roles using frontmatter:
+Restrict individual pages to specific roles using frontmatter access rules:
 
 ```yaml
 ---
 title: Internal Runbook
-access: restricted
-allowed_roles: [admin, editor]
+access:
+  read: ["sre-team", "workspace_admin"]
+  write: ["sre-team"]
 ---
 ```
 
-Pages with `access: restricted` are invisible to users without the required role — they won't appear in search results, navigation, or published docs.
+Pages with `access` rules are invisible to users without the required role — they won't appear in search results, navigation, or published docs. Access rules can only **restrict** within a user's role, never grant beyond it.
 
 ## Real-time presence
 
@@ -109,7 +110,7 @@ Presence is powered by WebSocket connections and updates in real time.
 | **Heartbeat interval** | Every 30 seconds |
 | **Eviction timeout** | 90 seconds without heartbeat |
 | **Events** | `presence-join` (first connect), `presence-leave` (timeout or disconnect) |
-| **Buffer** | 256 events per workspace (prevents backpressure) |
+| **Buffer** | 256 events (global broadcast buffer, prevents backpressure) |
 
 The WebSocket connection also delivers real-time content events:
 
@@ -118,9 +119,10 @@ The WebSocket connection also delivers real-time content events:
 | `page-created` | A new page is created (any source) |
 | `page-updated` | A page is modified (any source) |
 | `page-deleted` | A page is deleted |
+| `page-moved` | A page is moved or renamed |
 | `sync-status` | Git sync status changes (synced, ahead, behind, conflict) |
 | `conflict-detected` | A git merge conflict is found |
-| `bulk-sync` | 20+ files synced in one operation (single notification, not per-file) |
+| `bulk-sync` | Multiple files synced in one operation (single notification, not per-file) |
 
 ### Concurrent editing
 
@@ -181,7 +183,7 @@ The `action` field in the audit log uses dot-notation for precise filtering:
 
 ### Retention
 
-Audit logs are stored in SQLite alongside your regular data. They're included in daily backups. Default retention is 1 year (configurable). A weekly cleanup job removes entries older than the retention period.
+Audit logs are stored in SQLite alongside your regular data. They're included in daily backups. Audit logs are retained indefinitely.
 
 ## Email notifications
 

@@ -1,12 +1,12 @@
 ---
 title: Markdown & Components
-description: Write documentation with CommonMark Markdown, YAML frontmatter, and 7 built-in interactive components.
+description: Write documentation with CommonMark Markdown, YAML frontmatter, wikilinks, and 15 built-in interactive components.
 weight: 2
 ---
 
 # Markdown & Components
 
-DocPlatform uses CommonMark-compliant Markdown with YAML frontmatter and 7 custom components for rich, interactive documentation.
+DocPlatform uses CommonMark-compliant Markdown with YAML frontmatter, wikilinks, and 15 custom components for rich, interactive documentation.
 
 ## Markdown basics
 
@@ -58,7 +58,7 @@ Headings automatically generate anchor IDs for deep linking: `## My Section` →
 
 ### Code blocks
 
-Fenced code blocks with language-specific syntax highlighting (200+ languages via Shiki):
+Fenced code blocks with language-specific syntax highlighting (200+ languages via Chroma):
 
 ````markdown
 ```go
@@ -94,7 +94,7 @@ Tables support left, center, and right alignment:
 
 ### Links between pages
 
-Link to other pages in your workspace using relative paths:
+Link to other pages using standard Markdown relative paths:
 
 ```markdown
 See the [Installation guide](../getting-started/installation.md).
@@ -102,6 +102,27 @@ Check the [API reference](../reference/api.md) for endpoint details.
 ```
 
 DocPlatform validates internal links. The `doctor` command reports any broken references.
+
+### Wikilinks
+
+DocPlatform supports **wikilinks** for linking between pages without specifying full paths. Wikilinks use double-bracket syntax:
+
+```markdown
+See [[Getting Started]] for setup instructions.
+Check [[API Authentication|the auth guide]] for token details.
+Link by page ID for rename-proof references: [[01HJK...]]
+```
+
+| Syntax | Description |
+|---|---|
+| `[[Page Title]]` | Link by page title (auto-resolved to path) |
+| `[[Page Title\|display text]]` | Link with custom display text |
+| `[[01HJK...]]` | Link by stable page ID (survives renames) |
+
+**Wikilink features:**
+- **Hover preview** — hovering a wikilink shows a preview popup with the target page's title and description
+- **Auto-repair on rename** — when a page is renamed or moved, all wikilinks pointing to it are automatically updated across the workspace
+- **Broken link detection** — `docplatform doctor` reports wikilinks that point to nonexistent pages
 
 ## Frontmatter
 
@@ -113,8 +134,9 @@ title: Page Title
 description: A brief summary for search results and SEO.
 tags: [guide, getting-started]
 published: true
-access: public
-allowed_roles: []
+access:
+  read: ["engineering", "product"]
+  write: ["engineering"]
 ---
 ```
 
@@ -123,20 +145,26 @@ allowed_roles: []
 | Field | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `title` | string | Yes | — | Page title shown in navigation and headings |
+| `id` | string | No | Auto-generated ULID | Stable page identifier (survives renames, enables ID-based wikilinks) |
 | `description` | string | No | — | Summary for search results, SEO meta tags |
 | `tags` | string[] | No | `[]` | Categories for filtering and search |
 | `published` | boolean | No | `false` | Include in the published documentation site |
-| `access` | string | No | `public` | Visibility: `public`, `workspace`, `restricted` |
-| `allowed_roles` | string[] | No | `[]` | Roles allowed to view (when `access: restricted`) |
+| `status` | string | No | `draft` | Page lifecycle: `draft`, `published`, `archived` |
+| `access` | object | No | — | Per-operation access rules (see [Permissions](../configuration/permissions.md)) |
+| `access.read` | string[] | No | — | Roles that can view this page |
+| `access.write` | string[] | No | — | Roles that can edit this page |
+| `access.admin` | string[] | No | — | Roles/user IDs (`@01HJK...`) that can manage this page |
+
+The `id` field is auto-generated as a ULID when a page is created. On git import, if the `id` is missing, DocPlatform generates one and writes it back on the next sync. This ID enables rename-proof wikilinks and survives database rebuilds.
 
 ## Custom components
 
-DocPlatform includes 7 built-in components that render as rich, interactive elements in both the web editor preview and published docs.
+DocPlatform includes 15 built-in components that render as rich, interactive elements in both the web editor preview and published docs.
 
 Components use a directive syntax:
 
 ```
-:::component-name{attributes}
+:::component-name[attributes]
 Content goes here.
 :::
 ```
@@ -146,24 +174,24 @@ Content goes here.
 Highlight important information with styled callout boxes.
 
 ```markdown
-:::callout{type="info"}
+:::callout[info]
 DocPlatform automatically indexes all content for search.
 :::
 
-:::callout{type="warning"}
+:::callout[warning]
 Changing the workspace slug will break existing published URLs.
 :::
 
-:::callout{type="danger"}
+:::callout[danger]
 Running `rebuild` drops the pages table and re-indexes from the filesystem.
 This is irreversible.
 :::
 
-:::callout{type="tip"}
+:::callout[tip]
 Press Cmd+K to open search from anywhere in the editor.
 :::
 
-:::callout{type="note"}
+:::callout[note]
 This feature is available in Community Edition.
 :::
 ```
@@ -174,7 +202,7 @@ This feature is available in Community Edition.
 
 Standard fenced code blocks are automatically enhanced with:
 
-- **Syntax highlighting** — 200+ languages via Shiki
+- **Syntax highlighting** — 200+ languages via Chroma
 - **Copy button** — one-click copy to clipboard
 - **Language label** — displayed in the top-right corner
 - **Line numbers** — optional, enabled with `showLineNumbers`
@@ -196,17 +224,17 @@ Group related content into switchable tab panels.
 
 ```markdown
 :::tabs
-::tab{label="macOS"}
+::tab[macOS]
 ```bash
 brew install docplatform
 ```
 ::
-::tab{label="Linux"}
+::tab[Linux]
 ```bash
 curl -fsSL https://valoryx.org/install.sh | sh
 ```
 ::
-::tab{label="Docker"}
+::tab[Docker]
 ```bash
 docker pull ghcr.io/valoryx-org/docplatform:latest
 ```
@@ -221,12 +249,12 @@ Tab selection persists across page navigation — if a user selects "Docker", al
 Collapsible sections for supplementary content.
 
 ```markdown
-:::accordion{title="What happens during initialization?"}
+:::accordion[What happens during initialization?]
 The `init` command creates a `.docplatform` directory, initializes the SQLite
 database, generates an RS256 signing key, and optionally clones a git repository.
 :::
 
-:::accordion{title="Can I use an existing database?"}
+:::accordion[Can I use an existing database?]
 No. DocPlatform manages its own SQLite database and does not support connecting
 to external database servers in Community Edition.
 :::
@@ -238,16 +266,16 @@ Grid of linked cards for navigation pages or feature overviews.
 
 ```markdown
 :::cards
-::card{title="Getting Started" link="/getting-started"}
+::card[Getting Started, link="/getting-started"]
 Install and configure DocPlatform in under 10 minutes.
 ::
-::card{title="Git Integration" link="/guides/git-integration"}
+::card[Git Integration, link="/guides/git-integration"]
 Bidirectional sync between the web editor and your git repository.
 ::
-::card{title="Publishing" link="/guides/publishing"}
+::card[Publishing, link="/guides/publishing"]
 Publish beautiful documentation sites with dark mode and SEO.
 ::
-::card{title="Search" link="/guides/search"}
+::card[Search, link="/guides/search"]
 Instant full-text search with permission filtering.
 ::
 :::
@@ -259,16 +287,16 @@ Numbered step-by-step instructions with visual progress indicators.
 
 ```markdown
 :::steps
-::step{title="Download"}
+::step[Download]
 Get the latest binary from GitHub Releases.
 ::
-::step{title="Initialize"}
+::step[Initialize]
 Run `docplatform init` to create your workspace.
 ::
-::step{title="Start the server"}
+::step[Start the server]
 Run `docplatform serve` and open http://localhost:3000.
 ::
-::step{title="Register"}
+::step[Register]
 Create your admin account — the first user becomes SuperAdmin.
 ::
 :::
@@ -279,7 +307,7 @@ Create your admin account — the first user becomes SuperAdmin.
 Document API endpoints with method badges, parameters, and response examples.
 
 ```markdown
-:::api{method="POST" path="/api/v1/auth/login"}
+:::api[POST /api/auth/login]
 Authenticate a user and receive JWT tokens.
 
 **Request body:**
@@ -295,7 +323,7 @@ Authenticate a user and receive JWT tokens.
 {
   "access_token": "eyJhbG...",
   "refresh_token": "eyJhbG...",
-  "expires_in": 900
+  "expires_in": 1800
 }
 ```
 
@@ -303,6 +331,57 @@ Authenticate a user and receive JWT tokens.
 - `401 Unauthorized` — Invalid credentials
 - `429 Too Many Requests` — Rate limit exceeded
 :::
+```
+
+The API Block renders with Scalar-powered method badges and expandable parameter/response sections.
+
+### File tree
+
+Display directory structures with syntax highlighting.
+
+```markdown
+:::filetree
+- .docplatform/
+  - data.db
+  - jwt-key.pem
+  - backups/
+  - search-index/
+  - workspaces/
+    - {workspace-id}/
+      - docs/
+      - assets/
+      - .git/
+:::
+```
+
+### Mermaid diagrams
+
+Render diagrams from text using Mermaid syntax.
+
+````markdown
+```mermaid
+graph TD
+    A[Web Editor] --> B[Content Ledger]
+    C[Git Push] --> B
+    B --> D[Filesystem]
+    B --> E[Database]
+    B --> F[Search Index]
+```
+````
+
+Supports flowcharts, sequence diagrams, class diagrams, state diagrams, and more.
+
+### KaTeX math
+
+Render mathematical notation using LaTeX syntax.
+
+```markdown
+Inline math: $E = mc^2$
+
+Block math:
+$$
+\int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$
 ```
 
 ## Component usage in the editor
@@ -325,9 +404,12 @@ Beyond CommonMark, DocPlatform supports:
 
 | Extension | Syntax | Description |
 |---|---|---|
+| **Wikilinks** | `[[Page Title]]` | Cross-page linking with hover preview and auto-repair |
 | **Task lists** | `- [ ] item` | Interactive checkboxes |
 | **Strikethrough** | `~~text~~` | Struck-through text |
 | **Tables** | GFM tables | With alignment support |
 | **Autolinks** | `https://...` | URLs auto-linked |
 | **Footnotes** | `[^1]` | Reference-style footnotes |
 | **Heading anchors** | Auto-generated | Deep linking to sections |
+| **Mermaid** | ` ```mermaid ` | Inline diagrams from text |
+| **KaTeX** | `$...$` / `$$...$$` | Mathematical notation |

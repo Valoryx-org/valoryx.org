@@ -60,14 +60,18 @@ docplatform init \
   --branch main
 ```
 
-**After initialization** — edit the workspace config:
+**After initialization** — edit the workspace settings. Git configuration is stored in the workspace database record and can be updated via the web UI (**Settings** → **Git**) or the API:
 
-```yaml
-# .docplatform/workspaces/{id}/.docplatform/config.yaml
-git_remote: git@github.com:your-org/docs.git
-git_branch: main
-git_auto_commit: true
-sync_interval: 300
+```bash
+curl -X PUT http://localhost:3000/api/v1/workspaces/{id}/settings \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "git_remote": "git@github.com:your-org/docs.git",
+    "git_branch": "main",
+    "git_auto_commit": true,
+    "sync_interval": 300
+  }'
 ```
 
 Restart the server or trigger a manual sync.
@@ -110,10 +114,9 @@ Commit message format:
 
 ```
 docs: update Getting Started
-
-Edited via DocPlatform web editor
-Author: jane@example.com
 ```
+
+Author: `DocPlatform <docplatform@local>`
 
 Set `git_auto_commit: false` to disable auto-commit. In this mode, the web editor writes to the filesystem but does not create git commits — useful if you want to commit manually or on a schedule.
 
@@ -131,10 +134,12 @@ Lower intervals mean faster sync but more network traffic.
 
 For instant sync, configure a webhook in your repository:
 
+DocPlatform uses a single webhook endpoint that auto-detects the provider (GitHub, GitLab, Bitbucket) from the payload format.
+
 **GitHub:**
 
 1. Go to **Settings** → **Webhooks** → **Add webhook**
-2. Payload URL: `https://your-domain.com/api/v1/webhooks/github`
+2. Payload URL: `https://your-domain.com/api/git/webhook/{workspace-id}`
 3. Content type: `application/json`
 4. Secret: Set `GIT_WEBHOOK_SECRET` environment variable to match
 5. Events: Select **Push events**
@@ -142,14 +147,14 @@ For instant sync, configure a webhook in your repository:
 **GitLab:**
 
 1. Go to **Settings** → **Webhooks**
-2. URL: `https://your-domain.com/api/v1/webhooks/gitlab`
+2. URL: `https://your-domain.com/api/git/webhook/{workspace-id}`
 3. Secret token: Match `GIT_WEBHOOK_SECRET`
 4. Trigger: **Push events**
 
 **Bitbucket:**
 
 1. Go to **Repository settings** → **Webhooks** → **Add webhook**
-2. URL: `https://your-domain.com/api/v1/webhooks/bitbucket`
+2. URL: `https://your-domain.com/api/git/webhook/{workspace-id}`
 3. Triggers: **Repository push**
 
 ### Manual sync
@@ -172,12 +177,13 @@ DocPlatform tracks content hashes (SHA-256) for every page. When pulling remote 
 ### What happens on conflict
 
 1. The save or sync operation returns **HTTP 409 Conflict**
-2. Both versions (local and remote) are preserved
-3. The web UI displays a conflict banner with options:
-   - **Keep local** — discard the remote version
-   - **Keep remote** — discard the local version
-   - **Download both** — get both files for manual merge
-4. A conflict branch (`conflict/{page-slug}-{timestamp}`) is created with the local version
+2. All three versions (ours, theirs, base) are preserved in the conflict directory
+3. The web UI displays a conflict banner with a three-way merge view:
+   - **Ours** — the local version (web editor)
+   - **Theirs** — the remote version (git push)
+   - **Base** — the common ancestor before divergence
+4. The user resolves by choosing or merging content from the three versions
+5. A conflict branch (`conflict/{page-slug}-{timestamp}`) is created with the local version
 
 ### Preventing conflicts
 
@@ -188,13 +194,13 @@ DocPlatform tracks content hashes (SHA-256) for every page. When pulling remote 
 
 ## Batch sync
 
-When a remote push contains more than 20 changed files, DocPlatform switches to batch mode:
+Whenever a remote push contains multiple changed files, DocPlatform uses batch mode:
 
 1. Fetches all changed files in a single diff
 2. Acquires per-path mutexes for all affected paths (sorted to prevent deadlock)
 3. Processes all files in a single database transaction
 4. Invalidates the permission cache once (not per-file)
-5. Emits a single `bulk-sync` WebSocket message with the total changed count
+5. Emits a `bulk-sync` WebSocket event with the total changed count
 
 This prevents notification storms and database overhead when large changes are pushed (e.g., initial repository import or bulk restructuring).
 
@@ -203,11 +209,12 @@ This prevents notification storms and database overhead when large changes are p
 When a conflict is detected, both versions are stored on disk:
 
 ```
-.docplatform/conflicts/
+{DATA_DIR}/conflicts/
 └── {page-id}/
     └── 20250115T103045Z/
         ├── ours.md      # Local version (web editor)
-        └── theirs.md    # Remote version (git push)
+        ├── theirs.md    # Remote version (git push)
+        └── base.md      # Common ancestor version
 ```
 
 Conflicts persist until explicitly resolved via the web UI or API. The `docplatform doctor` command reports unresolved conflicts.
@@ -216,11 +223,11 @@ Conflicts persist until explicitly resolved via the web UI or API. The `docplatf
 
 DocPlatform uses a hybrid git engine that selects the best backend automatically:
 
-| Condition | Engine | Why |
+| Operation | Engine | Notes |
 |---|---|---|
-| Under 5,000 files | **go-git** (in-process) | Fast, no external dependency, pure Go |
-| Over 5,000 files | **Native git CLI** (subprocess) | Better handling of large repos, shallow clones |
-| go-git RSS > 512 MB | **Native git CLI** (fallback) | Memory safety — prevents OOM on large repos |
+| Clone / Pull / Push | **Native git CLI** (subprocess) | Always uses native git for network operations |
+| Stage / Commit / Log / HEAD | **go-git** (in-process) | Pure Go, no subprocess overhead |
+| Status / Diff | **go-git** under 5K files, **Native git CLI** over 5K files | Switches at 5,000 files for performance |
 
 A worker pool of **4 concurrent workers** handles git operations across all workspaces. Each workspace has its own mutex — operations on different workspaces run in parallel, while operations on the same workspace are serialized.
 
@@ -228,11 +235,9 @@ Auto-commit messages use this format:
 
 ```
 docs: update {page-title}
-
-Edited via DocPlatform web editor
-Author: user@example.com
-Committer: DocPlatform <docplatform@local>
 ```
+
+Author: `DocPlatform <docplatform@local>`
 
 ## Working with existing repositories
 

@@ -42,7 +42,7 @@ This creates:
 ```
 .docplatform/
 ├── data.db              # SQLite database
-├── jwt-key.pem          # Auto-generated RS256 signing key
+├── jwt-private.pem      # Auto-generated RS256 signing key
 └── workspaces/
     └── {workspace-id}/
         ├── docs/        # Your documentation lives here
@@ -71,7 +71,7 @@ docplatform serve
 ```
 
 ```
-INFO  Server starting            port=3000 version=v0.5.2
+INFO  Server starting            addr=:3000 version=v0.5.2
 INFO  Database initialized       path=.docplatform/data.db
 INFO  Search index ready         documents=0
 INFO  Workspace loaded           name="My Docs" slug=my-docs
