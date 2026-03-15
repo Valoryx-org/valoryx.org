@@ -341,5 +341,3 @@ If you can't resolve an issue:
 3. Open an issue on GitHub with the diagnostic bundle and relevant log entries
 
 The diagnostic bundle **does not** contain your content, passwords, or API tokens — only structural metadata and configuration (with secrets redacted).
-
-🌸
