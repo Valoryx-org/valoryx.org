@@ -13,3 +13,10 @@ Thumbs.db
 .vscode/
 *.swp
 .wrangler/
+
+# Secrets
+.env
+.env.*
+SECRETS.md
+SECRETS.*
+secrets.*

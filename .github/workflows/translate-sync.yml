@@ -1,0 +1,83 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Auto-Translation Pipeline
+#
+# WHAT IT DOES:
+#   When i18n/en.toml changes on main, this workflow:
+#   1. Detects which English keys changed (via SHA-256 checksums)
+#   2. Translates changed keys to FR, DE, ES, RU, UK using Claude Haiku
+#   3. Updates all 5 target language TOML files
+#   4. Commits and pushes directly to main → Cloudflare Pages auto-deploys
+#
+# English is the single source of truth. All other languages follow.
+#
+# COST: ~$0.001 per sync (Claude Haiku via OpenRouter, ~40 keys per batch)
+# SECRET: OPENROUTER_API_KEY (for translation API)
+# ──────────────────────────────────────────────────────────────────────────────
+
+name: Auto-translate i18n
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "i18n/en.toml"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force retranslate all keys (not just changed)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: translate-sync
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    # Skip if the commit was made by the translation bot itself (prevent loops)
+    if: "!contains(github.event.head_commit.message, 'i18n: auto-translate')"
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run translation sync
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          cd ${{ github.workspace }}
+          ARGS=""
+          if [ "${{ inputs.force }}" = "true" ]; then
+            ARGS="--force"
+          fi
+          python scripts/translate-sync.py $ARGS
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet i18n/ .i18n-checksums.json; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push translations
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add i18n/ .i18n-checksums.json
+          git commit -m "i18n: auto-translate changed English keys to FR/DE/ES/RU/UK"
+          git push origin main
