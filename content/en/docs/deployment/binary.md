@@ -33,6 +33,7 @@ Available platforms:
 | Linux | arm64 | `docplatform-linux-arm64` |
 | macOS | amd64 (Intel) | `docplatform-darwin-amd64` |
 | macOS | arm64 (Apple Silicon) | `docplatform-darwin-arm64` |
+| Windows | amd64 | `docplatform-windows-amd64.exe` |
 
 Archives (with version):
 
@@ -105,7 +106,7 @@ sudo nano /etc/docplatform/.env
 PORT=3000
 DATA_DIR=/var/lib/docplatform
 GIT_SSH_KEY_PATH=/etc/docplatform/deploy_key
-BACKUP_RETENTION_DAYS=30
+BACKUP_RETENTION_DAYS=30  # default is 7
 
 # Optional: SMTP for emails
 # SMTP_HOST=smtp.example.com
@@ -150,7 +151,7 @@ ReadWritePaths=/var/lib/docplatform
 
 # Graceful shutdown
 KillSignal=SIGTERM
-TimeoutStopSec=30
+TimeoutStopSec=20
 
 [Install]
 WantedBy=multi-user.target

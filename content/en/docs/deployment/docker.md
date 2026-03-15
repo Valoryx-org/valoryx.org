@@ -20,26 +20,6 @@ docker run -d \
 
 Open [http://localhost:3000](http://localhost:3000) and register your admin account.
 
-## First run
-
-On first boot, DocPlatform automatically:
-
-1. Creates the SQLite database at `/data/data.db`
-2. Generates an RS256 signing key at `/data/jwt-key.pem`
-3. Initializes the full-text search index
-4. Starts listening on port 3000
-
-The first user to register becomes the **SuperAdmin** with full platform access. No manual `init` step is required — the container is ready to use immediately.
-
-```bash
-# Verify the container started correctly
-docker logs docplatform
-# → INFO  Server starting            port=3000 version=v0.5.2
-# → INFO  Database initialized       path=/data/data.db
-# → INFO  Search index ready         documents=0
-# → INFO  Listening on               http://0.0.0.0:3000
-```
-
 ## Docker Compose
 
 For easier management, use Docker Compose:
@@ -59,10 +39,10 @@ services:
       - DATA_DIR=/data
       - PORT=3000
       - GIT_SSH_KEY_PATH=/etc/docplatform/deploy_key
-      - BACKUP_RETENTION_DAYS=30
+      - BACKUP_RETENTION_DAYS=30  # default is 7
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      test: ["CMD", "docplatform", "doctor"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -81,7 +61,7 @@ docker compose up -d
 | Property | Value |
 |---|---|
 | **Registry** | `ghcr.io/valoryx-org/docplatform` |
-| **Base image** | Alpine Linux 3.19 |
+| **Base image** | Alpine Linux 3.20 |
 | **Architectures** | `linux/amd64`, `linux/arm64` |
 | **Size** | ~120 MB compressed |
 | **User** | Non-root (`docplatform`, UID 1000) |
@@ -109,7 +89,7 @@ The `/data` directory contains:
 ```
 /data/
 ├── data.db              # SQLite database
-├── jwt-key.pem          # Auto-generated RS256 signing key
+├── jwt-private.pem          # Auto-generated RS256 signing key
 ├── backups/             # Daily backup files
 └── workspaces/
     └── {workspace-id}/
@@ -175,20 +155,10 @@ DocPlatform exposes health endpoints:
 
 | Endpoint | Purpose |
 |---|---|
-| `GET /health` | Basic liveness check (server is running) |
-| `GET /ready` | Readiness check (database and search are initialized) |
+| `GET /api/health` | Basic liveness check (server is running) |
+| `GET /api/ready` | Readiness check (database and search are initialized, reconciliation complete) |
 
-Use these for Docker healthchecks, load balancer probes, or orchestrator liveness/readiness probes.
-
-```bash
-# Quick liveness check
-curl -f http://localhost:3000/health
-# → {"status":"ok"}
-
-# Readiness check (database + search initialized)
-curl -f http://localhost:3000/ready
-# → {"status":"ok","database":"ok","search":"ok"}
-```
+Use these for load balancer probes or orchestrator liveness/readiness probes. Note that the Dockerfile's built-in healthcheck uses `docplatform doctor` rather than wget.
 
 ## With a reverse proxy
 
@@ -261,15 +231,14 @@ Data in the volume persists across container recreations.
 Build your own image from the Dockerfile:
 
 ```bash
-cd Phase05/src
+cd docplatform
 docker build -t docplatform:custom .
 ```
 
-The Dockerfile uses a multi-stage build:
+The Dockerfile uses a 2-stage build:
 
-1. **Build stage** — Go compilation with CGO disabled
-2. **Frontend stage** — Next.js static export
-3. **Runtime stage** — Alpine Linux with the compiled binary and static assets
+1. **Build stage** — Go compilation with CGO disabled (static frontend assets are embedded at compile time)
+2. **Runtime stage** — Alpine Linux with the compiled binary
 
 ## Logs
 

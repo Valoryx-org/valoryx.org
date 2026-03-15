@@ -55,11 +55,8 @@ The search engine indexes:
 
 Search results are automatically filtered based on the current user's permissions:
 
-- **Public pages** — visible in search results for all authenticated users
-- **Workspace pages** — visible only to workspace members
-- **Restricted pages** — visible only to users with the required role
-
-A Viewer cannot find restricted admin-only pages through search, even if the content matches their query. This filtering happens at the search engine level, not post-query.
+- **Workspace-scoped filtering** — results are limited to workspaces the user belongs to. This filtering happens at the search engine level.
+- **Page-level access** — pages with `access` rules are filtered post-query based on the user's role. A Viewer cannot find restricted admin-only pages through search, even if the content matches their query.
 
 ## Indexing
 
@@ -124,8 +121,8 @@ Not all fields are weighted equally in relevance scoring:
 
 | Field | Weight | Description |
 |---|---|---|
-| `title` | High | Page title (most relevant signal) |
-| `description` | High | Page description / summary |
+| `title` | High (3.0x) | Page title (most relevant signal) |
+| `description` | Medium (1.5x) | Page description / summary |
 | `tags` | Exact match | Keyword field — exact tag matches boosted |
 | `body` | Normal | Full page content |
 | `path` | Keyword | File path — exact match only |
@@ -134,7 +131,7 @@ This means a query matching a page's title ranks higher than the same query matc
 
 ### Storage
 
-The Bleve index is stored at `{DATA_DIR}/search-index/` using bbolt (a pure Go B+ tree database). The index is separate from the SQLite database and can be safely deleted and rebuilt with `docplatform rebuild`.
+The Bleve index is stored at `{DATA_DIR}/search-index/` using the Bleve scorch storage engine (backed by bbolt). The index is separate from the SQLite database and can be safely deleted and rebuilt with `docplatform rebuild`.
 
 ## Performance
 

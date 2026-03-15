@@ -34,6 +34,6 @@ When you run `docplatform serve`, a single process starts that includes:
 - **SQLite database** — stores users, workspaces, pages metadata, and audit logs
 - **Bleve search engine** — indexes all content for instant full-text search
 - **Git engine** — syncs content bidirectionally with remote repositories
-- **Static frontend** — the Next.js web editor, embedded in the binary
+- **Static frontend** — the Tiptap-based web editor, embedded in the binary
 
 All data lives in a single directory (default: `.docplatform/`), making backups and migrations straightforward — just copy the directory.

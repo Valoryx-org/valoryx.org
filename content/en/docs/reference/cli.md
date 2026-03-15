@@ -1,12 +1,12 @@
 ---
 title: CLI Reference
-description: Complete reference for all DocPlatform CLI commands — serve, init, rebuild, doctor, and version.
+description: Complete reference for all DocPlatform CLI commands — serve, init, rebuild, doctor, export, preview, mcp, and version.
 weight: 2
 ---
 
 # CLI Reference
 
-DocPlatform provides 5 CLI commands for server management, workspace initialization, diagnostics, and maintenance.
+DocPlatform provides 9 CLI commands for server management, workspace initialization, diagnostics, publishing, and AI integration.
 
 ## Global options
 
@@ -30,15 +30,13 @@ docplatform serve [flags]
 | Flag | Default | Description |
 |---|---|---|
 | `--port` | `3000` | HTTP listen port (overrides `PORT` env var) |
-| `--host` | `0.0.0.0` | HTTP listen address (overrides `HOST` env var) |
-| `--data-dir` | `.docplatform` | Data directory path (overrides `DATA_DIR` env var) |
 
 ### Behavior
 
 - Loads environment variables from `.env` file (if present)
 - Initializes SQLite database with WAL mode
 - Runs pending database migrations
-- Loads Casbin permission policies into memory
+- Loads custom RBAC permission policies into memory
 - Builds or opens the Bleve search index
 - Starts the git sync engine for all configured workspaces
 - Starts the backup scheduler (if enabled)
@@ -51,8 +49,8 @@ When `docplatform serve` runs, the following happens in order:
 1. Load config (environment variables + `.env` file + defaults)
 2. Open SQLite database (WAL mode) and run pending migrations
 3. Seed default organization if this is a first run
-4. Initialize services: Content Ledger, Git Engine (worker pool of 4), Search Engine, Permission Service, Auth Service, WebSocket Hub
-5. Start background goroutines: WebSocket hub, git sync polling, backup scheduler, telemetry (if enabled)
+4. Initialize services: Content Ledger, Git Engine (worker pool of 4), Search Engine, Permission Service, Auth Service (RS256 JWT, Argon2id, WebAuthn), WebSocket Hub, Billing/License Service (Stripe), Analytics Collector, AI Service
+5. Start background goroutines: WebSocket hub, git sync polling, backup scheduler, durable job worker, analytics collector, telemetry (if enabled)
 6. Begin listening on the configured host:port
 
 Read requests are served immediately. If workspaces have existing content, reconciliation runs in the background without blocking.
@@ -69,9 +67,10 @@ Read requests are served immediately. If workspaces have existing content, recon
 1. Cancel application context (signals all goroutines to stop)
 2. Stop WebSocket hub (close all client connections)
 3. Stop git sync manager (finish in-flight sync operations)
-4. Close search engine (flush Bleve index to disk)
-5. Drain git worker pool (wait for in-flight git operations)
-6. Shutdown HTTP server (10-second timeout for in-flight requests)
+4. Drain durable job worker (finish in-flight async jobs)
+5. Close search engine (flush Bleve index to disk)
+6. Drain git worker pool (wait for in-flight git operations)
+7. Shutdown HTTP server (10-second timeout for in-flight requests)
 
 If shutdown exceeds 15 seconds, the process exits forcefully.
 
@@ -83,9 +82,6 @@ docplatform serve
 
 # Start on custom port
 docplatform serve --port 8080
-
-# Start with explicit data directory
-docplatform serve --data-dir /var/lib/docplatform
 ```
 
 ### Output
@@ -151,7 +147,7 @@ docplatform init \
 ```
 INFO  Data directory created     path=.docplatform
 INFO  Database initialized       path=.docplatform/data.db
-INFO  JWT key generated          path=.docplatform/jwt-key.pem
+INFO  JWT key generated          path=.docplatform/jwt-private.pem
 INFO  Workspace created          id=01KJJ10NTF... name="API Docs" slug=api-docs
 INFO  Repository cloned          url=git@github.com:your-org/api-docs.git branch=main
 INFO  Pages indexed              count=15
@@ -172,7 +168,7 @@ docplatform rebuild [flags]
 
 | Flag | Required | Default | Description |
 |---|---|---|---|
-| `--workspace-id` | No | all | ULID of a specific workspace to rebuild. Without this flag, all workspaces are rebuilt. |
+| `--workspace` | Yes | — | ULID of the workspace to rebuild (required). |
 | `--search` | No | `false` | Also drop and rebuild the Bleve search index |
 | `--data-dir` | No | `.docplatform` | Data directory path |
 
@@ -196,11 +192,8 @@ docplatform rebuild [flags]
 ### Example
 
 ```bash
-# Rebuild all workspaces
-docplatform rebuild
-
 # Rebuild a specific workspace
-docplatform rebuild --workspace-id 01KJJ10NTF31Z1QJTG4ZRQZ2Z2
+docplatform rebuild --workspace 01KJJ10NTF31Z1QJTG4ZRQZ2Z2
 ```
 
 ### Output
@@ -306,6 +299,110 @@ The bundle is saved to `{DATA_DIR}/diagnostics/docplatform-diagnostics-{timestam
 - Server version and configuration (with secrets redacted)
 
 The bundle **never** includes page content, passwords, tokens, or private keys.
+
+---
+
+## `docplatform export`
+
+Export a workspace's published documentation as a static HTML ZIP file.
+
+```bash
+docplatform export [flags]
+```
+
+### Flags
+
+| Flag | Required | Default | Description |
+|---|---|---|---|
+| `--workspace` | Yes | — | Workspace ID (ULID) to export |
+| `--output` | No | `{workspace}-export.zip` | Output ZIP file path |
+| `--data-dir` | No | `.docplatform` | Data directory path |
+
+### Behavior
+
+1. Opens the database and loads workspace configuration
+2. Renders all published pages to HTML (same rendering pipeline as `/p/` routes)
+3. Generates `sitemap.xml` and `robots.txt`
+4. Packages everything into a self-contained ZIP file
+
+### Example
+
+```bash
+docplatform export --workspace my-docs --output ./dist/my-docs.zip
+```
+
+The resulting ZIP can be deployed to any static file host (Netlify, Vercel, S3, GitHub Pages, Cloudflare Pages).
+
+---
+
+## `docplatform preview`
+
+Start a local preview server for published documentation.
+
+```bash
+docplatform preview [flags]
+```
+
+### Flags
+
+| Flag | Required | Default | Description |
+|---|---|---|---|
+| `--workspace` | Yes | — | Workspace ID (ULID) to preview |
+| `--port` | No | `4000` | HTTP listen port |
+| `--data-dir` | No | `.docplatform` | Data directory path |
+
+### Behavior
+
+Starts a lightweight Fiber HTTP server that renders published pages in real-time. Useful for reviewing changes before deploying to production.
+
+### Example
+
+```bash
+docplatform preview --workspace my-docs --port 4000
+```
+
+Open [http://localhost:4000](http://localhost:4000) to view the published docs.
+
+---
+
+## `docplatform mcp`
+
+Start a Model Context Protocol (MCP) server for AI agent integration.
+
+```bash
+docplatform mcp [flags]
+```
+
+### Flags
+
+| Flag | Required | Default | Description |
+|---|---|---|---|
+| `--workspace` | Yes | — | Workspace ID (ULID) to expose |
+| `--api-key` | Yes | — | API key for authentication (or set `DOCPLATFORM_API_KEY` env var) |
+| `--data-dir` | No | `.docplatform` | Data directory path |
+
+### Behavior
+
+Starts an MCP server on stdio, exposing workspace content to AI agents (Claude Code, Claude Desktop, etc.). The server is scoped to a single workspace and authenticated via API key.
+
+### Example
+
+```bash
+docplatform mcp --workspace my-docs --api-key dp_live_abc123
+```
+
+Configure in your MCP client (e.g., Claude Desktop `claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "docplatform": {
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
+    }
+  }
+}
+```
 
 ---
 

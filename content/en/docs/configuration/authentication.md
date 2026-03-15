@@ -1,12 +1,12 @@
 ---
 title: Authentication
-description: Configure local authentication, Google and GitHub OIDC sign-in, JWT settings, and password policies.
+description: Configure local authentication, Google and GitHub OIDC sign-in, WebAuthn/Passkeys, JWT settings, and password policies.
 weight: 2
 ---
 
 # Authentication
 
-DocPlatform supports local authentication (email + password) out of the box, with optional Google and GitHub OIDC sign-in for teams that use those providers.
+DocPlatform supports local authentication (email + password) out of the box, with optional Google/GitHub OIDC sign-in and WebAuthn/Passkeys for passwordless login.
 
 ## Local authentication (default)
 
@@ -16,7 +16,7 @@ Local auth works without any configuration. Users register with an email and pas
 
 1. **Registration** — User submits email + password. Password is hashed with argon2id (OWASP 2024 recommended algorithm).
 2. **Login** — User submits credentials. Server verifies the password hash and returns JWT tokens.
-3. **Session** — Access token (RS256, 15-minute lifetime) is sent with each API request. Refresh token (30-day lifetime) is used to obtain new access tokens without re-authentication.
+3. **Session** — Access token (RS256, 15-minute lifetime) is sent with each API request. Refresh token (7-day lifetime, rotated on each use) is used to obtain new access tokens without re-authentication.
 
 ### Password hashing
 
@@ -27,11 +27,11 @@ DocPlatform uses argon2id with the following parameters (OWASP 2024 standard):
 | **Algorithm** | argon2id |
 | **Memory** | 64 MB |
 | **Iterations** | 3 |
-| **Parallelism** | 4 |
+| **Parallelism** | 2 |
 | **Salt length** | 16 bytes |
 | **Key length** | 32 bytes |
 
-These parameters are not configurable — they follow security best practices. Password hashes are stored in the SQLite database and never leave the server.
+The memory, iterations, and parallelism parameters are configurable via `ARGON2_MEMORY`, `ARGON2_TIME`, and `ARGON2_THREADS` environment variables. See [Environment Variables](environment.md). Password hashes are stored in the SQLite database and never leave the server.
 
 ### Password reset
 
@@ -59,20 +59,20 @@ User logs in
     ▼
 ┌─────────────────────────────────┐
 │ Access Token (15 min)            │  ──►  Sent with every API request
-│ Refresh Token (30 days)          │  ──►  Used to get new access tokens
+│ Refresh Token (7 days)           │  ──►  Used to get new access tokens
 └─────────────────────────────────┘
     │
     │  Access token expires
     ▼
 ┌─────────────────────────────────┐
-│ POST /api/v1/auth/refresh        │
+│ POST /api/auth/refresh            │
 │ Body: { refresh_token: "..." }   │
 └─────────────────────────────────┘
     │
     ▼
 ┌─────────────────────────────────┐
 │ New Access Token (15 min)        │  ──►  Old refresh token rotated
-│ New Refresh Token (30 days)      │  ──►  Old one invalidated
+│ New Refresh Token (7 days)       │  ──►  Old one invalidated
 └─────────────────────────────────┘
 ```
 
@@ -84,16 +84,16 @@ Each time a refresh token is used, a new refresh token is issued and the old one
 
 | Variable | Default | Description |
 |---|---|---|
-| `JWT_SECRET_PATH` | `{DATA_DIR}/jwt-key.pem` | Path to the RS256 private key |
-| `JWT_ACCESS_TTL` | `900` | Access token lifetime (seconds) |
-| `JWT_REFRESH_TTL` | `2592000` | Refresh token lifetime (seconds) |
+| `JWT_KEY_PATH` | `{DATA_DIR}/jwt-private.pem` | Path to the RS256 private key |
+| `JWT_ACCESS_TTL` | `900` | Access token lifetime in seconds (default: 15 minutes) |
+| `JWT_REFRESH_TTL` | `604800` | Refresh token lifetime in seconds (default: 7 days) |
 
 ### Key management
 
 The RS256 key pair is auto-generated on first startup if the file doesn't exist. To rotate keys:
 
 1. Stop the server
-2. Delete the key file (`{DATA_DIR}/jwt-key.pem`)
+2. Delete the key file (`{DATA_DIR}/jwt-private.pem`)
 3. Start the server — a new key is generated
 
 All existing sessions are invalidated on key rotation. Users must log in again.
@@ -109,7 +109,7 @@ Allow users to sign in with their Google account.
 3. Navigate to **APIs & Services** → **Credentials**
 4. Click **Create Credentials** → **OAuth 2.0 Client ID**
 5. Application type: **Web application**
-6. Add authorized redirect URI: `https://your-domain.com/api/v1/auth/callback/google`
+6. Add authorized redirect URI: `https://your-domain.com/api/auth/oidc/google/callback`
 7. Copy the Client ID and Client Secret
 
 Set the environment variables:
@@ -137,7 +137,7 @@ Allow users to sign in with their GitHub account.
 
 1. Go to [GitHub Developer Settings](https://github.com/settings/developers)
 2. Click **New OAuth App**
-3. Set the authorization callback URL: `https://your-domain.com/api/v1/auth/callback/github`
+3. Set the authorization callback URL: `https://your-domain.com/api/auth/oidc/github/callback`
 4. Copy the Client ID and generate a Client Secret
 
 Set the environment variables:
@@ -152,6 +152,68 @@ Restart the server. A **Sign in with GitHub** button appears on the login page.
 ### User provisioning
 
 Same as Google — a DocPlatform account is created using the GitHub primary email. If the GitHub account has no public email, the user is prompted to enter one.
+
+## WebAuthn / Passkeys (optional)
+
+Allow users to sign in with hardware security keys, biometrics, or platform authenticators (Touch ID, Face ID, Windows Hello). This provides passwordless, phishing-resistant authentication.
+
+### Setup
+
+Set the following environment variables:
+
+```bash
+export WEBAUTHN_RP_ID=docs.example.com
+export WEBAUTHN_RP_DISPLAY_NAME="My Docs"
+export WEBAUTHN_RP_ORIGINS=https://docs.example.com
+```
+
+Restart the server. A **Sign in with Passkey** button appears on the login page.
+
+### How it works
+
+1. **Registration** — User goes to Profile → Security → **Register Passkey**
+2. Browser prompts for biometric or security key verification
+3. A credential is stored on the server (public key only — the private key never leaves the device)
+4. **Login** — User clicks "Sign in with Passkey" and authenticates with their device
+
+### Managing credentials
+
+Users can manage their passkeys from their profile:
+
+- **List credentials** — `GET /api/auth/webauthn/credentials`
+- **Delete a credential** — `DELETE /api/auth/webauthn/credentials/:id`
+
+Each credential stores a name, last-used timestamp, and sign count for clone detection.
+
+### Requirements
+
+| Requirement | Details |
+|---|---|
+| **HTTPS** | Required — WebAuthn only works over secure connections |
+| **Browser support** | Chrome 67+, Firefox 60+, Safari 14+, Edge 79+ |
+| **RP ID** | Must match the domain users access (no wildcards) |
+
+## API keys
+
+For programmatic access (CI/CD pipelines, MCP integrations, scripts), use API keys instead of JWT tokens.
+
+### How it works
+
+1. Create an API key from the web UI or API: `POST /api/v1/api-keys`
+2. The key is returned once in full (prefixed with `dp_live_`) — store it securely
+3. Use the key as a Bearer token: `Authorization: Bearer dp_live_...`
+4. Only the key hash is stored server-side (HMAC with configurable pepper)
+
+### Key management
+
+| Operation | Endpoint |
+|---|---|
+| Create key | `POST /api/v1/api-keys` |
+| List keys (prefix only) | `GET /api/v1/api-keys` |
+| Delete key | `DELETE /api/v1/api-keys/:id` |
+| Rotate key | `POST /api/v1/api-keys/:id/rotate` |
+
+Keys are scoped to the organization. Set `API_KEY_PEPPER` (or `DOCPLATFORM_API_KEY_PEPPER`) for HMAC hashing security.
 
 ## Session management
 
@@ -177,23 +239,22 @@ Users can view and revoke sessions from their profile page. Admins can view all 
 | Constraint | Value |
 |---|---|
 | Minimum length | 8 characters |
-| Maximum length | 128 characters |
-| Hashing | argon2id (64 MB memory, 3 iterations, parallelism 4) |
+| Hashing | argon2id (64 MB memory, 3 iterations, parallelism 2) |
 
 Passwords are validated on registration and password reset. DocPlatform does not enforce character-class requirements (uppercase, special characters) — length is the primary security measure per current NIST guidelines.
 
 ## WebSocket authentication
 
-WebSocket connections use a one-time ticket pattern to avoid exposing JWT tokens in URLs (which would appear in server logs and browser history).
+WebSocket connections use an HttpOnly cookie mechanism to avoid exposing tokens in URLs (which would appear in server logs and browser history).
 
 **Flow:**
 
-1. Client calls `POST /api/v1/auth/ws-ticket` with a valid JWT
-2. Server returns a random ticket (valid for **30 seconds**, single-use)
-3. Client connects to `ws://host/ws?ticket={ticket}`
-4. Server validates the ticket, establishes the WebSocket, and discards the ticket
+1. Client calls `POST /api/auth/ws-token` with a valid JWT
+2. Server sets a `dp_ws_token` HttpOnly cookie (valid for **30 seconds**, single-use)
+3. Client connects to `ws://host/ws` — the browser sends the cookie automatically
+4. Server validates the cookie, establishes the WebSocket, and clears the cookie
 
-This is transparent to users — the web editor handles ticket acquisition automatically.
+This is transparent to users — the web editor handles token acquisition automatically.
 
 ## Security recommendations
 
