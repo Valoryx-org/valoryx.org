@@ -182,8 +182,8 @@ The MCP server exposes 20 tools organized into four categories:
 
 | Tool | Description |
 |---|---|
-| `docplatform_create_page` | Create a new page with Markdown content and frontmatter |
-| `docplatform_update_page` | Update page content with optimistic concurrency (hash check) |
+| `docplatform_write_page` | Create or update a page (smart upsert — creates if new, updates with hash check if exists) |
+| `docplatform_update_page` | Update page content with optimistic concurrency (requires lastKnownHash) |
 | `docplatform_move_page` | Move/rename a page — updates all wikilinks automatically |
 | `docplatform_delete_page` | Delete a page by path |
 | `docplatform_update_frontmatter` | Update page frontmatter fields without changing body content |
