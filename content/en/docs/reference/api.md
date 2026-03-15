@@ -250,20 +250,54 @@ Retrieve a page by its workspace slug and file path.
 | `403` | Insufficient permissions |
 | `404` | Page not found or no read access |
 
-### Create/Update page
+### Create page
 
 ```
-PUT /api/v1/content/{workspace}/{...path}
+POST /api/v1/content/{workspace}/{...path}
 ```
 
-Create a new page or update an existing one at the given path.
+Create a new page at the given path. Returns `409 Conflict` if a page already exists at this path — use PUT to update existing pages.
 
 **Request:**
 
 ```json
 {
-  "content": "# Getting Started\n\nUpdated content...",
-  "lastKnownHash": "sha256:abc123..."
+  "title": "Getting Started",
+  "body": "# Getting Started\n\nWelcome to DocPlatform.",
+  "description": "Optional description",
+  "publish": false,
+  "tags": ["quickstart"]
+}
+```
+
+**Response:** `201 Created` with the page object.
+
+**Errors:**
+
+| Code | Description |
+|---|---|
+| `409` | Page already exists at this path — use PUT to update |
+| `400` | Missing title or invalid path |
+| `403` | Insufficient permissions (requires write role) |
+
+### Update page
+
+```
+PUT /api/v1/content/{workspace}/{...path}
+```
+
+Update an existing page. Requires `lastKnownHash` for optimistic concurrency control — read the page first to get the current hash.
+
+**Request:**
+
+```json
+{
+  "body": "# Getting Started\n\nUpdated content...",
+  "lastKnownHash": "sha256:abc123...",
+  "frontmatter": {
+    "title": "Updated Title",
+    "tags": ["updated"]
+  }
 }
 ```
 
@@ -949,7 +983,8 @@ The browser sends the `dp_ws_token` cookie automatically. The server validates i
 | `presence-leave` | `{workspace_id, user_id}` | A user disconnects (90s timeout) |
 | `sync-status` | `{workspace_id, status}` | Git sync status change |
 | `conflict-detected` | `{workspace_id, path}` | Git merge conflict found |
-| `bulk-sync` | `{workspace_id, changed_count, paths[]}` | Multiple files synced (>20 files) |
+| `page-moved` | `{workspace_id, old_path, new_path, actor}` | A page is moved/renamed |
+| `bulk-sync` | `{workspace_id, changed_count, paths[]}` | Multiple files synced in one pull |
 
 ### Client messages
 
