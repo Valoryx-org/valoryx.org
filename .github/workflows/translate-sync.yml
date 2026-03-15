@@ -1,46 +1,36 @@
 # ──────────────────────────────────────────────────────────────────────────────
-# Auto-Translation Pipeline
+# Translation Freshness Detection
 #
 # WHAT IT DOES:
-#   When i18n/en.toml changes on main, this workflow:
-#   1. Detects which English keys changed (via SHA-256 checksums)
-#   2. Translates changed keys to FR, DE, ES, RU, UK using Claude Haiku
-#   3. Updates all 5 target language TOML files
-#   4. Commits and pushes directly to main → Cloudflare Pages auto-deploys
+#   When i18n/en.toml changes on main, this workflow checks if translations
+#   are stale and creates a GitHub issue if so.
 #
-# English is the single source of truth. All other languages follow.
+# WHO TRANSLATES:
+#   Claude Opus running on a local machine. The developer pulls latest,
+#   runs `python scripts/translate-sync.py detect`, Claude translates,
+#   then `python scripts/translate-sync.py apply`. Push to main deploys.
 #
-# COST: ~$0.001 per sync (Claude Haiku via OpenRouter, ~40 keys per batch)
-# SECRET: OPENROUTER_API_KEY (for translation API)
+# This workflow does NOT auto-translate — it only detects and notifies.
 # ──────────────────────────────────────────────────────────────────────────────
 
-name: Auto-translate i18n
+name: Check translation freshness
 
 on:
   push:
     branches: [main]
     paths:
       - "i18n/en.toml"
-  workflow_dispatch:
-    inputs:
-      force:
-        description: 'Force retranslate all keys (not just changed)'
-        type: boolean
-        default: false
-
-concurrency:
-  group: translate-sync
-  cancel-in-progress: true
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9am UTC
+  workflow_dispatch: {}
 
 permissions:
-  contents: write
+  issues: write
+  contents: read
 
 jobs:
-  translate:
+  check:
     runs-on: ubuntu-latest
-    # Skip if the commit was made by the translation bot itself (prevent loops)
-    if: "!contains(github.event.head_commit.message, 'i18n: auto-translate')"
-
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
 
@@ -49,35 +39,51 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Run translation sync
-        env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      - name: Check for stale translations
+        id: check
         run: |
-          cd ${{ github.workspace }}
-          ARGS=""
-          if [ "${{ inputs.force }}" = "true" ]; then
-            ARGS="--force"
-          fi
-          python scripts/translate-sync.py $ARGS
+          OUTPUT=$(python scripts/translate-sync.py status 2>&1)
+          echo "$OUTPUT"
 
-      - name: Check for changes
-        id: changes
-        run: |
-          if git diff --quiet i18n/ .i18n-checksums.json; then
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          if echo "$OUTPUT" | grep -q "ALL IN SYNC"; then
+            echo "stale=false" >> "$GITHUB_OUTPUT"
           else
-            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+            echo "details<<EOF" >> "$GITHUB_OUTPUT"
+            echo "$OUTPUT" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Commit and push translations
-        if: steps.changes.outputs.has_changes == 'true'
+      - name: Create or update issue
+        if: steps.check.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          BODY="## Stale Translations Detected
 
+          ${{ steps.check.outputs.details }}
+
+          ### How to fix
+          On your machine:
+          \`\`\`bash
+          cd site/valoryx.org
+          git pull
+          python scripts/translate-sync.py detect
+          # Claude translates pending-translations.json
+          # Claude writes completed-translations.json
+          python scripts/translate-sync.py apply
           git add i18n/ .i18n-checksums.json
-          git commit -m "i18n: auto-translate changed English keys to FR/DE/ES/RU/UK"
-          git push origin main
+          git commit -m 'i18n: sync translations with English'
+          git push
+          \`\`\`"
+
+          EXISTING=$(gh issue list --label "translation" --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create \
+              --title "i18n: translations are stale" \
+              --body "$BODY" \
+              --label "translation" --label "growth-agent"
+          fi

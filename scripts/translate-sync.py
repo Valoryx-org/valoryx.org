@@ -1,53 +1,43 @@
 #!/usr/bin/env python3
 """
-Auto-translation pipeline for Valoryx Hugo site.
+Translation sync pipeline for Valoryx Hugo site.
 
-English (i18n/en.toml) is the single source of truth for all i18n keys.
-This script detects which English keys changed since last sync, translates
-them to all target languages, and updates the TOML files.
+English (i18n/en.toml) is the single source of truth.
+This script detects which English keys changed and manages the TOML files.
+Translation is done by Claude Opus running locally — no external API needed.
 
-How it works:
-  1. Parse en.toml → extract all [key] + other = "value" pairs
-  2. Load .i18n-checksums.json → SHA-256 of each English value from last sync
-  3. Compare → find changed, new, and deleted keys
-  4. Batch-translate changed/new keys using OpenRouter API (Claude Haiku)
-  5. Update each target language TOML with new translations
-  6. Save updated checksums
+Workflow:
+  1. detect  → find changed/new/deleted keys, output JSON to pending-translations.json
+  2. apply   → read completed-translations.json, update all target TOML files
 
-Translation quality:
-  - Uses Claude Haiku via OpenRouter (~$0.001 per batch) for natural marketing copy
-  - Falls back to copying English with [EN] prefix if no API key available
-  - Preserves existing translations for unchanged keys
-  - Maintains TOML structure, comments, and ordering
+How Claude uses this:
+  1. Run:   python scripts/translate-sync.py detect
+  2. Read:  pending-translations.json (keys needing translation)
+  3. Claude translates all keys to 5 languages
+  4. Write: completed-translations.json
+  5. Run:   python scripts/translate-sync.py apply
+  6. Done — all TOML files updated, checksums saved
 
 Usage:
-  python scripts/translate-sync.py              # auto-detect and translate changes
-  python scripts/translate-sync.py --force      # retranslate ALL keys
-  python scripts/translate-sync.py --dry-run    # show what would change without modifying files
-
-Requires:
-  OPENROUTER_API_KEY env var (or set in .env)
-  pip install requests (usually pre-installed)
+  python scripts/translate-sync.py detect           # find changes, write pending-translations.json
+  python scripts/translate-sync.py detect --force   # treat ALL keys as changed
+  python scripts/translate-sync.py apply            # apply completed-translations.json to TOML files
+  python scripts/translate-sync.py status           # show current sync status (no changes)
 """
 
 import hashlib
 import json
-import os
 import re
 import sys
 from pathlib import Path
-
-try:
-    import requests
-except ImportError:
-    print("ERROR: 'requests' package required. Install: pip install requests")
-    sys.exit(1)
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 
 SITE_DIR = Path(__file__).parent.parent
 I18N_DIR = SITE_DIR / "i18n"
 CHECKSUMS_FILE = SITE_DIR / ".i18n-checksums.json"
+PENDING_FILE = SITE_DIR / "pending-translations.json"
+COMPLETED_FILE = SITE_DIR / "completed-translations.json"
 SOURCE_LANG = "en"
 TARGET_LANGS = ["fr", "de", "es", "ru", "uk"]
 
@@ -59,86 +49,55 @@ LANG_NAMES = {
     "uk": "Ukrainian",
 }
 
-# Keys that should NEVER be translated (brand names, technical terms)
-SKIP_KEYS = {
-    "nav_home",  # "Home" is sometimes kept in English intentionally
-}
-
-# Max keys per translation API call (to avoid token limits)
-BATCH_SIZE = 40
-
-# ── TOML Parser (simple, no external dependency) ─────────────────────────────
+# ── TOML Parser ───────────────────────────────────────────────────────────────
 
 def parse_toml_keys(filepath: Path) -> dict[str, str]:
-    """Parse Hugo i18n TOML file → {key: value} dict.
-
-    Format:
-      [key_name]
-      other = "value with \\"escapes\\""
-    """
+    """Parse Hugo i18n TOML → {key: value} dict."""
     keys = {}
     current_key = None
-
     for line in filepath.read_text(encoding="utf-8").splitlines():
-        # Match [key_name]
         m = re.match(r'^\[([a-zA-Z0-9_]+)\]', line)
         if m:
             current_key = m.group(1)
             continue
-
-        # Match other = "value"
         if current_key:
             m = re.match(r'^other\s*=\s*"(.*)"$', line)
             if m:
                 keys[current_key] = m.group(1)
                 current_key = None
-
     return keys
 
 
 def update_toml_values(filepath: Path, updates: dict[str, str], deletions: set[str] | None = None):
-    """Update specific keys in a TOML file, preserving structure and comments.
-
-    Also removes keys that no longer exist in English (if deletions provided).
-    """
+    """Update specific keys in TOML file, preserving structure and comments."""
     lines = filepath.read_text(encoding="utf-8").splitlines()
     result = []
     current_key = None
-    skip_until_next_key = False
+    skip_block = False
     i = 0
 
     while i < len(lines):
         line = lines[i]
-
-        # Check for [key_name]
         m = re.match(r'^\[([a-zA-Z0-9_]+)\]', line)
         if m:
             key = m.group(1)
-
-            # If this key was deleted from English, skip it and its value line
             if deletions and key in deletions:
-                skip_until_next_key = True
+                skip_block = True
                 i += 1
                 continue
-
-            skip_until_next_key = False
+            skip_block = False
             current_key = key
             result.append(line)
             i += 1
             continue
 
-        if skip_until_next_key:
+        if skip_block:
             i += 1
             continue
 
-        # Check for other = "value" line under a key we want to update
         if current_key and current_key in updates:
             m2 = re.match(r'^other\s*=\s*"', line)
             if m2:
-                # Replace the value
-                escaped = updates[current_key].replace('\\', '\\\\').replace('"', '\\"')
-                # But don't double-escape things that are already escaped in the source
-                # (like HTML class attributes in br tags)
                 result.append(f'other = "{updates[current_key]}"')
                 current_key = None
                 i += 1
@@ -147,14 +106,14 @@ def update_toml_values(filepath: Path, updates: dict[str, str], deletions: set[s
         result.append(line)
         i += 1
 
-    # Append any new keys that weren't in the file
-    existing_keys = set()
+    # Append new keys not already in file
+    existing = set()
     for line in result:
         m = re.match(r'^\[([a-zA-Z0-9_]+)\]', line)
         if m:
-            existing_keys.add(m.group(1))
+            existing.add(m.group(1))
 
-    new_keys = set(updates.keys()) - existing_keys
+    new_keys = set(updates.keys()) - existing
     if new_keys:
         result.append("")
         result.append("# ── Auto-translated (new keys) ─────────────────────────────────────────────")
@@ -168,137 +127,30 @@ def update_toml_values(filepath: Path, updates: dict[str, str], deletions: set[s
 # ── Checksum tracking ─────────────────────────────────────────────────────────
 
 def compute_checksums(keys: dict[str, str]) -> dict[str, str]:
-    """Compute SHA-256 for each key's English value."""
     return {k: hashlib.sha256(v.encode()).hexdigest()[:16] for k, v in keys.items()}
 
-
 def load_checksums() -> dict[str, str]:
-    """Load previous checksums from file."""
     if CHECKSUMS_FILE.exists():
         return json.loads(CHECKSUMS_FILE.read_text(encoding="utf-8"))
     return {}
 
-
 def save_checksums(checksums: dict[str, str]):
-    """Save checksums to file."""
-    CHECKSUMS_FILE.write_text(
-        json.dumps(checksums, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8"
-    )
+    CHECKSUMS_FILE.write_text(json.dumps(checksums, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-# ── Translation via OpenRouter API ────────────────────────────────────────────
+# ── Commands ──────────────────────────────────────────────────────────────────
 
-def get_api_key() -> str | None:
-    """Get OpenRouter API key from env or .env file."""
-    key = os.environ.get("OPENROUTER_API_KEY")
-    if key:
-        return key
-
-    env_file = SITE_DIR / ".env"
-    if env_file.exists():
-        for line in env_file.read_text().splitlines():
-            if line.startswith("OPENROUTER_API_KEY="):
-                return line.split("=", 1)[1].strip().strip('"')
-
-    return None
-
-
-def translate_batch(keys_values: dict[str, str], target_lang: str, api_key: str) -> dict[str, str]:
-    """Translate a batch of English i18n keys to target language using Claude Haiku.
-
-    Returns {key: translated_value} dict.
-    """
-    lang_name = LANG_NAMES.get(target_lang, target_lang)
-
-    # Build the translation prompt
-    entries = "\n".join(f"  {k}: {v}" for k, v in keys_values.items())
-
-    prompt = f"""Translate these Hugo i18n strings from English to {lang_name}.
-
-Rules:
-- Translate PRECISELY — preserve the exact meaning, not a creative rewrite
-- The result must read naturally in {lang_name} — not word-for-word but sense-for-sense
-- Preserve ALL HTML tags exactly (like <br class=\\"hidden sm:block\\">)
-- Preserve technical terms: git, MCP, Docker, WYSIWYG, API, CLI, RBAC, JWT, OIDC
-- Brand name "Valoryx" and "DocPlatform" are NEVER translated
-- Preserve escape sequences (backslashes before quotes)
-- For pricing: keep exact numbers ($0, $29, $79)
-- Keep the same tone: professional, developer-friendly, concise
-
-Input (key: English value):
-{entries}
-
-Output ONLY a valid JSON object mapping key to translated value. No explanation, no markdown, just JSON:
-"""
-
-    try:
-        resp = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": "anthropic/claude-haiku-4-5-20251001",
-                "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.3,
-                "max_tokens": 4096,
-            },
-            timeout=60,
-        )
-        resp.raise_for_status()
-
-        content = resp.json()["choices"][0]["message"]["content"].strip()
-
-        # Extract JSON from response (handle markdown code blocks)
-        if content.startswith("```"):
-            content = re.sub(r'^```\w*\n?', '', content)
-            content = re.sub(r'\n?```$', '', content)
-
-        return json.loads(content)
-
-    except Exception as e:
-        print(f"  WARNING: Translation API failed for {lang_name}: {e}")
-        return {}
-
-
-def fallback_translate(keys_values: dict[str, str]) -> dict[str, str]:
-    """Fallback: copy English with [EN] prefix when no API key available."""
-    return {k: f"[EN] {v}" for k, v in keys_values.items()}
-
-
-# ── Main pipeline ─────────────────────────────────────────────────────────────
-
-def main():
-    force = "--force" in sys.argv
-    dry_run = "--dry-run" in sys.argv
-
-    print("=" * 60)
-    print("Valoryx i18n Translation Sync")
-    print("=" * 60)
-
-    # 1. Parse English source
-    en_file = I18N_DIR / f"{SOURCE_LANG}.toml"
-    if not en_file.exists():
-        print(f"ERROR: {en_file} not found")
-        sys.exit(1)
-
-    en_keys = parse_toml_keys(en_file)
-    print(f"\nEnglish keys: {len(en_keys)}")
-
-    # 2. Compute checksums and compare
+def cmd_detect(force: bool = False):
+    """Detect changed English keys and write pending-translations.json."""
+    en_keys = parse_toml_keys(I18N_DIR / f"{SOURCE_LANG}.toml")
     new_checksums = compute_checksums(en_keys)
     old_checksums = {} if force else load_checksums()
 
-    # Find changed, new, and deleted keys
     changed = {}
     new = {}
     deleted = set(old_checksums.keys()) - set(new_checksums.keys())
 
     for key, checksum in new_checksums.items():
-        if key in SKIP_KEYS:
-            continue
         if key not in old_checksums:
             new[key] = en_keys[key]
         elif old_checksums[key] != checksum:
@@ -306,85 +158,111 @@ def main():
 
     to_translate = {**changed, **new}
 
-    print(f"Changed keys: {len(changed)}")
-    print(f"New keys: {len(new)}")
-    print(f"Deleted keys: {len(deleted)}")
-    print(f"Keys to translate: {len(to_translate)}")
+    print(f"English keys: {len(en_keys)}")
+    print(f"Changed: {len(changed)}  New: {len(new)}  Deleted: {len(deleted)}")
+    print(f"Total to translate: {len(to_translate)}")
 
     if not to_translate and not deleted:
         print("\nAll translations are up to date.")
-        save_checksums(new_checksums)
         return
 
-    if to_translate:
-        print("\nKeys to translate:")
-        for k in sorted(to_translate.keys()):
-            status = "NEW" if k in new else "CHANGED"
-            print(f"  [{status}] {k}: {to_translate[k][:60]}...")
+    # Write pending file for Claude to read
+    pending = {
+        "source_lang": SOURCE_LANG,
+        "target_langs": TARGET_LANGS,
+        "lang_names": LANG_NAMES,
+        "to_translate": to_translate,
+        "deleted": sorted(deleted),
+        "instructions": (
+            "Translate each key from English to all 5 target languages. "
+            "Preserve HTML tags exactly. Keep technical terms (git, MCP, Docker, API, CLI, WYSIWYG, RBAC, JWT). "
+            "Never translate brand names (Valoryx, DocPlatform). Keep pricing numbers exact ($0, $29, $79). "
+            "Translate precisely (preserve meaning) while reading naturally in each language."
+        ),
+    }
 
-    if deleted:
-        print("\nKeys to remove:")
-        for k in sorted(deleted):
-            print(f"  [DELETE] {k}")
+    PENDING_FILE.write_text(json.dumps(pending, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"\nWrote {PENDING_FILE.name} — {len(to_translate)} keys need translation")
+    print(f"\nClaude: read {PENDING_FILE.name}, translate, write {COMPLETED_FILE.name}")
+    print(f"Format: {{ \"fr\": {{key: value}}, \"de\": {{...}}, ... }}")
 
-    if dry_run:
-        print("\n--dry-run: no files modified")
-        return
 
-    # 3. Translate
-    api_key = get_api_key()
-    if not api_key:
-        print("\nWARNING: No OPENROUTER_API_KEY found. Using fallback (English with [EN] prefix).")
-        print("Set OPENROUTER_API_KEY in environment or .env file for proper translation.")
+def cmd_apply():
+    """Apply completed translations from completed-translations.json."""
+    if not COMPLETED_FILE.exists():
+        print(f"ERROR: {COMPLETED_FILE.name} not found. Run 'detect' first, then translate.")
+        sys.exit(1)
+
+    completed = json.loads(COMPLETED_FILE.read_text(encoding="utf-8"))
+
+    # Load pending to get deletion list
+    deleted = set()
+    if PENDING_FILE.exists():
+        pending = json.loads(PENDING_FILE.read_text(encoding="utf-8"))
+        deleted = set(pending.get("deleted", []))
 
     for lang in TARGET_LANGS:
-        lang_file = I18N_DIR / f"{lang}.toml"
-        lang_name = LANG_NAMES.get(lang, lang)
-
-        if not lang_file.exists():
-            print(f"\nWARNING: {lang_file} not found, skipping")
+        if lang not in completed:
+            print(f"WARNING: {lang} not in completed translations, skipping")
             continue
 
-        print(f"\n{'─' * 40}")
-        print(f"Translating to {lang_name} ({lang})")
+        lang_file = I18N_DIR / f"{lang}.toml"
+        translations = completed[lang]
+        update_toml_values(lang_file, translations, deleted)
+        print(f"  Updated {lang}.toml: {len(translations)} keys")
 
-        if to_translate:
-            # Batch translate
-            translations = {}
-            keys_list = list(to_translate.items())
+    if deleted:
+        print(f"  Deleted {len(deleted)} obsolete keys from all languages")
 
-            for i in range(0, len(keys_list), BATCH_SIZE):
-                batch = dict(keys_list[i:i + BATCH_SIZE])
-                batch_num = i // BATCH_SIZE + 1
-                total_batches = (len(keys_list) + BATCH_SIZE - 1) // BATCH_SIZE
-                print(f"  Batch {batch_num}/{total_batches} ({len(batch)} keys)...", end=" ")
+    # Update checksums
+    en_keys = parse_toml_keys(I18N_DIR / f"{SOURCE_LANG}.toml")
+    save_checksums(compute_checksums(en_keys))
 
-                if api_key:
-                    result = translate_batch(batch, lang, api_key)
-                    # Fill any missing keys with fallback
-                    for k in batch:
-                        if k not in result:
-                            result[k] = f"[EN] {batch[k]}"
-                else:
-                    result = fallback_translate(batch)
+    # Clean up temp files
+    PENDING_FILE.unlink(missing_ok=True)
+    COMPLETED_FILE.unlink(missing_ok=True)
 
-                translations.update(result)
-                print(f"OK ({len(result)} translated)")
+    print(f"\nChecksums saved. Temp files cleaned. Done.")
 
-            # Update TOML file
-            update_toml_values(lang_file, translations, deleted)
-            print(f"  Updated {lang_file.name}: {len(translations)} keys translated")
-        elif deleted:
-            # Only deletions
-            update_toml_values(lang_file, {}, deleted)
-            print(f"  Updated {lang_file.name}: {len(deleted)} keys removed")
 
-    # 4. Save checksums
-    save_checksums(new_checksums)
-    print(f"\n{'=' * 60}")
-    print(f"Checksums saved to {CHECKSUMS_FILE.name}")
-    print(f"Total: {len(to_translate)} keys translated, {len(deleted)} keys deleted")
-    print("Done.")
+def cmd_status():
+    """Show current sync status."""
+    en_keys = parse_toml_keys(I18N_DIR / f"{SOURCE_LANG}.toml")
+    new_checksums = compute_checksums(en_keys)
+    old_checksums = load_checksums()
+
+    changed = sum(1 for k, v in new_checksums.items() if k in old_checksums and old_checksums[k] != v)
+    new = sum(1 for k in new_checksums if k not in old_checksums)
+    deleted = sum(1 for k in old_checksums if k not in new_checksums)
+
+    print(f"English keys: {len(en_keys)}")
+    print(f"Changed: {changed}  New: {new}  Deleted: {deleted}")
+
+    if changed + new + deleted == 0:
+        print("Status: ALL IN SYNC")
+    else:
+        print(f"Status: {changed + new + deleted} keys need attention → run 'detect'")
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: translate-sync.py <detect|apply|status> [--force]")
+        sys.exit(1)
+
+    command = sys.argv[1]
+
+    if command == "detect":
+        cmd_detect(force="--force" in sys.argv)
+    elif command == "apply":
+        cmd_apply()
+    elif command == "status":
+        cmd_status()
+    else:
+        print(f"Unknown command: {command}")
+        print("Usage: translate-sync.py <detect|apply|status> [--force]")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
