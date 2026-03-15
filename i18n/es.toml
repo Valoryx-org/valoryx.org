@@ -35,9 +35,9 @@ other = "Volver arriba"
 [hero_badge]
 other = "Auto-alojado · Git-Native · Gratis para siempre"
 [hero_title]
-other = "Documentación que<br class=\"hidden sm:block\"> vive en git"
+other = "Documentación que tu equipo escribe.<br class=\"hidden sm:block\"> Documentación que tu IA mantiene."
 [hero_subtitle]
-other = "Sincronización git bidireccional, editor WYSIWYG y hermosos sitios publicados. Binario único o Docker — cero dependencias."
+other = "Plataforma de documentación git-native con servidor MCP integrado. Escribe, publica y deja que los agentes de IA mantengan tus docs al día. Un solo binario, cero dependencias."
 [hero_cta]
 other = "Comenzar Gratis"
 [hero_box1_title]

@@ -35,9 +35,9 @@ other = "Nach oben"
 [hero_badge]
 other = "Self-Hosted · Git-Nativ · Für immer kostenlos"
 [hero_title]
-other = "Dokumentation, die<br class=\"hidden sm:block\"> in git lebt"
+other = "Dokumentation, die Ihr Team schreibt.<br class=\"hidden sm:block\"> Dokumentation, die Ihre KI pflegt."
 [hero_subtitle]
-other = "Bidirektionale Git-Synchronisierung, WYSIWYG-Editor und schöne veröffentlichte Websites. Einzelnes Binary oder Docker — keine Abhängigkeiten."
+other = "Git-native Docs-Plattform mit integriertem MCP-Server. Schreiben, veröffentlichen und KI-Agenten halten Ihre Docs aktuell. Ein Binary, null Abhängigkeiten."
 [hero_cta]
 other = "Kostenlos starten"
 [hero_box1_title]
