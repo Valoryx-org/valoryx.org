@@ -8,24 +8,37 @@
       <p>{{ i18n "pricing_subtitle" }}</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+    <!-- Toggle: Self-Hosted / Cloud -->
+    <div class="flex justify-center mb-12 reveal">
+      <div class="inline-flex rounded-xl p-1.5" style="background: var(--light);" id="homePricingToggle">
+        <button class="hp-tab px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200" data-target="hp-selfhosted" style="color: var(--muted); background: transparent; border: none; cursor: pointer;">
+          <i class="bi bi-hdd-rack mr-1.5"></i>{{ i18n "pricing_selfhosted" | default "Self-Hosted" }}
+        </button>
+        <button class="hp-tab active px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200" data-target="hp-cloud" style="color: #fff; background: var(--accent); box-shadow: 0 2px 8px rgba(29,127,194,0.25); border: none; cursor: pointer;">
+          <i class="bi bi-cloud mr-1.5"></i>{{ i18n "pricing_cloud_short" | default "Cloud" }}
+        </button>
+      </div>
+    </div>
 
-      <!-- Community (Free) -->
+    <!-- Cloud Plans (default visible) -->
+    <div id="hp-cloud" class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+
+      <!-- Free -->
       <div class="reveal reveal-delay-1">
         <div class="pricing-item">
-          <h3>{{ i18n "plan_community" }}</h3>
+          <h3>{{ i18n "pricing_free" | default "Free" }}</h3>
           <h4>$0 <span>/ {{ i18n "plan_forever" }}</span></h4>
           <ul>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat1" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat2" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat3" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat4" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat5" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat6" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_c_feat7" }}</li>
-            <li class="na"><i class="bi bi-x"></i> {{ i18n "plan_c_feat8" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pf_feat1" | default "1 Workspace" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pf_feat2" | default "3 Editors" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pf_feat3" | default "50 Pages per Workspace" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pf_feat4" | default "Git Sync" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pf_feat5" | default "WYSIWYG Editor" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pf_feat6" | default "Full-Text Search" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pf_feat7" | default "Published Docs" }}</li>
+            <li class="na"><i class="bi bi-x"></i> {{ i18n "pf_feat8" | default "Custom Domains" }}</li>
           </ul>
-          <a href="{{ $homeURL }}install/" class="buy-btn" aria-label="{{ i18n "plan_community_cta" }} — Community">{{ i18n "plan_community_cta" }}</a>
+          <a href="https://app.valoryx.dev/register" class="buy-btn" aria-label="Start Free">{{ i18n "pricing_start_free" | default "Start Free" }}</a>
         </div>
       </div>
 
@@ -34,17 +47,16 @@
         <div class="pricing-item">
           <span class="plan-badge">{{ i18n "pricing_popular" | default "Most Popular" }}</span>
           <h3>{{ i18n "plan_team" }}</h3>
-          <h4><sup>$</sup>29 <span>/ {{ i18n "plan_workspace_mo" }}</span></h4>
+          <h4><sup>$</sup>29 <span>/ {{ i18n "plan_mo" | default "mo" }}</span></h4>
           <ul>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat1" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat2" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat3" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat4" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat5" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat6" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_t_feat7" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pt_feat1" | default "3 Workspaces" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pt_feat2" | default "15 Editors" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pt_feat3" | default "150 Pages per Workspace" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pt_feat5" | default "Custom Domains" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pt_feat6" | default "Priority Support" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pt_feat7" | default "Analytics" }}</li>
           </ul>
-          <a href="https://app.valoryx.dev/pricing" class="buy-btn" aria-label="{{ i18n "pricing_upgrade" | default "Upgrade" }} — Team">{{ i18n "pricing_upgrade" | default "Upgrade" }}</a>
+          <a href="https://app.valoryx.dev/register" class="buy-btn" aria-label="Start Free Trial">{{ i18n "pricing_upgrade" | default "Upgrade" }}</a>
         </div>
       </div>
 
@@ -52,21 +64,73 @@
       <div class="reveal reveal-delay-3">
         <div class="pricing-item">
           <h3>{{ i18n "plan_business" }}</h3>
-          <h4><sup>$</sup>79 <span>/ {{ i18n "plan_workspace_mo" }}</span></h4>
+          <h4><sup>$</sup>79 <span>/ {{ i18n "plan_mo" | default "mo" }}</span></h4>
           <ul>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat1" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat2" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat3" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat4" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat5" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat6" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat7" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "plan_b_feat8" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pb_feat1" | default "10 Workspaces" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pb_feat2" | default "50 Editors" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pb_feat3" | default "500 Pages per Workspace" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pb_feat5" | default "SSO / SAML" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pb_feat6" | default "Analytics Dashboard" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pb_feat7" | default "Audit Logs" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pb_feat8" | default "SLA Guarantee" }}</li>
           </ul>
-          <a href="https://app.valoryx.dev/pricing" class="buy-btn" aria-label="{{ i18n "pricing_upgrade" | default "Upgrade" }} — Business">{{ i18n "pricing_upgrade" | default "Upgrade" }}</a>
+          <a href="https://app.valoryx.dev/register" class="buy-btn" aria-label="Start Free Trial">{{ i18n "pricing_upgrade" | default "Upgrade" }}</a>
+          <p class="text-xs mt-3" style="color: var(--muted);">{{ i18n "pricing_enterprise_note" | default "Need more?" }} <a href="#contact" style="color: var(--accent); font-weight: 600;">{{ i18n "pricing_contact" | default "Contact us" }}</a></p>
         </div>
       </div>
 
     </div>
+
+    <!-- Self-Hosted Plan (hidden by default) -->
+    <div id="hp-selfhosted" class="hidden max-w-lg mx-auto">
+      <div class="reveal">
+        <div class="pricing-item text-center" style="border-top: 4px solid var(--accent);">
+          <h3>{{ i18n "pricing_community" | default "Community Edition" }}</h3>
+          <h4>$0 <span>/ {{ i18n "plan_forever" }}</span></h4>
+          <p class="text-sm mb-6" style="color: var(--muted);">{{ i18n "pricing_ce_desc" | default "Unlimited Workspaces · Unlimited Editors · Unlimited Pages" }}</p>
+          <ul>
+            <li><i class="bi bi-check"></i> {{ i18n "pce_feat1" | default "Full editor, git sync, search, publishing" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pce_feat2" | default "MCP server (13 tools, stdio)" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pce_feat3" | default "No license key required" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pce_feat4" | default "You own your data" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pce_feat5" | default "Your infrastructure, your rules" }}</li>
+          </ul>
+          <div class="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+            <a href="{{ $homeURL }}install/" class="buy-btn">{{ i18n "pricing_download" | default "Download Free" }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var tabs = document.querySelectorAll('.hp-tab');
+  var cloud = document.getElementById('hp-cloud');
+  var self = document.getElementById('hp-selfhosted');
+  if (!tabs.length || !cloud || !self) return;
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      tabs.forEach(function(t) {
+        t.classList.remove('active');
+        t.style.color = 'var(--muted)';
+        t.style.background = 'transparent';
+        t.style.boxShadow = 'none';
+      });
+      tab.classList.add('active');
+      tab.style.color = '#fff';
+      tab.style.background = 'var(--accent)';
+      tab.style.boxShadow = '0 2px 8px rgba(29,127,194,0.25)';
+      if (tab.dataset.target === 'hp-cloud') {
+        cloud.classList.remove('hidden');
+        self.classList.add('hidden');
+      } else {
+        cloud.classList.add('hidden');
+        self.classList.remove('hidden');
+      }
+    });
+  });
+});
+</script>
