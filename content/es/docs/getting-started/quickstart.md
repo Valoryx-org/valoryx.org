@@ -82,7 +82,7 @@ Abra [http://localhost:3000](http://localhost:3000) en su navegador.
 
 ## Paso 4: Registrar su cuenta
 
-El primer usuario en registrarse se convierte automáticamente en **SuperAdmin** con acceso completo a la plataforma.
+El primer usuario en registrarse se convierte automáticamente en **Super Admin** con acceso completo a la plataforma.
 
 1. Haga clic en **Create Account**
 2. Ingrese su nombre, correo electrónico y contraseña

@@ -23,7 +23,7 @@ Diese Punkte sind für ein sicheres, zuverlässiges Produktions-Deployment notwe
 
 - [ ] **TLS aktiviert** — Betreiben Sie DocPlatform hinter einem Reverse Proxy (Caddy, nginx, Cloud-Load-Balancer) mit HTTPS. DocPlatform terminiert TLS nicht selbst.
 - [ ] **JWT-Schlüssel gesichert** — Die `jwt-key.pem`-Datei ermöglicht das Fälschen von Authentifizierungs-Token. Schränken Sie die Dateisystemberechtigungen ein: `chmod 600`.
-- [ ] **Erster Benutzer registriert** — Der erste registrierte Benutzer wird zum SuperAdmin. Registrieren Sie Ihr Admin-Konto, bevor Sie den Server für andere öffnen.
+- [ ] **Erster Benutzer registriert** — Der erste registrierte Benutzer wird zum Super Admin. Registrieren Sie Ihr Admin-Konto, bevor Sie den Server für andere öffnen.
 - [ ] **An localhost binden** — Wenn Sie einen Reverse Proxy auf demselben Host verwenden, setzen Sie `HOST=127.0.0.1`, damit DocPlatform nicht direkt zugänglich ist.
 
 ### Backups

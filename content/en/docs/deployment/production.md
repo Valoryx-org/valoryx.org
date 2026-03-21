@@ -23,7 +23,7 @@ These items are necessary for a secure, reliable production deployment.
 
 - [ ] **TLS enabled** — Run behind a reverse proxy (Caddy, nginx, cloud load balancer) with HTTPS. DocPlatform does not terminate TLS itself.
 - [ ] **JWT key secured** — The `jwt-private.pem` file grants the ability to forge authentication tokens. Restrict filesystem permissions: `chmod 600`.
-- [ ] **First user registered** — The first registered user becomes SuperAdmin. Register your admin account before opening the server to others.
+- [ ] **First user registered** — The first registered user becomes Super Admin. Register your admin account before opening the server to others.
 - [ ] **Bind to localhost** — If using a reverse proxy on the same host, set `HOST=127.0.0.1` so DocPlatform isn't directly accessible.
 
 ### Backups

@@ -82,7 +82,7 @@ INFO  Listening on               http://localhost:3000
 
 ## Schritt 4: Konto registrieren
 
-Der erste Benutzer, der sich registriert, wird automatisch zum **SuperAdmin** mit vollem Plattformzugriff.
+Der erste Benutzer, der sich registriert, wird automatisch zum **Super Admin** mit vollem Plattformzugriff.
 
 1. Klicken Sie auf **Create Account**
 2. Geben Sie Ihren Namen, Ihre E-Mail-Adresse und ein Passwort ein

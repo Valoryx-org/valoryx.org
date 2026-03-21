@@ -41,7 +41,7 @@ Token erhalten Sie über die Login- oder OIDC-Endpunkte.
 POST /api/v1/auth/register
 ```
 
-Erstellt ein neues Benutzerkonto. Der erste Benutzer wird zum SuperAdmin.
+Erstellt ein neues Benutzerkonto. Der erste Benutzer wird zum Super Admin.
 
 **Anfrage:**
 
@@ -323,7 +323,7 @@ Gibt Workspaces zurück, in denen der aktuelle Benutzer Mitglied ist.
 POST /api/v1/workspaces
 ```
 
-Erfordert die SuperAdmin-Rolle.
+Erfordert die Super Admin-Rolle.
 
 **Anfrage:**
 

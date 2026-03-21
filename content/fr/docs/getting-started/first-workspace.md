@@ -15,7 +15,7 @@ Un espace de travail est le conteneur principal d'un projet de documentation. Ch
 | **Workspace** | Un projet de documentation contenant des pages, des membres et des paramètres |
 | **Page** | Un fichier Markdown avec un frontmatter YAML (titre, description, tags, accès) |
 | **Slug** | L'identifiant compatible URL de votre espace de travail (ex. `my-docs` → `/p/my-docs/`) |
-| **Membre** | Un utilisateur avec un rôle dans l'espace de travail (de Viewer à WorkspaceAdmin) |
+| **Membre** | Un utilisateur avec un rôle dans l'espace de travail (de Viewer à Admin) |
 
 ## Créer un espace de travail
 
@@ -29,7 +29,7 @@ docplatform init \
 
 ### Via l'interface web
 
-1. Connectez-vous en tant que SuperAdmin ou WorkspaceAdmin
+1. Connectez-vous en tant que Super Admin ou Admin
 2. Ouvrez le sélecteur d'espace de travail (menu déroulant en haut à gauche)
 3. Cliquez sur **Create Workspace**
 4. Saisissez un nom et un slug
@@ -152,9 +152,8 @@ Si SMTP est configuré, l'invitation est envoyée par e-mail. Sinon, un lien d'i
 | **Viewer** | Oui | | | | |
 | **Commenter** | Oui | Oui | | | |
 | **Editor** | Oui | Oui | Oui | | |
-| **Admin** | Oui | Oui | Oui | Oui | |
-| **WorkspaceAdmin** | Oui | Oui | Oui | Oui | Oui |
-| **SuperAdmin** | Accès complet à la plateforme sur tous les espaces de travail |
+| **Admin** | Oui | Oui | Oui | Oui | Oui |
+| **Super Admin** | Accès complet à la plateforme sur tous les espaces de travail |
 
 Pour une configuration détaillée des permissions, consultez [Rôles et permissions](../configuration/permissions.md).
 

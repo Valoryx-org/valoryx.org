@@ -51,8 +51,8 @@ curl -X POST http://localhost:3000/api/v1/workspaces/{workspace-id}/invitations 
 DocPlatform использует 6-уровневую иерархию ролей. Более высокие роли наследуют все права более низких ролей.
 
 ```
-SuperAdmin
-    └── WorkspaceAdmin
+Super Admin
+    └── Workspace Admin
             └── Admin
                   └── Editor
                         └── Commenter
@@ -65,8 +65,8 @@ SuperAdmin
 | **Commenter** | Workspace | Просмотр + комментирование страниц |
 | **Editor** | Workspace | Просмотр + комментирование + создание, редактирование, удаление страниц |
 | **Admin** | Workspace | Editor + управление участниками и ролями |
-| **WorkspaceAdmin** | Workspace | Admin + управление настройками workspace, конфигурацией git, темой |
-| **SuperAdmin** | Платформа | Полный доступ ко всем workspaces + настройкам платформы |
+| **Workspace Admin** | Workspace | Admin + управление настройками workspace, конфигурацией git, темой |
+| **Super Admin** | Платформа | Полный доступ ко всем workspaces + настройкам платформы |
 
 ### Роль по умолчанию для новых участников
 

@@ -48,15 +48,14 @@ Cliquez sur le rôle actuel d'un membre pour le modifier. Les changements de rô
 
 ## Rôles
 
-DocPlatform utilise une hiérarchie de rôles à 6 niveaux. Les rôles supérieurs héritent de toutes les permissions des rôles inférieurs.
+DocPlatform utilise une hiérarchie de rôles à 5 niveaux. Les rôles supérieurs héritent de toutes les permissions des rôles inférieurs.
 
 ```
-SuperAdmin
-    └── WorkspaceAdmin
-            └── Admin
-                  └── Editor
-                        └── Commenter
-                              └── Viewer
+Super Admin
+    └── Admin
+          └── Editor
+                └── Commenter
+                      └── Viewer
 ```
 
 | Rôle | Portée | Capacités |
@@ -64,9 +63,8 @@ SuperAdmin
 | **Viewer** | Espace de travail | Consulter les pages et rechercher |
 | **Commenter** | Espace de travail | Consulter + laisser des commentaires sur les pages |
 | **Editor** | Espace de travail | Consulter + commenter + créer, modifier, supprimer des pages |
-| **Admin** | Espace de travail | Editor + gérer les membres et les rôles |
-| **WorkspaceAdmin** | Espace de travail | Admin + gérer les paramètres de l'espace de travail, la configuration git, le thème |
-| **SuperAdmin** | Plateforme | Accès complet à tous les espaces de travail + paramètres de la plateforme |
+| **Admin** | Espace de travail | Gestion complète de l'espace de travail (paramètres, git, thème, membres) |
+| **Super Admin** | Plateforme | Accès complet à tous les espaces de travail + paramètres de la plateforme |
 
 ### Rôle par défaut pour les nouveaux membres
 

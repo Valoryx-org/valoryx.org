@@ -82,7 +82,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
 ## Étape 4 : Enregistrer votre compte
 
-Le premier utilisateur à s'enregistrer devient automatiquement **SuperAdmin** avec un accès complet à la plateforme.
+Le premier utilisateur à s'enregistrer devient automatiquement **Super Admin** avec un accès complet à la plateforme.
 
 1. Cliquez sur **Create Account**
 2. Saisissez votre nom, e-mail et mot de passe

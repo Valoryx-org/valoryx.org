@@ -1,6 +1,6 @@
 ---
 title: Roles & Permissions
-description: Configure DocPlatform's 6-level role hierarchy, page-level access control, and permission caching.
+description: Configure DocPlatform's 5-level role hierarchy, page-level access control, and permission caching.
 weight: 3
 ---
 
@@ -10,14 +10,12 @@ DocPlatform uses role-based access control (RBAC) powered by custom RBAC, an in-
 
 ## Role hierarchy
 
-DocPlatform defines 6 roles in a strict hierarchy. Higher roles inherit all permissions of lower roles.
+DocPlatform defines 5 roles in a strict hierarchy. Higher roles inherit all permissions of lower roles.
 
 ```
-SuperAdmin          ← Full platform access (all workspaces)
+Super Admin         ← Full platform access (all workspaces)
     │
-WorkspaceAdmin      ← Manage workspace settings, git config, theme
-    │
-SpaceAdmin          ← Manage pages under assigned path patterns (e.g., docs/api/**)
+Admin               ← Manage workspace settings, git config, theme
     │
 Editor              ← Create, edit, delete pages
     │
@@ -28,51 +26,30 @@ Viewer              ← View pages only
 
 ### Permission matrix
 
-| Permission | Viewer | Commenter | Editor | Space Admin | WS Admin | Super Admin |
-|---|---|---|---|---|---|---|
-| View pages | Yes | Yes | Yes | Yes | Yes | Yes |
-| Search content | Yes | Yes | Yes | Yes | Yes | Yes |
-| Leave comments | | Yes | Yes | Yes | Yes | Yes |
-| Create pages | | | Yes | Yes (scoped) | Yes | Yes |
-| Edit pages | | | Yes | Yes (scoped) | Yes | Yes |
-| Delete pages | | | Yes | Yes (scoped) | Yes | Yes |
-| Upload assets | | | Yes | Yes | Yes | Yes |
-| Invite members | | | | | Yes | Yes |
-| Remove members | | | | | Yes | Yes |
-| Change member roles | | | | | Yes | Yes |
-| Manage workspace settings | | | | | Yes | Yes |
-| Configure git remote | | | | | Yes | Yes |
-| Manage theme & navigation | | | | | Yes | Yes |
-| Access all workspaces | | | | | | Yes |
-| Manage platform settings | | | | | | Yes |
-| Create/delete workspaces | | | | | | Yes |
-
-### Space Admin — path-scoped permissions
-
-The **Space Admin** role is unique: it grants admin-level control but only over pages matching specific **path patterns**. This enables delegated ownership without full workspace admin access.
-
-**Example:** A Space Admin with `path_patterns: ["docs/api/**"]` can create, edit, and delete any page under `docs/api/` but has no special access to `docs/guides/`.
-
-Path patterns are assigned when adding a member:
-
-```bash
-curl -X POST http://localhost:3000/api/v1/workspaces/:id/invitations \
-  -H "Authorization: Bearer {token}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "api-lead@example.com",
-    "role": "space_admin",
-    "path_patterns": ["docs/api/**", "docs/reference/**"]
-  }'
-```
-
-Path patterns use glob-style matching (`*` for single level, `**` for recursive).
+| Permission | Viewer | Commenter | Editor | Admin | Super Admin |
+|---|---|---|---|---|---|
+| View pages | Yes | Yes | Yes | Yes | Yes |
+| Search content | Yes | Yes | Yes | Yes | Yes |
+| Leave comments | | Yes | Yes | Yes | Yes |
+| Create pages | | | Yes | Yes | Yes |
+| Edit pages | | | Yes | Yes | Yes |
+| Delete pages | | | Yes | Yes | Yes |
+| Upload assets | | | Yes | Yes | Yes |
+| Invite members | | | | Yes | Yes |
+| Remove members | | | | Yes | Yes |
+| Change member roles | | | | Yes | Yes |
+| Manage workspace settings | | | | Yes | Yes |
+| Configure git remote | | | | Yes | Yes |
+| Manage theme & navigation | | | | Yes | Yes |
+| Access all workspaces | | | | | Yes |
+| Manage platform settings | | | | | Yes |
+| Create/delete workspaces | | | | | Yes |
 
 ## Assigning roles
 
 ### First user
 
-The first user to register on a new DocPlatform instance automatically receives the **SuperAdmin** role. This only happens once — subsequent registrations receive no workspace role until invited.
+The first user to register on a new DocPlatform instance automatically receives the **Super Admin** role. This only happens once — subsequent registrations receive no workspace role until invited.
 
 ### Workspace members
 
@@ -102,7 +79,7 @@ permissions:
   default_role: viewer
 ```
 
-Available values: `viewer`, `commenter`, `editor`, `space_admin`, `workspace_admin`
+Available values: `viewer`, `commenter`, `editor`, `admin`
 
 ## Page-level access control
 
@@ -128,7 +105,7 @@ access:
 
 **Rules:**
 - Prefix user IDs with `@` to target individual users
-- SuperAdmin and WorkspaceAdmin always have access regardless of frontmatter rules
+- Super Admin and Admin always have access regardless of frontmatter rules
 - Frontmatter can only **restrict** — a page cannot grant access beyond the user's workspace role
 
 ### Examples
@@ -189,11 +166,10 @@ For reference, each role maps to a numeric level. Higher levels inherit all perm
 | Viewer | 10 | `read` |
 | Commenter | 20 | `read` |
 | Editor | 30 | `read`, `write`, `delete` |
-| SpaceAdmin | 40 | `read`, `write`, `delete` within path patterns |
-| WorkspaceAdmin | 50 | All workspace actions |
-| SuperAdmin | 60 | All platform actions (bypasses all checks) |
+| Admin | 40 | All workspace actions |
+| Super Admin | 50 | All platform actions (bypasses all checks) |
 
-Actions have minimum levels: `read` requires level 10+, `write` requires 30+, `delete` requires 30+, `admin` requires 50+. A user's role level is compared against the action's minimum level.
+Actions have minimum levels: `read` requires level 10+, `write` requires 30+, `delete` requires 30+, `admin` requires 40+. A user's role level is compared against the action's minimum level.
 
 ## How permissions are evaluated
 
@@ -213,16 +189,15 @@ Permission Middleware
     └── Denied → 403 Forbidden
 ```
 
-### 6-step evaluation flow
+### 5-step evaluation flow
 
 1. **Is workspace public + action is read?** → assign anonymous viewer role
-2. **Is user SuperAdmin?** → ALLOW (bypasses all checks)
-3. **Is user WorkspaceAdmin?** → ALLOW for this workspace
-4. **Does user's role permit action?** → custom RBAC RBAC check with `keyMatch2(path)`
-5. **Do path_patterns match?** (Space Admin only) → check glob patterns
-6. **Does page frontmatter have access rules?** → check whitelist, RESTRICT within role
+2. **Is user Super Admin?** → ALLOW (bypasses all checks)
+3. **Is user Admin?** → ALLOW for this workspace
+4. **Does user's role permit action?** → custom RBAC check with `keyMatch2(path)`
+5. **Does page frontmatter have access rules?** → check whitelist, RESTRICT within role
 
-Frontmatter RESTRICTS within role, never GRANTS beyond it. A malformed frontmatter defaults to **strict mode** — page restricted to WorkspaceAdmin only.
+Frontmatter RESTRICTS within role, never GRANTS beyond it. A malformed frontmatter defaults to **strict mode** — page restricted to Admin only.
 
 ### Performance
 
@@ -255,7 +230,7 @@ The cache is versioned, not time-based — there's no stale-permission window.
 ---
 title: Incident Response Playbook
 access:
-  roles: ["sre-team", "workspace_admin"]
+  roles: ["sre-team", "admin"]
 ---
 ```
 
@@ -273,14 +248,7 @@ Create separate workspaces per team with independent member lists:
 - `product-docs` workspace → product team
 - `internal-wiki` workspace → everyone
 
-SuperAdmin has access to all workspaces for cross-team visibility.
-
-### Delegated ownership with Space Admin
-
-Assign Space Admin roles for teams that own specific documentation areas:
-
-- API team → `space_admin` with `path_patterns: ["docs/api/**"]`
-- Design team → `space_admin` with `path_patterns: ["docs/design/**"]`
+Super Admin has access to all workspaces for cross-team visibility.
 
 ## Community Edition limits
 
@@ -301,8 +269,7 @@ These limits are hardcoded (no license key required). Viewers and commenters are
 
 1. Check your role: Profile → Workspace Membership
 2. Check the page's frontmatter: does `access.roles` include your role?
-3. If using Space Admin, verify your `path_patterns` cover the page's path
-4. Ask a workspace admin to verify your role assignment
+3. Ask an Admin to verify your role assignment
 
 ### Permission changes not taking effect
 
@@ -312,7 +279,7 @@ Permission changes should be instant (cache invalidation is synchronous). If the
 2. Check the server logs for cache invalidation errors
 3. Run `docplatform doctor` to verify permission system health
 
-### First user is not SuperAdmin
+### First user is not Super Admin
 
 This happens if the first user registers while the database already contains user records (e.g., from a previous installation). To fix:
 

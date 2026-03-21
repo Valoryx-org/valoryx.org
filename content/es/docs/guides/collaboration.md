@@ -48,15 +48,14 @@ Haga clic en el rol actual de un miembro para cambiarlo. Los cambios de rol surt
 
 ## Roles
 
-DocPlatform usa una jerarquía de roles de 6 niveles. Los roles superiores heredan todos los permisos de los roles inferiores.
+DocPlatform usa una jerarquía de roles de 5 niveles. Los roles superiores heredan todos los permisos de los roles inferiores.
 
 ```
-SuperAdmin
-    └── WorkspaceAdmin
-            └── Admin
-                  └── Editor
-                        └── Commenter
-                              └── Viewer
+Super Admin
+    └── Admin
+          └── Editor
+                └── Commenter
+                      └── Viewer
 ```
 
 | Rol | Ámbito | Capacidades |
@@ -64,9 +63,8 @@ SuperAdmin
 | **Viewer** | Workspace | Ver páginas y buscar |
 | **Commenter** | Workspace | Ver + dejar comentarios en páginas |
 | **Editor** | Workspace | Ver + comentar + crear, editar, eliminar páginas |
-| **Admin** | Workspace | Editor + gestionar miembros y roles |
-| **WorkspaceAdmin** | Workspace | Admin + gestionar configuración del workspace, configuración git, tema |
-| **SuperAdmin** | Plataforma | Acceso completo a todos los workspaces + configuración de la plataforma |
+| **Admin** | Workspace | Gestión completa del workspace (configuración, git, tema, miembros) |
+| **Super Admin** | Plataforma | Acceso completo a todos los workspaces + configuración de la plataforma |
 
 ### Rol predeterminado para nuevos miembros
 

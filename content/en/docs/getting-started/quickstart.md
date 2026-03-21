@@ -82,7 +82,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Step 4: Register your account
 
-The first user to register automatically becomes the **SuperAdmin** with full platform access.
+The first user to register automatically becomes the **Super Admin** with full platform access.
 
 1. Click **Create Account**
 2. Enter your name, email, and password

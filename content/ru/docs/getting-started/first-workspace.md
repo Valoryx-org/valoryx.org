@@ -15,7 +15,7 @@ Workspace — это контейнер верхнего уровня для п�
 | **Workspace** | Проект документации, содержащий страницы, участников и настройки |
 | **Page** | Markdown-файл с YAML frontmatter (заголовок, описание, теги, доступ) |
 | **Slug** | URL-безопасный идентификатор workspace (например, `my-docs` -> `/p/my-docs/`) |
-| **Member** | Пользователь с ролью в workspace (от Viewer до WorkspaceAdmin) |
+| **Member** | Пользователь с ролью в workspace (от Viewer до Workspace Admin) |
 
 ## Создание workspace
 
@@ -29,7 +29,7 @@ docplatform init \
 
 ### Через веб-интерфейс
 
-1. Войдите как SuperAdmin или WorkspaceAdmin
+1. Войдите как Super Admin или Workspace Admin
 2. Откройте переключатель workspace (выпадающий список вверху слева)
 3. Нажмите **Create Workspace**
 4. Введите имя и slug
@@ -153,8 +153,8 @@ allowed_roles: []     # only used when access: restricted
 | **Commenter** | Да | Да | | | |
 | **Editor** | Да | Да | Да | | |
 | **Admin** | Да | Да | Да | Да | |
-| **WorkspaceAdmin** | Да | Да | Да | Да | Да |
-| **SuperAdmin** | Полный доступ ко всем workspaces |
+| **Workspace Admin** | Да | Да | Да | Да | Да |
+| **Super Admin** | Полный доступ ко всем workspaces |
 
 Подробнее о настройке прав доступа смотрите в разделе [Роли и права доступа](../configuration/permissions.md).
 

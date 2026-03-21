@@ -10,14 +10,12 @@ DocPlatform verwendet rollenbasierte Zugriffskontrolle (RBAC), gestützt durch C
 
 ## Rollenhierarchie
 
-DocPlatform definiert 6 Rollen in einer strikten Hierarchie. Höhere Rollen erben alle Berechtigungen niedrigerer Rollen.
+DocPlatform definiert 5 Rollen in einer strikten Hierarchie. Höhere Rollen erben alle Berechtigungen niedrigerer Rollen.
 
 ```
-SuperAdmin          ← Vollständiger Plattformzugriff (alle Workspaces)
+Super Admin         ← Vollständiger Plattformzugriff (alle Workspaces)
     │
-WorkspaceAdmin      ← Workspace-Einstellungen, Git-Konfiguration, Theme verwalten
-    │
-Admin               ← Mitglieder verwalten, Rollen zuweisen
+Admin               ← Workspace-Einstellungen, Git-Konfiguration, Theme verwalten
     │
 Editor              ← Seiten erstellen, bearbeiten, löschen
     │
@@ -28,17 +26,17 @@ Viewer              ← Nur Seiten ansehen
 
 ### Berechtigungsmatrix
 
-| Berechtigung | Viewer | Commenter | Editor | Admin | WS Admin | Super Admin |
-|---|---|---|---|---|---|---|
-| Seiten ansehen | Ja | Ja | Ja | Ja | Ja | Ja |
-| Inhalte suchen | Ja | Ja | Ja | Ja | Ja | Ja |
-| Kommentare hinterlassen | | Ja | Ja | Ja | Ja | Ja |
-| Seiten erstellen | | | Ja | Ja | Ja | Ja |
-| Seiten bearbeiten | | | Ja | Ja | Ja | Ja |
-| Seiten löschen | | | Ja | Ja | Ja | Ja |
-| Assets hochladen | | | Ja | Ja | Ja | Ja |
-| Mitglieder einladen | | | | Ja | Ja | Ja |
-| Mitglieder entfernen | | | | Ja | Ja | Ja |
+| Berechtigung | Viewer | Commenter | Editor | Admin | Super Admin |
+|---|---|---|---|---|---|
+| Seiten ansehen | Ja | Ja | Ja | Ja | Ja |
+| Inhalte suchen | Ja | Ja | Ja | Ja | Ja |
+| Kommentare hinterlassen | | Ja | Ja | Ja | Ja |
+| Seiten erstellen | | | Ja | Ja | Ja |
+| Seiten bearbeiten | | | Ja | Ja | Ja |
+| Seiten löschen | | | Ja | Ja | Ja |
+| Assets hochladen | | | Ja | Ja | Ja |
+| Mitglieder einladen | | | | Ja | Ja |
+| Mitglieder entfernen | | | | Ja | Ja |
 | Mitgliederrollen ändern | | | | Ja | Ja | Ja |
 | Workspace-Einstellungen verwalten | | | | | Ja | Ja |
 | Git-Remote konfigurieren | | | | | Ja | Ja |
@@ -51,7 +49,7 @@ Viewer              ← Nur Seiten ansehen
 
 ### Erster Benutzer
 
-Der erste Benutzer, der sich auf einer neuen DocPlatform-Instanz registriert, erhält automatisch die **SuperAdmin**-Rolle. Dies geschieht nur einmal — nachfolgende Registrierungen erhalten keine Workspace-Rolle, bis sie eingeladen werden.
+Der erste Benutzer, der sich auf einer neuen DocPlatform-Instanz registriert, erhält automatisch die **Super Admin**-Rolle. Dies geschieht nur einmal — nachfolgende Registrierungen erhalten keine Workspace-Rolle, bis sie eingeladen werden.
 
 ### Workspace-Mitglieder
 
@@ -81,7 +79,7 @@ permissions:
   default_role: viewer
 ```
 
-Verfügbare Werte: `viewer`, `commenter`, `editor`, `admin`, `workspace_admin`
+Verfügbare Werte: `viewer`, `commenter`, `editor`, `admin`
 
 ## Zugriffskontrolle auf Seitenebene
 
@@ -114,7 +112,7 @@ access: public
 ---
 title: Infrastructure Runbook
 access: restricted
-allowed_roles: [admin, workspace_admin]
+allowed_roles: [admin]
 ---
 ```
 
@@ -145,11 +143,10 @@ Als Referenz: Jede Rolle wird einer numerischen Stufe zugeordnet. Höhere Stufen
 | Viewer | 10 | `read` |
 | Commenter | 20 | `read` |
 | Editor | 30 | `read`, `write`, `delete` |
-| Admin | 40 | `read`, `write`, `delete`, `admin` (Mitgliederverwaltung) |
-| WorkspaceAdmin | 50 | Alle Workspace-Aktionen |
-| SuperAdmin | 60 | Alle Plattform-Aktionen (umgeht alle Prüfungen) |
+| Admin | 40 | Alle Workspace-Aktionen |
+| Super Admin | 50 | Alle Plattform-Aktionen (umgeht alle Prüfungen) |
 
-Aktionen haben Mindeststufen: `read` erfordert Stufe 10+, `write` erfordert 30+, `delete` erfordert 30+, `admin` erfordert 50+. Die Rollenstufe eines Benutzers wird mit der Mindeststufe der Aktion verglichen.
+Aktionen haben Mindeststufen: `read` erfordert Stufe 10+, `write` erfordert 30+, `delete` erfordert 30+, `admin` erfordert 40+. Die Rollenstufe eines Benutzers wird mit der Mindeststufe der Aktion verglichen.
 
 ## Wie Berechtigungen ausgewertet werden
 
@@ -208,7 +205,7 @@ access: public
 ---
 title: Incident Response Playbook
 access: restricted
-allowed_roles: [admin, workspace_admin]
+allowed_roles: [admin]
 ---
 ```
 
@@ -226,7 +223,7 @@ Erstellen Sie separate Workspaces pro Team mit unabhängigen Mitgliederlisten:
 - `product-docs` Workspace → Produktteam
 - `internal-wiki` Workspace → alle
 
-SuperAdmin hat Zugriff auf alle Workspaces für teamübergreifende Sichtbarkeit.
+Super Admin hat Zugriff auf alle Workspaces für teamübergreifende Sichtbarkeit.
 
 ## Community Edition Limits
 
@@ -257,7 +254,7 @@ Berechtigungsänderungen sollten sofort wirksam sein (Cache-Invalidierung ist sy
 2. Prüfen Sie die Server-Logs auf Cache-Invalidierungsfehler
 3. Führen Sie `docplatform doctor` aus, um den Zustand des Berechtigungssystems zu verifizieren
 
-### Erster Benutzer ist nicht SuperAdmin
+### Erster Benutzer ist nicht Super Admin
 
 Dies tritt auf, wenn der erste Benutzer sich registriert, während die Datenbank bereits Benutzerdatensätze enthält (z. B. aus einer vorherigen Installation). Lösung:
 

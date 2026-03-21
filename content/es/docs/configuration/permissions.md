@@ -10,14 +10,12 @@ DocPlatform usa control de acceso basado en roles (RBAC) impulsado por Casbin, u
 
 ## Jerarquía de roles
 
-DocPlatform define 6 roles en una jerarquía estricta. Los roles superiores heredan todos los permisos de los roles inferiores.
+DocPlatform define 5 roles en una jerarquía estricta. Los roles superiores heredan todos los permisos de los roles inferiores.
 
 ```
-SuperAdmin          ← Full platform access (all workspaces)
+Super Admin         ← Full platform access (all workspaces)
     │
-WorkspaceAdmin      ← Manage workspace settings, git config, theme
-    │
-Admin               ← Manage members, assign roles
+Admin               ← Manage workspace settings, git config, theme
     │
 Editor              ← Create, edit, delete pages
     │
@@ -28,17 +26,17 @@ Viewer              ← View pages only
 
 ### Matriz de permisos
 
-| Permiso | Viewer | Commenter | Editor | Admin | WS Admin | Super Admin |
-|---|---|---|---|---|---|---|
-| Ver páginas | Sí | Sí | Sí | Sí | Sí | Sí |
-| Buscar contenido | Sí | Sí | Sí | Sí | Sí | Sí |
-| Dejar comentarios | | Sí | Sí | Sí | Sí | Sí |
-| Crear páginas | | | Sí | Sí | Sí | Sí |
-| Editar páginas | | | Sí | Sí | Sí | Sí |
-| Eliminar páginas | | | Sí | Sí | Sí | Sí |
-| Subir assets | | | Sí | Sí | Sí | Sí |
-| Invitar miembros | | | | Sí | Sí | Sí |
-| Eliminar miembros | | | | Sí | Sí | Sí |
+| Permiso | Viewer | Commenter | Editor | Admin | Super Admin |
+|---|---|---|---|---|---|
+| Ver páginas | Sí | Sí | Sí | Sí | Sí |
+| Buscar contenido | Sí | Sí | Sí | Sí | Sí |
+| Dejar comentarios | | Sí | Sí | Sí | Sí |
+| Crear páginas | | | Sí | Sí | Sí |
+| Editar páginas | | | Sí | Sí | Sí |
+| Eliminar páginas | | | Sí | Sí | Sí |
+| Subir assets | | | Sí | Sí | Sí |
+| Invitar miembros | | | | Sí | Sí |
+| Eliminar miembros | | | | Sí | Sí |
 | Cambiar roles de miembros | | | | Sí | Sí | Sí |
 | Gestionar configuración del workspace | | | | | Sí | Sí |
 | Configurar repositorio git remoto | | | | | Sí | Sí |
@@ -51,7 +49,7 @@ Viewer              ← View pages only
 
 ### Primer usuario
 
-El primer usuario en registrarse en una nueva instancia de DocPlatform recibe automáticamente el rol de **SuperAdmin**. Esto solo ocurre una vez — los registros posteriores no reciben rol de workspace hasta ser invitados.
+El primer usuario en registrarse en una nueva instancia de DocPlatform recibe automáticamente el rol de **Super Admin**. Esto solo ocurre una vez — los registros posteriores no reciben rol de workspace hasta ser invitados.
 
 ### Miembros del workspace
 
@@ -81,7 +79,7 @@ permissions:
   default_role: viewer
 ```
 
-Valores disponibles: `viewer`, `commenter`, `editor`, `admin`, `workspace_admin`
+Valores disponibles: `viewer`, `commenter`, `editor`, `admin`
 
 ## Control de acceso a nivel de página
 
@@ -114,7 +112,7 @@ access: public
 ---
 title: Infrastructure Runbook
 access: restricted
-allowed_roles: [admin, workspace_admin]
+allowed_roles: [admin]
 ---
 ```
 
@@ -145,11 +143,10 @@ Como referencia, cada rol se asigna a un nivel numérico. Los niveles superiores
 | Viewer | 10 | `read` |
 | Commenter | 20 | `read` |
 | Editor | 30 | `read`, `write`, `delete` |
-| Admin | 40 | `read`, `write`, `delete`, `admin` (gestión de miembros) |
-| WorkspaceAdmin | 50 | Todas las acciones del workspace |
-| SuperAdmin | 60 | Todas las acciones de la plataforma (omite todas las verificaciones) |
+| Admin | 40 | Todas las acciones del workspace |
+| Super Admin | 50 | Todas las acciones de la plataforma (omite todas las verificaciones) |
 
-Las acciones tienen niveles mínimos: `read` requiere nivel 10+, `write` requiere 30+, `delete` requiere 30+, `admin` requiere 50+. El nivel del rol del usuario se compara contra el nivel mínimo de la acción.
+Las acciones tienen niveles mínimos: `read` requiere nivel 10+, `write` requiere 30+, `delete` requiere 30+, `admin` requiere 40+. El nivel del rol del usuario se compara contra el nivel mínimo de la acción.
 
 ## Cómo se evalúan los permisos
 
@@ -208,7 +205,7 @@ access: public
 ---
 title: Incident Response Playbook
 access: restricted
-allowed_roles: [admin, workspace_admin]
+allowed_roles: [admin]
 ---
 ```
 
@@ -226,7 +223,7 @@ Cree workspaces separados por equipo con listas de miembros independientes:
 - Workspace `product-docs` → equipo de producto
 - Workspace `internal-wiki` → todos
 
-SuperAdmin tiene acceso a todos los workspaces para visibilidad entre equipos.
+Super Admin tiene acceso a todos los workspaces para visibilidad entre equipos.
 
 ## Límites de Community Edition
 
@@ -257,7 +254,7 @@ Los cambios de permisos deberían ser instantáneos (la invalidación de caché 
 2. Verifique los logs del servidor en busca de errores de invalidación de caché
 3. Ejecute `docplatform doctor` para verificar la salud del sistema de permisos
 
-### El primer usuario no es SuperAdmin
+### El primer usuario no es Super Admin
 
 Esto sucede si el primer usuario se registra mientras la base de datos ya contiene registros de usuarios (por ejemplo, de una instalación anterior). Para solucionarlo:
 

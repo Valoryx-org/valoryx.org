@@ -149,7 +149,7 @@ curl -X POST http://localhost:3000/api/v1/auth/refresh \
 3. Assurez-vous que les variables d'environnement `OIDC_*_CLIENT_ID` et `OIDC_*_CLIENT_SECRET` sont correctement définies
 4. Redémarrez le serveur après avoir modifié les variables d'environnement OIDC
 
-### Le premier utilisateur n'est pas SuperAdmin
+### Le premier utilisateur n'est pas Super Admin
 
 **Cause :** La base de données contenait déjà des enregistrements utilisateur d'une installation précédente.
 
@@ -259,7 +259,7 @@ Le système de fichiers (fichiers `.md`) est la source de vérité. Même si la 
 
 ### La page devient inaccessible après une modification du frontmatter
 
-**Cause :** YAML invalide dans le bloc de frontmatter. DocPlatform utilise le **mode strict** par défaut — si l'analyse du frontmatter échoue, la page est restreinte à l'accès WorkspaceAdmin uniquement pour empêcher qu'une faute de frappe YAML ne rende accidentellement publique une page privée.
+**Cause :** YAML invalide dans le bloc de frontmatter. DocPlatform utilise le **mode strict** par défaut — si l'analyse du frontmatter échoue, la page est restreinte à l'accès Admin uniquement pour empêcher qu'une faute de frappe YAML ne rende accidentellement publique une page privée.
 
 **Symptômes :**
 
@@ -270,7 +270,7 @@ Le système de fichiers (fichiers `.md`) est la source de vérité. Même si la 
 
 **Solution :**
 
-1. Connectez-vous en tant que WorkspaceAdmin ou SuperAdmin
+1. Connectez-vous en tant qu'Admin ou Super Admin
 2. Ouvrez la page affectée dans l'éditeur web
 3. Basculez en mode Markdown brut (bouton `</>`)
 4. Corrigez le frontmatter YAML (problèmes courants : guillemets manquants autour de valeurs avec des deux-points, indentation incorrecte, crochets non fermés)
@@ -290,7 +290,7 @@ docplatform rebuild
 
 | Mode | Comportement en cas de YAML invalide | Quand l'utiliser |
 |---|---|---|
-| **Strict** (par défaut) | Page restreinte à WorkspaceAdmin uniquement, exclue de la recherche et de la documentation publiée | Production — empêche l'exposition accidentelle |
+| **Strict** (par défaut) | Page restreinte à Admin uniquement, exclue de la recherche et de la documentation publiée | Production — empêche l'exposition accidentelle |
 | **Lenient** | Conserve le dernier frontmatter valide connu depuis la base de données, affiche un avertissement | Développement — moins de perturbation pendant l'édition |
 
 Le mode strict garantit qu'une faute de frappe YAML ne rende jamais accidentellement publique une page restreinte. C'est un choix de conception délibéré pour la sécurité.

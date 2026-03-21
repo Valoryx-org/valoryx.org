@@ -297,7 +297,7 @@ Run `docplatform init` to create your workspace.
 Run `docplatform serve` and open http://localhost:3000.
 ::
 ::step[Register]
-Create your admin account — the first user becomes SuperAdmin.
+Create your admin account — the first user becomes Super Admin.
 ::
 :::
 ```

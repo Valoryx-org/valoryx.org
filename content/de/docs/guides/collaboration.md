@@ -48,15 +48,14 @@ Klicken Sie auf die aktuelle Rolle eines Mitglieds, um sie zu ändern. Rollenän
 
 ## Rollen
 
-DocPlatform verwendet eine 6-stufige Rollenhierarchie. Höhere Rollen erben alle Berechtigungen niedrigerer Rollen.
+DocPlatform verwendet eine 5-stufige Rollenhierarchie. Höhere Rollen erben alle Berechtigungen niedrigerer Rollen.
 
 ```
-SuperAdmin
-    └── WorkspaceAdmin
-            └── Admin
-                  └── Editor
-                        └── Commenter
-                              └── Viewer
+Super Admin
+    └── Admin
+          └── Editor
+                └── Commenter
+                      └── Viewer
 ```
 
 | Rolle | Geltungsbereich | Fähigkeiten |
@@ -64,9 +63,8 @@ SuperAdmin
 | **Viewer** | Workspace | Seiten ansehen und suchen |
 | **Commenter** | Workspace | Ansehen + Kommentare auf Seiten hinterlassen |
 | **Editor** | Workspace | Ansehen + kommentieren + Seiten erstellen, bearbeiten, löschen |
-| **Admin** | Workspace | Editor + Mitglieder und Rollen verwalten |
-| **WorkspaceAdmin** | Workspace | Admin + Workspace-Einstellungen, Git-Konfiguration, Theme verwalten |
-| **SuperAdmin** | Plattform | Vollzugriff auf alle Workspaces + Plattformeinstellungen |
+| **Admin** | Workspace | Workspace-Einstellungen, Git-Konfiguration, Theme, Mitglieder verwalten |
+| **Super Admin** | Plattform | Vollzugriff auf alle Workspaces + Plattformeinstellungen |
 
 ### Standardrolle für neue Mitglieder
 

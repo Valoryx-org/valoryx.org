@@ -149,7 +149,7 @@ curl -X POST http://localhost:3000/api/v1/auth/refresh \
 3. Asegúrese de que las variables de entorno `OIDC_*_CLIENT_ID` y `OIDC_*_CLIENT_SECRET` estén configuradas correctamente
 4. Reinicie el servidor después de cambiar las variables de entorno OIDC
 
-### El primer usuario no es SuperAdmin
+### El primer usuario no es Super Admin
 
 **Causa:** La base de datos ya contenía registros de usuarios de una instalación anterior.
 
@@ -259,7 +259,7 @@ El sistema de archivos (archivos `.md`) es la fuente de verdad. Incluso si se pi
 
 ### La página se vuelve inaccesible después de editar el frontmatter
 
-**Causa:** YAML inválido en el bloque de frontmatter. DocPlatform usa **modo estricto** por defecto — si el análisis del frontmatter falla, la página se restringe a acceso solo de WorkspaceAdmin para evitar que un error tipográfico en YAML haga accidentalmente pública una página privada.
+**Causa:** YAML inválido en el bloque de frontmatter. DocPlatform usa **modo estricto** por defecto — si el análisis del frontmatter falla, la página se restringe a acceso solo de Admin para evitar que un error tipográfico en YAML haga accidentalmente pública una página privada.
 
 **Síntomas:**
 
@@ -270,7 +270,7 @@ El sistema de archivos (archivos `.md`) es la fuente de verdad. Incluso si se pi
 
 **Solución:**
 
-1. Inicie sesión como WorkspaceAdmin o SuperAdmin
+1. Inicie sesión como Admin o Super Admin
 2. Abra la página afectada en el editor web
 3. Cambie al modo Markdown sin procesar (botón `</>`)
 4. Corrija el frontmatter YAML (problemas comunes: comillas faltantes alrededor de valores con dos puntos, indentación incorrecta, corchetes sin cerrar)
@@ -290,7 +290,7 @@ docplatform rebuild
 
 | Modo | Comportamiento con YAML inválido | Cuándo usarlo |
 |---|---|---|
-| **Strict** (predeterminado) | Página restringida solo a WorkspaceAdmin, excluida de búsqueda y documentación publicada | Producción — previene exposición accidental |
+| **Strict** (predeterminado) | Página restringida solo a Admin, excluida de búsqueda y documentación publicada | Producción — previene exposición accidental |
 | **Lenient** | Mantiene el último frontmatter válido conocido de la base de datos, muestra advertencia | Desarrollo — menos disrupciones durante la edición |
 
 El modo estricto asegura que un error tipográfico en YAML nunca haga accidentalmente pública una página restringida. Este es un diseño de seguridad deliberado.

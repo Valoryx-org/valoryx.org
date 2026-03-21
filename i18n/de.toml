@@ -829,7 +829,7 @@ other = "Bleve-powered search engine indexes all your content. Instant results w
 [oss_feature_rbac_title]
 other = "Role-Based Access"
 [oss_feature_rbac_text]
-other = "6 roles from Viewer to Owner. Per-workspace permissions. Up to 5 editors and 3 workspaces."
+other = "5 Rollen von Viewer bis Super Admin. Berechtigungen pro Workspace. Bis zu 5 Editoren und 3 Workspaces."
 [oss_feature_cli_title]
 other = "CLI and REST API"
 [oss_feature_cli_text]

@@ -27,7 +27,7 @@ docplatform mcp --workspace <slug> --api-key <key>
 - WYSIWYG Tiptap editor with markdown support
 - Full-text search (Bleve engine)
 - Published documentation sites with 5 themes
-- Role-based access control (6 roles)
+- Role-based access control (5 roles)
 - Wikilinks with auto-repair on rename
 - 95+ REST API endpoints
 - WebAuthn/passkey authentication

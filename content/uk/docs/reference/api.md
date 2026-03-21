@@ -41,7 +41,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIs...
 POST /api/v1/auth/register
 ```
 
-Створення нового облікового запису. Перший користувач стає SuperAdmin.
+Створення нового облікового запису. Перший користувач стає Super Admin.
 
 **Запит:**
 
@@ -323,7 +323,7 @@ GET /api/v1/workspaces
 POST /api/v1/workspaces
 ```
 
-Потребує роль SuperAdmin.
+Потребує роль Super Admin.
 
 **Запит:**
 

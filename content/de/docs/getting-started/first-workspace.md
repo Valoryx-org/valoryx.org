@@ -15,7 +15,7 @@ Ein Workspace ist der übergeordnete Container für ein Dokumentationsprojekt. J
 | **Workspace** | Ein Dokumentationsprojekt mit Seiten, Mitgliedern und Einstellungen |
 | **Seite** | Eine Markdown-Datei mit YAML-Frontmatter (Titel, Beschreibung, Tags, Zugriff) |
 | **Slug** | Die URL-sichere Kennung für Ihren Workspace (z. B. `my-docs` → `/p/my-docs/`) |
-| **Mitglied** | Ein Benutzer mit einer Rolle im Workspace (Viewer bis WorkspaceAdmin) |
+| **Mitglied** | Ein Benutzer mit einer Rolle im Workspace (Viewer bis Admin) |
 
 ## Workspace erstellen
 
@@ -29,7 +29,7 @@ docplatform init \
 
 ### Über Web-Oberfläche
 
-1. Melden Sie sich als SuperAdmin oder WorkspaceAdmin an
+1. Melden Sie sich als Super Admin oder Admin an
 2. Öffnen Sie den Workspace-Umschalter (Dropdown oben links)
 3. Klicken Sie auf **Create Workspace**
 4. Geben Sie einen Namen und Slug ein
@@ -152,9 +152,8 @@ Wenn SMTP konfiguriert ist, wird die Einladung per E-Mail gesendet. Andernfalls 
 | **Viewer** | Ja | | | | |
 | **Commenter** | Ja | Ja | | | |
 | **Editor** | Ja | Ja | Ja | | |
-| **Admin** | Ja | Ja | Ja | Ja | |
-| **WorkspaceAdmin** | Ja | Ja | Ja | Ja | Ja |
-| **SuperAdmin** | Vollständiger Plattformzugriff über alle Workspaces |
+| **Admin** | Ja | Ja | Ja | Ja | Ja |
+| **Super Admin** | Vollständiger Plattformzugriff über alle Workspaces |
 
 Für detaillierte Berechtigungskonfiguration siehe [Rollen & Berechtigungen](../configuration/permissions.md).
 

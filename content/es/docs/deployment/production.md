@@ -23,7 +23,7 @@ Estos elementos son necesarios para un despliegue de producción seguro y confia
 
 - [ ] **TLS habilitado** — Ejecute detrás de un reverse proxy (Caddy, nginx, balanceador de carga en la nube) con HTTPS. DocPlatform no realiza terminación TLS por sí mismo.
 - [ ] **Clave JWT protegida** — El archivo `jwt-key.pem` otorga la capacidad de falsificar tokens de autenticación. Restrinja los permisos del sistema de archivos: `chmod 600`.
-- [ ] **Primer usuario registrado** — El primer usuario registrado se convierte en SuperAdmin. Registre su cuenta de administrador antes de abrir el servidor a otros.
+- [ ] **Primer usuario registrado** — El primer usuario registrado se convierte en Super Admin. Registre su cuenta de administrador antes de abrir el servidor a otros.
 - [ ] **Enlazar a localhost** — Si usa un reverse proxy en el mismo host, establezca `HOST=127.0.0.1` para que DocPlatform no sea directamente accesible.
 
 ### Copias de seguridad

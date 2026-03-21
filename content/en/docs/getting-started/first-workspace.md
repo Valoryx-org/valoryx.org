@@ -15,7 +15,7 @@ A workspace is the top-level container for a documentation project. Each workspa
 | **Workspace** | A documentation project containing pages, members, and settings |
 | **Page** | A Markdown file with YAML frontmatter (title, description, tags, access) |
 | **Slug** | The URL-safe identifier for your workspace (e.g., `my-docs` → `/p/my-docs/`) |
-| **Member** | A user with a role in the workspace (Viewer through WorkspaceAdmin) |
+| **Member** | A user with a role in the workspace (Viewer through Admin) |
 
 ## Create a workspace
 
@@ -29,7 +29,7 @@ docplatform init \
 
 ### Via web UI
 
-1. Sign in as SuperAdmin or WorkspaceAdmin
+1. Sign in as Super Admin or Admin
 2. Open the workspace switcher (top-left dropdown)
 3. Click **Create Workspace**
 4. Enter a name and slug
@@ -141,7 +141,7 @@ The `title` is required. All other fields are optional and have sensible default
 1. Open **Workspace Settings** → **Members**
 2. Click **Invite**
 3. Enter the person's email address
-4. Select a role (Viewer, Commenter, Editor, SpaceAdmin, WorkspaceAdmin)
+4. Select a role (Viewer, Commenter, Editor, Admin)
 5. Click **Send Invitation**
 
 If SMTP is configured, the invitation is sent by email. Otherwise, a shareable invitation link is displayed.
@@ -153,9 +153,8 @@ If SMTP is configured, the invitation is sent by email. Otherwise, a shareable i
 | **Viewer** | Yes | | | | |
 | **Commenter** | Yes | Yes | | | |
 | **Editor** | Yes | Yes | Yes | | |
-| **SpaceAdmin** | Yes | Yes | Yes (scoped) | | |
-| **WorkspaceAdmin** | Yes | Yes | Yes | Yes | Yes |
-| **SuperAdmin** | Full platform access across all workspaces |
+| **Admin** | Yes | Yes | Yes | Yes | Yes |
+| **Super Admin** | Full platform access across all workspaces |
 
 For detailed permission configuration, see [Roles & Permissions](../configuration/permissions.md).
 

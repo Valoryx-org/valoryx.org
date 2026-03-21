@@ -149,7 +149,7 @@ curl -X POST http://localhost:3000/api/v1/auth/refresh \
 3. Stellen Sie sicher, dass die Umgebungsvariablen `OIDC_*_CLIENT_ID` und `OIDC_*_CLIENT_SECRET` korrekt gesetzt sind
 4. Starten Sie den Server nach dem Ändern von OIDC-Umgebungsvariablen neu
 
-### Erster Benutzer ist nicht SuperAdmin
+### Erster Benutzer ist nicht Super Admin
 
 **Ursache:** Die Datenbank enthielt bereits Benutzerdatensätze aus einer vorherigen Installation.
 
@@ -259,7 +259,7 @@ Das Dateisystem (`.md`-Dateien) ist die Quelle der Wahrheit. Selbst wenn die Dat
 
 ### Seite wird nach Frontmatter-Bearbeitung unzugänglich
 
-**Ursache:** Ungültiges YAML im Frontmatter-Block. DocPlatform verwendet standardmäßig den **Strict-Modus** — wenn das Frontmatter-Parsing fehlschlägt, wird die Seite auf WorkspaceAdmin-only-Zugriff beschränkt, um zu verhindern, dass ein YAML-Tippfehler versehentlich eine private Seite öffentlich macht.
+**Ursache:** Ungültiges YAML im Frontmatter-Block. DocPlatform verwendet standardmäßig den **Strict-Modus** — wenn das Frontmatter-Parsing fehlschlägt, wird die Seite auf Admin-only-Zugriff beschränkt, um zu verhindern, dass ein YAML-Tippfehler versehentlich eine private Seite öffentlich macht.
 
 **Symptome:**
 
@@ -270,7 +270,7 @@ Das Dateisystem (`.md`-Dateien) ist die Quelle der Wahrheit. Selbst wenn die Dat
 
 **Lösung:**
 
-1. Melden Sie sich als WorkspaceAdmin oder SuperAdmin an
+1. Melden Sie sich als Admin oder Super Admin an
 2. Öffnen Sie die betroffene Seite im Web-Editor
 3. Wechseln Sie zum Raw-Markdown-Modus (`</>` Umschalter)
 4. Korrigieren Sie das YAML-Frontmatter (häufige Probleme: fehlende Anführungszeichen bei Werten mit Doppelpunkten, falsche Einrückung, nicht geschlossene Klammern)
@@ -290,7 +290,7 @@ docplatform rebuild
 
 | Modus | Verhalten bei ungültigem YAML | Wann zu verwenden |
 |---|---|---|
-| **Strict** (Standard) | Seite auf WorkspaceAdmin beschränkt, aus Suche und veröffentlichter Dokumentation ausgeschlossen | Produktion — verhindert versehentliche Freigabe |
+| **Strict** (Standard) | Seite auf Admin beschränkt, aus Suche und veröffentlichter Dokumentation ausgeschlossen | Produktion — verhindert versehentliche Freigabe |
 | **Lenient** | Zuletzt bekanntes gültiges Frontmatter aus der Datenbank beibehalten, Warnung anzeigen | Entwicklung — weniger Unterbrechung beim Bearbeiten |
 
 Der Strict-Modus stellt sicher, dass ein YAML-Tippfehler niemals versehentlich eine eingeschränkte Seite öffentlich macht. Dies ist ein bewusstes Sicherheitsdesign.

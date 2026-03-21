@@ -29,7 +29,7 @@ Beim ersten Start führt DocPlatform automatisch folgende Schritte aus:
 3. Initialisiert den Volltext-Suchindex
 4. Beginnt auf Port 3000 zu lauschen
 
-Der erste Benutzer, der sich registriert, wird zum **SuperAdmin** mit vollem Plattformzugriff. Kein manueller `init`-Schritt ist erforderlich — der Container ist sofort einsatzbereit.
+Der erste Benutzer, der sich registriert, wird zum **Super Admin** mit vollem Plattformzugriff. Kein manueller `init`-Schritt ist erforderlich — der Container ist sofort einsatzbereit.
 
 ```bash
 # Überprüfen, ob der Container korrekt gestartet ist

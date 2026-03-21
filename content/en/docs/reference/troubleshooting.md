@@ -149,7 +149,7 @@ curl -X POST http://localhost:3000/api/auth/refresh \
 3. Ensure the `OIDC_*_CLIENT_ID` and `OIDC_*_CLIENT_SECRET` environment variables are set correctly
 4. Restart the server after changing OIDC environment variables
 
-### First user is not SuperAdmin
+### First user is not Super Admin
 
 **Cause:** The database already contained user records from a previous installation.
 
@@ -259,7 +259,7 @@ The filesystem (`.md` files) is the source of truth. Even if the database is los
 
 ### Page becomes inaccessible after frontmatter edit
 
-**Cause:** Invalid YAML in the frontmatter block. DocPlatform uses **strict mode** by default — if frontmatter parsing fails, the page is restricted to WorkspaceAdmin access only to prevent a YAML typo from accidentally making a private page public.
+**Cause:** Invalid YAML in the frontmatter block. DocPlatform uses **strict mode** by default — if frontmatter parsing fails, the page is restricted to Admin access only to prevent a YAML typo from accidentally making a private page public.
 
 **Symptoms:**
 
@@ -270,7 +270,7 @@ The filesystem (`.md` files) is the source of truth. Even if the database is los
 
 **Solution:**
 
-1. Sign in as a WorkspaceAdmin or SuperAdmin
+1. Sign in as an Admin or Super Admin
 2. Open the affected page in the web editor
 3. Switch to raw Markdown mode (`</>` toggle)
 4. Fix the YAML frontmatter (common issues: missing quotes around values with colons, incorrect indentation, unclosed brackets)
@@ -290,7 +290,7 @@ docplatform rebuild
 
 | Mode | Behavior on invalid YAML | When to use |
 |---|---|---|
-| **Strict** (default) | Page restricted to WorkspaceAdmin only, excluded from search and published docs | Production — prevents accidental exposure |
+| **Strict** (default) | Page restricted to Admin only, excluded from search and published docs | Production — prevents accidental exposure |
 | **Lenient** | Keep last-known-good frontmatter from database, show warning | Development — less disruption during editing |
 
 Strict mode ensures a YAML typo never accidentally makes a restricted page public. This is a deliberate safety design.

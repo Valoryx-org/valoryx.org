@@ -81,7 +81,7 @@ docplatform init --workspace-name "My Docs" --slug my-docs
 docplatform serve
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and register your first user — they automatically become the SuperAdmin.
+Open [http://localhost:3000](http://localhost:3000) and register your first user — they automatically become the Super Admin.
 
 For the complete walkthrough, see the [Getting Started](getting-started/index.md) guide.
 
@@ -93,7 +93,7 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 - **Bidirectional git sync** — Web → git commit → push; CLI push → polling → web update
 - **Conflict detection** — Hash-based optimistic concurrency with downloadable diff on collision
 - **Full-text search** — Embedded Bleve engine with permission-filtered results and Cmd+K shortcut
-- **RBAC permissions** — 6 roles: SuperAdmin, WorkspaceAdmin, SpaceAdmin, Editor, Commenter, Viewer
+- **RBAC permissions** — 5 roles: Super Admin, Admin, Editor, Commenter, Viewer
 - **Authentication** — Local (argon2id), Google/GitHub OIDC, and WebAuthn/Passkeys
 - **Workspace model** — Org → Workspace → Pages hierarchy with team invitations
 - **Audit trail** — Every mutation logged with user, timestamp, and operation type

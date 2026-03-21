@@ -172,7 +172,7 @@ Key endpoints:
 - **Git**: Bidirectional sync with any Git remote (SSH or HTTPS)
 - **Editor**: Tiptap (ProseMirror) WYSIWYG with markdown import/export
 - **Auth**: JWT + refresh tokens, OAuth 2.0/OIDC, WebAuthn/passkeys
-- **RBAC**: 6 roles (viewer, commenter, editor, admin, owner, super_admin)
+- **RBAC**: 5 roles (viewer, commenter, editor, admin, super_admin)
 - **Publishing**: Static HTML generation with 5 themes
 - **MCP**: JSON-RPC 2.0 over stdio (Phase 1), Streamable HTTP (Phase 1.5)
 

@@ -29,7 +29,7 @@ Au premier démarrage, DocPlatform effectue automatiquement :
 3. Initialisation de l'index de recherche plein texte
 4. Début de l'écoute sur le port 3000
 
-Le premier utilisateur à s'inscrire devient le **SuperAdmin** avec un accès complet à la plateforme. Aucune étape `init` manuelle n'est nécessaire — le conteneur est prêt à l'emploi immédiatement.
+Le premier utilisateur à s'inscrire devient le **Super Admin** avec un accès complet à la plateforme. Aucune étape `init` manuelle n'est nécessaire — le conteneur est prêt à l'emploi immédiatement.
 
 ```bash
 # Vérifier que le conteneur a démarré correctement

@@ -41,7 +41,7 @@ Obtenez des tokens via les endpoints de connexion ou OIDC.
 POST /api/v1/auth/register
 ```
 
-Créer un nouveau compte utilisateur. Le premier utilisateur devient SuperAdmin.
+Créer un nouveau compte utilisateur. Le premier utilisateur devient Super Admin.
 
 **Requête :**
 
@@ -323,7 +323,7 @@ Renvoie les espaces de travail dont l'utilisateur courant est membre.
 POST /api/v1/workspaces
 ```
 
-Nécessite le rôle SuperAdmin.
+Nécessite le rôle Super Admin.
 
 **Requête :**
 

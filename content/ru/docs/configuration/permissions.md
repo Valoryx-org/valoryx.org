@@ -10,14 +10,12 @@ DocPlatform использует ролевую модель доступа (RBA
 
 ## Иерархия ролей
 
-DocPlatform определяет 6 ролей в строгой иерархии. Более высокие роли наследуют все права более низких.
+DocPlatform определяет 5 ролей в строгой иерархии. Более высокие роли наследуют все права более низких.
 
 ```
-SuperAdmin          ← Full platform access (all workspaces)
+Super Admin         ← Full platform access (all workspaces)
     │
-WorkspaceAdmin      ← Manage workspace settings, git config, theme
-    │
-Admin               ← Manage members, assign roles
+Admin               ← Manage workspace settings, git config, theme
     │
 Editor              ← Create, edit, delete pages
     │
@@ -28,17 +26,17 @@ Viewer              ← View pages only
 
 ### Матрица прав
 
-| Право | Viewer | Commenter | Editor | Admin | WS Admin | Super Admin |
-|---|---|---|---|---|---|---|
-| Просмотр страниц | Да | Да | Да | Да | Да | Да |
-| Поиск контента | Да | Да | Да | Да | Да | Да |
-| Комментирование | | Да | Да | Да | Да | Да |
-| Создание страниц | | | Да | Да | Да | Да |
-| Редактирование страниц | | | Да | Да | Да | Да |
-| Удаление страниц | | | Да | Да | Да | Да |
-| Загрузка ресурсов | | | Да | Да | Да | Да |
-| Приглашение участников | | | | Да | Да | Да |
-| Удаление участников | | | | Да | Да | Да |
+| Право | Viewer | Commenter | Editor | Admin | Super Admin |
+|---|---|---|---|---|---|
+| Просмотр страниц | Да | Да | Да | Да | Да |
+| Поиск контента | Да | Да | Да | Да | Да |
+| Комментирование | | Да | Да | Да | Да |
+| Создание страниц | | | Да | Да | Да |
+| Редактирование страниц | | | Да | Да | Да |
+| Удаление страниц | | | Да | Да | Да |
+| Загрузка ресурсов | | | Да | Да | Да |
+| Приглашение участников | | | | Да | Да |
+| Удаление участников | | | | Да | Да |
 | Изменение ролей участников | | | | Да | Да | Да |
 | Управление настройками workspace | | | | | Да | Да |
 | Настройка git remote | | | | | Да | Да |
@@ -51,7 +49,7 @@ Viewer              ← View pages only
 
 ### Первый пользователь
 
-Первый пользователь, зарегистрировавшийся на новом экземпляре DocPlatform, автоматически получает роль **SuperAdmin**. Это происходит только один раз — последующие регистрации не получают роли в workspace до приглашения.
+Первый пользователь, зарегистрировавшийся на новом экземпляре DocPlatform, автоматически получает роль **Super Admin**. Это происходит только один раз — последующие регистрации не получают роли в workspace до приглашения.
 
 ### Участники workspace
 
@@ -81,7 +79,7 @@ permissions:
   default_role: viewer
 ```
 
-Доступные значения: `viewer`, `commenter`, `editor`, `admin`, `workspace_admin`
+Доступные значения: `viewer`, `commenter`, `editor`, `admin`
 
 ## Контроль доступа на уровне страниц
 
@@ -114,7 +112,7 @@ access: public
 ---
 title: Infrastructure Runbook
 access: restricted
-allowed_roles: [admin, workspace_admin]
+allowed_roles: [admin]
 ---
 ```
 
@@ -145,11 +143,10 @@ allowed_roles: [admin, workspace_admin]
 | Viewer | 10 | `read` |
 | Commenter | 20 | `read` |
 | Editor | 30 | `read`, `write`, `delete` |
-| Admin | 40 | `read`, `write`, `delete`, `admin` (управление участниками) |
-| WorkspaceAdmin | 50 | Все действия workspace |
-| SuperAdmin | 60 | Все действия платформы (обходит все проверки) |
+| Admin | 40 | Все действия workspace |
+| Super Admin | 50 | Все действия платформы (обходит все проверки) |
 
-Действия имеют минимальные уровни: `read` требует уровень 10+, `write` требует 30+, `delete` требует 30+, `admin` требует 50+. Уровень роли пользователя сравнивается с минимальным уровнем действия.
+Действия имеют минимальные уровни: `read` требует уровень 10+, `write` требует 30+, `delete` требует 30+, `admin` требует 40+. Уровень роли пользователя сравнивается с минимальным уровнем действия.
 
 ## Как оцениваются права
 
@@ -208,7 +205,7 @@ access: public
 ---
 title: Incident Response Playbook
 access: restricted
-allowed_roles: [admin, workspace_admin]
+allowed_roles: [admin]
 ---
 ```
 
@@ -226,7 +223,7 @@ allowed_roles: [admin, workspace_admin]
 - Workspace `product-docs` -> продуктовая команда
 - Workspace `internal-wiki` -> все сотрудники
 
-SuperAdmin имеет доступ ко всем workspaces для межкомандной видимости.
+Super Admin имеет доступ ко всем workspaces для межкомандной видимости.
 
 ## Ограничения Community Edition
 
@@ -257,7 +254,7 @@ Community Edition применяет следующие ограничения �
 2. Проверьте логи сервера на ошибки инвалидации кэша
 3. Выполните `docplatform doctor` для проверки состояния системы прав
 
-### Первый пользователь не является SuperAdmin
+### Первый пользователь не является Super Admin
 
 Это происходит, если первый пользователь регистрируется, когда база данных уже содержит записи пользователей (например, от предыдущей установки). Для исправления:
 

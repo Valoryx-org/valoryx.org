@@ -10,14 +10,12 @@ DocPlatform utilise un contrôle d'accès basé sur les rôles (RBAC) alimenté 
 
 ## Hiérarchie des rôles
 
-DocPlatform définit 6 rôles dans une hiérarchie stricte. Les rôles supérieurs héritent de toutes les permissions des rôles inférieurs.
+DocPlatform définit 5 rôles dans une hiérarchie stricte. Les rôles supérieurs héritent de toutes les permissions des rôles inférieurs.
 
 ```
-SuperAdmin          ← Full platform access (all workspaces)
+Super Admin         ← Full platform access (all workspaces)
     │
-WorkspaceAdmin      ← Manage workspace settings, git config, theme
-    │
-Admin               ← Manage members, assign roles
+Admin               ← Manage workspace settings, git config, theme
     │
 Editor              ← Create, edit, delete pages
     │
@@ -28,17 +26,17 @@ Viewer              ← View pages only
 
 ### Matrice des permissions
 
-| Permission | Viewer | Commenter | Editor | Admin | WS Admin | Super Admin |
-|---|---|---|---|---|---|---|
-| Consulter les pages | Oui | Oui | Oui | Oui | Oui | Oui |
-| Rechercher du contenu | Oui | Oui | Oui | Oui | Oui | Oui |
-| Laisser des commentaires | | Oui | Oui | Oui | Oui | Oui |
-| Créer des pages | | | Oui | Oui | Oui | Oui |
-| Modifier des pages | | | Oui | Oui | Oui | Oui |
-| Supprimer des pages | | | Oui | Oui | Oui | Oui |
-| Télécharger des assets | | | Oui | Oui | Oui | Oui |
-| Inviter des membres | | | | Oui | Oui | Oui |
-| Retirer des membres | | | | Oui | Oui | Oui |
+| Permission | Viewer | Commenter | Editor | Admin | Super Admin |
+|---|---|---|---|---|---|
+| Consulter les pages | Oui | Oui | Oui | Oui | Oui |
+| Rechercher du contenu | Oui | Oui | Oui | Oui | Oui |
+| Laisser des commentaires | | Oui | Oui | Oui | Oui |
+| Créer des pages | | | Oui | Oui | Oui |
+| Modifier des pages | | | Oui | Oui | Oui |
+| Supprimer des pages | | | Oui | Oui | Oui |
+| Télécharger des assets | | | Oui | Oui | Oui |
+| Inviter des membres | | | | Oui | Oui |
+| Retirer des membres | | | | Oui | Oui |
 | Modifier les rôles des membres | | | | Oui | Oui | Oui |
 | Gérer les paramètres de l'espace de travail | | | | | Oui | Oui |
 | Configurer le dépôt git distant | | | | | Oui | Oui |
@@ -51,7 +49,7 @@ Viewer              ← View pages only
 
 ### Premier utilisateur
 
-Le premier utilisateur à s'inscrire sur une nouvelle instance DocPlatform reçoit automatiquement le rôle **SuperAdmin**. Cela ne se produit qu'une seule fois — les inscriptions suivantes ne reçoivent aucun rôle d'espace de travail tant qu'ils ne sont pas invités.
+Le premier utilisateur à s'inscrire sur une nouvelle instance DocPlatform reçoit automatiquement le rôle **Super Admin**. Cela ne se produit qu'une seule fois — les inscriptions suivantes ne reçoivent aucun rôle d'espace de travail tant qu'ils ne sont pas invités.
 
 ### Membres de l'espace de travail
 
@@ -81,7 +79,7 @@ permissions:
   default_role: viewer
 ```
 
-Valeurs disponibles : `viewer`, `commenter`, `editor`, `admin`, `workspace_admin`
+Valeurs disponibles : `viewer`, `commenter`, `editor`, `admin`
 
 ## Contrôle d'accès au niveau de la page
 
@@ -114,7 +112,7 @@ access: public
 ---
 title: Infrastructure Runbook
 access: restricted
-allowed_roles: [admin, workspace_admin]
+allowed_roles: [admin]
 ---
 ```
 
@@ -145,11 +143,10 @@ Pour référence, chaque rôle correspond à un niveau numérique. Les niveaux s
 | Viewer | 10 | `read` |
 | Commenter | 20 | `read` |
 | Editor | 30 | `read`, `write`, `delete` |
-| Admin | 40 | `read`, `write`, `delete`, `admin` (gestion des membres) |
-| WorkspaceAdmin | 50 | Toutes les actions de l'espace de travail |
-| SuperAdmin | 60 | Toutes les actions de la plateforme (contourne toutes les vérifications) |
+| Admin | 40 | Toutes les actions de l'espace de travail |
+| Super Admin | 50 | Toutes les actions de la plateforme (contourne toutes les vérifications) |
 
-Les actions ont des niveaux minimaux : `read` nécessite le niveau 10+, `write` nécessite 30+, `delete` nécessite 30+, `admin` nécessite 50+. Le niveau du rôle d'un utilisateur est comparé au niveau minimum de l'action.
+Les actions ont des niveaux minimaux : `read` nécessite le niveau 10+, `write` nécessite 30+, `delete` nécessite 30+, `admin` nécessite 40+. Le niveau du rôle d'un utilisateur est comparé au niveau minimum de l'action.
 
 ## Comment les permissions sont évaluées
 
@@ -208,7 +205,7 @@ access: public
 ---
 title: Incident Response Playbook
 access: restricted
-allowed_roles: [admin, workspace_admin]
+allowed_roles: [admin]
 ---
 ```
 
@@ -226,7 +223,7 @@ Créez des espaces de travail séparés par équipe avec des listes de membres i
 - Espace de travail `product-docs` → équipe produit
 - Espace de travail `internal-wiki` → tout le monde
 
-Le SuperAdmin a accès à tous les espaces de travail pour une visibilité transversale.
+Le Super Admin a accès à tous les espaces de travail pour une visibilité transversale.
 
 ## Limites de la Community Edition
 
@@ -257,7 +254,7 @@ Les changements de permissions devraient être instantanés (l'invalidation du c
 2. Vérifiez les journaux du serveur pour des erreurs d'invalidation du cache
 3. Exécutez `docplatform doctor` pour vérifier la santé du système de permissions
 
-### Le premier utilisateur n'est pas SuperAdmin
+### Le premier utilisateur n'est pas Super Admin
 
 Cela se produit si le premier utilisateur s'inscrit alors que la base de données contient déjà des enregistrements utilisateur (par ex. d'une installation précédente). Pour corriger :
 
