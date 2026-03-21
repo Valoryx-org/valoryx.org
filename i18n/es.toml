@@ -851,17 +851,17 @@ other = "View Releases"
 [oss_license_title]
 other = "License"
 [oss_license_type]
-other = "Business Source License 1.1"
+other = "Propietario"
 [oss_license_converts]
-other = "Converts to Apache 2.0 after 3 years"
+other = "Edición comunitaria gratuita disponible"
 [oss_license_free]
 other = "Free for teams up to 5 editors"
 [oss_license_unlimited]
 other = "Unlimited viewers and pages"
 [oss_license_source]
-other = "Source-available on GitHub"
+other = "Descargas binarias en GitHub"
 [oss_license_modify]
-other = "Modify and self-host freely"
+other = "Autoalojamiento en su propia infraestructura"
 [oss_contributing_title]
 other = "Community and Support"
 [oss_contributing_text]
@@ -1111,7 +1111,7 @@ other = "GitHub Advisory"
 [security_cta_title]
 other = "Security you can verify"
 [security_cta_text]
-other = "Valoryx is source-available under BSL 1.1. Review the code, check dependencies, run your own scans."
+other = "Valoryx está construido con seguridad en cada capa. Autoaloje en su infraestructura, revise las dependencias, ejecute sus propios análisis."
 [security_cta_btn_source]
 other = "Community Edition"
 [security_cta_btn_install]
@@ -1150,3 +1150,9 @@ other = "Context Graph API"
 # ── Stats Section (additional) ───────────────────────────────────────────────
 [stats5_label]
 other = "MCP Tools"
+
+# ── Footer Legal ─────────────────────────────────────────────────────────────
+[footer_terms]
+other = "Términos de servicio"
+[footer_privacy]
+other = "Política de privacidad"

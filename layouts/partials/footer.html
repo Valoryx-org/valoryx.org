@@ -53,6 +53,11 @@
   <!-- Copyright -->
   <div class="footer-copyright py-5 text-center text-sm">
     <p class="mb-1">&copy; {{ now.Year }} <strong>Valoryx</strong>. {{ i18n "footer_rights" }}</p>
-    <p class="text-xs opacity-70">{{ i18n "footer_tagline" }}</p>
+    <p class="text-xs opacity-70 mb-2">{{ i18n "footer_tagline" }}</p>
+    <p class="text-xs opacity-70">
+      <a href="{{ absLangURL "terms/" }}" class="no-underline hover:underline" style="color: inherit;">{{ i18n "footer_terms" | default "Terms of Service" }}</a>
+      &nbsp;&middot;&nbsp;
+      <a href="{{ absLangURL "privacy/" }}" class="no-underline hover:underline" style="color: inherit;">{{ i18n "footer_privacy" | default "Privacy Policy" }}</a>
+    </p>
   </div>
 </footer>
