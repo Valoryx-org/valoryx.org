@@ -252,16 +252,16 @@ Super Admin has access to all workspaces for cross-team visibility.
 
 ## Community Edition limits
 
-Community Edition enforces the following resource limits:
+Community Edition has no artificial resource limits:
 
 | Resource | Limit |
 |---|---|
-| Users with Editor role or above | 5 |
-| Workspaces | 3 |
+| Users with Editor role or above | Unlimited |
+| Workspaces | Unlimited |
 | Viewers and Commenters | Unlimited |
 | Pages | Unlimited |
 
-These limits are hardcoded (no license key required). Viewers and commenters are never counted against the editor limit. When the editor limit is reached, new users can still be invited as Viewers or Commenters.
+For hosted plans with different limits (Free, Team, Business), see [Billing & Plans](../guides/billing.md).
 
 ## Troubleshooting
 

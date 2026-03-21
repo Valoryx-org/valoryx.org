@@ -38,7 +38,7 @@ curl -X POST http://localhost:3000/api/v1/workspaces/{workspace-id}/invitations 
 
 ### Remove members
 
-Workspace Admins can remove members from **Settings** → **Members** → click the user → **Remove**.
+Admins can remove members from **Settings** → **Members** → click the user → **Remove**.
 
 Removing a member revokes their access immediately. Their past edits and audit log entries are preserved.
 
@@ -53,9 +53,9 @@ DocPlatform uses a 5-level role hierarchy. Higher roles inherit all permissions 
 ```
 Super Admin
     └── Admin
-          └── Editor
-                └── Commenter
-                      └── Viewer
+            └── Editor
+                  └── Commenter
+                        └── Viewer
 ```
 
 | Role | Scope | Capabilities |

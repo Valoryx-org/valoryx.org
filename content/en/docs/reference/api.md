@@ -516,7 +516,7 @@ Results are permission-filtered — users only see pages they have access to.
 POST /api/v1/workspaces/{workspace_id}/sync
 ```
 
-Manually trigger a git pull + reconciliation. Requires admin role.
+Manually trigger a git pull + reconciliation. Requires Admin role.
 
 **Response:** `200 OK`
 
@@ -735,7 +735,7 @@ PATCH /api/v1/users/me/onboarding  — Update onboarding state
 
 ## Super admin panel
 
-These endpoints require the `super_admin` role. All prefixed with `/api/v1/admin/`.
+These endpoints require the Super Admin role. All prefixed with `/api/v1/admin/`.
 
 ### Organization management
 
@@ -832,7 +832,7 @@ All tools respect workspace permissions and require a valid API key. See the [AI
 GET /metrics
 ```
 
-Available when `FF_METRICS=true`. Requires super admin authentication. Exposes HTTP latency histograms, request counts, auth event counters, and more.
+Available when `FF_METRICS=true`. Requires Super Admin authentication. Exposes HTTP latency histograms, request counts, auth event counters, and more.
 
 ---
 

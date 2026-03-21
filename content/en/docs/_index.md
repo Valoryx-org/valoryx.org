@@ -20,7 +20,7 @@ Documentation platforms force you to choose: a polished web editor with vendor l
 | **Every page is a `.md` file** | Your content lives as Markdown files in a real git repository. No proprietary formats. No export required. |
 | **Bidirectional git sync** | Edit in the browser — changes auto-commit and push. Push from your IDE — the web UI updates automatically. |
 | **Beautiful published docs** | One click to publish a documentation site with 7 themes, syntax highlighting, custom domains with auto-TLS, and 15+ built-in components. |
-| **Team collaboration** | 6-level role hierarchy, workspace invitations, real-time presence indicators, and full audit trail. |
+| **Team collaboration** | 5-level role hierarchy, workspace invitations, real-time presence indicators, and full audit trail. |
 | **Full-text search** | Embedded search engine with instant results. No external service to configure. |
 | **AI writing assist** | Rewrite, improve, shorten, or expand content with Claude or OpenAI. Chat with your docs for context-aware answers. |
 | **Built-in analytics** | GDPR-compliant pageview and search analytics with cookie consent — no third-party tracking required. |
@@ -121,7 +121,7 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 
 - **Pageview analytics** — Track page views and top pages with GDPR-compliant cookie consent
 - **Search analytics** — Monitor search queries, top searches, and search frequency
-- **Stripe billing** — Community (free), Team ($29/mo), Business ($79/mo) with annual pricing (2 months free)
+- **Stripe billing** — Community (free, unlimited), Free (1 workspace, 3 editors), Team ($29/mo), Business ($79/mo) with annual pricing (2 months free)
 - **Feature gating** — Analytics, custom domains, and advanced AI locked to paid plans
 - **14-day free trial** — Configurable trial period for paid plans
 
@@ -195,7 +195,7 @@ Measured on Apple M2, NVMe SSD, 1,000-page workspace:
 | MCP server (AI agents) | Yes | No | No | No | No | No |
 | Built-in analytics | Yes | Paid | Paid | No | Paid | No |
 | Passkey / WebAuthn login | Yes | No | No | N/A | No | No |
-| Open source | Yes | No | No | Yes | No | Yes |
+| Free self-hosted tier | Yes | No | No | Yes | No | Yes |
 | Offline capable | Yes | No | No | Yes | No | No |
 
 ## Community Edition limits
@@ -204,10 +204,10 @@ Community Edition is the fully functional, self-hosted core of DocPlatform. It i
 
 | Resource | Community Edition |
 |---|---|
-| **Editors** (users who can create/edit pages) | Up to 5 |
-| **Workspaces** | Up to 3 |
+| **Editors** (users who can create/edit pages) | Unlimited |
+| **Workspaces** | Unlimited |
 | **Viewers and Commenters** | Unlimited (never counted) |
 | **Pages per workspace** | Unlimited |
 | **Published docs** | Unlimited |
 
-These limits cover the majority of small-to-medium teams. Future Enterprise Edition will offer unlimited editors, unlimited workspaces, SAML/SSO, PostgreSQL support, and advanced search via Meilisearch — but Community Edition will always remain the complete, self-hostable foundation.
+Community Edition has no artificial limits. Future Enterprise Edition will offer SAML/SSO, PostgreSQL support, and advanced search via Meilisearch — but Community Edition will always remain the complete, self-hostable foundation.

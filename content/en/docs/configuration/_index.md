@@ -27,7 +27,7 @@ Higher-specificity layers override lower ones. For example, a page's `access.rea
 | [Environment Variables](environment.md) | All platform-level settings: port, data directory, git, SMTP, telemetry |
 | [Workspace Settings](workspace-config.md) | Per-workspace config: git remote, theme, navigation, publishing defaults |
 | [Authentication](authentication.md) | Local auth, OIDC providers (Google, GitHub), JWT settings, password policies |
-| [Roles & Permissions](permissions.md) | 6-level RBAC hierarchy, page-level access control, Casbin configuration |
+| [Roles & Permissions](permissions.md) | 5-level RBAC hierarchy, page-level access control, and permission caching |
 
 ## Quick reference
 
