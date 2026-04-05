@@ -96,7 +96,7 @@ Set `FF_BILLING=false` to disable billing entirely. All organizations are treate
 
 ### Upgrading
 
-Workspace admins can upgrade from the billing page:
+Super Admins can upgrade from the billing page:
 
 1. Navigate to **Settings** → **Billing**
 2. Click **Upgrade** on the desired plan

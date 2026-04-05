@@ -1082,9 +1082,9 @@ other = "WebAuthn and Passkeys"
 [security_auth_passkeys_text]
 other = "Passwordless authentication with FIDO2 security keys and platform biometrics."
 [security_auth_rbac_title]
-other = "6-Role RBAC"
+other = "5-Role RBAC"
 [security_auth_rbac_text]
-other = "Fine-grained role-based access control. Owner, Admin, Editor, Author, Reviewer, Viewer."
+other = "Fine-grained role-based access control with 5 roles — Viewer, Commenter, Editor, Admin, and Super Admin. Per-workspace permissions with configurable editor capabilities."
 [security_auth_sessions_title]
 other = "Secure Sessions"
 [security_auth_sessions_text]
