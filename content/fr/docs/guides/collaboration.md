@@ -62,7 +62,7 @@ Super Admin
 |---|---|---|
 | **Viewer** | Espace de travail | Consulter les pages et rechercher |
 | **Commenter** | Espace de travail | Consulter + laisser des commentaires sur les pages |
-| **Editor** | Espace de travail | Consulter + commenter + créer, modifier, supprimer des pages |
+| **Editor** | Espace de travail | Consulter + commenter + modifier des pages (créer/supprimer configurable par workspace) |
 | **Admin** | Espace de travail | Gestion complète de l'espace de travail (paramètres, git, thème, membres) |
 | **Super Admin** | Plateforme | Accès complet à tous les espaces de travail + paramètres de la plateforme |
 
@@ -83,12 +83,12 @@ Restreignez des pages individuelles à des rôles spécifiques en utilisant le f
 ```yaml
 ---
 title: Internal Runbook
-access: restricted
-allowed_roles: [admin, editor]
+access:
+  roles: ["admin", "editor"]
 ---
 ```
 
-Les pages avec `access: restricted` sont invisibles pour les utilisateurs sans le rôle requis — elles n'apparaissent pas dans les résultats de recherche, la navigation ni la documentation publiée.
+Les pages avec des règles `access` sont invisibles pour les utilisateurs sans le rôle requis — elles n'apparaissent pas dans les résultats de recherche, la navigation ni la documentation publiée.
 
 ## Présence en temps réel
 

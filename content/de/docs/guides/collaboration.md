@@ -62,7 +62,7 @@ Super Admin
 |---|---|---|
 | **Viewer** | Workspace | Seiten ansehen und suchen |
 | **Commenter** | Workspace | Ansehen + Kommentare auf Seiten hinterlassen |
-| **Editor** | Workspace | Ansehen + kommentieren + Seiten erstellen, bearbeiten, löschen |
+| **Editor** | Workspace | Ansehen + kommentieren + Seiten bearbeiten (erstellen/löschen konfigurierbar) |
 | **Admin** | Workspace | Workspace-Einstellungen, Git-Konfiguration, Theme, Mitglieder verwalten |
 | **Super Admin** | Plattform | Vollzugriff auf alle Workspaces + Plattformeinstellungen |
 
@@ -78,17 +78,18 @@ permissions:
 
 ### Zugriff auf Seitenebene
 
-Beschränken Sie einzelne Seiten auf bestimmte Rollen über Frontmatter:
+Beschränken Sie einzelne Seiten auf bestimmte Rollen oder Benutzer über Frontmatter:
 
 ```yaml
 ---
 title: Internal Runbook
-access: restricted
-allowed_roles: [admin, editor]
+access:
+  roles: ["admin", "editor"]
+  users: ["@01HY5K3M7Q8P"]
 ---
 ```
 
-Seiten mit `access: restricted` sind für Benutzer ohne die erforderliche Rolle unsichtbar — sie erscheinen nicht in Suchergebnissen, der Navigation oder in veröffentlichten Dokumenten.
+Seiten mit `access`-Regeln sind für Benutzer ohne die erforderliche Rolle unsichtbar — sie erscheinen nicht in Suchergebnissen, der Navigation oder in veröffentlichten Dokumenten.
 
 ## Echtzeit-Präsenz
 

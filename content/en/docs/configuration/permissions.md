@@ -309,6 +309,8 @@ Community Edition is free and self-hosted with no license key required:
 
 > Need more? [Contact sales](https://valoryx.org/contact) for Enterprise plans with custom limits, SSO, and SLA.
 
+For full billing details, see [Billing & Plans](../guides/billing.md).
+
 ## Common patterns
 
 ### Read-only public docs with restricted internal pages

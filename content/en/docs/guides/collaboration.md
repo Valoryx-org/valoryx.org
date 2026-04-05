@@ -62,7 +62,7 @@ Super Admin
 |---|---|---|
 | **Viewer** | Workspace | View pages and search |
 | **Commenter** | Workspace | View + leave comments on pages |
-| **Editor** | Workspace | View + comment + create, edit, delete pages |
+| **Editor** | Workspace | View + comment + edit pages (create/delete configurable per workspace) |
 | **Admin** | Workspace | Full workspace management (settings, git, theme, members) |
 | **Super Admin** | Platform | Full access to all workspaces + platform settings |
 
@@ -84,8 +84,8 @@ Restrict individual pages to specific roles using frontmatter access rules:
 ---
 title: Internal Runbook
 access:
-  read: ["sre-team", "admin"]
-  write: ["sre-team"]
+  roles: ["sre-team", "admin"]
+  users: []
 ---
 ```
 

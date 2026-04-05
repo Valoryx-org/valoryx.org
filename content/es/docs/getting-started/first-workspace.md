@@ -126,8 +126,9 @@ title: Authentication
 description: How to authenticate with the API using JWT tokens.
 tags: [api, auth, jwt]
 published: true
-access: public        # public, workspace, restricted
-allowed_roles: []     # only used when access: restricted
+access:
+  roles: []           # vacío = todos los miembros del workspace (predeterminado)
+  users: []           # restringir por @user_id
 ---
 ```
 

@@ -1,28 +1,30 @@
 ---
 title: Roles y permisos
-description: Configure la jerarquía de roles de 6 niveles de DocPlatform, el control de acceso a nivel de página y el almacenamiento en caché de permisos.
+description: Configure la jerarquía de 5 roles de DocPlatform, el control de acceso a nivel de workspace, los permisos del editor y los límites de puestos por plan.
 weight: 3
 ---
 
 # Roles y permisos
 
-DocPlatform usa control de acceso basado en roles (RBAC) impulsado por Casbin, un motor de autorización en proceso. Los permisos se evalúan en menos de 0.1ms por verificación sin servicio externo.
+DocPlatform usa control de acceso basado en roles (RBAC) impulsado por custom RBAC, un motor de autorización en proceso. Los permisos se evalúan en menos de 0.1ms por verificación sin servicio externo.
 
 ## Jerarquía de roles
 
-DocPlatform define 5 roles en una jerarquía estricta. Los roles superiores heredan todos los permisos de los roles inferiores.
+DocPlatform define 5 roles públicos en una jerarquía estricta. Los roles superiores heredan todos los permisos de los roles inferiores.
 
 ```
-Super Admin         ← Full platform access (all workspaces)
+Super Admin         ← Propietario de la org / creador de la cuenta (rol público más alto)
     │
-Admin               ← Manage workspace settings, git config, theme
+Admin               ← Gestionar configuración del workspace, miembros, git, tema
     │
-Editor              ← Create, edit, delete pages
+Editor              ← Crear y editar páginas (configurable por workspace)
     │
-Commenter           ← View pages, leave comments
+Commenter           ← Ver páginas, dejar comentarios
     │
-Viewer              ← View pages only
+Viewer              ← Solo ver páginas
 ```
+
+> **Platform Owner** es un rol interno reservado para operadores auto-alojados para el mantenimiento de la plataforma (migraciones de base de datos, gestión de licencias, configuración del sistema). No aparece en la interfaz ni en la API y no forma parte de la jerarquía pública de roles.
 
 ### Matriz de permisos
 
@@ -31,40 +33,75 @@ Viewer              ← View pages only
 | Ver páginas | Sí | Sí | Sí | Sí | Sí |
 | Buscar contenido | Sí | Sí | Sí | Sí | Sí |
 | Dejar comentarios | | Sí | Sí | Sí | Sí |
-| Crear páginas | | | Sí | Sí | Sí |
 | Editar páginas | | | Sí | Sí | Sí |
-| Eliminar páginas | | | Sí | Sí | Sí |
+| Crear páginas | | | Configurable | Sí | Sí |
+| Eliminar páginas | | | Configurable | Sí | Sí |
 | Subir assets | | | Sí | Sí | Sí |
-| Invitar miembros | | | | Sí | Sí |
-| Eliminar miembros | | | | Sí | Sí |
-| Cambiar roles de miembros | | | | Sí | Sí | Sí |
-| Gestionar configuración del workspace | | | | | Sí | Sí |
-| Configurar repositorio git remoto | | | | | Sí | Sí |
-| Gestionar tema y navegación | | | | | Sí | Sí |
-| Acceder a todos los workspaces | | | | | | Sí |
-| Gestionar configuración de la plataforma | | | | | | Sí |
-| Crear/eliminar workspaces | | | | | | Sí |
+| Asignar miembros de la org al workspace | | | | Sí | Sí |
+| Eliminar miembros del workspace | | | | Sí | Sí |
+| Cambiar roles de miembros (dentro del workspace) | | | | Sí | Sí |
+| Gestionar configuración del workspace | | | | Sí | Sí |
+| Gestionar tema y navegación | | | | Sí | Sí |
+| Invitar usuarios externos a la org | | | | | Sí |
+| Crear/eliminar workspaces | | | | | Sí |
+| Configurar repositorio git remoto | | | | | Sí |
+| Gestionar facturación y suscripción | | | | | Sí |
+| Acceder a todos los workspaces | | | | | Sí |
+| Gestionar configuración a nivel de org | | | | | Sí |
+
+### Permisos configurables del Editor
+
+Las capacidades del Editor se pueden ajustar por workspace. Los Admins y Super Admins configuran estas opciones en la configuración del workspace:
+
+| Configuración | Por defecto | Descripción |
+|---|---|---|
+| `editor_can_create_pages` | `true` | Los editores pueden crear nuevas páginas |
+| `editor_can_delete_pages` | `false` | Los editores pueden eliminar páginas |
+
+Cuando un permiso está desactivado, los editores ven la acción en gris en la interfaz y reciben `403 Forbidden` de la API.
 
 ## Asignación de roles
 
-### Primer usuario
+### Primer usuario (Super Admin)
 
 El primer usuario en registrarse en una nueva instancia de DocPlatform recibe automáticamente el rol de **Super Admin**. Esto solo ocurre una vez — los registros posteriores no reciben rol de workspace hasta ser invitados.
 
-### Miembros del workspace
+El Super Admin es el propietario de la org y creador de la cuenta. Tiene control total sobre todos los workspaces, facturación, conexiones git e invitaciones de usuarios externos.
 
-Al invitar a un usuario a un workspace, especifique su rol:
+### Invitar usuarios externos
 
-**Interfaz web:** Workspace Settings → Members → Invite → seleccionar rol
+Solo el **Super Admin** puede invitar usuarios externos a la organización:
+
+**Interfaz web:** Org Settings → Members → Invite External User
 
 **API:**
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/workspaces/{id}/invitations \
+curl -X POST http://localhost:3000/api/v1/org/invitations \
   -H "Authorization: Bearer {token}" \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com",
+    "email": "newuser@example.com",
+    "default_role": "editor"
+  }'
+```
+
+El usuario invitado se une a la org y luego puede ser asignado a workspaces por cualquier Admin o Super Admin.
+
+### Asignar miembros a workspaces
+
+Los **Admins** asignan miembros existentes de la org a su workspace. Los Admins no pueden invitar usuarios externos — solo el Super Admin puede hacerlo.
+
+**Interfaz web:** Workspace Settings → Members → Add Member → seleccionar de los miembros de la org → seleccionar rol
+
+**API:**
+
+```bash
+curl -X POST http://localhost:3000/api/v1/workspaces/:id/members \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "01HY5K3M7Q8P",
     "role": "editor"
   }'
 ```
@@ -83,42 +120,65 @@ Valores disponibles: `viewer`, `commenter`, `editor`, `admin`
 
 ## Control de acceso a nivel de página
 
-Anule los permisos a nivel de workspace en páginas individuales usando frontmatter.
+Anule los permisos a nivel de workspace en páginas individuales usando frontmatter. Las reglas de acceso en el frontmatter **restringen** dentro del rol del usuario — nunca otorgan permisos más allá del rol.
 
-### Niveles de acceso (editor web — usuarios internos)
+### Sintaxis de control de acceso
 
-Para usuarios autenticados dentro del editor web, el acceso a nivel de página restringe la visibilidad por rol:
+Use reglas de acceso basadas en roles y usuarios para controlar quién puede acceder a una página:
 
-| Nivel | Comportamiento |
-|---|---|
-| `public` | Cualquier miembro del workspace puede ver |
-| `workspace` | Cualquier miembro del workspace puede ver (igual que `public` para usuarios autenticados) |
-| `restricted` | Solo los usuarios con roles listados en `allowed_roles` pueden ver |
+```yaml
+---
+title: Internal Security Policy
+access:
+  roles: ["security-team", "engineering-leads"]
+  users: ["@01HY5K3M7Q8P"]
+---
+```
+
+| Campo | Tipo de valor | Descripción |
+|---|---|---|
+| `access.roles` | lista de nombres de rol | Roles que pueden acceder a esta página |
+| `access.users` | lista de `@user_id` | Usuarios individuales que pueden acceder a esta página |
+
+**Reglas:**
+- Prefije los IDs de usuario con `@` para apuntar a usuarios individuales
+- Super Admin y Admin siempre tienen acceso independientemente de las reglas del frontmatter
+- El frontmatter solo puede **restringir** — una página no puede otorgar acceso más allá del rol del usuario en el workspace
 
 ### Ejemplos
 
-**Página pública** (predeterminado):
+**Página pública** (predeterminado — todos los miembros del workspace pueden ver):
 
 ```yaml
 ---
 title: Getting Started
-access: public
 ---
 ```
 
-**Restringida solo a administradores:**
+**Restringida a equipos específicos:**
 
 ```yaml
 ---
 title: Infrastructure Runbook
-access: restricted
-allowed_roles: [admin]
+access:
+  roles: ["security-team", "sre-team"]
 ---
 ```
 
-### Qué significa "restricted"
+**Restringida con acceso de usuario individual:**
 
-Cuando una página tiene `access: restricted`:
+```yaml
+---
+title: Budget Proposal
+access:
+  roles: ["finance-team"]
+  users: ["@01HY5K3M7Q8P"]
+---
+```
+
+### Qué significa el acceso restringido
+
+Cuando una página tiene reglas de `access`:
 
 - Los usuarios sin el rol requerido **no pueden ver** la página
 - La página **no aparece** en los resultados de búsqueda para usuarios no autorizados
@@ -138,15 +198,17 @@ Para el **sitio de documentación publicada** (`/p/{slug}/...`), el control de a
 
 Como referencia, cada rol se asigna a un nivel numérico. Los niveles superiores heredan todos los permisos de los niveles inferiores:
 
-| Rol | Nivel | Acción mínima |
-|---|---|---|
-| Viewer | 10 | `read` |
-| Commenter | 20 | `read` |
-| Editor | 30 | `read`, `write`, `delete` |
-| Admin | 40 | Todas las acciones del workspace |
-| Super Admin | 50 | Todas las acciones de la plataforma (omite todas las verificaciones) |
+| Rol | Nivel | Ámbito | Acción mínima |
+|---|---|---|---|
+| Viewer | 10 | Workspace | `read` |
+| Commenter | 20 | Workspace | `read`, `comment` |
+| Editor | 30 | Workspace | `read`, `comment`, `edit` (+ `create`/`delete` si está habilitado) |
+| Admin | 40 | Workspace | Todas las acciones del workspace |
+| Super Admin | — | Org | Omite todas las verificaciones del workspace |
 
-Las acciones tienen niveles mínimos: `read` requiere nivel 10+, `write` requiere 30+, `delete` requiere 30+, `admin` requiere 40+. El nivel del rol del usuario se compara contra el nivel mínimo de la acción.
+> Super Admin es un **rol a nivel de org** — omite las verificaciones de permisos del workspace por completo en lugar de tener un nivel numérico. Platform Owner es un flag booleano en el registro del usuario que omite todas las verificaciones globalmente.
+
+Las acciones tienen niveles mínimos: `read` requiere nivel 10+, `comment` requiere 20+, `edit` requiere 30+, `write`/`delete` requiere 40+ (los Editores obtienen `edit` pero no `write`/`delete` a menos que los flags configurables estén habilitados), `admin` requiere 40+. El nivel del rol del usuario se compara contra el nivel mínimo de la acción.
 
 ## Cómo se evalúan los permisos
 
@@ -159,36 +221,39 @@ Auth Middleware
     │
     ▼
 Permission Middleware
-(Casbin check: user + role + resource + action)
+(custom RBAC check: user + role + resource + action)
     │
     ├── Allowed → proceed to handler
     │
     └── Denied → 403 Forbidden
 ```
 
-### Flujo de evaluación
+### Flujo de evaluación en 5 pasos
 
-1. **Extraer identidad del usuario** del token de acceso JWT
-2. **Buscar el rol del usuario** para el workspace destino
-3. **Verificar permiso a nivel de workspace** — ¿el rol permite la acción?
-4. **Verificar acceso a nivel de página** — si la página tiene `access: restricted`, ¿el rol del usuario está en `allowed_roles`?
-5. **Devolver resultado** — permitido o denegado
+1. **¿Es el usuario Platform Owner?** → PERMITIR (bypass global)
+2. **¿Es el usuario Org Super Admin de la organización de este workspace?** → PERMITIR (bypass a nivel org)
+3. **Buscar el rol del usuario en el workspace** → si no es miembro, DENEGAR
+4. **¿El nivel del rol alcanza el mínimo para la acción?** → comparar `role_level >= action_min_level`, más los flags de permisos del editor
+5. **¿Tiene la página reglas de acceso en el frontmatter?** → verificar `access.roles`/`access.users`, RESTRINGIR dentro del rol
+
+El frontmatter RESTRINGE dentro del rol, nunca OTORGA más allá de él. Un frontmatter malformado aplica **modo estricto** — página restringida solo a Admin.
 
 ### Rendimiento
 
 | Métrica | Valor |
 |---|---|
-| **Motor** | Casbin (en proceso, en memoria) |
+| **Motor** | custom RBAC (en proceso, en memoria) |
 | **Tiempo de evaluación** | < 0.1ms por verificación |
+| **Verificación por lote** | < 1ms por 100 páginas |
 | **Caché** | Versionado (auto-invalidado en cambio de rol o permiso) |
 | **Almacenamiento de políticas** | SQLite (cargado en memoria al iniciar) |
 
 ## Caché de permisos
 
-Las políticas de Casbin se cargan desde SQLite a memoria al iniciar el servidor. Los cambios en roles o declaraciones de acceso en frontmatter activan una invalidación de caché:
+Las políticas de custom RBAC se cargan desde SQLite a memoria al iniciar el servidor. Los cambios en roles o declaraciones de acceso en frontmatter activan una invalidación de caché:
 
 1. El administrador cambia el rol de un usuario → se incrementa la versión de la caché de permisos
-2. Un editor actualiza el frontmatter de una página con nuevo `access` o `allowed_roles` → se invalida la caché para esa página
+2. Un editor actualiza el frontmatter de una página con nuevas reglas de `access` → se invalida la caché para esa página
 3. La siguiente verificación de permisos carga la política fresca desde SQLite
 
 La caché es versionada, no basada en tiempo — no hay ventana de permisos obsoletos.
@@ -198,14 +263,13 @@ La caché es versionada, no basada en tiempo — no hay ventana de permisos obso
 ### Documentación pública de solo lectura con páginas internas restringidas
 
 ```yaml
-# Most pages: default
-access: public
+# Most pages: no access rules (open to all workspace members)
 
 # Internal pages: restricted
 ---
 title: Incident Response Playbook
-access: restricted
-allowed_roles: [admin]
+access:
+  roles: ["sre-team", "admin"]
 ---
 ```
 
@@ -225,26 +289,46 @@ Cree workspaces separados por equipo con listas de miembros independientes:
 
 Super Admin tiene acceso a todos los workspaces para visibilidad entre equipos.
 
-## Límites de Community Edition
+## Planes y límites de puestos
 
-Community Edition aplica los siguientes límites de recursos:
+### Conteo de puestos
+
+Los roles **Super Admin**, **Admin** y **Editor** cuentan para el límite de puestos `max_editors` del plan. Los roles Commenter y Viewer son **ilimitados en todos los planes** y nunca cuentan para ningún límite de puestos.
+
+Cuando se alcanza el límite de puestos, los nuevos miembros de la org aún pueden ser invitados — pero solo se les puede asignar los roles Commenter o Viewer hasta que se libere un puesto.
+
+### Community Edition
+
+Community Edition es gratuita y auto-alojada sin necesidad de clave de licencia:
 
 | Recurso | Límite |
 |---|---|
-| Usuarios con rol de Editor o superior | 5 |
-| Workspaces | 3 |
+| Workspaces | Ilimitados |
+| Editores (Super Admin + Admin + Editor) | Ilimitados |
 | Viewers y Commenters | Ilimitados |
 | Páginas | Ilimitadas |
 
-Estos límites están codificados de forma permanente (no se requiere clave de licencia). Los Viewers y Commenters nunca se contabilizan contra el límite de editores. Cuando se alcanza el límite de editores, los nuevos usuarios aún pueden ser invitados como Viewers o Commenters.
+### Planes Cloud
+
+| | Free | Team | Business |
+|---|---|---|---|
+| **Workspaces** | 1 | 5 | 15 |
+| **Puestos** (Super Admin + Admin + Editor) | 3 | 15 | 50 |
+| **Viewers y Commenters** | Ilimitados | Ilimitados | Ilimitados |
+| **Páginas** | Ilimitadas | Ilimitadas | Ilimitadas |
+
+> ¿Necesita más? [Contacte a ventas](https://valoryx.org/contact) para planes Enterprise con límites personalizados, SSO y SLA.
+
+Para detalles completos de facturación, consulte [Facturación y planes](../guides/billing.md).
 
 ## Solución de problemas
 
 ### "403 Forbidden" en una página a la que debería tener acceso
 
 1. Verifique su rol: Profile → Workspace Membership
-2. Verifique el frontmatter de la página: ¿`access: restricted` + `allowed_roles` incluye su rol?
+2. Verifique el frontmatter de la página: ¿`access.roles` incluye su rol?
 3. Pida a un administrador del workspace que verifique su asignación de rol
+4. Si es Editor, verifique si la acción requiere que `editor_can_create_pages` o `editor_can_delete_pages` estén habilitados
 
 ### Los cambios de permisos no surten efecto
 
@@ -263,3 +347,11 @@ Esto sucede si el primer usuario se registra mientras la base de datos ya contie
 3. Inicie el servidor y regístrese nuevamente
 
 Esto restablece todos los datos. Use solo en instalaciones nuevas.
+
+### "Límite de puestos alcanzado" al invitar a un miembro
+
+Se ha alcanzado el límite `max_editors` del plan. Opciones:
+
+1. Degradar un Admin o Editor existente a Commenter o Viewer para liberar un puesto
+2. Invitar al nuevo usuario como Commenter o Viewer (estos son ilimitados)
+3. Actualizar su plan para obtener más puestos

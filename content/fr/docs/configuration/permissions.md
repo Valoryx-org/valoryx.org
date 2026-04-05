@@ -1,28 +1,30 @@
 ---
 title: Rôles et permissions
-description: Configurez la hiérarchie de rôles à 6 niveaux de DocPlatform, le contrôle d'accès au niveau de la page et la mise en cache des permissions.
+description: Configurez la hiérarchie à 5 rôles de DocPlatform, le contrôle d'accès au niveau de l'espace de travail, les permissions de l'éditeur et les limites de sièges par plan.
 weight: 3
 ---
 
 # Rôles et permissions
 
-DocPlatform utilise un contrôle d'accès basé sur les rôles (RBAC) alimenté par Casbin, un moteur d'autorisation in-process. Les permissions sont évaluées en moins de 0,1 ms par vérification, sans aucun service externe.
+DocPlatform utilise un contrôle d'accès basé sur les rôles (RBAC) alimenté par un RBAC personnalisé, un moteur d'autorisation in-process. Les permissions sont évaluées en moins de 0,1 ms par vérification, sans aucun service externe.
 
 ## Hiérarchie des rôles
 
-DocPlatform définit 5 rôles dans une hiérarchie stricte. Les rôles supérieurs héritent de toutes les permissions des rôles inférieurs.
+DocPlatform définit 5 rôles publics dans une hiérarchie stricte. Les rôles supérieurs héritent de toutes les permissions des rôles inférieurs.
 
 ```
-Super Admin         ← Full platform access (all workspaces)
+Super Admin         ← Propriétaire de l'org / créateur du compte (rôle public le plus élevé)
     │
-Admin               ← Manage workspace settings, git config, theme
+Admin               ← Gérer les paramètres de l'espace de travail, membres, git, thème
     │
-Editor              ← Create, edit, delete pages
+Editor              ← Créer et modifier des pages (configurable par workspace)
     │
-Commenter           ← View pages, leave comments
+Commenter           ← Consulter les pages, laisser des commentaires
     │
-Viewer              ← View pages only
+Viewer              ← Consulter les pages uniquement
 ```
+
+> **Platform Owner** est un rôle interne réservé aux opérateurs auto-hébergés pour la maintenance de la plateforme (migrations de base de données, gestion des licences, configuration système). Il n'apparaît pas dans l'interface ou l'API et ne fait pas partie de la hiérarchie publique des rôles.
 
 ### Matrice des permissions
 
@@ -31,40 +33,75 @@ Viewer              ← View pages only
 | Consulter les pages | Oui | Oui | Oui | Oui | Oui |
 | Rechercher du contenu | Oui | Oui | Oui | Oui | Oui |
 | Laisser des commentaires | | Oui | Oui | Oui | Oui |
-| Créer des pages | | | Oui | Oui | Oui |
 | Modifier des pages | | | Oui | Oui | Oui |
-| Supprimer des pages | | | Oui | Oui | Oui |
+| Créer des pages | | | Configurable | Oui | Oui |
+| Supprimer des pages | | | Configurable | Oui | Oui |
 | Télécharger des assets | | | Oui | Oui | Oui |
-| Inviter des membres | | | | Oui | Oui |
-| Retirer des membres | | | | Oui | Oui |
-| Modifier les rôles des membres | | | | Oui | Oui | Oui |
-| Gérer les paramètres de l'espace de travail | | | | | Oui | Oui |
-| Configurer le dépôt git distant | | | | | Oui | Oui |
-| Gérer le thème et la navigation | | | | | Oui | Oui |
-| Accéder à tous les espaces de travail | | | | | | Oui |
-| Gérer les paramètres de la plateforme | | | | | | Oui |
-| Créer/supprimer des espaces de travail | | | | | | Oui |
+| Assigner des membres de l'org au workspace | | | | Oui | Oui |
+| Retirer des membres du workspace | | | | Oui | Oui |
+| Modifier les rôles des membres (dans le workspace) | | | | Oui | Oui |
+| Gérer les paramètres de l'espace de travail | | | | Oui | Oui |
+| Gérer le thème et la navigation | | | | Oui | Oui |
+| Inviter des utilisateurs externes dans l'org | | | | | Oui |
+| Créer/supprimer des espaces de travail | | | | | Oui |
+| Configurer le dépôt git distant | | | | | Oui |
+| Gérer la facturation et l'abonnement | | | | | Oui |
+| Accéder à tous les espaces de travail | | | | | Oui |
+| Gérer les paramètres au niveau de l'org | | | | | Oui |
+
+### Permissions configurables de l'éditeur
+
+Les capacités de l'éditeur peuvent être ajustées par workspace. Les administrateurs et super administrateurs configurent ces options dans les paramètres du workspace :
+
+| Paramètre | Par défaut | Description |
+|---|---|---|
+| `editor_can_create_pages` | `true` | Les éditeurs peuvent créer de nouvelles pages |
+| `editor_can_delete_pages` | `false` | Les éditeurs peuvent supprimer des pages |
+
+Lorsqu'une permission est désactivée, les éditeurs voient l'action grisée dans l'interface et reçoivent `403 Forbidden` de l'API.
 
 ## Attribuer des rôles
 
-### Premier utilisateur
+### Premier utilisateur (Super Admin)
 
 Le premier utilisateur à s'inscrire sur une nouvelle instance DocPlatform reçoit automatiquement le rôle **Super Admin**. Cela ne se produit qu'une seule fois — les inscriptions suivantes ne reçoivent aucun rôle d'espace de travail tant qu'ils ne sont pas invités.
 
-### Membres de l'espace de travail
+Le Super Admin est le propriétaire de l'org et le créateur du compte. Il a le contrôle total sur tous les espaces de travail, la facturation, les connexions git et les invitations d'utilisateurs externes.
 
-Lors de l'invitation d'un utilisateur à un espace de travail, spécifiez son rôle :
+### Inviter des utilisateurs externes
 
-**Interface web :** Workspace Settings → Members → Invite → sélectionner le rôle
+Seul le **Super Admin** peut inviter des utilisateurs externes dans l'organisation :
+
+**Interface web :** Paramètres de l'org → Membres → Inviter un utilisateur externe
 
 **API :**
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/workspaces/{id}/invitations \
+curl -X POST http://localhost:3000/api/v1/org/invitations \
   -H "Authorization: Bearer {token}" \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com",
+    "email": "newuser@example.com",
+    "default_role": "editor"
+  }'
+```
+
+L'utilisateur invité rejoint l'org et peut ensuite être assigné à des espaces de travail par n'importe quel Admin ou Super Admin.
+
+### Assigner des membres aux espaces de travail
+
+Les **Admins** assignent les membres existants de l'org à leur espace de travail. Les Admins ne peuvent pas inviter d'utilisateurs externes — seul le Super Admin peut le faire.
+
+**Interface web :** Workspace Settings → Members → Ajouter un membre → sélectionner parmi les membres de l'org → sélectionner le rôle
+
+**API :**
+
+```bash
+curl -X POST http://localhost:3000/api/v1/workspaces/:id/members \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "01HY5K3M7Q8P",
     "role": "editor"
   }'
 ```
@@ -83,42 +120,65 @@ Valeurs disponibles : `viewer`, `commenter`, `editor`, `admin`
 
 ## Contrôle d'accès au niveau de la page
 
-Supplantez les permissions au niveau de l'espace de travail sur des pages individuelles en utilisant le frontmatter.
+Supplantez les permissions au niveau de l'espace de travail sur des pages individuelles en utilisant le frontmatter. Les règles d'accès du frontmatter **restreignent** dans le cadre du rôle d'un utilisateur — elles n'accordent jamais de permissions au-delà du rôle.
 
-### Niveaux d'accès (éditeur web — utilisateurs internes)
+### Syntaxe du contrôle d'accès
 
-Pour les utilisateurs authentifiés dans l'éditeur web, l'accès au niveau de la page restreint la visibilité par rôle :
+Utilisez des règles d'accès basées sur les rôles et les utilisateurs pour contrôler qui peut accéder à une page :
 
-| Niveau | Comportement |
-|---|---|
-| `public` | Tout membre de l'espace de travail peut consulter |
-| `workspace` | Tout membre de l'espace de travail peut consulter (identique à `public` pour les utilisateurs authentifiés) |
-| `restricted` | Seuls les utilisateurs avec les rôles listés dans `allowed_roles` peuvent consulter |
+```yaml
+---
+title: Internal Security Policy
+access:
+  roles: ["security-team", "engineering-leads"]
+  users: ["@01HY5K3M7Q8P"]
+---
+```
+
+| Champ | Type de valeur | Description |
+|---|---|---|
+| `access.roles` | liste de noms de rôles | Rôles pouvant accéder à cette page |
+| `access.users` | liste de `@user_id` | Utilisateurs individuels pouvant accéder à cette page |
+
+**Règles :**
+- Préfixez les identifiants utilisateur avec `@` pour cibler des utilisateurs individuels
+- Le Super Admin et l'Admin ont toujours accès indépendamment des règles du frontmatter
+- Le frontmatter ne peut que **restreindre** — une page ne peut pas accorder un accès au-delà du rôle de l'utilisateur dans l'espace de travail
 
 ### Exemples
 
-**Page publique** (par défaut) :
+**Page publique** (par défaut — tous les membres de l'espace de travail peuvent consulter) :
 
 ```yaml
 ---
 title: Getting Started
-access: public
 ---
 ```
 
-**Restreinte aux administrateurs uniquement :**
+**Restreinte à des équipes spécifiques :**
 
 ```yaml
 ---
 title: Infrastructure Runbook
-access: restricted
-allowed_roles: [admin]
+access:
+  roles: ["security-team", "sre-team"]
 ---
 ```
 
-### Ce que signifie « restricted »
+**Restreinte avec accès utilisateur individuel :**
 
-Lorsqu'une page a `access: restricted` :
+```yaml
+---
+title: Budget Proposal
+access:
+  roles: ["finance-team"]
+  users: ["@01HY5K3M7Q8P"]
+---
+```
+
+### Ce que signifie l'accès restreint
+
+Lorsqu'une page a des règles `access` :
 
 - Les utilisateurs sans le rôle requis **ne peuvent pas consulter** la page
 - La page **n'apparaît pas** dans les résultats de recherche pour les utilisateurs non autorisés
@@ -138,15 +198,17 @@ Pour le **site de documentation publiée** (`/p/{slug}/...`), le contrôle d'acc
 
 Pour référence, chaque rôle correspond à un niveau numérique. Les niveaux supérieurs héritent de toutes les permissions des niveaux inférieurs :
 
-| Rôle | Niveau | Action minimale |
-|---|---|---|
-| Viewer | 10 | `read` |
-| Commenter | 20 | `read` |
-| Editor | 30 | `read`, `write`, `delete` |
-| Admin | 40 | Toutes les actions de l'espace de travail |
-| Super Admin | 50 | Toutes les actions de la plateforme (contourne toutes les vérifications) |
+| Rôle | Niveau | Portée | Action minimale |
+|---|---|---|---|
+| Viewer | 10 | Workspace | `read` |
+| Commenter | 20 | Workspace | `read`, `comment` |
+| Editor | 30 | Workspace | `read`, `comment`, `edit` (+ `create`/`delete` si activé) |
+| Admin | 40 | Workspace | Toutes les actions du workspace |
+| Super Admin | — | Org | Contourne toutes les vérifications du workspace |
 
-Les actions ont des niveaux minimaux : `read` nécessite le niveau 10+, `write` nécessite 30+, `delete` nécessite 30+, `admin` nécessite 40+. Le niveau du rôle d'un utilisateur est comparé au niveau minimum de l'action.
+> Le Super Admin est un **rôle au niveau de l'org** — il contourne entièrement les vérifications de permissions du workspace plutôt que d'avoir un niveau numérique. Le Platform Owner est un flag booléen sur l'enregistrement utilisateur qui contourne toutes les vérifications globalement.
+
+Les actions ont des niveaux minimaux : `read` nécessite le niveau 10+, `comment` nécessite 20+, `edit` nécessite 30+, `write`/`delete` nécessite 40+ (les éditeurs obtiennent `edit` mais pas `write`/`delete` sauf si les flags configurables sont activés), `admin` nécessite 40+. Le niveau du rôle d'un utilisateur est comparé au niveau minimum de l'action.
 
 ## Comment les permissions sont évaluées
 
@@ -159,36 +221,38 @@ Auth Middleware
     │
     ▼
 Permission Middleware
-(Casbin check: user + role + resource + action)
+(custom RBAC check: user + role + resource + action)
     │
     ├── Allowed → proceed to handler
     │
     └── Denied → 403 Forbidden
 ```
 
-### Flux d'évaluation
+### Flux d'évaluation en 5 étapes
 
-1. **Extraire l'identité de l'utilisateur** depuis le token d'accès JWT
-2. **Rechercher le rôle de l'utilisateur** pour l'espace de travail cible
-3. **Vérifier la permission au niveau de l'espace de travail** — le rôle autorise-t-il l'action ?
-4. **Vérifier l'accès au niveau de la page** — si la page a `access: restricted`, le rôle de l'utilisateur est-il dans `allowed_roles` ?
-5. **Renvoyer le résultat** — autorisé ou refusé
+1. **L'utilisateur est-il Platform Owner ?** → AUTORISER (bypass global)
+2. **L'utilisateur est-il Org Super Admin pour l'organisation de ce workspace ?** → AUTORISER (bypass au niveau org)
+3. **Rechercher le rôle workspace de l'utilisateur** → si non membre, REFUSER
+4. **Le niveau du rôle atteint-il le minimum requis pour l'action ?** → comparer `role_level >= action_min_level`, plus les flags de permissions éditeur
+5. **La page a-t-elle des règles d'accès dans le frontmatter ?** → vérifier `access.roles`/`access.users`, RESTREINDRE dans le rôle
+
+Le frontmatter RESTREINT dans le cadre du rôle, il n'ACCORDE jamais au-delà. Un frontmatter malformé passe par défaut en **mode strict** — page restreinte aux Admins uniquement.
 
 ### Performances
 
 | Métrique | Valeur |
 |---|---|
-| **Moteur** | Casbin (in-process, en mémoire) |
+| **Moteur** | RBAC personnalisé (in-process, en mémoire) |
 | **Temps d'évaluation** | < 0,1 ms par vérification |
 | **Cache** | Versionné (auto-invalidé lors d'un changement de rôle ou de permission) |
 | **Stockage des politiques** | SQLite (chargé en mémoire au démarrage) |
 
 ## Mise en cache des permissions
 
-Les politiques Casbin sont chargées depuis SQLite en mémoire au démarrage du serveur. Les modifications des rôles ou des déclarations d'accès dans le frontmatter déclenchent une invalidation du cache :
+Les politiques RBAC sont chargées depuis SQLite en mémoire au démarrage du serveur. Les modifications des rôles ou des déclarations d'accès dans le frontmatter déclenchent une invalidation du cache :
 
 1. Un administrateur modifie le rôle d'un utilisateur → la version du cache de permissions est incrémentée
-2. Un éditeur met à jour le frontmatter d'une page avec un nouvel `access` ou `allowed_roles` → le cache est invalidé pour cette page
+2. Un éditeur met à jour le frontmatter d'une page avec de nouvelles règles `access` → le cache est invalidé pour cette page
 3. La prochaine vérification de permission charge la politique fraîche depuis SQLite
 
 Le cache est versionné, pas basé sur le temps — il n'y a pas de fenêtre de permission obsolète.
@@ -198,14 +262,13 @@ Le cache est versionné, pas basé sur le temps — il n'y a pas de fenêtre de 
 ### Documentation publique en lecture seule avec pages internes restreintes
 
 ```yaml
-# La plupart des pages : par défaut
-access: public
+# La plupart des pages : pas de règles d'accès (ouvertes à tous les membres du workspace)
 
 # Pages internes : restreintes
 ---
 title: Incident Response Playbook
-access: restricted
-allowed_roles: [admin]
+access:
+  roles: ["sre-team", "admin"]
 ---
 ```
 
@@ -225,26 +288,46 @@ Créez des espaces de travail séparés par équipe avec des listes de membres i
 
 Le Super Admin a accès à tous les espaces de travail pour une visibilité transversale.
 
-## Limites de la Community Edition
+## Plans et limites de sièges
 
-La Community Edition applique les limites de ressources suivantes :
+### Comptage des sièges
+
+Les rôles **Super Admin**, **Admin** et **Editor** comptent tous dans la limite de sièges `max_editors` du plan. Les rôles Commenter et Viewer sont **illimités sur tous les plans** et ne comptent jamais dans une limite de sièges.
+
+Lorsque la limite de sièges est atteinte, de nouveaux membres de l'org peuvent toujours être invités — mais ils ne peuvent être assignés qu'aux rôles Commenter ou Viewer jusqu'à ce qu'un siège soit libéré.
+
+### Community Edition
+
+La Community Edition est gratuite et auto-hébergée, sans clé de licence requise :
 
 | Ressource | Limite |
 |---|---|
-| Utilisateurs avec le rôle Editor ou supérieur | 5 |
-| Espaces de travail | 3 |
+| Espaces de travail | Illimité |
+| Éditeurs (Super Admin + Admin + Editor) | Illimité |
 | Viewers et Commenters | Illimité |
 | Pages | Illimité |
 
-Ces limites sont codées en dur (aucune clé de licence requise). Les viewers et commenters ne sont jamais comptabilisés dans la limite d'éditeurs. Lorsque la limite d'éditeurs est atteinte, de nouveaux utilisateurs peuvent toujours être invités en tant que Viewers ou Commenters.
+### Plans Cloud
+
+| | Free | Team | Business |
+|---|---|---|---|
+| **Espaces de travail** | 1 | 5 | 15 |
+| **Sièges** (Super Admin + Admin + Editor) | 3 | 15 | 50 |
+| **Viewers et Commenters** | Illimité | Illimité | Illimité |
+| **Pages** | Illimité | Illimité | Illimité |
+
+> Besoin de plus ? [Contactez les ventes](https://valoryx.org/contact) pour les plans Enterprise avec des limites personnalisées, SSO et SLA.
+
+Pour les détails complets de facturation, consultez [Facturation et plans](../guides/billing.md).
 
 ## Dépannage
 
 ### « 403 Forbidden » sur une page à laquelle je devrais avoir accès
 
 1. Vérifiez votre rôle : Profil → Workspace Membership
-2. Vérifiez le frontmatter de la page : `access: restricted` + `allowed_roles` inclut-il votre rôle ?
+2. Vérifiez le frontmatter de la page : `access.roles` inclut-il votre rôle ?
 3. Demandez à un administrateur de l'espace de travail de vérifier votre attribution de rôle
+4. Si vous êtes un éditeur, vérifiez si l'action requiert que `editor_can_create_pages` ou `editor_can_delete_pages` soit activé
 
 ### Les changements de permissions ne prennent pas effet
 
@@ -263,3 +346,11 @@ Cela se produit si le premier utilisateur s'inscrit alors que la base de donnée
 3. Démarrez le serveur et inscrivez-vous à nouveau
 
 Cela réinitialise toutes les données. À utiliser uniquement sur des installations neuves.
+
+### « Limite de sièges atteinte » lors de l'invitation d'un membre
+
+La limite `max_editors` du plan a été atteinte. Options :
+
+1. Rétrograder un Admin ou éditeur existant en Commenter ou Viewer pour libérer un siège
+2. Inviter le nouvel utilisateur en tant que Commenter ou Viewer (ceux-ci sont illimités)
+3. Mettre à niveau votre plan pour obtenir plus de sièges

@@ -62,7 +62,7 @@ Super Admin
 |---|---|---|
 | **Viewer** | Workspace | Ver páginas y buscar |
 | **Commenter** | Workspace | Ver + dejar comentarios en páginas |
-| **Editor** | Workspace | Ver + comentar + crear, editar, eliminar páginas |
+| **Editor** | Workspace | Ver + comentar + editar páginas (crear/eliminar configurable por workspace) |
 | **Admin** | Workspace | Gestión completa del workspace (configuración, git, tema, miembros) |
 | **Super Admin** | Plataforma | Acceso completo a todos los workspaces + configuración de la plataforma |
 
@@ -78,17 +78,18 @@ permissions:
 
 ### Acceso a nivel de página
 
-Restrinja páginas individuales a roles específicos usando frontmatter:
+Restrinja páginas individuales a roles específicos usando reglas de acceso en el frontmatter:
 
 ```yaml
 ---
 title: Internal Runbook
-access: restricted
-allowed_roles: [admin, editor]
+access:
+  roles: ["sre-team", "admin"]
+  users: []
 ---
 ```
 
-Las páginas con `access: restricted` son invisibles para los usuarios sin el rol requerido — no aparecerán en los resultados de búsqueda, la navegación ni la documentación publicada.
+Las páginas con reglas de `access` son invisibles para los usuarios sin el rol requerido — no aparecerán en los resultados de búsqueda, la navegación ni la documentación publicada. Las reglas de acceso solo pueden **restringir** dentro del rol del usuario, nunca otorgar más allá de él.
 
 ## Presencia en tiempo real
 

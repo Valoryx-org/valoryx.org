@@ -127,8 +127,8 @@ description: How to authenticate with the API using JWT tokens.
 tags: [api, auth, jwt]
 published: true
 access:
-  read: []            # empty = all workspace members (default)
-  write: []           # restrict by role name or @user_id
+  roles: []           # empty = all workspace members (default)
+  users: []           # restrict by @user_id
 ---
 ```
 
