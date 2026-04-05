@@ -1,6 +1,6 @@
 ---
 title: Roles & Permissions
-description: Configure DocPlatform's 5-level role hierarchy, page-level access control, and permission caching.
+description: Configure DocPlatform's 5-role hierarchy, workspace-level access control, editor permissions, and plan-based seat limits.
 weight: 3
 ---
 
@@ -10,19 +10,21 @@ DocPlatform uses role-based access control (RBAC) powered by custom RBAC, an in-
 
 ## Role hierarchy
 
-DocPlatform defines 5 roles in a strict hierarchy. Higher roles inherit all permissions of lower roles.
+DocPlatform defines 5 public-facing roles in a strict hierarchy. Higher roles inherit all permissions of lower roles.
 
 ```
-Super Admin         ← Full platform access (all workspaces)
+Super Admin         ← Org owner / account creator (highest public role)
     │
-Admin               ← Manage workspace settings, git config, theme
+Admin               ← Manage workspace settings, members, git, theme
     │
-Editor              ← Create, edit, delete pages
+Editor              ← Create and edit pages (configurable per workspace)
     │
 Commenter           ← View pages, leave comments
     │
 Viewer              ← View pages only
 ```
+
+> **Platform Owner** is an internal-only role used by self-hosted operators for platform-level maintenance (database migrations, license management, system config). It does not appear in the UI or API and is not part of the public role hierarchy.
 
 ### Permission matrix
 
@@ -31,47 +33,103 @@ Viewer              ← View pages only
 | View pages | Yes | Yes | Yes | Yes | Yes |
 | Search content | Yes | Yes | Yes | Yes | Yes |
 | Leave comments | | Yes | Yes | Yes | Yes |
-| Create pages | | | Yes | Yes | Yes |
 | Edit pages | | | Yes | Yes | Yes |
-| Delete pages | | | Yes | Yes | Yes |
+| Create pages | | | Configurable | Yes | Yes |
+| Delete pages | | | Configurable | Yes | Yes |
 | Upload assets | | | Yes | Yes | Yes |
-| Invite members | | | | Yes | Yes |
-| Remove members | | | | Yes | Yes |
-| Change member roles | | | | Yes | Yes |
+| Assign org members to workspace | | | | Yes | Yes |
+| Remove workspace members | | | | Yes | Yes |
+| Change member roles (within workspace) | | | | Yes | Yes |
 | Manage workspace settings | | | | Yes | Yes |
-| Configure git remote | | | | Yes | Yes |
 | Manage theme & navigation | | | | Yes | Yes |
-| Access all workspaces | | | | | Yes |
-| Manage platform settings | | | | | Yes |
+| Invite external users to org | | | | | Yes |
 | Create/delete workspaces | | | | | Yes |
+| Configure git remote | | | | | Yes |
+| Manage billing & subscription | | | | | Yes |
+| Access all workspaces | | | | | Yes |
+| Manage org-level settings | | | | | Yes |
 
-## Assigning roles
+### Configurable Editor permissions
 
-### First user
+Editor capabilities can be tuned per workspace. Admins and Super Admins configure these in workspace settings:
 
-The first user to register on a new DocPlatform instance automatically receives the **Super Admin** role. This only happens once — subsequent registrations receive no workspace role until invited.
-
-### Workspace members
-
-When inviting a user to a workspace, specify their role:
-
-**Web UI:** Workspace Settings → Members → Invite → select role
+| Setting | Default | Description |
+|---|---|---|
+| `editor_can_create_pages` | `true` | Editors can create new pages |
+| `editor_can_delete_pages` | `false` | Editors can delete pages |
 
 **API:**
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/workspaces/:id/invitations \
+curl -X PATCH http://localhost:3000/api/v1/workspaces/:id \
   -H "Authorization: Bearer {token}" \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com",
+    "editor_can_create_pages": true,
+    "editor_can_delete_pages": false
+  }'
+```
+
+**Config file:**
+
+```yaml
+# .docplatform/config.yaml (per workspace)
+permissions:
+  editor_can_create_pages: true
+  editor_can_delete_pages: false
+```
+
+When a permission is disabled, editors see the action as greyed out in the UI and receive `403 Forbidden` from the API.
+
+## Assigning roles
+
+### First user (Super Admin)
+
+The first user to register on a new DocPlatform instance automatically receives the **Super Admin** role. This only happens once — subsequent registrations receive no workspace role until invited.
+
+The Super Admin is the org owner and account creator. They have full control over every workspace, billing, git connections, and external user invitations.
+
+### Inviting external users
+
+Only the **Super Admin** can invite external users to the organization:
+
+**Web UI:** Org Settings → Members → Invite External User
+
+**API:**
+
+```bash
+curl -X POST http://localhost:3000/api/v1/org/invitations \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "newuser@example.com",
+    "default_role": "editor"
+  }'
+```
+
+The invited user joins the org and can then be assigned to workspaces by any Admin or Super Admin.
+
+### Assigning members to workspaces
+
+**Admins** assign existing org members to their workspace. Admins cannot invite external users — only the Super Admin can do that.
+
+**Web UI:** Workspace Settings → Members → Add Member → select from org members → select role
+
+**API:**
+
+```bash
+curl -X POST http://localhost:3000/api/v1/workspaces/:id/members \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "01HY5K3M7Q8P",
     "role": "editor"
   }'
 ```
 
 ### Default role
 
-Set the default role for new members who accept an invitation without a specific role assigned:
+Set the default role for new members added to a workspace without a specific role:
 
 ```yaml
 # .docplatform/config.yaml
@@ -165,11 +223,13 @@ For reference, each role maps to a numeric level. Higher levels inherit all perm
 |---|---|---|
 | Viewer | 10 | `read` |
 | Commenter | 20 | `read` |
-| Editor | 30 | `read`, `write`, `delete` |
+| Editor | 30 | `read`, `write` (+ `create`/`delete` if enabled) |
 | Admin | 40 | All workspace actions |
 | Super Admin | 50 | All platform actions (bypasses all checks) |
 
-Actions have minimum levels: `read` requires level 10+, `write` requires 30+, `delete` requires 30+, `admin` requires 40+. A user's role level is compared against the action's minimum level.
+> The internal code uses `workspace_admin` for Admin and `super_admin` for Super Admin. These are implementation details — the public-facing names are Admin and Super Admin.
+
+Actions have minimum levels: `read` requires level 10+, `write` requires 30+, `delete` requires 30+ (and `editor_can_delete_pages` enabled for Editors), `admin` requires 40+. A user's role level is compared against the action's minimum level.
 
 ## How permissions are evaluated
 
@@ -193,8 +253,8 @@ Permission Middleware
 
 1. **Is workspace public + action is read?** → assign anonymous viewer role
 2. **Is user Super Admin?** → ALLOW (bypasses all checks)
-3. **Is user Admin?** → ALLOW for this workspace
-4. **Does user's role permit action?** → custom RBAC check with `keyMatch2(path)`
+3. **Is user Admin for this workspace?** → ALLOW for this workspace
+4. **Does user's role permit action?** → custom RBAC check with `keyMatch2(path)`, plus editor permission flags
 5. **Does page frontmatter have access rules?** → check whitelist, RESTRICT within role
 
 Frontmatter RESTRICTS within role, never GRANTS beyond it. A malformed frontmatter defaults to **strict mode** — page restricted to Admin only.
@@ -211,13 +271,43 @@ Frontmatter RESTRICTS within role, never GRANTS beyond it. A malformed frontmatt
 
 ## Permission caching
 
-custom RBAC policies are loaded from SQLite into memory on server startup. Changes to roles or frontmatter access declarations trigger a cache invalidation:
+Custom RBAC policies are loaded from SQLite into memory on server startup. Changes to roles or frontmatter access declarations trigger a cache invalidation:
 
 1. Admin changes a user's role → permission cache version incremented
 2. Editor updates page frontmatter with new `access` rules → cache invalidated for that page
 3. Next permission check loads fresh policy from SQLite
 
 The cache is versioned, not time-based — there's no stale-permission window.
+
+## Plans and seat limits
+
+### Seat counting
+
+**Super Admin**, **Admin**, and **Editor** roles all count toward the plan's `max_editors` seat limit. Commenter and Viewer roles are **unlimited on all plans** and never count toward any seat limit.
+
+When the seat limit is reached, new org members can still be invited — but they can only be assigned Commenter or Viewer roles until a seat is freed.
+
+### Community Edition
+
+Community Edition is free and self-hosted with no license key required:
+
+| Resource | Limit |
+|---|---|
+| Workspaces | Unlimited |
+| Editors (Super Admin + Admin + Editor) | Unlimited |
+| Viewers and Commenters | Unlimited |
+| Pages | Unlimited |
+
+### Cloud plans
+
+| | Free | Team | Business |
+|---|---|---|---|
+| **Workspaces** | 1 | 5 | 15 |
+| **Seats** (Super Admin + Admin + Editor) | 3 | 15 | 50 |
+| **Viewers & Commenters** | Unlimited | Unlimited | Unlimited |
+| **Pages** | Unlimited | Unlimited | Unlimited |
+
+> Need more? [Contact sales](https://valoryx.org/contact) for Enterprise plans with custom limits, SSO, and SLA.
 
 ## Common patterns
 
@@ -248,20 +338,20 @@ Create separate workspaces per team with independent member lists:
 - `product-docs` workspace → product team
 - `internal-wiki` workspace → everyone
 
-Super Admin has access to all workspaces for cross-team visibility.
+Super Admin has access to all workspaces for cross-team visibility. Admins manage membership within their assigned workspaces.
 
-## Community Edition limits
+### Restricting Editor capabilities
 
-Community Edition has no artificial resource limits:
+For workspaces where editors should only modify existing content:
 
-| Resource | Limit |
-|---|---|
-| Users with Editor role or above | Unlimited |
-| Workspaces | Unlimited |
-| Viewers and Commenters | Unlimited |
-| Pages | Unlimited |
+```yaml
+# .docplatform/config.yaml
+permissions:
+  editor_can_create_pages: false
+  editor_can_delete_pages: false
+```
 
-For hosted plans with different limits (Free, Team, Business), see [Billing & Plans](../guides/billing.md).
+Editors can still edit existing pages but cannot create new ones or delete any.
 
 ## Troubleshooting
 
@@ -269,7 +359,8 @@ For hosted plans with different limits (Free, Team, Business), see [Billing & Pl
 
 1. Check your role: Profile → Workspace Membership
 2. Check the page's frontmatter: does `access.roles` include your role?
-3. Ask an Admin to verify your role assignment
+3. Ask a workspace Admin to verify your role assignment
+4. If you are an Editor, check whether the action requires `editor_can_create_pages` or `editor_can_delete_pages` to be enabled
 
 ### Permission changes not taking effect
 
@@ -288,3 +379,11 @@ This happens if the first user registers while the database already contains use
 3. Start the server and register again
 
 This resets all data. Use only on fresh installations.
+
+### "Seat limit reached" when inviting a member
+
+The plan's `max_editors` limit has been reached. Options:
+
+1. Downgrade an existing Admin or Editor to Commenter or Viewer to free a seat
+2. Invite the new user as a Commenter or Viewer (these are unlimited)
+3. Upgrade your plan for more seats
