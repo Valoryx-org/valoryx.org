@@ -27,6 +27,7 @@
       <div class="reveal reveal-delay-1">
         <div class="pricing-item">
           <h3>{{ i18n "pricing_free" | default "Free" }}</h3>
+          <p class="plan-persona">{{ i18n "pricing_persona_free" | default "For individuals and small teams getting started" }}</p>
           <h4>$0 <span>/ {{ i18n "plan_forever" }}</span></h4>
           <ul>
             <li><i class="bi bi-check"></i> {{ i18n "pf_feat1" | default "1 Workspace" }}</li>
@@ -47,6 +48,7 @@
         <div class="pricing-item">
           <span class="plan-badge">{{ i18n "pricing_popular" | default "Most Popular" }}</span>
           <h3>{{ i18n "plan_team" }}</h3>
+          <p class="plan-persona">{{ i18n "pricing_persona_team" | default "For growing teams that need collaboration and publishing" }}</p>
           <h4><sup>$</sup>29 <span>/ {{ i18n "plan_mo" | default "mo" }}</span></h4>
           <ul>
             <li><i class="bi bi-check"></i> {{ i18n "pt_feat1" | default "3 Workspaces" }}</li>
@@ -64,6 +66,7 @@
       <div class="reveal reveal-delay-3">
         <div class="pricing-item">
           <h3>{{ i18n "plan_business" }}</h3>
+          <p class="plan-persona">{{ i18n "pricing_persona_business" | default "For organizations that need security, compliance, and scale" }}</p>
           <h4><sup>$</sup>79 <span>/ {{ i18n "plan_mo" | default "mo" }}</span></h4>
           <ul>
             <li><i class="bi bi-check"></i> {{ i18n "pb_feat1" | default "10 Workspaces" }}</li>

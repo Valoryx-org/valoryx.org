@@ -309,7 +309,7 @@ other = "Ihre Rolle (z.B. DevOps Engineer, CTO)"
 [contact_msg_ph]
 other = "Erzählen Sie uns von Ihrem Team und Ihren Dokumentationsbedürfnissen"
 [contact_submit]
-other = "Warteliste beitreten"
+other = "Kontakt aufnehmen"
 
 [footer_about_text]
 other = "Git-native Dokumentationsplattform. Self-hosted, einzelnes Binary, kein Vendor Lock-in. Ihre Docs, Ihr Git-Repo, Ihre Server."

@@ -309,7 +309,7 @@ other = "Votre Rôle (ex. : Ingénieur DevOps, CTO)"
 [contact_msg_ph]
 other = "Parlez-nous de votre équipe et de vos besoins en documentation"
 [contact_submit]
-other = "Rejoindre la Liste d'Attente"
+other = "Nous contacter"
 
 [footer_about_text]
 other = "Plateforme de documentation git-native. Auto-hébergée, binaire unique, zéro vendor lock-in. Vos docs, votre dépôt git, vos serveurs."
