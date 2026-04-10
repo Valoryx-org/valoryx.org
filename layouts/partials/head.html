@@ -1,6 +1,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d7fc2">
 
   <!-- SEO Primary -->
   {{ $pageTitle := cond .IsHome (i18n "meta_title") (printf "%s — Valoryx" .Title) }}
@@ -37,49 +38,29 @@
 
   <!-- Twitter -->
   <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@valoryx_eu">
   <meta name="twitter:url"         content="{{ .Permalink }}">
   <meta name="twitter:title"       content="{{ $pageTitle }}">
   <meta name="twitter:description" content="{{ $pageDesc }}">
   <meta name="twitter:image"       content="{{ $ogImage }}">
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            heading: '#124265',
-            accent:  { DEFAULT: '#1d7fc2', light: '#3a9be0', dark: '#155d91', glow: 'rgba(29,127,194,0.35)' },
-            body:    '#444444',
-            muted:   '#6b7b8d',
-            light:   '#f6fafd',
-            surface: '#ffffff',
-            success: '#059652',
-            danger:  '#df1529',
-            border:  '#e2e8f0',
-            navy:    { DEFAULT: '#0c1e2e', light: '#122d42', deep: '#080f18' },
-          },
-          fontFamily: {
-            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
-            body:    ['"DM Sans"', 'system-ui', 'sans-serif'],
-            mono:    ['"JetBrains Mono"', 'monospace'],
-          },
-        },
-      },
-    }
-  </script>
+  <!-- Tailwind CSS — build-time purged via Hugo Pipes (no CDN runtime) -->
+  {{ $css := resources.Get "css/app.css" | css.TailwindCSS }}
+  {{ if hugo.IsProduction }}
+    {{ $css = $css | minify | fingerprint "sha256" }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  {{ else }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+  {{ end }}
 
-  <!-- Fonts -->
+  <!-- Fonts — preconnect + preload critical font for LCP -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-  <!-- Site CSS -->
-  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
 
   <!-- RSS -->
   {{ with .OutputFormats.Get "rss" }}
@@ -87,93 +68,74 @@
   {{ end }}
 
   <!-- JSON-LD: SoftwareApplication -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Valoryx",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Linux, macOS, Windows",
-    "description": "{{ i18n "meta_description" }}",
-    "url": "{{ .Permalink }}",
-    "softwareVersion": "{{ .Site.Params.releaseTag }}",
-    "downloadUrl": "https://valoryx.org/install/",
-    "featureList": [
-      "Bidirectional git sync",
-      "WYSIWYG Tiptap editor",
-      "Full-text search (Bleve)",
-      "Published docs with 5 themes",
-      "Built-in MCP server (13 AI tools)",
-      "Context Graph API for AI agents",
-      "Role-based access control (5 roles)",
-      "WebAuthn/passkey authentication",
+  {{ $appLD := dict
+    "@context" "https://schema.org"
+    "@type" "SoftwareApplication"
+    "name" "Valoryx"
+    "applicationCategory" "DeveloperApplication"
+    "operatingSystem" "Linux, macOS, Windows"
+    "description" (i18n "meta_description")
+    "url" .Permalink
+    "softwareVersion" .Site.Params.releaseTag
+    "downloadUrl" "https://valoryx.org/install/"
+    "featureList" (slice
+      "Bidirectional git sync"
+      "WYSIWYG Tiptap editor"
+      "Full-text search (Bleve)"
+      "Published docs with 5 themes"
+      "Built-in MCP server (13 AI tools)"
+      "Context Graph API for AI agents"
+      "Role-based access control (5 roles)"
+      "WebAuthn/passkey authentication"
       "95+ REST API endpoints"
-    ],
-    "offers": [
-      { "@type": "Offer", "name": "Community", "price": "0",  "priceCurrency": "USD" },
-      { "@type": "Offer", "name": "Team",      "price": "29", "priceCurrency": "USD" },
-      { "@type": "Offer", "name": "Business",  "price": "79", "priceCurrency": "USD" }
-    ]
-  }
+    )
+    "offers" (slice
+      (dict "@type" "Offer" "name" "Community" "price" "0" "priceCurrency" "USD")
+      (dict "@type" "Offer" "name" "Team" "price" "29" "priceCurrency" "USD")
+      (dict "@type" "Offer" "name" "Business" "price" "79" "priceCurrency" "USD")
+    )
+  }}
+  <script type="application/ld+json">
+  {{ $appLD | jsonify | safeJS }}
   </script>
 
   <!-- BreadcrumbList JSON-LD -->
   {{ if not .IsHome }}
+  {{ $items := slice (dict "@type" "ListItem" "position" 1 "name" "Home" "item" .Site.BaseURL) }}
+  {{ if .Parent }}
+    {{ $items = $items | append (dict "@type" "ListItem" "position" 2 "name" .Parent.Title "item" .Parent.Permalink) }}
+    {{ $items = $items | append (dict "@type" "ListItem" "position" 3 "name" .Title "item" .Permalink) }}
+  {{ else }}
+    {{ $items = $items | append (dict "@type" "ListItem" "position" 2 "name" .Title "item" .Permalink) }}
+  {{ end }}
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ .Site.BaseURL }}" }
-      {{ if .Parent }}
-      ,{ "@type": "ListItem", "position": 2, "name": "{{ .Parent.Title }}", "item": "{{ .Parent.Permalink }}" }
-      ,{ "@type": "ListItem", "position": 3, "name": "{{ .Title }}", "item": "{{ .Permalink }}" }
-      {{ else }}
-      ,{ "@type": "ListItem", "position": 2, "name": "{{ .Title }}", "item": "{{ .Permalink }}" }
-      {{ end }}
-    ]
-  }
+  {{ dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $items | jsonify | safeJS }}
   </script>
   {{ end }}
 
-  <!-- FAQPage JSON-LD — homepage uses i18n keys; other pages use .Params.faq -->
+  <!-- FAQPage JSON-LD -->
   {{ if .IsHome }}
   {{ $faq1q := i18n "faq1_q" }}
   {{ if $faq1q }}
+  {{ $faqs := slice
+    (dict "@type" "Question" "name" (i18n "faq1_q") "acceptedAnswer" (dict "@type" "Answer" "text" (i18n "faq1_a")))
+    (dict "@type" "Question" "name" (i18n "faq2_q") "acceptedAnswer" (dict "@type" "Answer" "text" (i18n "faq2_a")))
+    (dict "@type" "Question" "name" (i18n "faq3_q") "acceptedAnswer" (dict "@type" "Answer" "text" (i18n "faq3_a")))
+    (dict "@type" "Question" "name" (i18n "faq4_q") "acceptedAnswer" (dict "@type" "Answer" "text" (i18n "faq4_a")))
+    (dict "@type" "Question" "name" (i18n "faq5_q") "acceptedAnswer" (dict "@type" "Answer" "text" (i18n "faq5_a")))
+    (dict "@type" "Question" "name" (i18n "faq6_q") "acceptedAnswer" (dict "@type" "Answer" "text" (i18n "faq6_a")))
+  }}
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      { "@type": "Question", "name": {{ $faq1q | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq1_a" | jsonify }} } },
-      { "@type": "Question", "name": {{ i18n "faq2_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq2_a" | jsonify }} } },
-      { "@type": "Question", "name": {{ i18n "faq3_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq3_a" | jsonify }} } },
-      { "@type": "Question", "name": {{ i18n "faq4_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq4_a" | jsonify }} } },
-      { "@type": "Question", "name": {{ i18n "faq5_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq5_a" | jsonify }} } },
-      { "@type": "Question", "name": {{ i18n "faq6_q" | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ i18n "faq6_a" | jsonify }} } }
-    ]
-  }
+  {{ dict "@context" "https://schema.org" "@type" "FAQPage" "mainEntity" $faqs | jsonify | safeJS }}
   </script>
   {{ end }}
   {{ else if .Params.faq }}
+  {{ $faqs := slice }}
+  {{ range .Params.faq }}
+    {{ $faqs = $faqs | append (dict "@type" "Question" "name" .q "acceptedAnswer" (dict "@type" "Answer" "text" .a)) }}
+  {{ end }}
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {{ range $i, $item := .Params.faq }}
-      {{ if $i }},{{ end }}
-      {
-        "@type": "Question",
-        "name": {{ $item.q | jsonify }},
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": {{ $item.a | jsonify }}
-        }
-      }
-      {{ end }}
-    ]
-  }
+  {{ dict "@context" "https://schema.org" "@type" "FAQPage" "mainEntity" $faqs | jsonify | safeJS }}
   </script>
   {{ end }}
 </head>

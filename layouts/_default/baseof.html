@@ -32,5 +32,11 @@
   function acceptCookies(){localStorage.setItem('cookieConsent','1');document.getElementById('cookieConsent').classList.add('hidden');}
   </script>
   <script src="{{ "js/main.js" | relURL }}"></script>
+  {{- if hugo.IsProduction }}
+  <!-- Cloudflare Web Analytics — no cookies, no personal data -->
+  {{- with .Site.Params.cfBeaconToken }}
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ . }}"}'></script>
+  {{- end }}
+  {{- end }}
 </body>
 </html>

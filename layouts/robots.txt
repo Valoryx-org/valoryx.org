@@ -1,17 +1,36 @@
 User-agent: *
 Allow: /
 
+# AI search & answer engines — explicitly allowed
 User-agent: GPTBot
 Allow: /
 User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
 Allow: /
 User-agent: Claude-Web
 Allow: /
 User-agent: Anthropic-AI
 Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: YouBot
+Allow: /
+User-agent: Applebot
+Allow: /
+
+# Block pure data harvesters (no search/answer benefit)
+User-agent: Bytespider
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: Amazonbot
+Disallow: /
 
 Sitemap: {{ "sitemap.xml" | absURL }}
 
-# AI discovery files
+# AI agent discovery
 Allow: /llms.txt
 Allow: /llms-full.txt

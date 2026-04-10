@@ -24,3 +24,6 @@ secrets.*
 # Translation pipeline temp files (created by translate-sync.py, consumed by Claude)
 pending-translations.json
 completed-translations.json
+
+# Dependencies
+node_modules/

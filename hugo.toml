@@ -70,3 +70,6 @@ disableHugoGeneratorInject      = true
   binaryName   = "docplatform"
   n8nWebhook   = "https://n8n.valoryx.org/webhook/valoryx-waitlist"
   description  = "Self-hosted documentation platform with bidirectional git sync, WYSIWYG editor, and beautiful published docs. Single Go binary, zero dependencies."
+  # Cloudflare Web Analytics — set token after enabling in CF dashboard.
+  # No cookies, no personal data, GDPR-compliant. Leave empty to disable.
+  cfBeaconToken = ""
