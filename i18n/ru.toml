@@ -822,7 +822,9 @@ other = "You own your data"
 [pricing_download]
 other = "Download"
 [pricing_contact]
-other = "Contact us"
+other = "Связаться с нами"
+[pricing_coming_soon]
+other = "Скоро"
 [pricing_compare_title]
 other = "Compare Plans"
 [pricing_enterprise_note]
