@@ -73,21 +73,22 @@
 
       <!-- Cloud Business -->
       <div class="reveal reveal-delay-4">
-        <div class="pricing-item">
+        <div class="pricing-item" style="opacity: 0.85;">
           <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3" style="background: rgba(29,127,194,0.08); color: var(--accent);">
             <i class="bi bi-cloud text-[9px]"></i> {{ i18n "pricing_cloud_short" | default "Cloud" }}
           </div>
+          <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2" style="background: rgba(255,171,0,0.12); color: #b37400; width: fit-content;">{{ i18n "pricing_coming_soon" | default "Coming Soon" }}</span>
           <h3>{{ i18n "plan_business" }}</h3>
           <p class="plan-persona">{{ i18n "pricing_persona_business" | default "For orgs that need security and scale" }}</p>
           <h4><sup>$</sup>79 <span>/ {{ i18n "plan_mo" | default "mo" }}</span></h4>
           <ul>
             <li><i class="bi bi-check"></i> {{ i18n "pb_feat1" | default "10 Workspaces" }}</li>
             <li><i class="bi bi-check"></i> {{ i18n "pb_feat2" | default "50 Editors" }}</li>
-            <li><i class="bi bi-check"></i> {{ i18n "pb_feat3" | default "500 Pages per Workspace" }}</li>
+            <li><i class="bi bi-check"></i> {{ i18n "pb_feat3" | default "Unlimited Published Pages" }}</li>
             <li><i class="bi bi-check"></i> {{ i18n "pb_feat5" | default "SSO / SAML" }}</li>
             <li><i class="bi bi-check"></i> {{ i18n "pb_feat7" | default "Audit Logs" }}</li>
           </ul>
-          <a href="#contact" class="buy-btn" aria-label="Contact Us">{{ i18n "pricing_contact" | default "Contact Us" }}</a>
+          <a href="#contact" class="buy-btn" aria-label="Get in Touch">{{ i18n "pricing_coming_soon" | default "Coming Soon" }} — {{ i18n "pricing_contact" | default "Get in Touch" }}</a>
           <p class="text-xs mt-3" style="color: var(--muted);">{{ i18n "pricing_enterprise_note" | default "Custom plans available for larger teams" }}</p>
         </div>
       </div>
