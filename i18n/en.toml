@@ -3,26 +3,12 @@
 other = "Valoryx — Git-Native Documentation Platform | Self-Hosted, Free Forever"
 [meta_description]
 other = "Self-hosted documentation platform with bidirectional git sync, WYSIWYG editor, and beautiful published docs. Single Go binary, zero dependencies. Free for teams up to 5."
-[og_title]
-other = "Valoryx — Git-Native Documentation Platform"
-[og_description]
-other = "Documentation that lives in git. Finally, a web editor to match. Self-hosted, single binary, free for small teams."
 
 # ── Nav ───────────────────────────────────────────────────────────────────────
 [nav_home]
 other = "Home"
-[nav_about]
-other = "About"
-[nav_features]
-other = "Features"
-[nav_compare]
-other = "Compare"
 [nav_pricing]
 other = "Pricing"
-[nav_faq]
-other = "FAQ"
-[nav_contact]
-other = "Contact"
 [nav_cta]
 other = "Download Free"
 [nav_language]
@@ -43,14 +29,8 @@ other = "Documentation your team writes.<br class=\"hidden sm:block\"> Documenta
 other = "Git-native docs platform with a built-in MCP server. Write, publish, and let AI agents keep your docs accurate. Single binary, zero dependencies."
 [hero_cta]
 other = "Get Started Free"
-[hero_cta_selfhosted]
-other = "Download Free"
-[hero_cta_selfhosted_sub]
-other = "Self-hosted · Single binary · Free forever"
 [hero_cta_cloud]
 other = "Try Cloud Free"
-[hero_cta_cloud_sub]
-other = "We host it · No setup · Start in 30 seconds"
 [hero_box1_title]
 other = "Bidirectional Git Sync"
 [hero_box1_text]
@@ -63,34 +43,12 @@ other = "Rich Tiptap editor that writes clean Markdown. Tables, code blocks, emb
 other = "Published Docs"
 [hero_box3_text]
 other = "Beautiful documentation sites with themes and versioning. One click to publish."
-[hero_box4_title]
-other = "Access Control"
-[hero_box4_text]
-other = "Role-based permissions, WebAuthn passkeys, and audit logging. Granular access control from day one."
 [hero_learn_more]
 other = "Learn More"
 
 # ── Download ──────────────────────────────────────────────────────────────────
-[download_title]
-other = "Get Started"
-[download_subtitle]
-other = "Choose your platform. Running in under 30 seconds."
-[download_tab_label]
-other = "Select operating system"
-[download_btn]
-other = "Download"
 [download_copy]
 other = "Copy command"
-[download_pill1]
-other = "5 Editors"
-[download_pill2]
-other = "3 Workspaces"
-[download_pill3]
-other = "Unlimited Docs"
-[download_pill4]
-other = "Free Forever"
-[download_signed]
-other = "Signed binary — verified publisher"
 
 # ── About ─────────────────────────────────────────────────────────────────────
 [about_title]
@@ -113,14 +71,10 @@ other = "Built with Go and Next.js, Valoryx is designed for performance. Sub-50m
 other = "Explore Features"
 
 # ── Stats ─────────────────────────────────────────────────────────────────────
-[stats1_label]
-other = "One Command Deploy"
 [stats2_label]
 other = "To Running"
 [stats3_label]
 other = "Git-Native Storage"
-[stats4_label]
-other = "Free Forever"
 
 # ── Features ──────────────────────────────────────────────────────────────────
 [features_title]
@@ -159,8 +113,6 @@ other = "Your Docs Deserve Better Than a Walled Garden"
 other = "Stop trusting your documentation to SaaS platforms that lock in your data. With Valoryx, every word you write lives in git — portable, version-controlled, and yours forever."
 [cta_btn1]
 other = "Get Started Free"
-[cta_btn2]
-other = "Join Waitlist"
 
 # ── Comparison ────────────────────────────────────────────────────────────────
 [compare_title]
@@ -199,60 +151,6 @@ other = "Team"
 other = "Business"
 [plan_forever]
 other = "forever"
-[plan_workspace_mo]
-other = "mo"
-[plan_coming_soon]
-other = "Coming Soon"
-[plan_community_cta]
-other = "Get Started"
-[plan_waitlist_cta]
-other = "Join Waitlist"
-[plan_c_feat1]
-other = "Up to 5 editors"
-[plan_c_feat2]
-other = "Unlimited documents"
-[plan_c_feat3]
-other = "Bidirectional git sync"
-[plan_c_feat4]
-other = "WYSIWYG editor"
-[plan_c_feat5]
-other = "Full-text search"
-[plan_c_feat6]
-other = "Self-hosted"
-[plan_c_feat7]
-other = "Published doc sites (self-hosted)"
-[plan_c_feat8]
-other = "SSO / SAML"
-[plan_t_feat1]
-other = "Unlimited editors"
-[plan_t_feat2]
-other = "Unlimited documents"
-[plan_t_feat3]
-other = "Bidirectional git sync"
-[plan_t_feat4]
-other = "WYSIWYG editor"
-[plan_t_feat5]
-other = "Full-text search"
-[plan_t_feat6]
-other = "Published doc sites"
-[plan_t_feat7]
-other = "Custom domains"
-[plan_b_feat1]
-other = "Everything in Team"
-[plan_b_feat2]
-other = "SSO with SAML/OIDC"
-[plan_b_feat3]
-other = "Audit logging"
-[plan_b_feat4]
-other = "Granular RBAC"
-[plan_b_feat5]
-other = "Priority support"
-[plan_b_feat6]
-other = "Custom branding"
-[plan_b_feat7]
-other = "API access"
-[plan_b_feat8]
-other = "SLA guarantee"
 
 # ── Domains ───────────────────────────────────────────────────────────────────
 [domains_title]
@@ -333,28 +231,16 @@ other = "Tell us about your team and documentation needs"
 other = "Get in Touch"
 
 # ── Footer ────────────────────────────────────────────────────────────────────
-[footer_about_text]
-other = "Git-native documentation platform. Self-hosted, single binary, zero vendor lock-in. Your docs, your git repo, your servers."
-[footer_quick_links]
-other = "Quick Links"
 [footer_docs]
 other = "Documentation"
 [footer_resources]
 other = "Resources"
 [footer_docs_quickstart]
 other = "Quick Start"
-[footer_docs_install]
-other = "Installation"
-[footer_docs_gitsync]
-other = "Git Sync"
 [footer_docs_cli]
 other = "CLI Reference"
 [footer_res_blog]
 other = "Blog"
-[footer_res_download]
-other = "Download"
-[footer_res_compare]
-other = "Compare"
 [footer_rights]
 other = "All Rights Reserved."
 [footer_tagline]
@@ -539,28 +425,6 @@ other = "GitBook includes native AI-powered search and writing assistance withou
 other = "We believe in honest comparisons. Here is where the competition has an edge."
 
 # ── Download Deploy Toggle ──────────────────────────────────────────────────
-[download_deploy_selfhosted]
-other = "Self-Hosted"
-[download_deploy_cloud]
-other = "Cloud"
-[download_cloud_title]
-other = "Start with Valoryx Cloud"
-[download_cloud_description]
-other = "No installation needed. Create your workspace in seconds. We handle infrastructure, updates, and backups."
-[download_cloud_cta]
-other = "Open Valoryx Cloud"
-[download_cloud_free_note]
-other = "Free plan: 1 workspace · 3 editors · 50 published pages"
-[download_cloud_pill1]
-other = "No setup required"
-[download_cloud_pill2]
-other = "Automatic updates"
-[download_cloud_pill3]
-other = "Free forever tier"
-[download_cloud_prefer_selfhosted]
-other = "Prefer full control?"
-[download_cloud_switch_selfhosted]
-other = "Download the self-hosted edition"
 
 # ── Navigation (additional) ──────────────────────────────────────────────────
 [nav_templates]
@@ -919,8 +783,6 @@ other = "Start free. Upgrade when your team grows."
 other = "Unlike per-seat pricing, Valoryx charges a flat rate per plan."
 [pricing_perworkspace_desc]
 other = "A 15-person team on Team plan pays $29/mo total. No per-user fees, ever."
-[pricing_cloud]
-other = "Cloud — We host it"
 [pricing_selfhosted]
 other = "Self-Hosted — You host it"
 [pricing_free]
@@ -937,14 +799,10 @@ other = "50 Published Pages"
 other = "Git Sync"
 [pf_feat5]
 other = "WYSIWYG Editor"
-[pf_feat6]
-other = "Full-Text Search"
 [pf_feat7]
 other = "MCP Server (stdio)"
 [pf_feat8]
 other = "Custom Domains"
-[pf_feat9]
-other = "SSO / SAML"
 [pricing_popular]
 other = "Most Popular"
 [pricing_persona_team]
@@ -957,16 +815,12 @@ other = "3 Workspaces"
 other = "15 Editors"
 [pt_feat3]
 other = "Unlimited Published Pages"
-[pt_feat4]
-other = "Everything in Free"
 [pt_feat5]
 other = "Custom Domains"
 [pt_feat6]
 other = "Priority Support"
 [pt_feat7]
 other = "MCP Server (stdio)"
-[pt_feat8]
-other = "SSO / SAML"
 [pricing_upgrade]
 other = "Upgrade"
 [pricing_persona_business]
@@ -977,20 +831,14 @@ other = "10 Workspaces"
 other = "50 Editors"
 [pb_feat3]
 other = "Unlimited Published Pages"
-[pb_feat4]
-other = "Everything in Team"
 [pb_feat5]
 other = "SSO / SAML"
 [pb_feat6]
 other = "Analytics Dashboard"
 [pb_feat7]
 other = "Audit Logs"
-[pb_feat8]
-other = "MCP Server (stdio)"
 [pricing_community]
 other = "Community Edition"
-[pricing_ce_desc]
-other = "3 Workspaces, 5 Editors, Unlimited Pages, Full feature set"
 [pce_feat1]
 other = "Full editor, git sync, search, publishing"
 [pce_feat2]
@@ -999,14 +847,8 @@ other = "MCP server (13 tools, stdio)"
 other = "No license key required"
 [pce_feat4]
 other = "You own your data"
-[pce_feat5]
-other = "Your infrastructure"
 [pricing_download]
 other = "Download"
-[pricing_github]
-other = "View on GitHub"
-[pricing_enterprise]
-other = "Need enterprise support?"
 [pricing_contact]
 other = "Contact us"
 [pricing_compare_title]
@@ -1157,16 +999,10 @@ other = "Product"
 other = "MCP Integration"
 [footer_install]
 other = "Install"
-[footer_vs_gitbook]
-other = "vs GitBook"
 [footer_changelog]
 other = "Changelog"
-[footer_community]
-other = "Community"
 [footer_security]
 other = "Security"
-[footer_opensource]
-other = "Community Edition"
 
 # ── Comparison Section (additional) ──────────────────────────────────────────
 [cf_mcp]

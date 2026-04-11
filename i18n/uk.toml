@@ -2,25 +2,11 @@
 other = "Valoryx — Git-Native Платформа Документації | Self-Hosted, Безкоштовно назавжди"
 [meta_description]
 other = "Self-hosted платформа документації з двостороннєю синхронізацією git, WYSIWYG-редактором і красивими опублікованими доками. Один бінарний файл Go, жодних залежностей. Безкоштовно для команд до 5 осіб."
-[og_title]
-other = "Valoryx — Git-Native Платформа Документації"
-[og_description]
-other = "Документація, що живе в git. Нарешті гідний веб-редактор. Self-hosted, один бінарник, безкоштовно для малих команд."
 
 [nav_home]
 other = "Головна"
-[nav_about]
-other = "Про нас"
-[nav_features]
-other = "Можливості"
-[nav_compare]
-other = "Порівняння"
 [nav_pricing]
 other = "Ціни"
-[nav_faq]
-other = "FAQ"
-[nav_contact]
-other = "Контакти"
 [nav_cta]
 other = "Завантажити Безкоштовно"
 [nav_language]
@@ -52,33 +38,11 @@ other = "Редактор Tiptap, що пише чистий Markdown. Табл�
 other = "Опубліковані Доки"
 [hero_box3_text]
 other = "Красиві сайти документації з темами та версіонуванням. Публікація в один клік."
-[hero_box4_title]
-other = "Контроль Доступу"
-[hero_box4_text]
-other = "Рольові дозволи, паcкі WebAuthn та audit logging. Гранулярний контроль доступу з першого дня."
 [hero_learn_more]
 other = "Дізнатися більше"
 
-[download_title]
-other = "Почати"
-[download_subtitle]
-other = "Виберіть платформу. Готово до роботи менш ніж за 30 секунд."
-[download_tab_label]
-other = "Виберіть операційну систему"
-[download_btn]
-other = "Завантажити"
 [download_copy]
 other = "Копіювати команду"
-[download_pill1]
-other = "5 Редакторів"
-[download_pill2]
-other = "3 Робочі Простори"
-[download_pill3]
-other = "Безлімітні Доки"
-[download_pill4]
-other = "Безкоштовно Назавжди"
-[download_signed]
-other = "Підписаний файл — перевірений видавець"
 
 [about_title]
 other = "Про Valoryx"
@@ -99,14 +63,10 @@ other = "Побудований на Go та Next.js, Valoryx створений
 [about_cta1]
 other = "Вивчити Можливості"
 
-[stats1_label]
-other = "Деплой Однією Командою"
 [stats2_label]
 other = "До Запуску"
 [stats3_label]
 other = "Git-Native Сховище"
-[stats4_label]
-other = "Безкоштовно Назавжди"
 
 [features_title]
 other = "Можливості"
@@ -143,8 +103,6 @@ other = "Ваші Доки Заслуговують Більшого, Ніж О�
 other = "Перестаньте довіряти документацію SaaS-платформам, що замикають ваші дані. З Valoryx кожне слово живе у git — портативне, версіоноване і назавжди ваше."
 [cta_btn1]
 other = "Почати Безкоштовно"
-[cta_btn2]
-other = "Приєднатися до Списку Очікування"
 
 [compare_title]
 other = "Як Ми Порівнюємося"
@@ -181,60 +139,6 @@ other = "Команда"
 other = "Бізнес"
 [plan_forever]
 other = "назавжди"
-[plan_workspace_mo]
-other = "mo"
-[plan_coming_soon]
-other = "Незабаром"
-[plan_community_cta]
-other = "Почати"
-[plan_waitlist_cta]
-other = "Увійти до Списку"
-[plan_c_feat1]
-other = "До 5 редакторів"
-[plan_c_feat2]
-other = "Безлімітні документи"
-[plan_c_feat3]
-other = "Двосторонній git sync"
-[plan_c_feat4]
-other = "WYSIWYG-редактор"
-[plan_c_feat5]
-other = "Повнотекстовий пошук"
-[plan_c_feat6]
-other = "Self-hosted"
-[plan_c_feat7]
-other = "Опубліковані доки (self-hosted)"
-[plan_c_feat8]
-other = "SSO / SAML"
-[plan_t_feat1]
-other = "Безлімітні редактори"
-[plan_t_feat2]
-other = "Безлімітні документи"
-[plan_t_feat3]
-other = "Двосторонній git sync"
-[plan_t_feat4]
-other = "WYSIWYG-редактор"
-[plan_t_feat5]
-other = "Повнотекстовий пошук"
-[plan_t_feat6]
-other = "Опубліковані сайти доків"
-[plan_t_feat7]
-other = "Власні домени"
-[plan_b_feat1]
-other = "Все з Команди"
-[plan_b_feat2]
-other = "SSO з SAML/OIDC"
-[plan_b_feat3]
-other = "Audit logging"
-[plan_b_feat4]
-other = "Гранулярний RBAC"
-[plan_b_feat5]
-other = "Пріоритетна підтримка"
-[plan_b_feat6]
-other = "Кастомний брендинг"
-[plan_b_feat7]
-other = "Доступ до API"
-[plan_b_feat8]
-other = "Гарантія SLA"
 
 [domains_title]
 other = "Два Домени. Одна Платформа."
@@ -311,28 +215,16 @@ other = "Розкажіть про вашу команду та потреби �
 [contact_submit]
 other = "Зв'язатися з нами"
 
-[footer_about_text]
-other = "Git-native платформа документації. Self-hosted, один бінарник, жодної прив'язки до вендора. Ваші доки, ваш git-репозиторій, ваші сервери."
-[footer_quick_links]
-other = "Швидкі Посилання"
 [footer_docs]
 other = "Документація"
 [footer_resources]
 other = "Ресурси"
 [footer_docs_quickstart]
 other = "Швидкий Старт"
-[footer_docs_install]
-other = "Встановлення"
-[footer_docs_gitsync]
-other = "Git Sync"
 [footer_docs_cli]
 other = "CLI Довідник"
 [footer_res_blog]
 other = "Блог"
-[footer_res_download]
-other = "Завантажити"
-[footer_res_compare]
-other = "Порівняння"
 [footer_rights]
 other = "Всі права захищені."
 [footer_tagline]
@@ -368,40 +260,11 @@ other = "Документація"
 [docs_sidebar_title]
 other = "Документація"
 
-
 # ── Missing keys added by translate_missing.py ─────────────────────────────
 [skip_to_content]
 other = "Перейти до вмісту"
-[download_cloud_cta]
-other = "Відкрити Valoryx Cloud"
-[download_cloud_description]
-other = "Встановлення не потрібне. Створіть робочий простір за секунди. Ми подбаємо про інфраструктуру, оновлення та резервні копії."
-[download_cloud_free_note]
-other = "Безкоштовний план: 1 простір · 3 редактори · 50 опублікованих сторінок"
-[download_cloud_pill1]
-other = "Без налаштування"
-[download_cloud_pill2]
-other = "Автоматичні оновлення"
-[download_cloud_pill3]
-other = "Безкоштовний план назавжди"
-[download_cloud_prefer_selfhosted]
-other = "Віддаєте перевагу повному контролю?"
-[download_cloud_switch_selfhosted]
-other = "Завантажте self-hosted версію"
-[download_cloud_title]
-other = "Почніть з Valoryx Cloud"
-[download_deploy_cloud]
-other = "Cloud"
-[download_deploy_selfhosted]
-other = "Self-Hosted"
 [hero_cta_cloud]
 other = "Спробувати Cloud Безкоштовно"
-[hero_cta_cloud_sub]
-other = "Ми хостимо · Без налаштування · Старт за 30 секунд"
-[hero_cta_selfhosted]
-other = "Завантажити Безкоштовно"
-[hero_cta_selfhosted_sub]
-other = "Self-hosted · Один бінарник · Безкоштовно назавжди"
 [tpl_ai_desc]
 other = "Дозвольте ІІ-агентам писати та оновлювати документацію через MCP."
 [tpl_ai_title]
@@ -892,8 +755,6 @@ other = "Start free. Upgrade when your team grows."
 other = "Unlike per-seat pricing, Valoryx charges a flat rate per plan."
 [pricing_perworkspace_desc]
 other = "A 15-person team on Team plan pays $29/mo total. No per-user fees, ever."
-[pricing_cloud]
-other = "Cloud — We host it"
 [pricing_selfhosted]
 other = "Self-Hosted — You host it"
 [pricing_free]
@@ -910,14 +771,10 @@ other = "50 Published Pages"
 other = "Git Sync"
 [pf_feat5]
 other = "WYSIWYG Editor"
-[pf_feat6]
-other = "Full-Text Search"
 [pf_feat7]
 other = "MCP Server (stdio)"
 [pf_feat8]
 other = "Custom Domains"
-[pf_feat9]
-other = "SSO / SAML"
 [pricing_popular]
 other = "Most Popular"
 [pricing_persona_team]
@@ -930,16 +787,12 @@ other = "3 Workspaces"
 other = "15 Editors"
 [pt_feat3]
 other = "Unlimited Published Pages"
-[pt_feat4]
-other = "Everything in Free"
 [pt_feat5]
 other = "Custom Domains"
 [pt_feat6]
 other = "Priority Support"
 [pt_feat7]
 other = "MCP Server (stdio)"
-[pt_feat8]
-other = "SSO / SAML"
 [pricing_upgrade]
 other = "Upgrade"
 [pricing_persona_business]
@@ -950,20 +803,14 @@ other = "10 Workspaces"
 other = "50 Editors"
 [pb_feat3]
 other = "Unlimited Published Pages"
-[pb_feat4]
-other = "Everything in Team"
 [pb_feat5]
 other = "SSO / SAML"
 [pb_feat6]
 other = "Analytics Dashboard"
 [pb_feat7]
 other = "Audit Logs"
-[pb_feat8]
-other = "MCP Server (stdio)"
 [pricing_community]
 other = "Community Edition"
-[pricing_ce_desc]
-other = "3 Workspaces, 5 Editors, Unlimited Pages, Full feature set"
 [pce_feat1]
 other = "Full editor, git sync, search, publishing"
 [pce_feat2]
@@ -972,14 +819,8 @@ other = "MCP server (13 tools, stdio)"
 other = "No license key required"
 [pce_feat4]
 other = "You own your data"
-[pce_feat5]
-other = "Your infrastructure"
 [pricing_download]
 other = "Download"
-[pricing_github]
-other = "View on GitHub"
-[pricing_enterprise]
-other = "Need enterprise support?"
 [pricing_contact]
 other = "Contact us"
 [pricing_compare_title]
@@ -1130,16 +971,10 @@ other = "Product"
 other = "MCP Integration"
 [footer_install]
 other = "Install"
-[footer_vs_gitbook]
-other = "vs GitBook"
 [footer_changelog]
 other = "Changelog"
-[footer_community]
-other = "Community"
 [footer_security]
 other = "Security"
-[footer_opensource]
-other = "Community Edition"
 
 # ── Comparison Section (additional) ──────────────────────────────────────────
 [cf_mcp]
