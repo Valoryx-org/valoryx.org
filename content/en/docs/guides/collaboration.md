@@ -4,6 +4,8 @@ description: Invite your team, assign roles, and collaborate on documentation wi
 weight: 4
 ---
 
+# Teams & Collaboration
+
 DocPlatform is designed for team documentation. Invite members, assign granular roles, and track every change with a full audit trail.
 
 ## Workspace membership

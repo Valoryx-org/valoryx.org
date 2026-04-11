@@ -4,6 +4,8 @@ description: Connect AI tools like Claude Code, Claude Desktop, Cursor, and VS C
 weight: 999
 ---
 
+# MCP Server — AI Integration Guide
+
 DocPlatform includes a built-in [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that lets AI assistants read, write, search, and manage your documentation directly. Instead of copy-pasting content into chat windows, your AI tools work with your docs natively.
 
 ## Prerequisites

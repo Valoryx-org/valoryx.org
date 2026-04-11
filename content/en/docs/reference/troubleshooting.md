@@ -4,6 +4,8 @@ description: Common issues and solutions for DocPlatform — server startup, git
 weight: 3
 ---
 
+# Troubleshooting
+
 This guide covers common issues and their solutions. For diagnostic information, always start with:
 
 ```bash

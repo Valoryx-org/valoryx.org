@@ -4,6 +4,8 @@ description: Write and edit documentation using DocPlatform's rich web editor wi
 weight: 1
 ---
 
+# The Web Editor
+
 DocPlatform includes a rich text editor built on Tiptap (ProseMirror-based) that renders Markdown in real time while preserving full Markdown source compatibility. Every change you make produces a clean `.md` file — no proprietary format, no lock-in.
 
 ## Editor layout

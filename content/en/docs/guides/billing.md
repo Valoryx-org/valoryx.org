@@ -4,6 +4,8 @@ description: Configure Stripe billing, understand plan tiers, feature gating, an
 weight: 9
 ---
 
+# Billing & Plans
+
 DocPlatform uses Stripe for subscription billing. Three plan tiers are available, each with different limits and features.
 
 ## Plans

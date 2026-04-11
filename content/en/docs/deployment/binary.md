@@ -4,6 +4,8 @@ description: Deploy DocPlatform as a standalone binary on any Linux or macOS ser
 weight: 1
 ---
 
+# Binary Deployment
+
 The simplest deployment method — download a single binary, run it on your server. No runtime dependencies, no containers, no orchestrator.
 
 ## Download

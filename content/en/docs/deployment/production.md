@@ -4,6 +4,8 @@ description: Everything you need to verify before running DocPlatform in a produ
 weight: 3
 ---
 
+# Production Checklist
+
 Use this checklist before deploying DocPlatform to a production environment. Each item links to the relevant documentation section.
 
 ## Required
@@ -68,7 +70,7 @@ Community Edition includes the following hardcoded limits:
 | Viewers and Commenters | Unlimited |
 | Pages per workspace | Unlimited |
 
-Community Edition has no feature limits. All features are available with no license key required.
+Community Edition is fully unlimited — no artificial caps on editors, workspaces, or pages.
 
 ## Scaling considerations
 

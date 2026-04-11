@@ -4,6 +4,8 @@ description: Use AI writing assist, doc chat, and MCP server integration to acce
 weight: 7
 ---
 
+# AI Features
+
 DocPlatform includes built-in AI capabilities powered by Claude (Anthropic) or OpenAI. These features help you write, improve, and explore your documentation faster.
 
 ## Setup

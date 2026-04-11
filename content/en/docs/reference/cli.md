@@ -4,6 +4,8 @@ description: Complete reference for all DocPlatform CLI commands — serve, init
 weight: 2
 ---
 
+# CLI Reference
+
 DocPlatform provides 10 CLI commands for server management, workspace initialization, diagnostics, publishing, and AI integration.
 
 ## Global options

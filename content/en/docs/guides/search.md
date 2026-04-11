@@ -4,6 +4,8 @@ description: Instant full-text search across all your documentation with permiss
 weight: 6
 ---
 
+# Search
+
 DocPlatform includes an embedded full-text search engine (Bleve) that indexes all content automatically. No external service to configure — search works out of the box.
 
 ## Using search

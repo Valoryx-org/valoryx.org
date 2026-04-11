@@ -4,6 +4,8 @@ description: Install DocPlatform, create your first workspace, and start writing
 weight: 1
 ---
 
+# Getting Started
+
 This section walks you through installing DocPlatform, running it for the first time, and creating a workspace where your team can start writing.
 
 ## Choose your path

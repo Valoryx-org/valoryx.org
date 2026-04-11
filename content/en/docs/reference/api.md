@@ -4,6 +4,8 @@ description: Complete reference for DocPlatform's REST API — authentication, c
 weight: 1
 ---
 
+# REST API Reference
+
 DocPlatform exposes a RESTful JSON API. Business endpoints live under `/api/v1/`, while infrastructure endpoints (auth, health, git webhooks) use the unversioned `/api/` prefix.
 
 ## Base URLs

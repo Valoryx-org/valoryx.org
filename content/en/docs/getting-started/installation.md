@@ -4,6 +4,8 @@ description: Install DocPlatform using a pre-built binary, Docker, or from sourc
 weight: 2
 ---
 
+# Installation
+
 DocPlatform ships as a single binary with zero runtime dependencies. Choose the installation method that fits your workflow.
 
 ## Option 1: Pre-built binary (recommended)

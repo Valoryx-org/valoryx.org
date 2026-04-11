@@ -4,6 +4,8 @@ description: Complete reference for all DocPlatform environment variables — se
 weight: 1
 ---
 
+# Environment Variables
+
 DocPlatform reads configuration from environment variables. Set them in your shell, a `.env` file in the working directory, or your container orchestrator.
 
 ## Server

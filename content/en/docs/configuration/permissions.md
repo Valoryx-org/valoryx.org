@@ -4,6 +4,8 @@ description: Configure DocPlatform's 5-role hierarchy, workspace-level access co
 weight: 3
 ---
 
+# Roles & Permissions
+
 DocPlatform uses role-based access control (RBAC) powered by custom RBAC, an in-process authorization engine. Permissions are evaluated in under 0.1ms per check with no external service.
 
 ## Role hierarchy
