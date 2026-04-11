@@ -4,8 +4,6 @@ description: Configure local authentication, Google and GitHub OIDC sign-in, Web
 weight: 2
 ---
 
-# Authentication
-
 DocPlatform supports local authentication (email + password) out of the box, with optional Google/GitHub OIDC sign-in and WebAuthn/Passkeys for passwordless login.
 
 ## Local authentication (default)

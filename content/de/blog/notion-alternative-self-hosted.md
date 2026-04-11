@@ -35,7 +35,7 @@ Der Editor ist schnell und flexibel. Datenbankansichten sind nützlich für Road
 
 ## Vergleich der Optionen
 
-**Valoryx:** git IST der Speicher. Web-WYSIWYG-Editor. Einzelne Binary. Kostenlos für 5 Editoren. Veröffentlichte Docs eingebaut.
+**Valoryx:** git IST der Speicher. Web-WYSIWYG-Editor. Einzelne Binary. Kostenlos mit unbegrenzten Editoren. Veröffentlichte Docs eingebaut.
 
 **Wiki.js:** Self-hosted, gute Editoren, aber datenbankzentriert mit git als optionalem Export.
 

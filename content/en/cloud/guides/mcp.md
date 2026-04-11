@@ -4,8 +4,6 @@ description: Connect Claude, Cursor, and other AI tools to read and write your d
 weight: 5
 ---
 
-# AI & MCP Integration
-
 Valoryx Cloud includes a built-in MCP (Model Context Protocol) server that lets AI assistants interact with your documentation directly.
 
 ## What is MCP?

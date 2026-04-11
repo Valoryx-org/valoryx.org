@@ -1,5 +1,5 @@
 ---
-title: "Why Every Git Docs Tool Breaks Sync (And How We Fixed It)"
+title: "Why Git Docs Tools Break Sync"
 description: "Every documentation platform claims git integration. Most of them lie. Here's what actually goes wrong — and the Content Ledger pattern that finally solves it."
 date: "2026-02-22"
 author: "Valoryx Team"

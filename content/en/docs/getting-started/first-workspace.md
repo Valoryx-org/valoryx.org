@@ -4,8 +4,6 @@ description: Create and configure a documentation workspace — connect git, set
 weight: 3
 ---
 
-# Your First Workspace
-
 A workspace is the top-level container for a documentation project. Each workspace maps to a directory of Markdown files and optionally syncs with a git repository.
 
 ## Workspace concepts

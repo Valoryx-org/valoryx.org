@@ -4,8 +4,6 @@ description: Connect your workspace to GitHub for backup, IDE editing, and versi
 weight: 4
 ---
 
-# GitHub Sync
-
 Valoryx Cloud can sync your documentation with a GitHub repository. This gives you the best of both worlds: a beautiful web editor AND the full power of git.
 
 ## Why connect GitHub?

@@ -4,8 +4,6 @@ description: Get DocPlatform running in under 5 minutes with a fully functional 
 weight: 1
 ---
 
-# Quickstart
-
 Go from zero to a running documentation platform in under 5 minutes. This guide covers the fastest path — for detailed options, see the [Installation](installation.md) guide.
 
 ## Step 1: Install

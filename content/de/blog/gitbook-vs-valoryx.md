@@ -39,7 +39,7 @@ Wir haben Valoryx entwickelt, um Probleme zu lösen, die GitBook nicht adressier
 **GitBook:** Kostenlose Stufe für persönliche/Open-Source-Nutzung. Team-Plan $6,70/Nutzer/Monat. Business: individuelle Preise.
 
 **Valoryx:**
-- Community (dauerhaft kostenlos): self-hosted, bis zu 5 Editoren, volles Funktionspaket
+- Community (dauerhaft kostenlos): self-hosted, unbegrenzte Editoren, volles Funktionspaket
 - Team ($29/Workspace/Monat): unbegrenzte Editoren, eigene Domains
 - Business ($79/Workspace/Monat): SSO/SAML, Audit-Logs, SLA
 

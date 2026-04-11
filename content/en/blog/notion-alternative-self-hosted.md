@@ -1,5 +1,5 @@
 ---
-title: "The Best Self-Hosted Notion Alternative for Technical Teams"
+title: "Self-Hosted Notion Alternative for Dev Teams"
 description: "Notion is great until it isn't. For teams that need git ownership, self-hosting, or developer-native workflows, here's an honest look at your alternatives."
 date: "2026-03-01"
 author: "Valoryx Team"
@@ -72,7 +72,7 @@ Valoryx is built specifically for technical documentation that needs git ownersh
 | Markdown output | Pure CommonMark — no proprietary formats |
 | Web editor | WYSIWYG (Tiptap-based) — no git knowledge required |
 | Published docs | Built-in — one toggle to publish |
-| Pricing | Free (self-hosted, up to 5 editors) |
+| Pricing | Free (self-hosted, unlimited editors) |
 
 **Best for:** Teams with 2-10 editors who want git ownership without giving up a web editor.
 

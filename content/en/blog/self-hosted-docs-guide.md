@@ -1,5 +1,5 @@
 ---
-title: "The Complete Guide to Self-Hosted Documentation Tools in 2026"
+title: "Self-Hosted Documentation Tools Guide (2026)"
 description: "An in-depth comparison of every self-hosted documentation platform worth considering in 2026. Wiki.js, BookStack, Outline, Docusaurus, MkDocs, and Valoryx."
 date: "2026-02-27"
 author: "Valoryx Team"
@@ -124,7 +124,7 @@ Before comparing specific tools, here's what we think matters most:
 - WYSIWYG editor that outputs clean markdown
 - Published docs with custom domains, themes, versioning
 - Built-in full-text search (SQLite FTS5)
-- Free for teams up to 5 editors
+- Free with unlimited editors (Community Edition)
 
 **Cons:**
 - Newer product — smaller community than Wiki.js or Docusaurus
@@ -144,7 +144,7 @@ Before comparing specific tools, here's what we think matters most:
 | Install Time | ~15 min | ~10 min | ~30 min | ~5 min | ~5 min | ~30 sec |
 | Published Docs | Limited | Limited | No | Excellent | Excellent | Excellent |
 | Search | Basic | Basic | Good | Basic | Basic | Good (FTS5) |
-| Free Tier | Full | Full | Full | Full | Full | Up to 5 editors |
+| Free Tier | Full | Full | Full | Full | Full | Unlimited editors |
 
 ## Our Recommendation
 

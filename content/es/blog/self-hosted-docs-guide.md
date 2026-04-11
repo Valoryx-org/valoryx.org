@@ -38,7 +38,7 @@ Generador de sitios estáticos basado en React. Excelente salida publicada. Sin 
 Generador de sitios estáticos basado en Python. Tema Material simple y limpio. Sin editor web. Ideal para equipos Python.
 
 ### Valoryx
-Plataforma basada en Go. Binario único, cero dependencias, instalación en 30 segundos. Sincronización bidireccional real con Git (Content Ledger). Editor WYSIWYG. Documentación publicada. Búsqueda FTS5. Gratuito para hasta 5 editores.
+Plataforma basada en Go. Binario único, cero dependencias, instalación en 30 segundos. Sincronización bidireccional real con Git (Content Ledger). Editor WYSIWYG. Documentación publicada. Búsqueda FTS5. Gratuito con editores ilimitados.
 
 ## Tabla de Comparación Rápida
 
@@ -51,7 +51,7 @@ Plataforma basada en Go. Binario único, cero dependencias, instalación en 30 s
 | Tiempo de Instalación | ~15 min | ~10 min | ~30 min | ~5 min | ~5 min | ~30 seg |
 | Documentación Publicada | Limitada | Limitada | No | Excelente | Excelente | Excelente |
 | Búsqueda | Básica | Básica | Buena | Básica | Básica | Buena (FTS5) |
-| Plan Gratuito | Completo | Completo | Completo | Completo | Completo | Hasta 5 editores |
+| Plan Gratuito | Completo | Completo | Completo | Completo | Completo | Editores ilimitados |
 
 ## Nuestra Recomendación
 

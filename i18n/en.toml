@@ -1,8 +1,8 @@
 # ── Meta ──────────────────────────────────────────────────────────────────────
 [meta_title]
-other = "Valoryx — Git-Native Documentation Platform | Self-Hosted, Free Forever"
+other = "Valoryx — Self-Hosted Documentation Platform"
 [meta_description]
-other = "Self-hosted documentation platform with bidirectional git sync, WYSIWYG editor, and beautiful published docs. Single Go binary, zero dependencies. Free for teams up to 5."
+other = "Self-hosted documentation platform with git sync, WYSIWYG editor, and published docs. Single Go binary, zero dependencies. Free forever."
 
 # ── Nav ───────────────────────────────────────────────────────────────────────
 [nav_home]
@@ -192,7 +192,7 @@ other = "Got questions? We've got answers."
 [faq1_q]
 other = "Is Valoryx really free for small teams?"
 [faq1_a]
-other = "Yes. The Community edition is free forever for up to 5 editors. It's a single Go binary you run on your own server — no license keys, no feature gates, no telemetry. You get git sync, WYSIWYG editing, published docs, and full-text search at zero cost."
+other = "Yes. The Community Edition is free forever with unlimited editors. It's a single Go binary you run on your own server — no license keys, no feature gates, no telemetry. You get git sync, WYSIWYG editing, published docs, and full-text search at zero cost."
 [faq2_q]
 other = "How does bidirectional git sync work?"
 [faq2_a]
@@ -212,7 +212,7 @@ other = "Your documentation is stored as standard Markdown files in a git reposi
 [faq6_q]
 other = "Does Valoryx support multiple workspaces?"
 [faq6_a]
-other = "Yes. The Community Edition supports 3 workspaces with 5 editors. Cloud Team plan includes 3 workspaces with 15 editors, and Business includes 10 workspaces with 50 editors. Each workspace connects to its own git repository with independent permissions."
+other = "Yes. The Community Edition supports unlimited workspaces and editors. Cloud Free includes 1 workspace with 3 editors, Team includes 3 workspaces with 15 editors, and Business includes 10 workspaces with 50 editors. Each workspace connects to its own git repository with independent permissions."
 
 # ── Contact ───────────────────────────────────────────────────────────────────
 [contact_title]
@@ -268,7 +268,7 @@ other = "min read"
 [blog_cta_title]
 other = "Ready to try Valoryx?"
 [blog_cta_text]
-other = "Self-hosted, single binary, free for teams up to 5 editors."
+other = "Self-hosted, single binary, free with unlimited editors."
 
 # ── Docs ─────────────────────────────────────────────────────────────────────
 [nav_docs]
@@ -398,7 +398,7 @@ other = "Valoryx combines bidirectional git sync, a Model Context Protocol serve
 [vs_cta_title]
 other = "Try Valoryx Free"
 [vs_cta_text]
-other = "Free for teams up to 5 editors. No credit card required. Self-hosted or Docker."
+other = "Free with unlimited editors. No credit card required. Self-hosted or Docker."
 [vs_cta_btn]
 other = "Get Started"
 
@@ -720,7 +720,7 @@ other = "Bleve-powered search engine indexes all your content. Instant results w
 [oss_feature_rbac_title]
 other = "Role-Based Access"
 [oss_feature_rbac_text]
-other = "5 roles from Viewer to Super Admin. Per-workspace permissions. Up to 5 editors and 3 workspaces."
+other = "5 roles from Viewer to Super Admin. Per-workspace permissions. Unlimited editors and workspaces."
 [oss_feature_cli_title]
 other = "CLI and REST API"
 [oss_feature_cli_text]
@@ -746,7 +746,7 @@ other = "Proprietary"
 [oss_license_converts]
 other = "Free Community Edition available"
 [oss_license_free]
-other = "Free for teams up to 5 editors"
+other = "Free with unlimited editors"
 [oss_license_unlimited]
 other = "Unlimited viewers and pages"
 [oss_license_source]

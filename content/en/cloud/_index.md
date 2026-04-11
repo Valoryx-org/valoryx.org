@@ -4,8 +4,6 @@ description: Write, publish, and share beautiful documentation — no servers, n
 weight: 1
 ---
 
-# Valoryx Cloud
-
 Valoryx Cloud is the easiest way to create, organize, and publish professional documentation. Sign up, start writing, and share — we handle everything else.
 
 ## What you can do

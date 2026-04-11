@@ -4,8 +4,6 @@ description: Deploy DocPlatform as a Docker container with persistent volumes an
 weight: 2
 ---
 
-# Docker Deployment
-
 DocPlatform ships as a multi-architecture Docker image (amd64/arm64) built on Alpine Linux.
 
 ## Quick start

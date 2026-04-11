@@ -33,7 +33,7 @@ Editor rápido y flexible. Vistas de base de datos útiles. Adecuado para docume
 
 ## Comparativa de Opciones
 
-**Valoryx:** Git ES el almacenamiento. Editor WYSIWYG. Binario único. 5 editores gratuitos. Documentación publicada integrada.
+**Valoryx:** Git ES el almacenamiento. Editor WYSIWYG. Binario único. Editores ilimitados. Documentación publicada integrada.
 **Wiki.js:** Self-hosted, buenos editores, prioridad en base de datos con Git como exportación opcional.
 **Docusaurus:** Git puro, excelente documentación publicada, sin editor web.
 **Confluence:** Empresarial, ecosistema Atlassian, costoso, sin Git.
