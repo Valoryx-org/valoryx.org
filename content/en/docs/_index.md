@@ -4,8 +4,6 @@ description: Self-hosted, git-backed documentation platform with a beautiful web
 weight: 1
 ---
 
-# DocPlatform Community Edition
-
 DocPlatform is a self-hosted documentation platform that combines a rich web editor with bidirectional git synchronization — packaged as a single binary with zero external dependencies.
 
 Write in your browser. Push from your IDE. Everything stays in sync.

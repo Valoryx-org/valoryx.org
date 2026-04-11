@@ -1,5 +1,5 @@
 ---
-title: "The Complete Guide to Self-Hosted Documentation Tools in 2026"
+title: "Self-Hosted Documentation Tools Guide (2026)"
 description: "An in-depth comparison of every self-hosted documentation platform worth considering in 2026. Wiki.js, BookStack, Outline, Docusaurus, MkDocs, and Valoryx."
 date: "2026-02-27"
 author: "Valoryx Team"

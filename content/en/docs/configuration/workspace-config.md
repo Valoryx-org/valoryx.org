@@ -4,8 +4,6 @@ description: Configure workspace-level settings — git remote, theme, navigatio
 weight: 4
 ---
 
-# Workspace Settings
-
 Each workspace has its own configuration file at `.docplatform/workspaces/{workspace-id}/.docplatform/config.yaml`. Edit this file directly or use the web UI (**Settings** → **Workspace**).
 
 ## Full configuration reference

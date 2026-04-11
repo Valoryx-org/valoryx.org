@@ -4,8 +4,6 @@ description: Manage your profile, password, billing, and data.
 weight: 6
 ---
 
-# Your Account
-
 ## Signing up
 
 Visit [app.valoryx.dev](https://app.valoryx.dev/#/register) and create an account with your email and a password. You'll need to accept the [Terms of Service](/terms/) and [Privacy Policy](/privacy/).

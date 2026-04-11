@@ -1,5 +1,5 @@
 ---
-title: "GitBook vs Valoryx: An Honest Comparison for Developer Teams"
+title: "GitBook vs Valoryx: Honest Comparison"
 description: "A detailed, fair comparison of GitBook and Valoryx for technical documentation. Pricing, git integration, self-hosting, and where each tool shines."
 date: "2026-02-25"
 author: "Valoryx Team"

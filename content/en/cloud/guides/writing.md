@@ -4,8 +4,6 @@ description: How to create pages, use the editor, format text, add images, and o
 weight: 1
 ---
 
-# Writing & Editing
-
 Valoryx Cloud gives you a clean, distraction-free editor that works like Google Docs — but stores everything as Markdown for maximum portability.
 
 ## Creating a page

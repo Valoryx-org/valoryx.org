@@ -4,8 +4,6 @@ description: Publish your documentation as a beautiful site with syntax highligh
 weight: 5
 ---
 
-# Publishing Docs
-
 DocPlatform can serve your documentation as a website — complete with a navigation sidebar, syntax highlighting, and SEO metadata. No separate static site generator required. By default, published docs are visible only to authenticated workspace members. Admins can opt in to make them fully public.
 
 ## How publishing works

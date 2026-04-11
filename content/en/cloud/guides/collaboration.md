@@ -4,8 +4,6 @@ description: Invite teammates, assign roles, and work together on documentation.
 weight: 3
 ---
 
-# Team Collaboration
-
 Valoryx Cloud is built for teams. Invite your colleagues, control who can edit what, and see changes in real time.
 
 ## Inviting teammates

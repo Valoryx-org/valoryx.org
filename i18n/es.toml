@@ -664,7 +664,7 @@ other = "Read the Guide"
 [oss_badge]
 other = "Free Forever"
 [oss_hero_title]
-other = "Free Documentation Platform"
+other = "Plataforma de documentación gratuita"
 [oss_hero_subtitle]
 other = "Valoryx Community Edition is free forever. Self-host your documentation with full git sync, WYSIWYG editing, and published docs."
 [oss_hero_btn_install]
@@ -748,7 +748,7 @@ other = "Contact Sales"
 
 # ── Pricing Page ─────────────────────────────────────────────────────────────
 [pricing_page_title]
-other = "Simple, transparent pricing"
+other = "Precios simples y transparentes"
 [pricing_page_subtitle]
 other = "Start free. Upgrade when your team grows."
 [pricing_perworkspace_title]

@@ -1,5 +1,5 @@
 ---
-title: "The Best Self-Hosted Notion Alternative for Technical Teams"
+title: "Self-Hosted Notion Alternative for Dev Teams"
 description: "Notion is great until it isn't. For teams that need git ownership, self-hosting, or developer-native workflows, here's an honest look at your alternatives."
 date: "2026-03-01"
 author: "Valoryx Team"

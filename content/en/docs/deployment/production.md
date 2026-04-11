@@ -4,8 +4,6 @@ description: Everything you need to verify before running DocPlatform in a produ
 weight: 3
 ---
 
-# Production Checklist
-
 Use this checklist before deploying DocPlatform to a production environment. Each item links to the relevant documentation section.
 
 ## Required

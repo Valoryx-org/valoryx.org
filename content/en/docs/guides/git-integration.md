@@ -4,8 +4,6 @@ description: Bidirectional git sync — edit in the browser or push from your ID
 weight: 3
 ---
 
-# Git Integration
-
 DocPlatform's bidirectional git sync lets your team work however they prefer. Technical writers use the web editor. Developers push from their IDE. Everyone sees the same content.
 
 ## How it works

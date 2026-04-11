@@ -4,8 +4,6 @@ description: Turn your workspace into a live documentation site with one click.
 weight: 2
 ---
 
-# Publishing Docs
-
 Turn any workspace into a beautiful, public documentation site. Your readers get a fast, searchable, mobile-friendly experience — you get a live site that updates every time you save a page.
 
 ## How to publish

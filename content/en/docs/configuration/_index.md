@@ -4,8 +4,6 @@ description: Configure DocPlatform with environment variables, workspace setting
 weight: 3
 ---
 
-# Configuration
-
 DocPlatform follows a convention-over-configuration approach. It runs with sensible defaults out of the box, but every aspect is configurable for production deployments.
 
 ## Configuration layers

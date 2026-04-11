@@ -4,8 +4,6 @@ description: Track page views, search queries, and documentation usage with buil
 weight: 8
 ---
 
-# Analytics
-
 DocPlatform includes built-in analytics for tracking how your documentation is used. No third-party tracking scripts or external services required.
 
 ## How it works

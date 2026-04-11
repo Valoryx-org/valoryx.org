@@ -4,8 +4,6 @@ description: Write documentation with CommonMark Markdown, YAML frontmatter, wik
 weight: 2
 ---
 
-# Markdown & Components
-
 DocPlatform uses CommonMark-compliant Markdown with YAML frontmatter, wikilinks, and 15 custom components for rich, interactive documentation.
 
 ## Markdown basics
