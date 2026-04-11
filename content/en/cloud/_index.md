@@ -1,7 +1,6 @@
 ---
-title: Valoryx Cloud
+title: DocPlatform
 description: Write, publish, and share beautiful documentation — no servers, no setup, no hassle.
-layout: docs
 weight: 1
 ---
 

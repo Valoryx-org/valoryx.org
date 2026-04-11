@@ -8,6 +8,9 @@
       </a>
       <h1 class="text-2xl sm:text-3xl font-extrabold mb-2" style="color: var(--heading); letter-spacing: -0.03em;">{{ .Title }}</h1>
       {{ with .Description }}<p class="text-base" style="color: var(--muted);">{{ . }}</p>{{ end }}
+
+      <!-- Edition tabs -->
+      {{ partial "docs/edition-tabs.html" (dict "Page" . "active" "cloud") }}
     </div>
   </div>
 </section>
@@ -16,29 +19,9 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col lg:flex-row gap-10">
 
-      <!-- Sidebar -->
+      <!-- Sidebar — same structure as docs -->
       <nav class="lg:w-64 flex-shrink-0">
-        <div class="lg:sticky lg:top-24 space-y-1">
-          <a href="{{ .RelPermalink }}" class="block px-3 py-2 rounded-lg text-sm font-semibold no-underline transition-colors" style="color: var(--heading); background: var(--light);">
-            <i class="bi bi-cloud me-2"></i>Overview
-          </a>
-          {{ range .Sections.ByWeight }}
-            {{ range .Pages.ByWeight }}
-            <a href="{{ .RelPermalink }}" class="block px-3 py-2 rounded-lg text-sm no-underline transition-colors hover:bg-gray-50" style="color: var(--body);">
-              {{ .Title }}
-            </a>
-            {{ end }}
-          {{ end }}
-          {{ range .Pages.ByWeight }}
-          <a href="{{ .RelPermalink }}" class="block px-3 py-2 rounded-lg text-sm no-underline transition-colors hover:bg-gray-50" style="color: var(--body);">
-            {{ .Title }}
-          </a>
-          {{ end }}
-          <hr class="my-3" style="border-color: #f0f4f8;">
-          <a href="/docs/" class="block px-3 py-2 rounded-lg text-sm no-underline transition-colors hover:bg-gray-50" style="color: var(--muted);">
-            <i class="bi bi-download me-2"></i>Community Edition Docs
-          </a>
-        </div>
+        {{ partial "docs/sidebar-cloud.html" . }}
       </nav>
 
       <!-- Content -->
@@ -63,6 +46,18 @@
             </a>
             {{ end }}
           </div>
+        </div>
+        {{ end }}
+
+        <!-- Direct child pages (if no subsections) -->
+        {{ if and (not .Sections) .Pages }}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {{ range .Pages.ByWeight }}
+          <a href="{{ .RelPermalink }}" class="block p-4 rounded-lg border no-underline transition-all hover:border-accent" style="border-color: var(--border);">
+            <h3 class="text-sm font-semibold mb-1" style="color: var(--heading);">{{ .Title }}</h3>
+            {{ with .Description }}<p class="text-xs m-0" style="color: var(--muted);">{{ . }}</p>{{ end }}
+          </a>
+          {{ end }}
         </div>
         {{ end }}
       </div>

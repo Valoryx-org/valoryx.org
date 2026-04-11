@@ -6,29 +6,30 @@
 
       <!-- About -->
       <div>
-        <a href="{{ $homeURL }}#hero" class="flex items-center gap-2 text-heading font-light text-[26px] mb-4 no-underline">Valoryx</a>
-        <p class="text-sm text-body leading-6 mb-4">{{ i18n "footer_about_text" }}</p>
+        <a href="{{ $homeURL }}" class="flex items-center gap-2 text-heading font-light text-[26px] mb-4 no-underline">Valoryx</a>
+        <p class="text-sm text-body leading-6 mb-4">{{ i18n "footer_about_text_new" | default "Git-native documentation platform. Self-hosted or cloud. Your docs, your git repo, your choice." }}</p>
       </div>
 
       <!-- Product -->
       <div>
         <h4>{{ i18n "footer_product" | default "Product" }}</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="{{ absLangURL "pricing/" }}"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_pricing" }}</a></li>
-          <li><a href="{{ absLangURL "templates/" }}"    class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_templates" | default "Templates" }}</a></li>
-          <li><a href="{{ absLangURL "mcp/" }}"          class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_mcp" | default "MCP Integration" }}</a></li>
-          <li><a href="{{ absLangURL "install/" }}"      class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_install" | default "Install" }}</a></li>
-          <li><a href="{{ absLangURL "vs/gitbook/" }}"   class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_vs_gitbook" | default "vs GitBook" }}</a></li>
+          <li><a href="{{ absLangURL "pricing/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_pricing" }}</a></li>
+          <li><a href="{{ absLangURL "templates/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "nav_templates" | default "Templates" }}</a></li>
+          <li><a href="{{ absLangURL "mcp/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_mcp" | default "MCP Integration" }}</a></li>
+          <li><a href="{{ absLangURL "install/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_install" | default "Install" }}</a></li>
+          <li><a href="https://app.valoryx.dev/register" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_cloud_signup" | default "Cloud Sign Up" }}</a></li>
         </ul>
       </div>
 
-      <!-- Documentation -->
+      <!-- Documentation — both editions -->
       <div>
         <h4>{{ i18n "footer_docs" }}</h4>
         <ul class="space-y-2.5 text-sm">
+          <li><a href="{{ absLangURL "docs/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_community" | default "Community Docs" }}</a></li>
+          <li><a href="{{ absLangURL "cloud/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_cloud" | default "Cloud Docs" }}</a></li>
           <li><a href="{{ absLangURL "docs/getting-started/quickstart/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_quickstart" }}</a></li>
-          <li><a href="{{ absLangURL "docs/getting-started/installation/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_install" }}</a></li>
-          <li><a href="{{ absLangURL "docs/guides/git-integration/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_gitsync" }}</a></li>
+          <li><a href="{{ absLangURL "docs/reference/api/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_api" | default "API Reference" }}</a></li>
           <li><a href="{{ absLangURL "docs/reference/cli/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_docs_cli" }}</a></li>
         </ul>
       </div>
@@ -37,13 +38,11 @@
       <div>
         <h4>{{ i18n "footer_resources" }}</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="{{ absLangURL "blog/" }}"            class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_blog" }}</a></li>
-          <li><a href="{{ absLangURL "changelog/" }}"       class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_changelog" | default "Changelog" }}</a></li>
+          <li><a href="{{ absLangURL "blog/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_res_blog" }}</a></li>
+          <li><a href="{{ absLangURL "changelog/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_changelog" | default "Changelog" }}</a></li>
           <li><a href="{{ .Site.Params.githubURL }}" target="_blank" rel="noopener" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> GitHub</a></li>
-          <li><a href="https://github.com/Valoryx-org/community" target="_blank" rel="noopener" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_community" | default "Community" }}</a></li>
-          <li><a href="/llms.txt"                           class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> llms.txt</a></li>
-          <li><a href="{{ absLangURL "security/" }}"        class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_security" | default "Security" }}</a></li>
-          <li><a href="{{ absLangURL "open-source/" }}"     class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_opensource" | default "Community Edition" }}</a></li>
+          <li><a href="{{ absLangURL "security/" }}" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> {{ i18n "footer_security" | default "Security" }}</a></li>
+          <li><a href="/llms.txt" class="flex items-center gap-2"><i class="bi bi-chevron-right text-xs text-accent"></i> llms.txt</a></li>
         </ul>
       </div>
 

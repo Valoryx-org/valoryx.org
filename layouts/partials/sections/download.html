@@ -1,198 +1,148 @@
-<!-- ======= Download / Get Started Section ======= -->
+<!-- ======= Get Started Section — Equal Self-Hosted & Cloud ======= -->
 {{ $gh   := .Site.Params.githubURL }}
 {{ $tag  := .Site.Params.releaseTag }}
 {{ $bin  := .Site.Params.binaryName }}
 {{ $latest := printf "%s/releases/latest/download" $gh }}
-<section id="download" class="py-20 md:py-28">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+<section id="get-started" class="py-20 md:py-28" style="background: var(--light);">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <div class="section-title reveal">
-      <h2>{{ i18n "download_title" }}</h2>
-      <p>{{ i18n "download_subtitle" }}</p>
+      <h2>{{ i18n "getstarted_title" | default "Get Started" }}</h2>
+      <p>{{ i18n "getstarted_subtitle" | default "Same platform, same features. Choose how you want to run it." }}</p>
     </div>
 
-    <!-- Deployment Toggle -->
-    <div class="flex justify-center mb-8 reveal">
-      <div class="inline-flex rounded-xl p-1.5" style="background: #f0f4f8;" role="tablist" aria-label="Deployment type">
-        <button class="deploy-tab px-5 py-2 rounded-lg text-sm font-semibold" data-deploy="selfhosted" onclick="switchDeployTab('selfhosted')" role="tab" style="background: white; color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-          <i class="bi bi-hdd-rack mr-1.5"></i>{{ i18n "download_deploy_selfhosted" | default "Self-Hosted" }}
-        </button>
-        <button class="deploy-tab px-5 py-2 rounded-lg text-sm font-semibold" data-deploy="cloud" onclick="switchDeployTab('cloud')" role="tab" style="background: transparent; color: var(--body); box-shadow: none;">
-          <i class="bi bi-cloud mr-1.5"></i>{{ i18n "download_deploy_cloud" | default "Cloud" }}
-        </button>
+    <!-- Two Equal Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+
+      <!-- Self-Hosted Card -->
+      <div class="reveal reveal-delay-1">
+        <div class="deploy-card" id="card-selfhosted">
+          <!-- Card Header -->
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: var(--navy); box-shadow: 0 4px 12px rgba(12,30,46,0.2);">
+              <i class="bi bi-hdd-rack text-white text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold m-0" style="color: var(--heading);">{{ i18n "getstarted_sh_title" | default "Self-Hosted" }}</h3>
+              <p class="text-xs m-0" style="color: var(--muted);">{{ i18n "getstarted_sh_tagline" | default "Your servers, your rules" }}</p>
+            </div>
+          </div>
+
+          <!-- Value Props -->
+          <ul class="space-y-3 mb-6" style="list-style: none; padding: 0; margin: 0 0 24px;">
+            <li class="flex items-start gap-2.5 text-sm" style="color: var(--body);">
+              <i class="bi bi-check-circle-fill text-xs mt-0.5" style="color: var(--success); flex-shrink: 0;"></i>
+              {{ i18n "getstarted_sh_prop1" | default "Single Go binary — zero dependencies" }}
+            </li>
+            <li class="flex items-start gap-2.5 text-sm" style="color: var(--body);">
+              <i class="bi bi-check-circle-fill text-xs mt-0.5" style="color: var(--success); flex-shrink: 0;"></i>
+              {{ i18n "getstarted_sh_prop2" | default "Unlimited editors, workspaces, and pages" }}
+            </li>
+            <li class="flex items-start gap-2.5 text-sm" style="color: var(--body);">
+              <i class="bi bi-check-circle-fill text-xs mt-0.5" style="color: var(--success); flex-shrink: 0;"></i>
+              {{ i18n "getstarted_sh_prop3" | default "Full data ownership — runs on your infra" }}
+            </li>
+            <li class="flex items-start gap-2.5 text-sm" style="color: var(--body);">
+              <i class="bi bi-check-circle-fill text-xs mt-0.5" style="color: var(--success); flex-shrink: 0;"></i>
+              {{ i18n "getstarted_sh_prop4" | default "Free forever — no license key needed" }}
+            </li>
+          </ul>
+
+          <!-- Terminal -->
+          <div class="terminal-block mb-5">
+            <div class="terminal-bar">
+              <span class="terminal-dot" style="background:#ff5f57;"></span>
+              <span class="terminal-dot" style="background:#febc2e;"></span>
+              <span class="terminal-dot" style="background:#28c840;"></span>
+              <span class="ml-2 text-xs" style="color:#8b949e;">bash</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://valoryx.org/install.sh | sh</span>
+                <button onclick="copyCmd('curl -fsSL https://valoryx.org/install.sh | sh', this)" class="ml-2 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" }}"><i class="bi bi-clipboard text-xs"></i></button>
+              </div>
+              <div class="mt-1"><span class="success">✓ {{ $bin }} serve → localhost:3000</span></div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <a href="{{ absLangURL "install/" }}" class="deploy-card-cta inline-flex items-center justify-center gap-2 w-full text-white px-6 py-3 rounded-lg text-sm font-bold no-underline" style="background: var(--navy); transition: background 0.2s ease;">
+            <i class="bi bi-download"></i> {{ i18n "getstarted_sh_cta" | default "Download Free" }}
+          </a>
+          <p class="text-center mt-3 text-xs" style="color: var(--muted);">
+            {{ i18n "getstarted_sh_platforms" | default "Linux · macOS · Windows · Docker" }}
+            ·
+            <a href="{{ absLangURL "install/" }}" class="font-semibold no-underline" style="color: var(--accent);">{{ i18n "getstarted_sh_all_options" | default "All options" }}</a>
+          </p>
+        </div>
       </div>
+
+      <!-- Cloud Card -->
+      <div class="reveal reveal-delay-2">
+        <div class="deploy-card" id="card-cloud">
+          <!-- Card Header -->
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: var(--accent); box-shadow: 0 4px 12px rgba(29,127,194,0.25);">
+              <i class="bi bi-cloud-check text-white text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold m-0" style="color: var(--heading);">{{ i18n "getstarted_cloud_title" | default "Cloud" }}</h3>
+              <p class="text-xs m-0" style="color: var(--muted);">{{ i18n "getstarted_cloud_tagline" | default "We host it, you write docs" }}</p>
+            </div>
+          </div>
+
+          <!-- Value Props -->
+          <ul class="space-y-3 mb-6" style="list-style: none; padding: 0; margin: 0 0 24px;">
+            <li class="flex items-start gap-2.5 text-sm" style="color: var(--body);">
+              <i class="bi bi-check-circle-fill text-xs mt-0.5" style="color: var(--success); flex-shrink: 0;"></i>
+              {{ i18n "getstarted_cloud_prop1" | default "No installation — start writing in 30 seconds" }}
+            </li>
+            <li class="flex items-start gap-2.5 text-sm" style="color: var(--body);">
+              <i class="bi bi-check-circle-fill text-xs mt-0.5" style="color: var(--success); flex-shrink: 0;"></i>
+              {{ i18n "getstarted_cloud_prop2" | default "Automatic updates, backups, and scaling" }}
+            </li>
+            <li class="flex items-start gap-2.5 text-sm" style="color: var(--body);">
+              <i class="bi bi-check-circle-fill text-xs mt-0.5" style="color: var(--success); flex-shrink: 0;"></i>
+              {{ i18n "getstarted_cloud_prop3" | default "Custom domains and SSL included" }}
+            </li>
+            <li class="flex items-start gap-2.5 text-sm" style="color: var(--body);">
+              <i class="bi bi-check-circle-fill text-xs mt-0.5" style="color: var(--success); flex-shrink: 0;"></i>
+              {{ i18n "getstarted_cloud_prop4" | default "Free plan — 1 workspace, 3 editors" }}
+            </li>
+          </ul>
+
+          <!-- Visual spacer matching terminal height -->
+          <div class="rounded-xl p-5 mb-5 flex items-center gap-4" style="background: var(--light); border: 1px solid var(--border);">
+            <div class="flex gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(29,127,194,0.1);">
+                <i class="bi bi-git" style="color: var(--accent);"></i>
+              </div>
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(29,127,194,0.1);">
+                <i class="bi bi-pencil-square" style="color: var(--accent);"></i>
+              </div>
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(29,127,194,0.1);">
+                <i class="bi bi-globe2" style="color: var(--accent);"></i>
+              </div>
+            </div>
+            <p class="text-xs m-0" style="color: var(--muted); line-height: 1.5;">{{ i18n "getstarted_cloud_features_note" | default "Same git sync, editor, and publishing — fully managed for you." }}</p>
+          </div>
+
+          <!-- CTA -->
+          <a href="https://app.valoryx.dev/register" class="btn-glow deploy-card-cta inline-flex items-center justify-center gap-2 w-full text-white px-6 py-3 rounded-lg text-sm font-bold no-underline" style="background: var(--accent); transition: background 0.2s ease;">
+            <i class="bi bi-box-arrow-up-right"></i> {{ i18n "getstarted_cloud_cta" | default "Start Free on Cloud" }}
+          </a>
+          <p class="text-center mt-3 text-xs" style="color: var(--muted);">
+            {{ i18n "getstarted_cloud_no_cc" | default "No credit card required" }}
+          </p>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Self-Hosted Option -->
-    <div id="deploy-selfhosted">
-
-    <!-- OS Tabs -->
-    <div class="reveal">
-      <div class="flex gap-1 p-1.5 rounded-xl mx-auto max-w-md mb-8" style="background: #f0f4f8;" role="tablist" aria-label="{{ i18n "download_tab_label" }}">
-        <button class="os-tab" data-os="linux"   role="tab" aria-controls="tab-linux"   aria-selected="false" onclick="switchOsTab('linux')"><i class="bi bi-ubuntu"></i> Linux</button>
-        <button class="os-tab" data-os="macos"   role="tab" aria-controls="tab-macos"   aria-selected="false" onclick="switchOsTab('macos')"><i class="bi bi-apple"></i> macOS</button>
-        <button class="os-tab" data-os="windows" role="tab" aria-controls="tab-windows" aria-selected="false" onclick="switchOsTab('windows')"><i class="bi bi-windows"></i> Windows</button>
-        <button class="os-tab" data-os="docker"  role="tab" aria-controls="tab-docker"  aria-selected="false" onclick="switchOsTab('docker')"><i class="bi bi-box-seam"></i> Docker</button>
-      </div>
-
-      <!-- Linux -->
-      <div id="tab-linux" class="os-tab-content" role="tabpanel" aria-labelledby="tab-linux">
-        <div class="terminal-block">
-          <div class="terminal-bar">
-            <span class="terminal-dot" style="background:#ff5f57;"></span>
-            <span class="terminal-dot" style="background:#febc2e;"></span>
-            <span class="terminal-dot" style="background:#28c840;"></span>
-            <span class="ml-2 text-xs" style="color:#8b949e;">bash</span>
-          </div>
-          <div class="terminal-body">
-            <div><span class="comment"># Auto-detects amd64 / arm64</span></div>
-            <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://valoryx.org/install.sh | sh</span>
-              <button onclick="copyCmd('curl -fsSL https://valoryx.org/install.sh | sh', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" }}"><i class="bi bi-clipboard"></i></button>
-            </div>
-            <div class="mt-1"><span class="success">✓ Installed to /usr/local/bin/{{ $bin }}</span></div>
-            <div class="mt-1"><span class="prompt">$</span> <span class="cmd">{{ $bin }} serve</span></div>
-            <div><span class="success">✓ Open http://localhost:3000</span></div>
-          </div>
-        </div>
-        <div class="flex flex-wrap justify-center gap-3 mt-5">
-          <a href="{{ $latest }}/{{ $bin }}-linux-amd64" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
-            <i class="bi bi-download"></i> {{ i18n "download_btn" }} (amd64)
-          </a>
-          <a href="{{ $latest }}/{{ $bin }}-linux-arm64" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
-            arm64
-          </a>
-        </div>
-      </div>
-
-      <!-- macOS -->
-      <div id="tab-macos" class="os-tab-content" role="tabpanel" aria-labelledby="tab-macos">
-        <div class="terminal-block">
-          <div class="terminal-bar">
-            <span class="terminal-dot" style="background:#ff5f57;"></span>
-            <span class="terminal-dot" style="background:#febc2e;"></span>
-            <span class="terminal-dot" style="background:#28c840;"></span>
-            <span class="ml-2 text-xs" style="color:#8b949e;">zsh</span>
-          </div>
-          <div class="terminal-body">
-            <div><span class="comment"># Auto-detects Intel / Apple Silicon</span></div>
-            <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://valoryx.org/install.sh | sh</span>
-              <button onclick="copyCmd('curl -fsSL https://valoryx.org/install.sh | sh', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" }}"><i class="bi bi-clipboard"></i></button>
-            </div>
-            <div class="mt-1"><span class="success">✓ Installed to /usr/local/bin/{{ $bin }}</span></div>
-            <div class="mt-1"><span class="prompt">$</span> <span class="cmd">{{ $bin }} serve</span></div>
-            <div><span class="success">✓ Open http://localhost:3000</span></div>
-          </div>
-        </div>
-        <div class="flex flex-wrap justify-center gap-3 mt-5">
-          <a href="{{ $latest }}/{{ $bin }}-darwin-arm64" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
-            <i class="bi bi-download"></i> {{ i18n "download_btn" }} (Apple Silicon)
-          </a>
-          <a href="{{ $latest }}/{{ $bin }}-darwin-amd64" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
-            Intel
-          </a>
-        </div>
-      </div>
-
-      <!-- Windows -->
-      <div id="tab-windows" class="os-tab-content" role="tabpanel" aria-labelledby="tab-windows">
-        <div class="terminal-block">
-          <div class="terminal-bar">
-            <span class="terminal-dot" style="background:#ff5f57;"></span>
-            <span class="terminal-dot" style="background:#febc2e;"></span>
-            <span class="terminal-dot" style="background:#28c840;"></span>
-            <span class="ml-2 text-xs" style="color:#8b949e;">PowerShell</span>
-          </div>
-          <div class="terminal-body">
-            <div><span class="comment"># Download and run</span></div>
-            <div><span class="prompt">&gt;</span> <span class="cmd">Invoke-WebRequest {{ $latest }}/{{ $bin }}-windows-amd64.exe -OutFile {{ $bin }}.exe</span>
-              <button onclick="copyCmd('Invoke-WebRequest {{ $latest }}/{{ $bin }}-windows-amd64.exe -OutFile {{ $bin }}.exe', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" }}"><i class="bi bi-clipboard"></i></button>
-            </div>
-            <div><span class="prompt">&gt;</span> <span class="cmd">.\{{ $bin }}.exe serve</span></div>
-            <div class="mt-1"><span class="success">✓ Open http://localhost:3000</span></div>
-          </div>
-        </div>
-        <div class="flex flex-wrap justify-center gap-3 mt-5">
-          <a href="{{ $latest }}/{{ $bin }}-windows-amd64.exe" class="btn-glow inline-flex items-center gap-2 text-white px-6 py-2.5 rounded-lg text-sm font-semibold no-underline" style="background: var(--accent);">
-            <i class="bi bi-download"></i> {{ i18n "download_btn" }} (amd64)
-          </a>
-          <a href="{{ $gh }}/releases/latest" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
-            .zip &amp; more
-          </a>
-        </div>
-        <p class="text-center mt-3 text-xs" style="color: var(--success);">
-          <i class="bi bi-shield-check"></i> {{ i18n "download_signed" }}
-        </p>
-      </div>
-
-      <!-- Docker -->
-      <div id="tab-docker" class="os-tab-content" role="tabpanel" aria-labelledby="tab-docker">
-        <div class="terminal-block">
-          <div class="terminal-bar">
-            <span class="terminal-dot" style="background:#ff5f57;"></span>
-            <span class="terminal-dot" style="background:#febc2e;"></span>
-            <span class="terminal-dot" style="background:#28c840;"></span>
-            <span class="ml-2 text-xs" style="color:#8b949e;">bash</span>
-          </div>
-          <div class="terminal-body">
-            <div><span class="comment"># Pull and run</span></div>
-            <div><span class="prompt">$</span> <span class="cmd">docker run -d -p 3000:3000 -v docplatform-data:/data ghcr.io/valoryx-org/docplatform:latest</span>
-              <button onclick="copyCmd('docker run -d -p 3000:3000 -v docplatform-data:/data ghcr.io/valoryx-org/docplatform:latest', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" }}"><i class="bi bi-clipboard"></i></button>
-            </div>
-            <div class="mt-1"><span class="success">✓ Running at http://localhost:3000</span></div>
-          </div>
-        </div>
-        <div class="flex flex-wrap justify-center gap-3 mt-5">
-          <a href="https://github.com/Valoryx-org/releases" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold no-underline border" style="color: var(--heading); border-color: var(--border);">
-            <i class="bi bi-github"></i> View Releases
-          </a>
-        </div>
-      </div>
-
-      <!-- Pills -->
-      <div class="flex flex-wrap justify-center gap-3 mt-8">
-        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_pill1" }}</span>
-        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_pill2" }}</span>
-        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_pill3" }}</span>
-        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_pill4" }}</span>
-      </div>
-    </div>
-
-    </div><!-- /deploy-selfhosted -->
-
-    <!-- Cloud Option -->
-    <div id="deploy-cloud" class="hidden">
-      <div class="max-w-lg mx-auto">
-        <div class="rounded-2xl p-8 text-center" style="background: var(--light); border: 2px solid rgba(29,127,194,0.15);">
-          <div class="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center" style="background: var(--accent); box-shadow: 0 8px 24px rgba(29,127,194,0.2);">
-            <i class="bi bi-cloud-check text-white text-2xl"></i>
-          </div>
-          <h3 class="text-xl font-bold mb-3" style="color: var(--heading);">{{ i18n "download_cloud_title" | default "Start with Valoryx Cloud" }}</h3>
-          <p class="text-sm mb-6" style="color: var(--muted); line-height: 1.7;">{{ i18n "download_cloud_description" | default "No installation needed. Create your workspace in seconds. We handle infrastructure, updates, and backups." }}</p>
-          <a href="https://app.valoryx.dev/register" class="btn-glow inline-flex items-center gap-2 text-white px-8 py-3 rounded-lg text-base font-bold no-underline" style="background: var(--accent);">
-            <i class="bi bi-box-arrow-up-right"></i> {{ i18n "download_cloud_cta" | default "Open Valoryx Cloud" }}
-          </a>
-          <p class="text-xs mt-4" style="color: var(--muted);">{{ i18n "download_cloud_free_note" | default "Free plan: 1 workspace · 3 editors · 50 published pages" }}</p>
-          <div class="flex flex-wrap justify-center gap-3 mt-6">
-            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_cloud_pill1" | default "No setup required" }}</span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_cloud_pill2" | default "Automatic updates" }}</span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "download_cloud_pill3" | default "Free forever tier" }}</span>
-          </div>
-          <p class="text-xs mt-6" style="color: var(--muted);">{{ i18n "download_cloud_prefer_selfhosted" | default "Prefer full control?" }} <a href="#download" onclick="switchDeployTab('selfhosted');return false;" style="color: var(--accent); font-weight: 600;">{{ i18n "download_cloud_switch_selfhosted" | default "Download the self-hosted edition" }}</a></p>
-        </div>
-      </div>
-    </div>
+    <!-- Shared platform note -->
+    <p class="text-center mt-10 text-sm reveal" style="color: var(--muted);">
+      <i class="bi bi-arrow-left-right mr-1.5"></i>
+      {{ i18n "getstarted_shared_note" | default "Both editions share the same codebase, features, and git-native architecture. Switch anytime." }}
+    </p>
 
   </div>
-<script>
-function switchDeployTab(target) {
-  document.querySelectorAll('.deploy-tab').forEach(function(btn) {
-    var isActive = btn.dataset.deploy === target;
-    btn.style.background = isActive ? 'white' : 'transparent';
-    btn.style.color = isActive ? 'var(--accent)' : 'var(--body)';
-    btn.style.boxShadow = isActive ? '0 1px 3px rgba(0,0,0,0.1)' : 'none';
-  });
-  document.getElementById('deploy-selfhosted').classList.toggle('hidden', target === 'cloud');
-  document.getElementById('deploy-cloud').classList.toggle('hidden', target !== 'cloud');
-}
-</script>
 </section>

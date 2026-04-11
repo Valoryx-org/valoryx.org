@@ -36,7 +36,7 @@ other = "Scroll to top"
 
 # ── Hero ──────────────────────────────────────────────────────────────────────
 [hero_badge]
-other = "Self-Hosted · Git-Native · Free Forever"
+other = "Git-Native · Self-Hosted or Cloud · Free Forever"
 [hero_title]
 other = "Documentation your team writes.<br class=\"hidden sm:block\"> Documentation your AI maintains."
 [hero_subtitle]

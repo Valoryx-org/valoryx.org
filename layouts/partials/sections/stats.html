@@ -1,10 +1,10 @@
-<!-- ======= Stats Section ======= -->
-<section id="stats" class="py-16 md:py-20">
+<!-- ======= Stats Section — Platform-Neutral ======= -->
+<section id="stats" class="py-16 md:py-20" style="background: var(--light);">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
       <div class="stats-item reveal reveal-delay-1">
-        <span>1</span>
-        <p>{{ i18n "stats1_label" }}</p>
+        <span>2</span>
+        <p>{{ i18n "stats1_label_new" | default "Ways to Deploy" }}</p>
       </div>
       <div class="stats-item reveal reveal-delay-2">
         <span>&lt;30s</span>
@@ -16,7 +16,7 @@
       </div>
       <div class="stats-item reveal reveal-delay-4">
         <span>$0</span>
-        <p>{{ i18n "stats4_label" }}</p>
+        <p>{{ i18n "stats4_label_new" | default "Free Tier" }}</p>
       </div>
       <div class="stats-item reveal reveal-delay-1">
         <span>13</span>

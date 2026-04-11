@@ -35,7 +35,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="templateGrid">
 
       <!-- 1. API Documentation -->
-      <div class="service-item item-cyan reveal reveal-delay-1" data-category="api">
+      <div class="service-item item-cyan reveal reveal-delay-1 flex flex-col" data-category="api">
         <div class="icon">
           <i class="bi bi-file-code"></i>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
@@ -43,25 +43,25 @@
         <h3>{{ i18n "tpl_api_title" | default "API Documentation" }}</h3>
         <p>{{ i18n "tpl_api_desc" | default "Ship API docs that live in your git repo." }}</p>
         <p class="text-xs mt-2" style="color: var(--muted); line-height: 1.6;">
-          <strong>Includes:</strong> Overview, Authentication, Endpoints, Errors, Changelog<br>
-          <strong>Best for:</strong> Backend teams, API-first companies
+          <strong style="color: var(--heading);">Includes:</strong> Overview, Authentication, Endpoints, Errors, Changelog<br>
+          <strong style="color: var(--heading);">Best for:</strong> Backend teams, API-first companies
         </p>
-        <div class="mt-4 flex gap-3">
+        <div class="mt-auto pt-6">
           <a href="https://github.com/Valoryx-org" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white no-underline"
+             class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white no-underline"
              style="background: var(--accent);">
             <i class="bi bi-github"></i> Use Template
           </a>
-        </div>
-        <div class="flex flex-wrap justify-center gap-2 mt-5">
-          <span class="tpl-tag">Git Sync</span>
-          <span class="tpl-tag">Versioning</span>
-          <span class="tpl-tag">Published Docs</span>
+          <div class="flex flex-wrap justify-center gap-2 mt-4 pt-4" style="border-top: 1px solid #f0f4f8;">
+            <span class="tpl-tag">Git Sync</span>
+            <span class="tpl-tag">Versioning</span>
+            <span class="tpl-tag">Published Docs</span>
+          </div>
         </div>
       </div>
 
       <!-- 2. Engineering Knowledge Base -->
-      <div class="service-item item-orange reveal reveal-delay-2" data-category="kb wiki">
+      <div class="service-item item-orange reveal reveal-delay-2 flex flex-col" data-category="kb wiki">
         <div class="icon">
           <i class="bi bi-building"></i>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
@@ -69,25 +69,25 @@
         <h3>{{ i18n "tpl_kb_title" | default "Engineering Knowledge Base" }}</h3>
         <p>{{ i18n "tpl_kb_desc" | default "Internal docs your team actually maintains." }}</p>
         <p class="text-xs mt-2" style="color: var(--muted); line-height: 1.6;">
-          <strong>Includes:</strong> Onboarding, Architecture, Runbooks, How-To guides<br>
-          <strong>Best for:</strong> Engineering teams, DevOps
+          <strong style="color: var(--heading);">Includes:</strong> Onboarding, Architecture, Runbooks, How-To guides<br>
+          <strong style="color: var(--heading);">Best for:</strong> Engineering teams, DevOps
         </p>
-        <div class="mt-4 flex gap-3">
+        <div class="mt-auto pt-6">
           <a href="https://github.com/Valoryx-org" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white no-underline"
+             class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white no-underline"
              style="background: var(--accent);">
             <i class="bi bi-github"></i> Use Template
           </a>
-        </div>
-        <div class="flex flex-wrap justify-center gap-2 mt-5">
-          <span class="tpl-tag">Search</span>
-          <span class="tpl-tag">RBAC</span>
-          <span class="tpl-tag">Editor</span>
+          <div class="flex flex-wrap justify-center gap-2 mt-4 pt-4" style="border-top: 1px solid #f0f4f8;">
+            <span class="tpl-tag">Search</span>
+            <span class="tpl-tag">RBAC</span>
+            <span class="tpl-tag">Editor</span>
+          </div>
         </div>
       </div>
 
       <!-- 3. Open Source Project Docs -->
-      <div class="service-item item-teal reveal reveal-delay-3" data-category="oss">
+      <div class="service-item item-teal reveal reveal-delay-3 flex flex-col" data-category="oss">
         <div class="icon">
           <i class="bi bi-globe"></i>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
@@ -95,25 +95,25 @@
         <h3>{{ i18n "tpl_oss_title" | default "Open Source Project Docs" }}</h3>
         <p>{{ i18n "tpl_oss_desc" | default "Beautiful docs from your README." }}</p>
         <p class="text-xs mt-2" style="color: var(--muted); line-height: 1.6;">
-          <strong>Includes:</strong> Getting Started, Installation, Guides, API Reference, Contributing<br>
-          <strong>Best for:</strong> Open source maintainers
+          <strong style="color: var(--heading);">Includes:</strong> Getting Started, Installation, Guides, API Reference, Contributing<br>
+          <strong style="color: var(--heading);">Best for:</strong> Open source maintainers
         </p>
-        <div class="mt-4 flex gap-3">
+        <div class="mt-auto pt-6">
           <a href="https://github.com/Valoryx-org" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white no-underline"
+             class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white no-underline"
              style="background: var(--accent);">
             <i class="bi bi-github"></i> Use Template
           </a>
-        </div>
-        <div class="flex flex-wrap justify-center gap-2 mt-5">
-          <span class="tpl-tag">Git Sync</span>
-          <span class="tpl-tag">Themes</span>
-          <span class="tpl-tag">Published Docs</span>
+          <div class="flex flex-wrap justify-center gap-2 mt-4 pt-4" style="border-top: 1px solid #f0f4f8;">
+            <span class="tpl-tag">Git Sync</span>
+            <span class="tpl-tag">Themes</span>
+            <span class="tpl-tag">Published Docs</span>
+          </div>
         </div>
       </div>
 
       <!-- 4. Product Changelog -->
-      <div class="service-item item-red reveal reveal-delay-1" data-category="oss api">
+      <div class="service-item item-red reveal reveal-delay-1 flex flex-col" data-category="oss api">
         <div class="icon">
           <i class="bi bi-clock-history"></i>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
@@ -121,24 +121,24 @@
         <h3>{{ i18n "tpl_changelog_title" | default "Product Changelog" }}</h3>
         <p>{{ i18n "tpl_changelog_desc" | default "Keep users informed with git-backed updates." }}</p>
         <p class="text-xs mt-2" style="color: var(--muted); line-height: 1.6;">
-          <strong>Includes:</strong> Version entries with dates, categories, and migration notes<br>
-          <strong>Best for:</strong> Product teams, SaaS companies
+          <strong style="color: var(--heading);">Includes:</strong> Version entries with dates, categories, and migration notes<br>
+          <strong style="color: var(--heading);">Best for:</strong> Product teams, SaaS companies
         </p>
-        <div class="mt-4 flex gap-3">
+        <div class="mt-auto pt-6">
           <a href="https://github.com/Valoryx-org" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white no-underline"
+             class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white no-underline"
              style="background: var(--accent);">
             <i class="bi bi-github"></i> Use Template
           </a>
-        </div>
-        <div class="flex flex-wrap justify-center gap-2 mt-5">
-          <span class="tpl-tag">Published Docs</span>
-          <span class="tpl-tag">RSS</span>
+          <div class="flex flex-wrap justify-center gap-2 mt-4 pt-4" style="border-top: 1px solid #f0f4f8;">
+            <span class="tpl-tag">Published Docs</span>
+            <span class="tpl-tag">RSS</span>
+          </div>
         </div>
       </div>
 
       <!-- 5. AI-Maintained Documentation -->
-      <div class="service-item item-indigo reveal reveal-delay-2" data-category="api kb">
+      <div class="service-item item-indigo reveal reveal-delay-2 flex flex-col" data-category="api kb">
         <div class="icon">
           <i class="bi bi-robot"></i>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
@@ -146,24 +146,24 @@
         <h3>{{ i18n "tpl_ai_title" | default "AI-Maintained Documentation" }}</h3>
         <p>{{ i18n "tpl_ai_desc" | default "Let AI agents write and update your docs via MCP." }}</p>
         <p class="text-xs mt-2" style="color: var(--muted); line-height: 1.6;">
-          <strong>Includes:</strong> Knowledge base structure + MCP configuration<br>
-          <strong>Best for:</strong> Teams using Claude, Cursor, or VS Code
+          <strong style="color: var(--heading);">Includes:</strong> Knowledge base structure + MCP configuration<br>
+          <strong style="color: var(--heading);">Best for:</strong> Teams using Claude, Cursor, or VS Code
         </p>
-        <div class="mt-4 flex gap-3">
+        <div class="mt-auto pt-6">
           <a href="https://github.com/Valoryx-org" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white no-underline"
+             class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white no-underline"
              style="background: var(--accent);">
             <i class="bi bi-github"></i> Use Template
           </a>
-        </div>
-        <div class="flex flex-wrap justify-center gap-2 mt-5">
-          <span class="tpl-tag">MCP</span>
-          <span class="tpl-tag">Automation</span>
+          <div class="flex flex-wrap justify-center gap-2 mt-4 pt-4" style="border-top: 1px solid #f0f4f8;">
+            <span class="tpl-tag">MCP</span>
+            <span class="tpl-tag">Automation</span>
+          </div>
         </div>
       </div>
 
       <!-- 6. Compliance Documentation -->
-      <div class="service-item item-pink reveal reveal-delay-3" data-category="kb wiki">
+      <div class="service-item item-pink reveal reveal-delay-3 flex flex-col" data-category="kb wiki">
         <div class="icon">
           <i class="bi bi-shield-check"></i>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50C0 22.3858 22.3858 0 50 0Z"></path></svg>
@@ -171,20 +171,20 @@
         <h3>{{ i18n "tpl_compliance_title" | default "Compliance Documentation" }}</h3>
         <p>{{ i18n "tpl_compliance_desc" | default "SOC2/HIPAA docs with version history." }}</p>
         <p class="text-xs mt-2" style="color: var(--muted); line-height: 1.6;">
-          <strong>Includes:</strong> Policies, Procedures, Controls, Evidence tracking<br>
-          <strong>Best for:</strong> Security teams, SOC2/HIPAA compliance
+          <strong style="color: var(--heading);">Includes:</strong> Policies, Procedures, Controls, Evidence tracking<br>
+          <strong style="color: var(--heading);">Best for:</strong> Security teams, SOC2/HIPAA compliance
         </p>
-        <div class="mt-4 flex gap-3">
+        <div class="mt-auto pt-6">
           <a href="https://github.com/Valoryx-org" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white no-underline"
+             class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-xs font-semibold text-white no-underline"
              style="background: var(--accent);">
             <i class="bi bi-github"></i> Use Template
           </a>
-        </div>
-        <div class="flex flex-wrap justify-center gap-2 mt-5">
-          <span class="tpl-tag">Versioning</span>
-          <span class="tpl-tag">RBAC</span>
-          <span class="tpl-tag">Audit Logs</span>
+          <div class="flex flex-wrap justify-center gap-2 mt-4 pt-4" style="border-top: 1px solid #f0f4f8;">
+            <span class="tpl-tag">Versioning</span>
+            <span class="tpl-tag">RBAC</span>
+            <span class="tpl-tag">Audit Logs</span>
+          </div>
         </div>
       </div>
 

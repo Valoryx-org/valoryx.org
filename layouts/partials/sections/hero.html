@@ -1,17 +1,16 @@
 <!-- ======= Hero Section ======= -->
-{{ $homeURL := cond (eq .Language.Lang "en") "/" (printf "/%s/" .Language.Lang) }}
 <section id="hero" class="hero-bg relative min-h-[90vh] flex items-center pt-20">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
 
-    <!-- Badge -->
+    <!-- Badge — platform-neutral -->
     <div class="flex justify-center mb-8 reveal">
       <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style="background: rgba(29,127,194,0.08); color: var(--accent);">
-        <i class="bi bi-shield-check"></i>
+        <i class="bi bi-check-circle-fill"></i>
         {{ i18n "hero_badge" }}
       </span>
     </div>
 
-    <!-- Title -->
+    <!-- Title — product-first, no hosting bias -->
     <h1 class="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 reveal" style="color: var(--heading); letter-spacing: -0.04em;">
       {{ i18n "hero_title" | safeHTML }}
     </h1>
@@ -21,35 +20,17 @@
       {{ i18n "hero_subtitle" }}
     </p>
 
-    <!-- Dual-Path CTA -->
-    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16 reveal">
-      <!-- Self-Hosted -->
-      <a href="{{ $homeURL }}#download"
-         class="btn-glow inline-flex items-center gap-3 text-white px-8 py-4 rounded-lg text-base font-bold no-underline group"
+    <!-- Single Platform-Neutral CTA -->
+    <div class="flex justify-center mb-16 reveal">
+      <a href="#get-started"
+         class="btn-glow inline-flex items-center gap-3 text-white px-10 py-4 rounded-xl text-base font-bold no-underline group"
          style="background: var(--accent); transition: background 0.3s ease, transform 0.2s ease;">
-        <i class="bi bi-download text-lg"></i>
-        <span class="text-left">
-          <span class="block text-[15px] font-bold">{{ i18n "hero_cta_selfhosted" }}</span>
-          <span class="block text-[11px] font-normal opacity-80">{{ i18n "hero_cta_selfhosted_sub" }}</span>
-        </span>
-        <i class="bi bi-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
-      </a>
-      <!-- Cloud -->
-      <a href="https://app.valoryx.dev/"
-         class="inline-flex items-center gap-3 px-8 py-4 rounded-lg text-base font-bold no-underline border-2 group"
-         style="color: var(--heading); border-color: var(--accent); transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;"
-         onmouseover="this.style.background='var(--accent)';this.style.color='#fff';this.style.borderColor='var(--accent)'"
-         onmouseout="this.style.background='transparent';this.style.color='var(--heading)';this.style.borderColor='var(--accent)'">
-        <i class="bi bi-cloud text-lg"></i>
-        <span class="text-left">
-          <span class="block text-[15px] font-bold">{{ i18n "hero_cta_cloud" }}</span>
-          <span class="block text-[11px] font-normal opacity-70">{{ i18n "hero_cta_cloud_sub" }}</span>
-        </span>
-        <i class="bi bi-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
+        <span class="text-[16px] font-bold">{{ i18n "hero_cta" }}</span>
+        <i class="bi bi-arrow-down ml-1 transition-transform group-hover:translate-y-0.5"></i>
       </a>
     </div>
 
-    <!-- Icon Boxes -->
+    <!-- Icon Boxes — product features, no hosting mention -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <div class="icon-box reveal reveal-delay-1">
         <div class="icon"><i class="bi bi-arrow-repeat"></i></div>
@@ -70,10 +51,10 @@
         <a href="{{ absLangURL "docs/guides/publishing/" }}" class="inline-flex items-center gap-1 mt-3 text-xs font-semibold no-underline" style="color: var(--accent);">{{ i18n "hero_learn_more" }} <i class="bi bi-arrow-right text-[10px]"></i></a>
       </div>
       <div class="icon-box reveal reveal-delay-4">
-        <div class="icon"><i class="bi bi-shield-lock"></i></div>
-        <h3 class="text-lg font-bold" style="color: var(--heading);"><a href="{{ absLangURL "docs/configuration/permissions/" }}">{{ i18n "hero_box4_title" }}</a></h3>
-        <p>{{ i18n "hero_box4_text" }}</p>
-        <a href="{{ absLangURL "docs/configuration/permissions/" }}" class="inline-flex items-center gap-1 mt-3 text-xs font-semibold no-underline" style="color: var(--accent);">{{ i18n "hero_learn_more" }} <i class="bi bi-arrow-right text-[10px]"></i></a>
+        <div class="icon"><i class="bi bi-robot"></i></div>
+        <h3 class="text-lg font-bold" style="color: var(--heading);"><a href="{{ absLangURL "docs/guides/mcp/" }}">{{ i18n "hero_box5_title" | default "AI-Native MCP" }}</a></h3>
+        <p>{{ i18n "hero_box5_text" | default "Built-in MCP server with 13 tools. Claude, Cursor, and VS Code agents maintain your docs." }}</p>
+        <a href="{{ absLangURL "docs/guides/mcp/" }}" class="inline-flex items-center gap-1 mt-3 text-xs font-semibold no-underline" style="color: var(--accent);">{{ i18n "hero_learn_more" }} <i class="bi bi-arrow-right text-[10px]"></i></a>
       </div>
     </div>
 

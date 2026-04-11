@@ -1,0 +1,27 @@
+{{/* Edition tabs — used by both docs/list.html and cloud/list.html
+     Pass .active = "community" or "cloud" from the calling template */}}
+{{ $homeURL := cond (eq $.Page.Language.Lang "en") "/" (printf "/%s/" $.Page.Language.Lang) }}
+<div class="flex gap-1 p-1 rounded-xl mt-6" style="background: #f0f4f8; display: inline-flex;">
+  <a href="{{ absLangURL "docs/" }}"
+     class="docs-edition-tab flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold no-underline transition-all"
+     {{ if eq .active "community" }}
+     style="background: #ffffff; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.08);"
+     aria-current="true"
+     {{ else }}
+     style="background: transparent; color: var(--muted);"
+     {{ end }}>
+    <i class="bi bi-hdd-rack text-xs"></i>
+    {{ i18n "docs_tab_community" | default "Community" }}
+  </a>
+  <a href="{{ absLangURL "cloud/" }}"
+     class="docs-edition-tab flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold no-underline transition-all"
+     {{ if eq .active "cloud" }}
+     style="background: #ffffff; color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,0.08);"
+     aria-current="true"
+     {{ else }}
+     style="background: transparent; color: var(--muted);"
+     {{ end }}>
+    <i class="bi bi-cloud text-xs"></i>
+    {{ i18n "docs_tab_cloud" | default "Cloud" }}
+  </a>
+</div>
