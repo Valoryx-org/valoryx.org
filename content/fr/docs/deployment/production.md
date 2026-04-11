@@ -65,12 +65,12 @@ La Community Edition inclut les limites codées en dur suivantes :
 
 | Ressource | Limite |
 |---|---|
-| Utilisateurs avec le rôle Editor ou supérieur | 5 |
-| Espaces de travail | 3 |
+| Utilisateurs avec le rôle Editor ou supérieur | Illimité |
+| Espaces de travail | Illimité |
 | Viewers et Commenters | Illimité |
 | Pages par espace de travail | Illimité |
 
-Ces limites sont vérifiées lors de l'attribution du rôle d'éditeur et de la création d'espace de travail. Si vous avez besoin de plus d'éditeurs ou d'espaces de travail, la future Enterprise Edition proposera des limites configurables via une clé de licence.
+La Community Edition n'a aucune limite de fonctionnalité. Toutes les fonctionnalités sont disponibles sans clé de licence.
 
 ## Considérations de dimensionnement
 
