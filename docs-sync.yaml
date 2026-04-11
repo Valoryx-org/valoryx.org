@@ -53,8 +53,9 @@ weights:
   "guides/publishing.md": 5
   "guides/search.md": 6
   "guides/ai-features.md": 7
-  "guides/analytics.md": 8
-  "guides/billing.md": 9
+  "guides/mcp.md": 8
+  "guides/analytics.md": 9
+  "guides/billing.md": 10
 
   # Configuration (section weight = 3)
   "configuration/index.md": 3
