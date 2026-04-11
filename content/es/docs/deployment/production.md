@@ -65,12 +65,12 @@ Community Edition incluye los siguientes límites codificados:
 
 | Recurso | Límite |
 |---|---|
-| Usuarios con rol de Editor o superior | 5 |
-| Workspaces | 3 |
+| Usuarios con rol de Editor o superior | Ilimitados |
+| Workspaces | Ilimitados |
 | Viewers y Commenters | Ilimitados |
 | Páginas por workspace | Ilimitadas |
 
-Estos límites se verifican al asignar el rol de editor y al crear workspaces. Si necesita más editores o workspaces, la futura Enterprise Edition ofrecerá límites configurables mediante clave de licencia.
+Community Edition no tiene límites de funcionalidad. Todas las características están disponibles sin necesidad de clave de licencia.
 
 ## Consideraciones de escalabilidad
 

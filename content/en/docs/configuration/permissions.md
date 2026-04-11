@@ -300,10 +300,10 @@ Community Edition is free and self-hosted with no license key required:
 
 | | Free | Team | Business |
 |---|---|---|---|
-| **Workspaces** | 1 | 5 | 15 |
+| **Workspaces** | 1 | 3 | 10 |
 | **Seats** (Super Admin + Admin + Editor) | 3 | 15 | 50 |
 | **Viewers & Commenters** | Unlimited | Unlimited | Unlimited |
-| **Pages** | Unlimited | Unlimited | Unlimited |
+| **Pages** | 50 | 150 | Unlimited |
 
 > Need more? [Contact sales](https://valoryx.org/contact) for Enterprise plans with custom limits, SSO, and SLA.
 

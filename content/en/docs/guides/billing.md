@@ -11,9 +11,9 @@ DocPlatform uses Stripe for subscription billing. Three plan tiers are available
 | Feature | Community (Free) | Free | Team ($29/mo) | Business ($79/mo) |
 |---|---|---|---|---|
 | **Editors** | Unlimited | 3 | 15 | 50 |
-| **Workspaces** | Unlimited | 1 | 5 | 15 |
+| **Workspaces** | Unlimited | 1 | 3 | 10 |
 | **Viewers / Commenters** | Unlimited | Unlimited | Unlimited | Unlimited |
-| **Pages** | Unlimited | Unlimited | Unlimited | Unlimited |
+| **Pages** | Unlimited | 50 | 150 | Unlimited |
 | **Published docs** | Unlimited | Unlimited | Unlimited | Unlimited |
 | **Analytics** | — | — | Included | Included |
 | **Custom domains** | — | — | Included | Included |
@@ -127,7 +127,7 @@ Returns current plan limits and usage:
   "plan": "team",
   "limits": {
     "max_editors": 15,
-    "max_workspaces": 5,
+    "max_workspaces": 3,
     "features": ["analytics", "custom_domains", "ai_advanced"]
   },
   "usage": {

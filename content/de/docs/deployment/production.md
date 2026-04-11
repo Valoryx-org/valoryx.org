@@ -65,12 +65,12 @@ Die Community Edition enthält folgende fest codierte Limits:
 
 | Ressource | Limit |
 |---|---|
-| Benutzer mit Editor-Rolle oder höher | 5 |
-| Workspaces | 3 |
+| Benutzer mit Editor-Rolle oder höher | Unbegrenzt |
+| Workspaces | Unbegrenzt |
 | Viewer und Commenter | Unbegrenzt |
 | Seiten pro Workspace | Unbegrenzt |
 
-Diese Limits werden bei der Editor-Rollenzuweisung und Workspace-Erstellung geprüft. Wenn Sie mehr Editoren oder Workspaces benötigen, wird die zukünftige Enterprise Edition konfigurierbare Limits per Lizenzschlüssel bieten.
+Die Community Edition hat keine Funktionsbeschränkungen. Alle Funktionen sind ohne Lizenzschlüssel verfügbar.
 
 ## Skalierungsüberlegungen
 
