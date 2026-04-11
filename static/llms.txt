@@ -31,10 +31,10 @@ docplatform mcp --workspace <slug> --api-key <key>
 - Wikilinks with auto-repair on rename
 - 95+ REST API endpoints
 - WebAuthn/passkey authentication
-- Community Edition: free, 5 editors, 3 workspaces, unlimited viewers
+- Community Edition: free, unlimited editors, unlimited workspaces, unlimited viewers
 
 ## Pricing
-- Community (self-hosted): Free forever, 3 workspaces, 5 editors, all features
+- Community (self-hosted): Free forever, unlimited workspaces, unlimited editors, all features
 - Cloud Free: $0/mo, 1 workspace, 3 editors
 - Cloud Team: $29/mo, 3 workspaces, 15 editors, custom domains
 - Cloud Business: $79/mo, 10 workspaces, 50 editors, SSO, analytics, audit logs

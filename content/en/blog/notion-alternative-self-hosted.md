@@ -72,7 +72,7 @@ Valoryx is built specifically for technical documentation that needs git ownersh
 | Markdown output | Pure CommonMark — no proprietary formats |
 | Web editor | WYSIWYG (Tiptap-based) — no git knowledge required |
 | Published docs | Built-in — one toggle to publish |
-| Pricing | Free (self-hosted, up to 5 editors) |
+| Pricing | Free (self-hosted, unlimited editors) |
 
 **Best for:** Teams with 2-10 editors who want git ownership without giving up a web editor.
 

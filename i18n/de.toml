@@ -178,7 +178,7 @@ other = "Fragen? Wir haben Antworten."
 [faq1_q]
 other = "Ist Valoryx wirklich kostenlos für kleine Teams?"
 [faq1_a]
-other = "Ja. Die Community Edition ist für bis zu 5 Editoren dauerhaft kostenlos. Es ist ein einzelnes Go-Binary, das Sie auf Ihrem eigenen Server ausführen — keine Lizenzschlüssel, keine Feature-Gates."
+other = "Ja. Die Community Edition ist dauerhaft kostenlos mit unbegrenzten Editoren. Es ist ein einzelnes Go-Binary, das Sie auf Ihrem eigenen Server ausführen — keine Lizenzschlüssel, keine Feature-Gates."
 [faq2_q]
 other = "Wie funktioniert die bidirektionale Git-Synchronisierung?"
 [faq2_a]
@@ -252,7 +252,7 @@ other = "Min. Lesezeit"
 [blog_cta_title]
 other = "Bereit, Valoryx auszuprobieren?"
 [blog_cta_text]
-other = "Self-hosted, einzelne Binary, kostenlos für Teams bis zu 5 Editoren."
+other = "Self-hosted, einzelne Binary, kostenlos mit unbegrenzten Editoren."
 
 # ── Docs ─────────────────────────────────────────────────────────────────────
 [nav_docs]
@@ -334,7 +334,7 @@ other = "Wir glauben an ehrliche Vergleiche. Hier hat die Konkurrenz einen Vorte
 [vs_cta_btn]
 other = "Loslegen"
 [vs_cta_text]
-other = "Kostenlos für Teams bis 5 Editoren. Keine Kreditkarte erforderlich. Self-Hosted oder Docker."
+other = "Kostenlos mit unbegrenzten Editoren. Keine Kreditkarte erforderlich. Self-Hosted oder Docker."
 [vs_cta_title]
 other = "Valoryx Kostenlos Testen"
 [vs_diff_text]
@@ -692,7 +692,7 @@ other = "Bleve-powered search engine indexes all your content. Instant results w
 [oss_feature_rbac_title]
 other = "Role-Based Access"
 [oss_feature_rbac_text]
-other = "5 Rollen von Viewer bis Super Admin. Berechtigungen pro Workspace. Bis zu 5 Editoren und 3 Workspaces."
+other = "5 Rollen von Viewer bis Super Admin. Berechtigungen pro Workspace. Unbegrenzte Editoren und Workspaces."
 [oss_feature_cli_title]
 other = "CLI and REST API"
 [oss_feature_cli_text]
@@ -718,7 +718,7 @@ other = "Proprietär"
 [oss_license_converts]
 other = "Kostenlose Community Edition verfügbar"
 [oss_license_free]
-other = "Free for teams up to 5 editors"
+other = "Kostenlos mit unbegrenzten Editoren"
 [oss_license_unlimited]
 other = "Unlimited viewers and pages"
 [oss_license_source]

@@ -718,7 +718,7 @@ other = "Проприетарное ПО"
 [oss_license_converts]
 other = "Доступна бесплатная версия Community"
 [oss_license_free]
-other = "Free for teams up to 5 editors"
+other = "Бесплатно с неограниченным количеством редакторов"
 [oss_license_unlimited]
 other = "Unlimited viewers and pages"
 [oss_license_source]

@@ -32,7 +32,7 @@ This is where the products diverge most.
 
 **GitBook** is cloud-only. There is no self-hosted option. Your documentation content is stored on GitBook's servers. For teams with data residency requirements, compliance constraints, or a preference for controlling their infrastructure, this is a hard no.
 
-**Valoryx** is a single Go binary with zero external dependencies. Download, run, done. It works on Linux, macOS, Windows, and Docker. All data stays on your server. There is no phone-home telemetry, no license key validation, no feature gating based on plan. The Community edition (free, up to 5 editors) has the same features as the self-hosted Team and Business editions.
+**Valoryx** is a single Go binary with zero external dependencies. Download, run, done. It works on Linux, macOS, Windows, and Docker. All data stays on your server. There is no phone-home telemetry, no license key validation, no feature gating based on plan. The Community edition (free, unlimited editors) has the same features as the self-hosted Team and Business editions.
 
 **Verdict:** If you need self-hosting, Valoryx is the only option here. GitBook does not offer it.
 
@@ -42,11 +42,11 @@ This is where the products diverge most.
 
 **Valoryx** offers three tiers:
 
-- **Community** (free forever): Self-hosted, up to 5 editors, full features including git sync, WYSIWYG editor, published docs, and full-text search.
+- **Community** (free forever): Self-hosted, unlimited editors, full features including git sync, WYSIWYG editor, published docs, and full-text search.
 - **Team** ($29/month): Managed cloud hosting, 15 editors, 3 workspaces, custom domains, priority support.
 - **Business** ($79/month): SSO/SAML, audit logs, analytics dashboard, 50 editors, 10 workspaces.
 
-**Verdict:** For small teams (5 or fewer), Valoryx is unbeatable — the free self-hosted edition has no feature restrictions. GitBook's free tier is limited to personal/open-source use. For larger teams, GitBook's per-user pricing can get expensive quickly; Valoryx's flat-rate pricing is simpler and often cheaper.
+**Verdict:** For any team size, Valoryx's self-hosted Community edition is unbeatable — unlimited editors with no feature restrictions. GitBook's free tier is limited to personal/open-source use. For larger teams, GitBook's per-user pricing can get expensive quickly; Valoryx's flat-rate pricing is simpler and often cheaper.
 
 ## Published Documentation Sites
 

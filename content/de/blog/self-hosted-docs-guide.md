@@ -56,7 +56,7 @@ Bevor wir einzelne Tools vergleichen, hier das Wichtigste:
 
 ### Valoryx
 **Was es ist:** Eine Go-basierte Dokumentationsplattform mit bidirektionalem git-Sync, einem WYSIWYG-Editor und veröffentlichten Dokumentationsseiten.
-**Vorteile:** Einzelne Binary, keine Abhängigkeiten — 30 Sekunden Installation. Echter bidirektionaler git-Sync. WYSIWYG-Editor. Veröffentlichte Docs. Eingebaute FTS5-Suche. Kostenlos für 5 Editoren.
+**Vorteile:** Einzelne Binary, keine Abhängigkeiten — 30 Sekunden Installation. Echter bidirektionaler git-Sync. WYSIWYG-Editor. Veröffentlichte Docs. Eingebaute FTS5-Suche. Kostenlos mit unbegrenzten Editoren.
 **Nachteile:** Neueres Produkt — kleinere Community. Weniger Plugins. Theme-Ökosystem in Entwicklung.
 **Geeignet für:** Teams, die Web-Editing mit git-nativem Workflow wünschen. Besonders für gemischte Entwickler-/Nicht-Entwickler-Teams.
 
@@ -71,7 +71,7 @@ Bevor wir einzelne Tools vergleichen, hier das Wichtigste:
 | Installationszeit | ~15 Min. | ~10 Min. | ~30 Min. | ~5 Min. | ~5 Min. | ~30 Sek. |
 | Veröffentlichte Docs | Begrenzt | Begrenzt | Nein | Ausgezeichnet | Ausgezeichnet | Ausgezeichnet |
 | Suche | Grundlegend | Grundlegend | Gut | Grundlegend | Grundlegend | Gut (FTS5) |
-| Kostenlose Stufe | Vollständig | Vollständig | Vollständig | Vollständig | Vollständig | Bis zu 5 Editoren |
+| Kostenlose Stufe | Vollständig | Vollständig | Vollständig | Vollständig | Vollständig | Unbegrenzte Editoren |
 
 ## Unsere Empfehlung
 

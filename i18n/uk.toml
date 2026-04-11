@@ -718,7 +718,7 @@ other = "Пропрієтарне ПЗ"
 [oss_license_converts]
 other = "Доступна безкоштовна версія Community"
 [oss_license_free]
-other = "Free for teams up to 5 editors"
+other = "Безкоштовно з необмеженою кількістю редакторів"
 [oss_license_unlimited]
 other = "Unlimited viewers and pages"
 [oss_license_source]

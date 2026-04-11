@@ -718,7 +718,7 @@ other = "Propriétaire"
 [oss_license_converts]
 other = "Édition communautaire gratuite disponible"
 [oss_license_free]
-other = "Free for teams up to 5 editors"
+other = "Gratuit avec un nombre illimité d'éditeurs"
 [oss_license_unlimited]
 other = "Unlimited viewers and pages"
 [oss_license_source]
