@@ -32,7 +32,7 @@ That's it. No servers to manage, no software to install, no configuration files 
 |---|---|---|---|
 | **Price** | $0/month | $29/month | $79/month |
 | **Workspaces** | 1 | 3 | 10 |
-| **Pages per workspace** | 50 | 150 | 500 |
+| **Published Pages** | 50 | 150 | Unlimited |
 | **Editors** | 3 | 15 | 50 |
 | **Git sync** | Yes | Yes | Yes |
 | **Published docs** | Yes | Yes | Yes |

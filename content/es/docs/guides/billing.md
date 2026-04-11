@@ -10,17 +10,12 @@ DocPlatform uses Stripe for subscription billing. Three plan tiers are available
 
 ## Plans
 
-| Feature | Community (Free) | Team ($99/mo) | Business ($299/mo) |
-|---|---|---|---|
-| **Editors** | 5 | 10 | 50 |
-| **Workspaces** | 3 | Unlimited | Unlimited |
-| **Viewers / Commenters** | Unlimited | Unlimited | Unlimited |
-| **Pages** | Unlimited | Unlimited | Unlimited |
-| **Published docs** | Unlimited | Unlimited | Unlimited |
-| **Analytics** | — | Included | Included |
-| **Custom domains** | — | Included | Included |
-| **Advanced AI** | — | Included | Included |
-| **Priority support** | — | — | Included |
+| Feature | Community (Free) | Free | Team ($29/mo) | Business ($79/mo) |
+|---|---|---|---|---|
+| **Editors** | Unlimited | 3 | 15 | 50 |
+| **Workspaces** | Unlimited | 1 | 3 | 10 |
+| **Published Pages** | Unlimited | 50 | 150 | Unlimited |
+| **Viewers / Commenters** | Unlimited | Unlimited | Unlimited | Unlimited |
 
 ### Annual pricing
 
@@ -28,8 +23,8 @@ Annual subscriptions include 2 months free:
 
 | Plan | Monthly | Annual |
 |---|---|---|
-| **Team** | $99/mo | $990/yr ($82.50/mo) |
-| **Business** | $299/mo | $2,990/yr ($249.17/mo) |
+| **Team** | $29/mo | $290/yr ($24.17/mo) |
+| **Business** | $79/mo | $790/yr ($65.83/mo) |
 
 ### Free trial
 
@@ -128,8 +123,8 @@ Returns current plan limits and usage:
 {
   "plan": "team",
   "limits": {
-    "max_editors": 10,
-    "max_workspaces": -1,
+    "max_editors": 15,
+    "max_workspaces": 3,
     "features": ["analytics", "custom_domains", "ai_advanced"]
   },
   "usage": {
