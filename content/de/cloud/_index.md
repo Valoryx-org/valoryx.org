@@ -35,7 +35,7 @@ Das war's. Keine Server zu verwalten, keine Software zu installieren, keine Konf
 |---|---|---|---|
 | **Preis** | $0/Monat | $29/Monat | $79/Monat |
 | **Workspaces** | 1 | 3 | 10 |
-| **Seiten pro Workspace** | 50 | 150 | 500 |
+| **Seiten pro Workspace** | 50 | 150 | Unbegrenzt |
 | **Redakteure** | 3 | 15 | 50 |
 | **Git Sync** | Ja | Ja | Ja |
 | **Veröffentlichte Docs** | Ja | Ja | Ja |
