@@ -798,31 +798,46 @@ GET /api/v1/admin/analytics/growth    — Platform growth metrics
 
 ## MCP server
 
-DocPlatform includes a built-in MCP (Model Context Protocol) server exposing 13 tools for AI agent integration. The MCP server runs on stdio and is started via the CLI:
+DocPlatform includes a built-in MCP (Model Context Protocol) server exposing **24 tools** for AI agent integration. Two transports are available:
 
 ```bash
+# stdio (single workspace, for local AI tools)
 docplatform mcp --workspace my-docs --api-key dp_live_abc123
+
+# Streamable HTTP (multi-workspace, for remote/cloud access)
+docplatform mcp-server --addr :8081
 ```
 
-### MCP tools
+### MCP tools (24)
 
 | Tool | Category | Description |
 |---|---|---|
-| `get_page` | Read | Fetch page content by path |
-| `list_pages` | Read | List all pages with metadata |
-| `get_page_tree` | Read | Hierarchical page tree |
-| `get_page_metadata` | Read | Frontmatter, tags, timestamps |
-| `get_page_links` | Read | Inbound/outbound wikilinks |
-| `search` | Search | Full-text search with snippets |
-| `search_by_tag` | Search | Find pages by tag |
-| `create_page` | Write | Create a new page |
-| `update_page` | Write | Update with concurrency check |
-| `move_page` | Write | Move/rename with wikilink updates |
-| `delete_page` | Write | Delete a page |
-| `quality_check` | Maintain | Readability, dead links, completeness |
-| `workspace_stats` | Maintain | Page count, word count, health summary |
+| `docplatform_list_pages` | Content | List all pages with paths and titles |
+| `docplatform_read_page` | Content | Read full page content, frontmatter, and metadata |
+| `docplatform_write_page` | Content | Smart upsert — creates or updates automatically |
+| `docplatform_update_page` | Content | Update with optimistic concurrency (requires `last_known_hash`) |
+| `docplatform_delete_page` | Content | Soft-delete a page |
+| `docplatform_move_page` | Content | Move/rename with automatic wikilink updates |
+| `docplatform_search` | Discovery | Full-text search with scored results |
+| `docplatform_get_context` | Discovery | RAG bundle: page + parent + siblings + linked pages |
+| `docplatform_list_workspaces` | Discovery | List accessible workspaces |
+| `docplatform_get_tree` | Discovery | Hierarchical page tree |
+| `docplatform_get_manifest` | Discovery | Complete workspace manifest with link relationships |
+| `docplatform_validate_links` | Quality | Scan for broken wikilinks |
+| `docplatform_quality_scan` | Quality | Quality score (0–100) with detailed findings |
+| `docplatform_get_theme` | Settings | Get current published site theme |
+| `docplatform_update_theme` | Settings | Update theme (default, dark, forest, rose, amber, minimal, corporate) |
+| `docplatform_create_workspace` | Management | Create a new workspace |
+| `docplatform_get_workspace` | Management | Workspace details, role, git sync, publish settings |
+| `docplatform_list_versions` | Versioning | List documentation versions |
+| `docplatform_create_version` | Versioning | Create a named version (e.g., v2.0) |
+| `docplatform_export` | Export | Export workspace as static site |
+| `docplatform_writing_assist` | AI | Improve, shorten, expand, fix grammar, summarize, translate |
+| `docplatform_get_activity` | Activity | Recent workspace activity feed |
+| `docplatform_list_comments` | Comments | Threaded comments on a page |
+| `docplatform_add_comment` | Comments | Add a comment with @mentions and threading |
 
-All tools respect workspace permissions and require a valid API key. See the [AI Features guide](../guides/ai-features.md) for setup instructions.
+All tools respect workspace permissions and require a valid API key. See the [MCP Server guide](../guides/mcp.md) for complete setup and tool reference.
 
 ---
 

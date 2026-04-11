@@ -1,6 +1,6 @@
 ---
-title: DocPlatform
-description: Git-native documentation platform — self-hosted or cloud. Write, publish, and maintain docs with AI.
+title: DocPlatform Community Edition
+description: Self-hosted, git-backed documentation platform with a beautiful web editor. Own your docs. Control your workflow.
 weight: 1
 ---
 

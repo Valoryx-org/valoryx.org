@@ -6,7 +6,7 @@ weight: 2
 
 # CLI Reference
 
-DocPlatform provides 9 CLI commands for server management, workspace initialization, diagnostics, publishing, and AI integration.
+DocPlatform provides 10 CLI commands for server management, workspace initialization, diagnostics, publishing, and AI integration.
 
 ## Global options
 
@@ -367,7 +367,7 @@ Open [http://localhost:4000](http://localhost:4000) to view the published docs.
 
 ## `docplatform mcp`
 
-Start a Model Context Protocol (MCP) server for AI agent integration.
+Start a Model Context Protocol (MCP) server on stdio for AI agent integration.
 
 ```bash
 docplatform mcp [flags]
@@ -377,13 +377,13 @@ docplatform mcp [flags]
 
 | Flag | Required | Default | Description |
 |---|---|---|---|
-| `--workspace` | Yes | — | Workspace ID (ULID) to expose |
-| `--api-key` | Yes | — | API key for authentication (or set `DOCPLATFORM_API_KEY` env var) |
+| `--workspace`, `-w` | Yes | — | Workspace slug to expose |
+| `--api-key` | Yes | — | API key for authentication (`dp_live_...`). Also accepts `DOCPLATFORM_API_KEY` env var |
 | `--data-dir` | No | `.docplatform` | Data directory path |
 
 ### Behavior
 
-Starts an MCP server on stdio, exposing workspace content to AI agents (Claude Code, Claude Desktop, etc.). The server is scoped to a single workspace and authenticated via API key.
+Starts an MCP server on stdin/stdout, scoped to a single workspace and authenticated via API key. Exposes 24 tools for content CRUD, search, quality scanning, versioning, export, and more. Compatible with any MCP client (Claude Desktop, Claude Code, Cursor, VS Code).
 
 ### Example
 
@@ -402,6 +402,47 @@ Configure in your MCP client (e.g., Claude Desktop `claude_desktop_config.json`)
     }
   }
 }
+```
+
+See the [MCP Server guide](../guides/mcp.md) for complete setup instructions and the full tool reference.
+
+---
+
+## `docplatform mcp-server`
+
+Start a Streamable HTTP MCP server for remote AI tool access.
+
+```bash
+docplatform mcp-server [flags]
+```
+
+### Flags
+
+| Flag | Required | Default | Description |
+|---|---|---|---|
+| `--addr` | No | `:8081` | Listen address (e.g., `:8081`, `0.0.0.0:9090`) |
+| `--cors-origins` | No | claude.ai, cursor | Allowed CORS origins (comma-separated) |
+| `--data-dir` | No | `.docplatform` | Data directory path |
+
+### Behavior
+
+Runs a Streamable HTTP MCP server authenticated via Bearer API keys. Unlike `docplatform mcp` (stdio, single workspace), the HTTP transport supports multi-workspace access — content tools accept an optional `workspace` parameter to target different workspaces. Suitable for cloud deployment behind a reverse proxy.
+
+### Example
+
+```bash
+# Start on default port
+docplatform mcp-server
+
+# Custom port with CORS
+docplatform mcp-server --addr :9090 --cors-origins https://my-app.com
+```
+
+Clients connect via HTTP and authenticate with a Bearer token:
+
+```
+POST http://your-server:8081/mcp
+Authorization: Bearer dp_live_abc123
 ```
 
 ---

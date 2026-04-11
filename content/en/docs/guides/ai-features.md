@@ -108,19 +108,17 @@ Supports multi-turn conversations — include previous messages in the `messages
 
 ## MCP server
 
-DocPlatform includes a built-in Model Context Protocol (MCP) server, allowing AI agents like Claude Code or Claude Desktop to read and search your documentation directly.
+DocPlatform includes a built-in Model Context Protocol (MCP) server with **24 tools**, allowing AI agents like Claude Code, Claude Desktop, or Cursor to read, write, search, and manage your documentation directly.
 
-### Setup
+### Quick setup
 
 ```bash
 docplatform mcp --workspace my-docs --api-key dp_live_abc123
 ```
 
-The MCP server runs on stdio, making it compatible with any MCP client.
+### Client configuration
 
-### Claude Desktop integration
-
-Add to your `claude_desktop_config.json`:
+**Claude Desktop** — add to `claude_desktop_config.json`:
 
 ```json
 {
@@ -133,15 +131,13 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-### Claude Code integration
+**Claude Code:**
 
 ```bash
 claude mcp add docplatform -- docplatform mcp --workspace my-docs --api-key dp_live_abc123
 ```
 
-### Cursor integration
-
-Add to `.cursor/mcp.json` in your project:
+**Cursor** — add to `.cursor/mcp.json`:
 
 ```json
 {
@@ -154,73 +150,18 @@ Add to `.cursor/mcp.json` in your project:
 }
 ```
 
-### Available MCP tools (20)
+### Tool categories
 
-The MCP server exposes 20 tools organized into four categories:
+The 24 MCP tools cover content CRUD (6), discovery & RAG (5), quality (2), settings (2), workspace management (2), versioning (2), export (1), AI writing (1), activity (1), and comments (2).
 
-#### Read & navigate
+Key highlights:
 
-| Tool | Description |
-|---|---|
-| `docplatform_get_page` | Fetch a single page by path — returns Markdown content, frontmatter, and metadata |
-| `docplatform_list_pages` | List all pages in the workspace with title, path, and status |
-| `docplatform_get_page_tree` | Hierarchical page tree showing parent-child relationships |
-| `docplatform_get_page_metadata` | Frontmatter, tags, status, word count, and timestamps |
-| `docplatform_get_page_links` | Outbound and inbound wikilinks for a page |
-| `docplatform_get_page_history` | Revision history for a page |
-| `docplatform_get_workspace_config` | Workspace settings and configuration |
+- **`write_page`** — smart upsert that creates or updates automatically, so AI agents never need to check if a page exists first
+- **`get_context`** — RAG-optimized bundle returning a page with its parent, siblings, wikilink targets, and workspace metadata in a single call
+- **`get_manifest`** — complete workspace overview with cross-page link relationships for AI agents to understand structure at a glance
+- **`quality_scan`** — automated quality scoring (0–100) with detailed findings
 
-#### Search & discover
-
-| Tool | Description |
-|---|---|
-| `docplatform_search` | Full-text search with scored results and highlighted snippets |
-| `docplatform_search_by_tag` | Find pages by tag (exact match or partial) |
-| `docplatform_search_by_date` | Find pages modified within a date range |
-
-#### Write & organize
-
-| Tool | Description |
-|---|---|
-| `docplatform_write_page` | Create or update a page (smart upsert — creates if new, updates with hash check if exists) |
-| `docplatform_update_page` | Update page content with optimistic concurrency (requires lastKnownHash) |
-| `docplatform_move_page` | Move/rename a page — updates all wikilinks automatically |
-| `docplatform_delete_page` | Delete a page by path |
-| `docplatform_update_frontmatter` | Update page frontmatter fields without changing body content |
-| `docplatform_batch_update` | Update multiple pages in a single transaction |
-
-#### How `write_page` works (smart upsert)
-
-The `write_page` tool provides a single "just write" operation for AI agent convenience, while the underlying HTTP API enforces strict create/update separation:
-
-1. **Page doesn't exist** → creates it via `POST` (new page with auto-generated ID)
-2. **Page already exists** → reads the current content hash, then updates via `PUT` with optimistic locking
-
-This means AI agents never need to check if a page exists before writing — the tool handles it automatically. Under the hood:
-
-```
-write_page("guides/deploy", title="Deploy Guide", body="# Deploy...")
-    │
-    ├─ Page doesn't exist → CreatePage() → 201 Created
-    │
-    └─ Page exists (hash: sha256:abc...)
-         → UpdatePage(lastKnownHash="sha256:abc...") → 200 OK
-```
-
-If you need explicit control, use `update_page` (which requires `lastKnownHash` and fails if the page was modified since you last read it) or check existence first with `read_page`.
-
-**Important:** The HTTP API (`POST /api/v1/content/:workspace/:path`) is strict — it returns `409 Conflict` if the page already exists. The MCP tool abstracts this complexity.
-
-#### Maintain
-
-| Tool | Description |
-|---|---|
-| `docplatform_quality_check` | Run readability scoring, dead link detection, and completeness checks |
-| `docplatform_workspace_stats` | Page count, word count, tag distribution, and health summary |
-| `docplatform_validate_links` | Check all internal links and wikilinks for broken references |
-| `docplatform_export_workspace` | Export workspace content as a ZIP archive |
-
-All access is authenticated via the API key and scoped to the specified workspace.
+See the [MCP Server guide](mcp.md) for the complete tool reference, authentication details, rate limits, and troubleshooting.
 
 ## Feature gating
 
