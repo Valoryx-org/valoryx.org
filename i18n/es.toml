@@ -555,8 +555,6 @@ other = "Available now"
 other = "Runs alongside the binary on your machine. Zero network overhead. Works with self-hosted and cloud installations."
 [mcp_cloud_title]
 other = "Cloud (remote HTTP)"
-[mcp_coming_soon]
-other = "Coming in Phase 1.5"
 [mcp_cloud_desc]
 other = "Sin binario. Conéctate por HTTPS con tu clave API. Transporte HTTP streamable, sin estado, autenticación Bearer."
 [mcp_setup_title]
