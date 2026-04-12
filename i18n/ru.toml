@@ -540,7 +540,7 @@ other = "AI-Native Documentation"
 [mcp_hero_title]
 other = "Connect your docs to AI"
 [mcp_hero_subtitle]
-other = "Valoryx includes a built-in MCP server. Connect to Claude, Cursor, VS Code, and any MCP client. 13 tools for reading, writing, searching, and maintaining documentation."
+other = "Valoryx включает встроенный MCP-сервер. Подключайтесь к Claude, Cursor, VS Code и любому MCP-клиенту через stdio (локально) или HTTPS (облако). 24 инструмента для чтения, записи, поиска и сопровождения документации."
 [mcp_what_title]
 other = "What is MCP?"
 [mcp_what_text]
@@ -555,10 +555,8 @@ other = "Available now"
 other = "Runs alongside the binary on your machine. Zero network overhead. Works with self-hosted and cloud installations."
 [mcp_cloud_title]
 other = "Cloud (remote HTTP)"
-[mcp_coming_soon]
-other = "Coming in Phase 1.5"
 [mcp_cloud_desc]
-other = "No binary needed. Connect via HTTPS with your API key. For cloud users on Team and Business plans."
+other = "Бинарник не нужен. Подключение по HTTPS с вашим API-ключом. Streamable HTTP-транспорт, без состояния, аутентификация Bearer."
 [mcp_setup_title]
 other = "Quick Setup"
 [mcp_cc_desc]
@@ -568,7 +566,7 @@ other = "Add to Claude Desktop settings (Settings, Developer, MCP Servers):"
 [mcp_cursor_desc]
 other = "Add to .cursor/mcp.json in your project:"
 [mcp_tools_title]
-other = "13 Tools"
+other = "24 инструмента"
 [mcp_tools_subtitle]
 other = "Everything your AI assistant needs to manage documentation"
 [mcp_cat_content]
@@ -620,7 +618,7 @@ other = "Security"
 [mcp_sec1_title]
 other = "API Key Auth"
 [mcp_sec1_text]
-other = "Scoped per workspace. SHA-256 hashed with pepper."
+other = "Токен Bearer, ограниченный рабочим пространством. SHA-256 с pepper. Инструменты чтения требуют scope read; инструменты записи — edit или admin."
 [mcp_sec2_title]
 other = "Conflict Detection"
 [mcp_sec2_text]
