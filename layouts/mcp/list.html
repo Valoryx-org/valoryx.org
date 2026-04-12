@@ -14,7 +14,7 @@
       {{ i18n "mcp_hero_title" | default "Connect your docs to AI" }}
     </h1>
     <p class="text-base sm:text-lg max-w-2xl mx-auto reveal" style="color: var(--muted); line-height: 1.8;">
-      {{ i18n "mcp_hero_subtitle" | default "Valoryx includes a built-in MCP server. Connect to Claude, Cursor, VS Code, and any MCP client. 13 tools for reading, writing, searching, and maintaining documentation." }}
+      {{ i18n "mcp_hero_subtitle" | default "Valoryx includes a built-in MCP server. Connect to Claude, Cursor, VS Code, and any MCP client over stdio (local) or HTTPS (cloud). 24 tools for reading, writing, searching, and maintaining documentation." }}
     </p>
   </div>
 </section>
@@ -52,15 +52,17 @@
         </div>
         <p class="text-sm leading-6 mb-0" style="color: var(--body);">{{ i18n "mcp_local_desc" | default "Runs alongside the binary on your machine. Zero network overhead. Works with self-hosted and cloud installations. Available on all plans." }}</p>
       </div>
-      <div class="bg-white rounded-2xl p-8 shadow-sm border border-border reveal reveal-delay-2" style="border-top: 3px solid var(--muted);">
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-border reveal reveal-delay-2" style="border-top: 3px solid var(--accent);">
         <div class="flex items-center gap-3 mb-4">
-          <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg text-white text-lg" style="background: var(--muted);"><i class="bi bi-cloud"></i></span>
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg text-white text-lg" style="background: var(--accent);"><i class="bi bi-cloud"></i></span>
           <div>
             <h3 class="text-lg font-bold" style="color: var(--heading);">{{ i18n "mcp_cloud_title" | default "Cloud (remote HTTP)" }}</h3>
-            <span class="inline-block px-2 py-0.5 rounded text-xs font-semibold" style="background: rgba(107,123,141,0.1); color: var(--muted);">{{ i18n "mcp_coming_soon" | default "Coming in Phase 1.5" }}</span>
+            <span class="inline-block px-2 py-0.5 rounded text-xs font-semibold" style="background: rgba(5,150,82,0.1); color: var(--success);">{{ i18n "mcp_available" | default "Available now" }}</span>
           </div>
         </div>
-        <p class="text-sm leading-6 mb-0" style="color: var(--body);">{{ i18n "mcp_cloud_desc" | default "No binary needed. Connect via HTTPS with your API key. For cloud users on Team and Business plans. Streamable HTTP transport." }}</p>
+        <p class="text-sm leading-6 mb-3" style="color: var(--body);">{{ i18n "mcp_cloud_desc" | default "No binary needed. Connect via HTTPS with your API key. Streamable HTTP transport, stateless, Bearer token auth." }}</p>
+        <p class="text-xs mb-2" style="color: var(--muted);">Endpoint:</p>
+        <code class="block text-xs font-mono p-2 rounded" style="background: var(--light); color: var(--heading); word-break: break-all;">https://app.valoryx.dev/mcp</code>
       </div>
     </div>
   </div>
@@ -75,13 +77,33 @@
 
     <!-- Client tabs -->
     <div class="flex flex-wrap justify-center gap-2 mb-8 reveal">
-      <button class="mcp-tab active px-4 py-2 rounded-lg text-sm font-semibold transition-all" data-target="claude-code">Claude Code</button>
+      <button class="mcp-tab active px-4 py-2 rounded-lg text-sm font-semibold transition-all" data-target="http-remote">HTTP (remote)</button>
+      <button class="mcp-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all" data-target="claude-code">Claude Code (stdio)</button>
       <button class="mcp-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all" data-target="claude-desktop">Claude Desktop</button>
       <button class="mcp-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all" data-target="cursor">Cursor</button>
     </div>
 
+    <!-- HTTP (remote) config -->
+    <div class="mcp-config" id="http-remote">
+      <p class="text-sm mb-3 font-semibold" style="color: var(--heading);">Any MCP client that speaks HTTP. Zero install — just add the endpoint and your API key.</p>
+      <div class="terminal-block reveal">
+        <pre><code>{
+  "mcpServers": {
+    "docplatform": {
+      "type": "http",
+      "url": "https://app.valoryx.dev/mcp",
+      "headers": {
+        "Authorization": "Bearer dp_live_..."
+      }
+    }
+  }
+}</code></pre>
+      </div>
+      <p class="text-xs mt-3" style="color: var(--muted);">Test with curl: <code style="color: var(--heading);">curl -X POST https://app.valoryx.dev/mcp -H "Authorization: Bearer dp_live_..." -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'</code></p>
+    </div>
+
     <!-- Claude Code config -->
-    <div class="mcp-config" id="claude-code">
+    <div class="mcp-config hidden" id="claude-code">
       <p class="text-sm mb-3 font-semibold" style="color: var(--heading);">{{ i18n "mcp_cc_desc" | default "Add to your project's .mcp.json:" }}</p>
       <div class="terminal-block reveal">
         <pre><code>{
@@ -137,62 +159,88 @@
   </div>
 </section>
 
-<!-- ======= 13 Tools ======= -->
+<!-- ======= 24 Tools ======= -->
 <section class="py-16 md:py-20 bg-light">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="section-title reveal">
-      <h2>{{ i18n "mcp_tools_title" | default "13 Tools" }}</h2>
+      <h2>{{ i18n "mcp_tools_title" | default "24 Tools" }}</h2>
       <p>{{ i18n "mcp_tools_subtitle" | default "Everything your AI assistant needs to manage documentation" }}</p>
     </div>
 
-    <!-- Tool categories -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Content Tools -->
+      <!-- Read & Discover -->
       <div class="bg-white rounded-xl p-6 border border-border reveal reveal-delay-1">
         <h3 class="text-sm font-bold uppercase tracking-wider mb-4" style="color: var(--accent);">
-          <i class="bi bi-file-earmark-text mr-1.5"></i>{{ i18n "mcp_cat_content" | default "Content (6 tools)" }}
+          <i class="bi bi-search mr-1.5"></i>Read &amp; Discover (8)
         </h3>
         <div class="space-y-3">
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">list_pages</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_list" | default "List all pages in workspace" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">read_page</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_read" | default "Read page content and metadata" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">write_page</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_write" | default "Create a new page" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">update_page</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_update" | default "Update with conflict detection" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">delete_page</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_delete" | default "Soft-delete a page" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">move_page</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_move" | default "Move/rename (auto-updates wikilinks)" }}</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">list_workspaces</code><span class="text-sm" style="color: var(--body);">List accessible workspaces</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_workspace</code><span class="text-sm" style="color: var(--body);">Workspace details (members, pages, git status)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">list_pages</code><span class="text-sm" style="color: var(--body);">List all pages (lightweight)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_tree</code><span class="text-sm" style="color: var(--body);">Full page tree hierarchy</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_manifest</code><span class="text-sm" style="color: var(--body);">Full workspace map with link graph (best for agents)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">read_page</code><span class="text-sm" style="color: var(--body);">Read page content + metadata + hash</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_context</code><span class="text-sm" style="color: var(--body);">RAG context: page + parent + siblings + linked</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">search</code><span class="text-sm" style="color: var(--body);">Full-text search across all pages</span></div>
         </div>
       </div>
-      <!-- Discovery Tools -->
+
+      <!-- Write & Edit -->
       <div class="bg-white rounded-xl p-6 border border-border reveal reveal-delay-2">
         <h3 class="text-sm font-bold uppercase tracking-wider mb-4" style="color: var(--accent);">
-          <i class="bi bi-search mr-1.5"></i>{{ i18n "mcp_cat_discovery" | default "Discovery (4 tools)" }}
+          <i class="bi bi-pencil-square mr-1.5"></i>Write &amp; Edit (5)
         </h3>
         <div class="space-y-3">
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">search</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_search" | default "Full-text search across all pages" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_context</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_context" | default "RAG context: page + parent + siblings + linked" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">list_workspaces</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_workspaces" | default "List accessible workspaces" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_tree</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_tree" | default "Full page tree hierarchy" }}</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">write_page</code><span class="text-sm" style="color: var(--body);">Create or update (smart upsert, no hash needed)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">update_page</code><span class="text-sm" style="color: var(--body);">Update with conflict detection (hash required)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">delete_page</code><span class="text-sm" style="color: var(--body);">Soft-delete a page</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">move_page</code><span class="text-sm" style="color: var(--body);">Move/rename (auto-updates wikilinks)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">writing_assist</code><span class="text-sm" style="color: var(--body);">AI improve / shorten / simplify / translate</span></div>
         </div>
       </div>
-      <!-- Quality Tools -->
+
+      <!-- Workspaces & Versions -->
       <div class="bg-white rounded-xl p-6 border border-border reveal reveal-delay-1">
         <h3 class="text-sm font-bold uppercase tracking-wider mb-4" style="color: var(--accent);">
-          <i class="bi bi-check2-circle mr-1.5"></i>{{ i18n "mcp_cat_quality" | default "Quality (1 tool)" }}
+          <i class="bi bi-diagram-3 mr-1.5"></i>Workspaces &amp; Versions (5)
         </h3>
         <div class="space-y-3">
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">validate_links</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_validate" | default "Scan for broken wikilinks" }}</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">create_workspace</code><span class="text-sm" style="color: var(--body);">Create a new documentation workspace</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">list_versions</code><span class="text-sm" style="color: var(--body);">List workspace versions (v1.0, v2.0, etc.)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">create_version</code><span class="text-sm" style="color: var(--body);">Snapshot current state as a version</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">export</code><span class="text-sm" style="color: var(--body);">Export workspace as static site (zip_base64)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_activity</code><span class="text-sm" style="color: var(--body);">Activity feed (recent actions, reverse chrono)</span></div>
         </div>
       </div>
-      <!-- Settings Tools -->
+
+      <!-- Quality & Theming -->
       <div class="bg-white rounded-xl p-6 border border-border reveal reveal-delay-2">
         <h3 class="text-sm font-bold uppercase tracking-wider mb-4" style="color: var(--accent);">
-          <i class="bi bi-palette mr-1.5"></i>{{ i18n "mcp_cat_settings" | default "Settings (2 tools)" }}
+          <i class="bi bi-check2-circle mr-1.5"></i>Quality &amp; Theming (4)
         </h3>
         <div class="space-y-3">
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_theme</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_gettheme" | default "Get published site theme" }}</span></div>
-          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">update_theme</code><span class="text-sm" style="color: var(--body);">{{ i18n "mcp_tool_settheme" | default "Update published site theme" }}</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">validate_links</code><span class="text-sm" style="color: var(--body);">Scan for broken wikilinks</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">quality_scan</code><span class="text-sm" style="color: var(--body);">Full quality audit (score + findings)</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">get_theme</code><span class="text-sm" style="color: var(--body);">Get published site theme</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">update_theme</code><span class="text-sm" style="color: var(--body);">Set theme (default, dark, forest, rose, amber)</span></div>
+        </div>
+      </div>
+
+      <!-- Collaboration -->
+      <div class="bg-white rounded-xl p-6 border border-border reveal reveal-delay-1 md:col-span-2">
+        <h3 class="text-sm font-bold uppercase tracking-wider mb-4" style="color: var(--accent);">
+          <i class="bi bi-chat-left-text mr-1.5"></i>Collaboration (2)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">list_comments</code><span class="text-sm" style="color: var(--body);">Read threaded comments on a page</span></div>
+          <div class="flex items-start gap-3"><code class="text-xs font-mono px-1.5 py-0.5 rounded" style="background: var(--light); color: var(--heading);">add_comment</code><span class="text-sm" style="color: var(--body);">Add a comment or threaded reply</span></div>
         </div>
       </div>
     </div>
+
+    <p class="text-center text-sm mt-8" style="color: var(--muted);">
+      Machine-readable reference: <a href="https://app.valoryx.dev/mcp" style="color: var(--accent);">endpoint</a> — call <code>tools/list</code> for the full schema.
+    </p>
   </div>
 </section>
 
@@ -271,7 +319,7 @@ updated within 30 seconds.</code></pre>
       <div class="icon-box reveal reveal-delay-1">
         <div class="icon"><i class="bi bi-key"></i></div>
         <h4>{{ i18n "mcp_sec1_title" | default "API Key Auth" }}</h4>
-        <p>{{ i18n "mcp_sec1_text" | default "Scoped per workspace. SHA-256 hashed with pepper." }}</p>
+        <p>{{ i18n "mcp_sec1_text" | default "Bearer token, scoped per workspace. SHA-256 hashed with pepper. Read tools need read scope; write tools need edit or admin." }}</p>
       </div>
       <div class="icon-box reveal reveal-delay-2">
         <div class="icon"><i class="bi bi-shield-check"></i></div>
@@ -313,6 +361,9 @@ updated within 30 seconds.</code></pre>
           <tr><td>"tools not appearing"</td><td>{{ i18n "mcp_ts4" | default "Fully quit and reopen your MCP client (servers load on startup)" }}</td></tr>
           <tr><td>"connection refused"</td><td>{{ i18n "mcp_ts5" | default "Ensure docplatform serve is running before starting MCP client" }}</td></tr>
           <tr><td>"conflict detected"</td><td>{{ i18n "mcp_ts6" | default "Re-read with read_page, merge changes, retry update" }}</td></tr>
+          <tr><td>HTTP endpoint returns HTML / 404</td><td>Self-hosted only: the <code>mcp-server</code> subcommand listens on <code>:8081</code> — add a reverse proxy route at <code>/mcp</code>. On cloud (app.valoryx.dev/mcp) it is pre-configured.</td></tr>
+          <tr><td>403 "scope does not allow this action"</td><td>Create a new key in Settings → API Keys with the required scope: <code>read</code> for read tools, <code>edit</code> or <code>admin</code> for write tools.</td></tr>
+          <tr><td>406 "Not Acceptable"</td><td>HTTP transport requires <code>Accept: application/json, text/event-stream</code> header.</td></tr>
         </tbody>
       </table>
     </div>
@@ -364,12 +415,13 @@ document.addEventListener('DOMContentLoaded', function() {
   "name": "Valoryx MCP Server",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Linux, macOS, Windows",
-  "description": "Built-in MCP server for AI-native documentation management. 13 tools for reading, writing, searching, and maintaining documentation via Claude, Cursor, VS Code, and any MCP client.",
+  "description": "Built-in MCP server for AI-native documentation management. 24 tools for reading, writing, searching, and maintaining documentation via Claude, Cursor, VS Code, and any MCP client. Endpoint: https://app.valoryx.dev/mcp",
   "url": "https://valoryx.org/mcp/",
   "featureList": [
-    "13 MCP tools (content, discovery, quality, settings)",
-    "stdio transport (local)",
-    "API key authentication",
+    "24 MCP tools (read/discover, write/edit, workspaces, quality, collaboration)",
+    "stdio transport (local) + Streamable HTTP transport (remote)",
+    "Cloud endpoint: https://app.valoryx.dev/mcp",
+    "Bearer token API key authentication",
     "Conflict detection (hash-based)",
     "Context Graph API",
     "Bidirectional git sync"
