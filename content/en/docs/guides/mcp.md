@@ -1,7 +1,7 @@
 ---
 title: MCP Server — AI Integration Guide
 description: Connect AI tools like Claude Code, Claude Desktop, Cursor, and VS Code Copilot to your DocPlatform documentation using the built-in MCP server.
-weight: 999
+weight: 8
 ---
 
 # MCP Server — AI Integration Guide

@@ -1,7 +1,7 @@
 ---
 title: Analytics
 description: Track page views, search queries, and documentation usage with built-in GDPR-compliant analytics.
-weight: 8
+weight: 9
 ---
 
 # Analytics

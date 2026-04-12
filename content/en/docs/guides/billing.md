@@ -1,7 +1,7 @@
 ---
 title: Billing & Plans
 description: Configure Stripe billing, understand plan tiers, feature gating, and subscription management.
-weight: 9
+weight: 10
 ---
 
 # Billing & Plans
