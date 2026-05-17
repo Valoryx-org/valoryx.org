@@ -66,7 +66,7 @@ disableHugoGeneratorInject      = true
 
 [params]
   githubURL    = "https://github.com/Valoryx-org/releases"
-  releaseTag   = "v0.9.0"
+  releaseTag   = "v0.10.0"
   binaryName   = "docplatform"
   n8nWebhook   = "https://n8n.valoryx.org/webhook/valoryx-waitlist"
   description  = "Self-hosted documentation platform with bidirectional git sync, WYSIWYG editor, and beautiful published docs. Single Go binary, zero dependencies."
