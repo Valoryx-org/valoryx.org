@@ -19,6 +19,14 @@ A workspace is the top-level container for a documentation project. Each workspa
 
 ## Create a workspace
 
+### Via web UI (recommended)
+
+1. Sign in as your organization's Super Admin
+2. Open the workspace switcher (top-left dropdown)
+3. Click **Create Workspace**
+4. Enter a name and slug
+5. Optionally configure a git remote
+
 ### Via CLI
 
 ```bash
@@ -27,13 +35,7 @@ docplatform init \
   --slug eng-docs
 ```
 
-### Via web UI
-
-1. Sign in as Super Admin or Admin
-2. Open the workspace switcher (top-left dropdown)
-3. Click **Create Workspace**
-4. Enter a name and slug
-5. Optionally configure a git remote
+> **Note:** `docplatform init` attaches the workspace to a server-level *default organization*, not to any web account's organization. Use it for headless/bootstrap scenarios (e.g., pre-cloning a git repo before first run). For day-to-day use, create workspaces from the web UI so they belong to your organization.
 
 ## Connect a git repository
 
@@ -51,16 +53,7 @@ docplatform init \
 
 ### After creation
 
-Update the workspace config at `.docplatform/workspaces/{id}/.docplatform/config.yaml`:
-
-```yaml
-git_remote: git@github.com:your-org/eng-docs.git
-git_branch: main
-git_auto_commit: true
-sync_interval: 300  # seconds
-```
-
-Then restart the server or trigger a manual sync from the web UI.
+Connect a repository from the web UI: **Workspace Settings → Git**. Validate a GitHub personal access token, pick the repository and branch, and DocPlatform stores the connection (the token is encrypted at rest with AES-256-GCM). Git settings — remote, branch, auto-commit, and sync interval — live in the workspace record and can be changed there at any time; no server restart is required.
 
 ### SSH key setup
 
@@ -101,10 +94,10 @@ export GIT_SSH_KEY_PATH=~/.ssh/docplatform_deploy_key
 
 ### Page hierarchy
 
-Pages can be nested to any depth. The file structure in `docs/` maps directly to the URL structure:
+Pages can be nested to any depth. The file structure in the workspace directory maps directly to the URL structure:
 
 ```
-docs/
+(workspace root)
 ├── index.md                → /p/eng-docs/
 ├── getting-started.md      → /p/eng-docs/getting-started
 ├── api/
@@ -125,14 +118,13 @@ Every page starts with YAML frontmatter:
 title: Authentication
 description: How to authenticate with the API using JWT tokens.
 tags: [api, auth, jwt]
-published: true
-access:
-  read: []            # empty = all workspace members (default)
-  write: []           # restrict by role name or @user_id
+publish: true         # include this page on the published site
+status: draft         # optional editorial status
+nav_order: 2          # optional ordering hint for sidebar navigation
 ---
 ```
 
-The `title` is required. All other fields are optional and have sensible defaults.
+The `title` is required. All other fields are optional. `tags` accepts either a YAML list or a comma-separated string. An `access` block is parsed and preserved if present, but per-page access control is **not enforced** — permissions are role-based at the workspace level.
 
 ## Invite your team
 
@@ -160,7 +152,7 @@ For detailed permission configuration, see [Roles & Permissions](../configuratio
 
 ## Workspace settings
 
-Access workspace settings through the web UI (**Settings** gear icon) or by editing the config file directly.
+Access workspace settings through the web UI (**Settings** gear icon).
 
 Key settings:
 
@@ -172,9 +164,8 @@ Key settings:
 | `git_branch` | Branch to sync | `main` |
 | `git_auto_commit` | Auto-commit editor saves | `true` |
 | `sync_interval` | Git polling interval (seconds) | `300` |
-| `theme.mode` | Color scheme: `light`, `dark`, `auto` | `auto` |
-| `theme.accent` | Accent color | `blue` |
-| `permissions.default_role` | Role for new members | `viewer` |
+| `theme` | Published-site theme (7 available) | `default` |
+| `visibility` | Published-site access: `authenticated` or `public` | `authenticated` |
 
 For the complete configuration reference, see [Workspace Settings](../configuration/workspace-config.md).
 

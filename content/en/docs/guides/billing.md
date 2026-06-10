@@ -6,21 +6,25 @@ weight: 10
 
 # Billing & Plans
 
-DocPlatform uses Stripe for subscription billing. Three plan tiers are available, each with different limits and features.
+> **Cloud edition only.** Billing applies to **DocPlatform Cloud** ([app.valoryx.dev](https://app.valoryx.dev)). The self-hosted Community Edition contains no billing code at all — it is free forever and unlimited, and nothing on this page applies to it.
+
+DocPlatform Cloud uses Stripe for subscription billing across three cloud tiers: Free, Team, and Business.
 
 ## Plans
 
-| Feature | Community (Free) | Free | Team ($29/mo) | Business ($79/mo) |
+| Feature | Community (self-hosted) | Cloud Free | Cloud Team ($29/mo) | Cloud Business ($79/mo) |
 |---|---|---|---|---|
-| **Editors** | Unlimited | 3 | 15 | 50 |
+| **Editor seats** (Editor + Admin roles) | Unlimited | 3 | 15 | 50 |
 | **Workspaces** | Unlimited | 1 | 3 | 10 |
 | **Viewers / Commenters** | Unlimited | Unlimited | Unlimited | Unlimited |
-| **Pages** | Unlimited | 50 | 150 | Unlimited |
+| **Pages per workspace** | Unlimited | 50 | 150 | Unlimited |
 | **Published docs** | Unlimited | Unlimited | Unlimited | Unlimited |
-| **Analytics** | — | — | Included | Included |
-| **Custom domains** | — | — | Included | Included |
-| **Advanced AI** | — | — | Included | Included |
+| **Analytics** | Included | — | Included | Included |
+| **Custom domains** | Included | — | Included | Included |
+| **"Powered by Valoryx" badge** | Always shown | Always shown | Hidden by default (opt-in to show) | Hidden by default (opt-in to show) |
 | **Priority support** | — | — | — | Included |
+
+> "Community Edition" and the cloud "Free tier" are different things: Community is the unlimited self-hosted binary; Free is the restricted $0 tier of the hosted cloud service.
 
 ### Annual pricing
 
@@ -33,15 +37,11 @@ Annual subscriptions include 2 months free:
 
 ### Free trial
 
-New organizations get a **14-day free trial** of the Team plan. During the trial:
+Paid subscriptions start with a **14-day free trial** — all plan features are available during the trial. If the trial ends without an active subscription, the organization enters a grace period and then reverts to **Free tier** limits.
 
-- All Team features are available
-- No credit card required to start
-- At trial end, the organization reverts to Community Edition limits
+## Setup (Cloud operators)
 
-The trial duration is configurable via `TRIAL_DURATION_DAYS`.
-
-## Setup
+This section documents how the Cloud edition's billing is configured server-side. It is informational for Cloud customers — these variables only exist in the cloud binary.
 
 ### Prerequisites
 
@@ -50,10 +50,7 @@ The trial duration is configurable via `TRIAL_DURATION_DAYS`.
 
 ### Configuration
 
-Set the following environment variables:
-
 ```bash
-# .env
 STRIPE_SECRET_KEY=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
@@ -90,7 +87,7 @@ DocPlatform handles all webhook events idempotently — duplicate deliveries are
 
 ### Disabling billing
 
-Set `FF_BILLING=false` to disable billing entirely. All organizations are treated as having unlimited features (useful for self-hosted single-tenant deployments).
+Set `FF_BILLING=false` to disable billing enforcement entirely on a cloud binary — all organizations are treated as unlimited. (Self-hosters don't need this: the Community Edition has no billing to disable.)
 
 ## User experience
 
@@ -122,55 +119,42 @@ Creates a Stripe Customer Portal session where users can:
 GET /api/v1/billing/limits
 ```
 
-Returns current plan limits and usage:
+Returns current plan limits and usage (`null` limits mean unlimited):
 
 ```json
 {
-  "plan": "team",
-  "limits": {
-    "max_editors": 15,
-    "max_workspaces": 3,
-    "features": ["analytics", "custom_domains", "ai_advanced"]
-  },
-  "usage": {
-    "editors": 4,
-    "workspaces": 2
-  }
+  "plan_id": "team",
+  "plan_name": "Team",
+  "status": "active",
+  "max_workspaces": 3,
+  "current_workspaces": 2,
+  "max_editors": 15,
+  "current_editors": 4,
+  "max_pages_per_workspace": 150,
+  "features": { "analytics": true, "custom_domains": true, "published_docs": true, "hide_badge": true }
 }
 ```
 
 ## Feature gating
 
-When an organization exceeds its plan limits:
+When an organization hits its plan limits:
 
-- **Editors**: New editor invitations are rejected. Existing editors retain access.
-- **Workspaces**: New workspace creation is rejected. Existing workspaces remain accessible.
-- **Gated features**: API returns `403` with a clear error message indicating the required plan.
-
-## Super admin controls
-
-Super admins can manage billing across all organizations:
-
-```
-GET  /api/admin/billing/overview        — Platform-wide billing summary
-GET  /api/admin/billing/subscriptions   — All active subscriptions
-GET  /api/admin/billing/events          — Webhook event log
-PUT  /api/admin/orgs/:id/plan           — Change organization plan
-POST /api/admin/orgs/:id/subscription/override — Override subscription (e.g., comp plans)
-```
+- **Editor seats**: New editor/admin invitations are rejected with `403 PLAN_LIMIT_REACHED`. Existing editors retain access; Commenter/Viewer invitations still work.
+- **Workspaces / pages**: New creation is rejected with the same error code. Existing content remains accessible.
+- **Gated features** (e.g., analytics on Free): API returns `403` indicating the required plan.
 
 ## Subscription lifecycle
 
 ```
 Trial (14 days)
     │
-    ├── User upgrades → Active subscription
+    ├── User subscribes → Active subscription
     │
     └── Trial expires → Grace period (7 days)
                             │
-                            ├── User upgrades → Active subscription
+                            ├── User subscribes → Active subscription
                             │
-                            └── Grace expires → Restricted (Community limits)
+                            └── Grace expires → Restricted
 ```
 
-During the grace period, all features remain available but a banner prompts the user to subscribe. After grace expires, the organization reverts to Community Edition limits.
+During the grace period, everything keeps working while the customer is prompted to subscribe. In the **restricted** state, creating new workspaces, pages, or editor invitations is blocked until billing resumes (a **paused** subscription blocks writes only). Existing content remains readable throughout.

@@ -109,7 +109,7 @@ Auth endpoints use the unversioned `/api/auth/` prefix.
 POST /api/auth/register
 ```
 
-Create a new user account. The first user becomes Super Admin.
+Create a new user account. Registration creates the user's own organization (they become its Super Admin) plus a starter workspace. Terms acceptance is required. Rate limited to 5 registrations per hour per IP.
 
 **Request:**
 
@@ -117,25 +117,12 @@ Create a new user account. The first user becomes Super Admin.
 {
   "name": "Jane Smith",
   "email": "jane@example.com",
-  "password": "secure-password-here"
+  "password": "secure-password-here",
+  "terms_accepted": true
 }
 ```
 
-**Response:** `201 Created`
-
-```json
-{
-  "user": {
-    "id": "01HJK...",
-    "name": "Jane Smith",
-    "email": "jane@example.com",
-    "role": "superadmin"
-  },
-  "access_token": "eyJhbG...",
-  "refresh_token": "eyJhbG...",
-  "expires_in": 900
-}
-```
+**Response:** `201 Created` with the user object; sign in via `/api/auth/login` to obtain tokens.
 
 ### Login
 
@@ -377,18 +364,20 @@ DELETE /api/v1/content/{workspace}/{...path}
 ### Move/Rename page
 
 ```
-PUT /api/v1/content/{workspace}/{...path}
+PATCH /api/v1/content/{workspace}/{...path}
 ```
 
-Moving a page is a first-class operation. It preserves the stable `page_id`, updates all wikilinks across the workspace, and creates redirect aliases for the old URL.
+Moving a page is a first-class operation. It preserves the stable `page_id` and updates all wikilinks across the workspace.
 
-Include the `move_to` field in the request body:
+Include the new path in the request body:
 
 ```json
 {
   "move_to": "new/path/for/page"
 }
 ```
+
+(`POST /api/v1/content/{workspace}/move` exists as a compatibility alias.)
 
 ---
 
@@ -474,37 +463,16 @@ Reorder pages within a tree level. Requires write permission.
 GET /api/v1/workspaces/:id/search?q={query}
 ```
 
-Full-text search across workspaces the user has access to.
+Full-text search within one workspace. Requires read access to that workspace; every query is scoped to it at the search-engine level.
 
 **Query parameters:**
 
 | Parameter | Type | Description |
 |---|---|---|
 | `q` | string | Search query (required) |
-| `workspace` | string | Filter by workspace slug |
-| `tag` | string | Filter by tag |
-| `limit` | int | Max results (default: 20) |
+| `limit` | int | Max results (optional) |
 
-**Response:** `200 OK`
-
-```json
-{
-  "results": [
-    {
-      "page_id": "01HJK...",
-      "title": "Git Integration",
-      "path": "guides/git-integration.md",
-      "score": 0.95,
-      "snippet": "...bidirectional <mark>git sync</mark> lets your team..."
-    }
-  ],
-  "total": 5,
-  "query": "git sync",
-  "took_ms": 12
-}
-```
-
-Results are permission-filtered — users only see pages they have access to.
+Results include the matching pages with relevance scores and highlighted snippets.
 
 ---
 
@@ -537,7 +505,14 @@ Manually trigger a git pull + reconciliation. Requires Admin role.
 POST /api/git/webhook/:workspace_id
 ```
 
-A single endpoint that receives push event payloads from GitHub, GitLab, or Bitbucket. The payload format is auto-detected. No authentication header required — payloads are validated using the `GIT_WEBHOOK_SECRET` shared secret (HMAC-SHA256).
+A single endpoint that receives push event payloads from GitHub (`X-Hub-Signature-256`), GitLab (`X-Gitlab-Token`), or Bitbucket (`X-Hub-Signature`). Payloads are validated against the workspace's auto-generated **per-workspace webhook secret** (shown in Workspace Settings → Git). Pushes to branches other than the workspace's configured branch are ignored. Rate limited to 30/min.
+
+### Sync conflicts
+
+```
+GET  /api/v1/workspaces/:id/sync/conflicts/:conflict_id          — Inspect a sync conflict (read access)
+POST /api/v1/workspaces/:id/sync/conflicts/:conflict_id/resolve  — Apply a resolution (edit access; commits and pushes as you)
+```
 
 ---
 
@@ -557,27 +532,19 @@ Check whether AI features are enabled and which provider is configured.
 POST /api/v1/ai/writing-assist
 ```
 
-Rewrite, improve, shorten, or expand selected content.
+Transform text with one of six actions.
 
 **Request:**
 
 ```json
 {
-  "workspace_id": "01HJK...",
-  "operation": "improve",
-  "content": "This is the text to improve."
+  "action": "improve",
+  "content": "This is the text to improve.",
+  "language": "de"
 }
 ```
 
-**Operations:** `rewrite`, `improve`, `shorten`, `expand`
-
-**Response:** `200 OK`
-
-```json
-{
-  "result": "Here is the improved text..."
-}
-```
+**Actions:** `improve`, `simplify`, `expand`, `summarize`, `fix_grammar`, `translate` (only `translate` uses `language`). Unknown actions return a validation error. Returns `503 AI_DISABLED` when no AI provider is configured.
 
 ### Doc chat
 
@@ -591,7 +558,6 @@ Multi-turn conversation about workspace documentation.
 
 ```json
 {
-  "workspace_id": "01HJK...",
   "messages": [
     { "role": "user", "content": "How do I configure git sync?" }
   ]
@@ -600,15 +566,19 @@ Multi-turn conversation about workspace documentation.
 
 ---
 
-## Invitations
+## Invitations & share links
 
 ```
-GET    /api/v1/workspaces/:id/invitations              — List pending invitations (admin)
-POST   /api/v1/workspaces/:id/invitations              — Create invitation (admin)
+GET    /api/v1/workspaces/:id/invitations               — List pending invitations (admin)
+POST   /api/v1/workspaces/:id/invitations               — Create invitation (admin)
 DELETE /api/v1/workspaces/:id/invitations/:invitationId — Revoke invitation (admin)
+GET    /api/v1/workspaces/:id/share-links               — List share links (admin)
+POST   /api/v1/workspaces/:id/share-links               — Create a share link (admin)
+DELETE /api/v1/workspaces/:id/share-links/:linkId       — Revoke a share link (admin)
+POST   /api/v1/share-links/:token/use                   — Join a workspace via share link
 ```
 
-Invitations are email-based with a 7-day TTL. Accepted via `POST /api/auth/invitations/accept`.
+Invitations are email-based and accepted via `POST /api/auth/invitations/accept`. Inviting an Editor or Admin counts against the plan's seat limit (`403 PLAN_LIMIT_REACHED` when full).
 
 ---
 
@@ -625,9 +595,9 @@ API keys use the `dp_live_` prefix and are scoped to the organization.
 
 ---
 
-## Billing
+## Billing (Cloud edition only)
 
-Requires Stripe configuration. Disabled when `STRIPE_SECRET_KEY` is not set.
+These routes exist only in the Cloud edition that powers app.valoryx.dev — the Community binary contains no billing code and returns `404` for all of them.
 
 ```
 POST /api/v1/billing/checkout       — Create Stripe Checkout session
@@ -649,7 +619,7 @@ Receives Stripe webhook events (signature-verified). Handles subscription lifecy
 
 ## Analytics
 
-GDPR-compliant analytics with cookie consent. Feature-gated to paid plans.
+GDPR-compliant analytics with cookie consent. Reporting requires a plan with the analytics feature (included in Community Edition and Cloud Team/Business; not in Cloud Free — returns `403 PLAN_LIMIT`).
 
 ```
 POST /api/analytics/consent                          — Record GDPR consent
@@ -696,10 +666,62 @@ Scan a workspace for documentation quality issues. Returns readability scores, d
 ## Static export
 
 ```
-GET /api/v1/workspaces/:id/export
+POST /api/v1/workspaces/:id/export   — Start the export
+GET  /api/v1/workspaces/:id/export   — Check status / download
 ```
 
 Export all published pages as a static HTML ZIP file.
+
+---
+
+## Outbound webhooks (not yet active)
+
+Workspace admins can manage outbound webhook definitions:
+
+```
+GET    /api/v1/workspaces/:id/webhooks                 — List webhooks (admin)
+POST   /api/v1/workspaces/:id/webhooks                 — Create webhook (admin)
+GET    /api/v1/workspaces/:id/webhooks/:wid            — Get webhook (admin)
+PUT    /api/v1/workspaces/:id/webhooks/:wid            — Update webhook (admin)
+DELETE /api/v1/workspaces/:id/webhooks/:wid            — Delete webhook (admin)
+GET    /api/v1/workspaces/:id/webhooks/:wid/deliveries — Delivery log (admin)
+```
+
+> ⚠️ **Outbound webhook delivery is not yet active.** Webhook definitions can be created and validated (URLs are SSRF-checked), but events are **not currently delivered** — the deliveries list will remain empty. Use the WebSocket event stream or the activity feed for change notifications until delivery ships.
+
+---
+
+## Comments
+
+```
+GET    /api/v1/workspaces/:id/comments?page={path}  — List comments (filter by page)
+POST   /api/v1/workspaces/:id/comments              — Create a comment (commenter+)
+PUT    /api/comments/:id                            — Edit a comment
+DELETE /api/comments/:id                            — Delete a comment
+POST   /api/comments/:id/resolve                    — Resolve a thread
+POST   /api/comments/:id/unresolve                  — Reopen a thread
+```
+
+---
+
+## Activity feed
+
+```
+GET /api/v1/workspaces/:id/activity?limit=50&action=page_created  — Workspace activity
+GET /api/v1/workspaces/:id/page-activity?page={path}              — Per-page history
+```
+
+---
+
+## GDPR / data portability (Cloud edition)
+
+```
+GET    /api/v1/users/me/export      — Export your personal data
+DELETE /api/v1/users/me             — Delete your account (password-gated)
+GET    /api/v1/orgs/:handle/export  — Export org data (org super admin)
+```
+
+Export endpoints are rate-limited to once per 24 hours.
 
 ---
 
@@ -733,69 +755,6 @@ PATCH /api/v1/users/me/onboarding  — Update onboarding state
 
 ---
 
-## Super admin panel
-
-These endpoints require the Super Admin role. All prefixed with `/api/v1/admin/`.
-
-### Organization management
-
-```
-GET  /api/v1/admin/orgs                          — List all organizations
-GET  /api/v1/admin/orgs/:id                      — Get organization details
-PUT  /api/v1/admin/orgs/:id/plan                 — Change organization plan
-POST /api/v1/admin/orgs/:id/subscription/override — Override subscription
-PUT  /api/v1/admin/orgs/:id/rate-limits          — Override rate limits
-POST /api/v1/admin/orgs/:id/export               — Export org data (GDPR)
-```
-
-### User management
-
-```
-GET    /api/v1/admin/users              — List all users
-GET    /api/v1/admin/users/:id          — Get user details
-POST   /api/v1/admin/users/:id/impersonate — Impersonate user
-POST   /api/v1/admin/users/:id/export   — Export user data (GDPR)
-DELETE /api/v1/admin/users/:id          — Delete user (GDPR right to erasure)
-```
-
-### Audit log
-
-```
-GET /api/v1/admin/audit-log    — Query audit log (filterable by user, action, resource, date range)
-```
-
-### Billing overview
-
-```
-GET /api/v1/admin/billing/overview       — Platform-wide billing summary
-GET /api/v1/admin/billing/subscriptions  — All active subscriptions
-GET /api/v1/admin/billing/events         — Webhook event log
-```
-
-### Domain management
-
-```
-GET    /api/v1/admin/domains              — List all custom domains
-POST   /api/v1/admin/domains/:id/verify   — Verify domain DNS
-POST   /api/v1/admin/domains/:id/provision — Provision TLS certificate
-DELETE /api/v1/admin/domains/:id          — Delete domain
-```
-
-### System health
-
-```
-GET /api/v1/admin/system/health    — System health metrics (disk, memory, uptime, DB stats)
-```
-
-### Platform analytics
-
-```
-GET /api/v1/admin/analytics/overview  — Platform-wide analytics overview
-GET /api/v1/admin/analytics/growth    — Platform growth metrics
-```
-
----
-
 ## MCP server
 
 DocPlatform includes a built-in MCP (Model Context Protocol) server exposing **26 tools** for AI agent integration. Two transports are available:
@@ -808,7 +767,7 @@ docplatform mcp --workspace my-docs --api-key dp_live_abc123
 docplatform mcp-server --addr :8081
 ```
 
-### MCP tools (24)
+### MCP tools (26)
 
 | Tool | Category | Description |
 |---|---|---|
@@ -829,6 +788,7 @@ docplatform mcp-server --addr :8081
 | `docplatform_update_theme` | Settings | Update theme (default, dark, forest, rose, amber, minimal, corporate) |
 | `docplatform_create_workspace` | Management | Create a new workspace |
 | `docplatform_get_workspace` | Management | Workspace details, role, git sync, publish settings |
+| `docplatform_publish_workspace` | Management | Enable/disable the workspace's published site |
 | `docplatform_list_versions` | Versioning | List documentation versions |
 | `docplatform_create_version` | Versioning | Create a named version (e.g., v2.0) |
 | `docplatform_export` | Export | Export workspace as static site |
@@ -836,6 +796,7 @@ docplatform mcp-server --addr :8081
 | `docplatform_get_activity` | Activity | Recent workspace activity feed |
 | `docplatform_list_comments` | Comments | Threaded comments on a page |
 | `docplatform_add_comment` | Comments | Add a comment with @mentions and threading |
+| `docplatform_resolve_sync_conflict` | Sync | Resolve a git-sync conflict (conditional — requires server-URL configuration) |
 
 All tools respect workspace permissions and require a valid API key. See the [MCP Server guide](../guides/mcp.md) for complete setup and tool reference.
 
@@ -847,7 +808,7 @@ All tools respect workspace permissions and require a valid API key. See the [MC
 GET /metrics
 ```
 
-Available when `FF_METRICS=true`. Requires Super Admin authentication. Exposes HTTP latency histograms, request counts, auth event counters, and more.
+Available on the main port when `FF_METRICS=true` (platform-owner authentication required). Alternatively, set `METRICS_PORT` to expose an unauthenticated `/metrics` listener bound to `127.0.0.1:{port}` for local scraping.
 
 ---
 
@@ -856,45 +817,28 @@ Available when `FF_METRICS=true`. Requires Super Admin authentication. Exposes H
 These endpoints use the unversioned `/api/` prefix and do not require authentication.
 
 ```
-GET /api/health    → 200 OK { "status": "ok", "db": "ok", "git": "ok" }
-GET /api/ready     → 200 OK { "status": "ready" }
+GET /api/health    → 200 OK { "status": "ok", "version": "v0.10.0" }
+GET /api/ready     → 200 OK { "status": "ready", "checks": { ... } }
 ```
 
-The `/api/ready` endpoint returns `503 Service Unavailable` while the initial reconciliation is in progress (startup).
+The `/api/ready` endpoint reports readiness of the database, git engine, and job outbox.
 
 ---
 
 ## Error format
 
-All error responses follow [RFC 7807](https://datatracker.ietf.org/doc/html/rfc7807) (Problem Details for HTTP APIs):
+Error responses share a single JSON shape:
 
 ```json
 {
-  "type": "https://docplatform.io/errors/conflict-detected",
-  "title": "Conflict Detected",
-  "status": 409,
-  "detail": "Content hash mismatch. The page was modified by another user.",
-  "current_hash": "sha256:def456...",
-  "your_hash": "sha256:abc123...",
-  "modified_by": "jane@example.com",
-  "modified_at": "2025-01-16T14:30:00Z"
+  "error": "VALIDATION_ERROR",
+  "message": "title is required",
+  "details": { "field": "title" },
+  "request_id": "01HJK..."
 }
 ```
 
-Validation errors include a `fields` array:
-
-```json
-{
-  "type": "https://docplatform.io/errors/validation-error",
-  "title": "Validation Error",
-  "status": 400,
-  "detail": "One or more fields are invalid.",
-  "fields": [
-    { "field": "content", "error": "required" },
-    { "field": "lastKnownHash", "error": "must be 64 hex characters" }
-  ]
-}
-```
+`details` is optional; `request_id` correlates with the server logs.
 
 ### Common error codes
 
@@ -903,65 +847,32 @@ Validation errors include a `fields` array:
 | `400` | `VALIDATION_ERROR` | Invalid request body or parameters |
 | `401` | `UNAUTHORIZED` | Missing or invalid authentication |
 | `403` | `FORBIDDEN` | Insufficient permissions |
+| `403` | `PLAN_LIMIT_REACHED` | Plan limit hit (Cloud edition) |
 | `404` | `NOT_FOUND` | Resource not found (or no read access) |
-| `409` | `CONFLICT_DETECTED` | Concurrent modification detected |
-| `422` | `UNPROCESSABLE` | Valid syntax but semantic error (e.g., circular wikilink) |
+| `409` | `CONFLICT` | Concurrent modification detected |
 | `429` | `RATE_LIMITED` | Too many requests |
 | `500` | `INTERNAL_ERROR` | Server error (check logs) |
-| `503` | `SERVICE_UNAVAILABLE` | Reconciliation in progress |
 
 ## Pagination
 
-Content listing endpoints use **cursor-based pagination** with ULIDs for stable results even when content is being added or deleted.
+List endpoints accept `limit` and `cursor` query parameters and return a `next_cursor` when more results are available:
 
-**Query parameters:**
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `cursor` | string | — | ULID of the last item from the previous page. Omit for the first page. |
-| `limit` | int | 20 | Number of results per page (max: 100) |
-
-**Response metadata:**
-
-```json
-{
-  "data": [...],
-  "next_cursor": "01HJK...",
-  "has_more": true
-}
+```
+GET /api/v1/workspaces/:id/activity?limit=50&cursor={cursor}
 ```
 
-Pass `next_cursor` as the `cursor` parameter in the next request. When `has_more` is `false`, you've reached the end.
+Pass the returned `next_cursor` as `cursor` in the next request.
 
 ---
 
-## Asset uploads
+## Uploads
 
 ```
-POST /api/v1/content/{workspace}/assets
+POST /api/v1/content/{workspace}/uploads             — Upload a file (multipart/form-data, field "file")
+GET  /api/v1/content/{workspace}/uploads/{filename}  — Serve an uploaded file
 ```
 
-Upload images and files to a workspace. Assets are stored in the workspace's `assets/` directory and committed to git if sync is enabled.
-
-**Request:** `multipart/form-data` with a `file` field.
-
-**Limits:**
-
-| Constraint | Value |
-|---|---|
-| Max file size | 10 MB |
-| Accepted types | PNG, JPG, GIF, SVG, WebP, PDF |
-
-**Response:** `201 Created`
-
-```json
-{
-  "path": "assets/screenshot-2025-01-15.png",
-  "url": "/api/v1/content/{workspace}/assets/screenshot-2025-01-15.png",
-  "size": 245760,
-  "content_type": "image/png"
-}
-```
+Uploads require edit permission. Files referenced by published pages on a `public`-visibility site are publicly readable. Upload size is bounded by the global 10 MB request body limit, with upload-bomb protection on archives.
 
 ---
 
@@ -1032,7 +943,7 @@ WebSocket connections use an HttpOnly cookie mechanism to avoid exposing tokens 
 
 **Response:** `200 OK`
 
-Sets a `dp_ws_token` HttpOnly cookie (valid for **30 seconds**, single-use). No JSON body is returned.
+Sets a `dp_ws_token` HttpOnly, SameSite=Strict cookie (valid for 1 hour).
 
 Connect via:
 
@@ -1040,7 +951,7 @@ Connect via:
 ws://localhost:3000/ws
 ```
 
-The browser sends the `dp_ws_token` cookie automatically. The server validates it, establishes the WebSocket, and clears the cookie.
+The browser sends the `dp_ws_token` cookie automatically; the server validates it and establishes the WebSocket.
 
 ### Server events
 
@@ -1056,27 +967,18 @@ The browser sends the `dp_ws_token` cookie automatically. The server validates i
 | `page-moved` | `{workspace_id, old_path, new_path, actor}` | A page is moved/renamed |
 | `bulk-sync` | `{workspace_id, changed_count, paths[]}` | Multiple files synced in one pull |
 
-### Client messages
-
-```json
-{"type": "subscribe", "workspace_id": "01HJK..."}
-{"type": "unsubscribe", "workspace_id": "01HJK..."}
-```
-
 ---
 
 ## Security headers
 
-DocPlatform sets the following headers on all responses:
+DocPlatform sets the following headers:
 
 | Header | Value |
 |---|---|
 | `X-Content-Type-Options` | `nosniff` |
-| `X-Frame-Options` | `DENY` |
-| `Content-Security-Policy` | `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'` |
-| `X-Request-ID` | ULID (unique per request, included in error responses and logs) |
+| `Content-Security-Policy` | Set per surface (API, published sites, SPA) with nonce-based policies |
 
-Published docs additionally set:
+`HSTS` and `X-Frame-Options` are left to the reverse proxy. Published docs additionally set:
 
 | Header | Value |
 |---|---|
@@ -1087,21 +989,26 @@ Published docs additionally set:
 
 ## Rate limiting
 
-Rate limits are tier-based and scale with your plan. Token bucket algorithm, per-org for authenticated requests, per-IP for unauthenticated.
+HTTP rate limits are per category — per-org for authenticated requests, per-IP for unauthenticated:
 
-| Endpoint category | Community / Free | Team | Business | Enterprise |
-|---|---|---|---|---|
-| Content read | 100/min | 300/min | 600/min | 1,200/min |
-| Content write | 20/min | 60/min | 120/min | 300/min |
-| Search | 30/min | 100/min | 200/min | 500/min |
-| Auth (login, register, reset) | 5/min per IP | 5/min | 5/min | 5/min |
-| Git webhooks | 10/min | 30/min | 60/min | 120/min |
-| Published docs (public) | 1,000/min per IP | 3,000/min | 6,000/min | Unlimited |
+| Endpoint category | Limit |
+|---|---|
+| Content read | 300/min |
+| Content write | 60/min |
+| Search | 60/min |
+| Auth endpoints | 20/min |
+| Registration | 5/hour per IP |
+| Password reset | 5 per 15 min |
+| Git webhooks | 30/min |
+| Published docs (public) | 600/min |
+| Data export (GDPR) | 1 per 24 h |
+
+(The MCP transport has its own per-plan limits — see the [MCP guide](../guides/mcp.md).)
 
 Rate limit responses include these headers:
 
 ```
-X-RateLimit-Limit: 100
+X-RateLimit-Limit: 300
 X-RateLimit-Remaining: 0
 X-RateLimit-Reset: 1234567890
 Retry-After: 30

@@ -23,10 +23,11 @@ Analytics data is collected in a separate `analytics.db` SQLite database (not in
 
 ### What is NOT tracked
 
-- IP addresses (never stored)
-- User agents are not stored
+- Raw IP addresses are never stored (consent records keep only a salted SHA-256 hash — set `DOCPLATFORM_IP_SALT` in production)
 - Cookies or cross-session identifiers (without consent)
 - Personally identifiable information
+
+Visitors with **Do-Not-Track** enabled are never tracked, regardless of consent.
 
 ## GDPR compliance
 
@@ -62,7 +63,7 @@ Returns the most-viewed pages in the workspace over the specified time period.
     { "path": "guides/git-integration.md", "views": 892 },
     { "path": "reference/api.md", "views": 567 }
   ],
-  "period_days": 30
+  "days": 30
 }
 ```
 
@@ -81,7 +82,7 @@ Returns the most popular search queries.
     { "query": "authentication", "count": 32 },
     { "query": "docker deploy", "count": 18 }
   ],
-  "period_days": 30
+  "days": 30
 }
 ```
 
@@ -93,18 +94,17 @@ GET /api/v1/workspaces/:id/analytics/overview
 
 Returns a summary dashboard with total views, total searches, and unique pages viewed.
 
-## Platform analytics (Super Admin)
-
-Super admins can view platform-wide analytics across all organizations:
-
-```
-GET /api/admin/analytics/overview  — Total platform traffic
-GET /api/admin/analytics/growth    — Growth metrics over time
-```
-
 ## Feature gating
 
-Analytics is available on paid plans (Team, Business). Community Edition users see the analytics UI but data collection is disabled.
+Analytics **reporting** is gated by plan feature, not edition:
+
+| Edition / plan | Analytics |
+|---|---|
+| **Community Edition** (self-hosted) | ✔ Included, unlimited |
+| **Cloud Free** | ✘ Not included |
+| **Cloud Team / Business** | ✔ Included |
+
+Pageview **collection** itself is consent-based and not plan-gated — if an org later upgrades, history recorded under consent is already there. On plans without analytics, the reporting endpoints return `403 PLAN_LIMIT`.
 
 ## Configuration
 

@@ -31,64 +31,43 @@ docker run -d --name docplatform -p 3000:3000 -v docplatform-data:/data ghcr.io/
 
 If using Docker, skip to [Step 3](#step-3-register-your-account) — the container auto-initializes.
 
-## Step 2: Initialize a workspace
-
-```bash
-docplatform init --workspace-name "My Docs" --slug my-docs
-```
-
-This creates:
-
-```
-.docplatform/
-├── data.db              # SQLite database
-├── jwt-private.pem      # Auto-generated RS256 signing key
-└── workspaces/
-    └── {workspace-id}/
-        ├── docs/        # Your documentation lives here
-        └── .docplatform/
-            └── config.yaml
-```
-
-### With git (optional)
-
-Connect to an existing git repository during initialization:
-
-```bash
-docplatform init \
-  --workspace-name "My Docs" \
-  --slug my-docs \
-  --git-url git@github.com:your-org/docs.git \
-  --branch main
-```
-
-DocPlatform clones the repository and begins syncing. Any existing `.md` files are automatically indexed.
-
-## Step 3: Start the server
+## Step 2: Start the server
 
 ```bash
 docplatform serve
 ```
 
 ```
-INFO  Server starting            addr=:3000 version=v0.5.2
+INFO  Server starting            addr=:3000 version=v0.10.0
 INFO  Database initialized       path=.docplatform/data.db
 INFO  Search index ready         documents=0
-INFO  Workspace loaded           name="My Docs" slug=my-docs
 INFO  Listening on               http://localhost:3000
+```
+
+On first run, DocPlatform creates its data directory:
+
+```
+.docplatform/
+├── data.db              # SQLite database
+├── analytics.db         # Analytics database (separate file)
+├── jwt-private.pem      # Auto-generated RS256 signing key
+├── search-index/        # Embedded full-text search index
+└── workspaces/          # One directory per workspace — your .md files live here
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Step 4: Register your account
-
-The first user to register automatically becomes the **Super Admin** with full platform access.
+## Step 3: Register your account
 
 1. Click **Create Account**
 2. Enter your name, email, and password
 3. You're signed in and ready to write
 
-> **Security note:** The first-user-becomes-admin flow only applies when no users exist. After the first registration, new accounts get the default role configured for the workspace.
+Registering creates your own **organization** — you are its **Super Admin** — along with a starter workspace pre-loaded with example content, so you can begin writing immediately.
+
+## Step 4: Connect git (optional)
+
+To back your workspace with a git repository, open **Workspace Settings → Git** in the web UI, connect with a GitHub personal access token, and pick the repository and branch. Existing `.md` files are pulled in and indexed automatically. See the [Git Integration guide](../guides/git-integration.md) for details.
 
 ## Step 5: Create your first page
 
@@ -97,7 +76,7 @@ The first user to register automatically becomes the **Super Admin** with full p
 3. Start writing in the rich editor
 4. Changes autosave every few seconds
 
-The page is stored as a Markdown file in your workspace's `docs/` directory. If you connected git, it auto-commits and pushes.
+The page is stored as a Markdown file in your workspace's directory under `.docplatform/workspaces/`. If you connected git, it auto-commits and pushes.
 
 ## Step 6: Try it out
 
@@ -108,7 +87,7 @@ Here are a few things to try right away:
 | **Switch to raw Markdown** | Click the `</>` toggle in the editor toolbar |
 | **Search** | Press `Cmd+K` (or `Ctrl+K`) to open instant search |
 | **Create a sub-page** | Click the `+` next to an existing page in the sidebar |
-| **Preview published site** | Navigate to `http://localhost:3000/p/my-docs/` |
+| **Publish your docs** | Enable publishing in **Workspace Settings → Publishing**, then visit `http://localhost:3000/p/{your-slug}/` |
 | **Run diagnostics** | Run `docplatform doctor` in your terminal |
 
 ## What's next

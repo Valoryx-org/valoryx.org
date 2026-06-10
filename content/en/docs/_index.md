@@ -24,7 +24,7 @@ Documentation platforms force you to choose: a polished web editor with vendor l
 | **Full-text search** | Embedded search engine with instant results. No external service to configure. |
 | **AI writing assist** | Rewrite, improve, shorten, or expand content with Claude or OpenAI. Chat with your docs for context-aware answers. |
 | **Built-in analytics** | GDPR-compliant pageview and search analytics with cookie consent — no third-party tracking required. |
-| **Stripe billing** | Three tiers (Community, Team, Business) with feature gating, free trials, and self-service portal. |
+| **Cloud edition available** | Prefer hosted? [app.valoryx.dev](https://app.valoryx.dev) runs DocPlatform Cloud with Free, Team ($29/mo), and Business ($79/mo) tiers. Community Edition stays self-hosted, free, and unlimited. |
 
 ## Who it's for
 
@@ -114,25 +114,24 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 
 - **Writing assist** — Rewrite, improve, shorten, or expand selected content using Claude or OpenAI
 - **Doc chat** — Multi-turn conversation about your workspace documentation
-- **MCP server (26 tools)** — Built-in Model Context Protocol server. Connect Claude Code, Claude Desktop, or Cursor to read, write, search, and maintain your docs autonomously via stdio
+- **MCP server (26 tools)** — Built-in Model Context Protocol server. Connect Claude Code, Claude Desktop, or Cursor to read, write, search, and maintain your docs autonomously via stdio or HTTP
 - **Context Graph API** — Structured knowledge graph for AI agents to navigate page relationships, tags, and wikilinks
 
 ### Analytics & billing
 
 - **Pageview analytics** — Track page views and top pages with GDPR-compliant cookie consent
 - **Search analytics** — Monitor search queries, top searches, and search frequency
-- **Stripe billing** — Community (free, unlimited), Free (1 workspace, 3 editors), Team ($29/mo), Business ($79/mo) with annual pricing (2 months free)
-- **Feature gating** — Analytics, custom domains, and advanced AI locked to paid plans
-- **14-day free trial** — Configurable trial period for paid plans
+- **Cloud plans** *(Cloud edition only)* — Free (1 workspace, 3 editors, 50 pages/workspace), Team ($29/mo), Business ($79/mo) with annual pricing (2 months free). Community Edition is self-hosted and unlimited — no billing code at all
+- **Plan limits** *(Cloud edition only)* — workspace, editor, and page caps enforced per plan; analytics reporting requires a plan with analytics
+- **14-day free trial** *(Cloud edition only)* — Configurable trial period for paid plans
 
 ### Operations
 
-- **Health diagnostics** — 10-point `doctor` command checks FS/DB consistency, search health, broken links
+- **Health diagnostics** — built-in `doctor` command runs 10 checks: FS/DB consistency, broken wikilinks, sync state, backups, and more
 - **Daily backups** — Automated SQLite backups with configurable retention
 - **Graceful shutdown** — Clean signal handling for zero-downtime deployments
 - **Structured logging** — JSON logs with request IDs for observability
 - **Durable job queue** — DB-backed async processing with retries for search indexing and maintenance
-- **Super admin dashboard** — Org/user management, impersonation, audit log, system health, GDPR tools
 - **Prometheus metrics** — Optional `/metrics` endpoint for monitoring integration
 - **Static site export** — Export and preview published docs locally
 

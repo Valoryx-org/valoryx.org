@@ -87,9 +87,9 @@ docplatform serve
 
 ### Git sync shows "no changes" but files were updated
 
-**Cause:** Changes were made to files outside the `docs/` directory, which DocPlatform doesn't index.
+**Cause:** The updated files are not Markdown (only `.md` files are indexed), or the push went to a branch other than the workspace's configured branch.
 
-**Solution:** Ensure your Markdown files are in the workspace's `docs/` directory. Files in other directories are preserved in git but not tracked by DocPlatform.
+**Solution:** Verify the changes are `.md` files on the configured branch. Non-Markdown files are preserved in git but not tracked by DocPlatform.
 
 ### Conflict: HTTP 409 on save
 
@@ -149,21 +149,11 @@ curl -X POST http://localhost:3000/api/auth/refresh \
 3. Ensure the `OIDC_*_CLIENT_ID` and `OIDC_*_CLIENT_SECRET` environment variables are set correctly
 4. Restart the server after changing OIDC environment variables
 
-### First user is not Super Admin
+### A teammate registered but can't see our workspace
 
-**Cause:** The database already contained user records from a previous installation.
+**Cause:** Registering creates a **new organization** for that user — they are Super Admin of their own org, not a member of yours.
 
-**Solution:**
-
-```bash
-# WARNING: This deletes all data
-docplatform serve  # stop first
-rm .docplatform/data.db
-docplatform serve
-# Register your admin account
-```
-
-Only do this on a fresh installation. For existing installations, use the database to update user roles directly (advanced).
+**Solution:** Invite them to your workspace (**Workspace Settings → Members → Invite**). They'll get access with the role you choose; their own organization is unaffected.
 
 ## Search
 
@@ -174,11 +164,11 @@ Only do this on a fresh installation. For existing installations, use the databa
 **Solution:**
 
 ```bash
-# Check search health
+# Check overall instance health
 docplatform doctor
 
-# If the index is out of sync, rebuild
-docplatform rebuild
+# If the index is out of sync, rebuild it
+docplatform rebuild --workspace {workspace-id} --search
 ```
 
 ### Search results are stale (don't reflect recent edits)
@@ -188,7 +178,7 @@ docplatform rebuild
 **Solution:** Wait a moment and retry. If the issue persists:
 
 1. Check server logs for indexing errors
-2. Run `docplatform rebuild` to force a full re-index
+2. Run `docplatform rebuild --workspace {workspace-id} --search` to force a full re-index
 
 ### Search is slow
 
@@ -197,8 +187,7 @@ docplatform rebuild
 **Solution:**
 
 - Use more specific search terms
-- Use tag filters to narrow the scope
-- Future releases will support Meilisearch for high-performance search
+- Future releases may offer Meilisearch for high-performance search
 
 ## Data recovery
 
@@ -207,12 +196,12 @@ docplatform rebuild
 **Option 1: Git history** (if git sync is enabled)
 
 ```bash
-cd .docplatform/workspaces/{id}/docs/
+cd .docplatform/workspaces/{id}/
 git log --all -- path/to/deleted-page.md
 git checkout <commit-hash> -- path/to/deleted-page.md
 ```
 
-Then run `docplatform rebuild` to re-index.
+Then run `docplatform rebuild --workspace {id} --search` to re-index.
 
 **Option 2: Database backup**
 
@@ -238,12 +227,10 @@ docplatform serve
    ```bash
    cp .docplatform/backups/{latest}.db .docplatform/data.db
    ```
-4. If no backup is available, rebuild from the filesystem:
+4. If no backup is available, start the server (a fresh database is created and migrated), then rebuild each workspace from its files:
    ```bash
-   rm .docplatform/data.db
-   docplatform rebuild
+   docplatform rebuild --workspace {workspace-id} --search
    ```
-5. Start the server
 
 The filesystem (`.md` files) is the source of truth. Even if the database is lost, `rebuild` recreates it from your files.
 
@@ -257,49 +244,31 @@ The filesystem (`.md` files) is the source of truth. Even if the database is los
 
 ## Frontmatter errors
 
-### Page becomes inaccessible after frontmatter edit
+### Page misbehaves after a frontmatter edit
 
-**Cause:** Invalid YAML in the frontmatter block. DocPlatform uses **strict mode** by default — if frontmatter parsing fails, the page is restricted to Admin access only to prevent a YAML typo from accidentally making a private page public.
-
-**Symptoms:**
-
-- Page disappears from search results
-- Page excluded from published docs
-- Non-admin users get 403 Forbidden
-- Admin sees a warning banner on the page
+**Cause:** Invalid YAML in the frontmatter block (common issues: missing quotes around values with colons, incorrect indentation, unclosed brackets).
 
 **Solution:**
 
-1. Sign in as an Admin or Super Admin
-2. Open the affected page in the web editor
-3. Switch to raw Markdown mode (`</>` toggle)
-4. Fix the YAML frontmatter (common issues: missing quotes around values with colons, incorrect indentation, unclosed brackets)
-5. Save — the page is re-indexed and access restored
+1. Open the affected page in the web editor
+2. Switch to raw Markdown mode (`</>` toggle)
+3. Fix the YAML and save
 
 **If you can't access the web editor**, fix the file directly on disk:
 
 ```bash
 # Edit the Markdown file
-nano .docplatform/workspaces/{id}/docs/{path-to-page}.md
+nano .docplatform/workspaces/{id}/{path-to-page}.md
 
 # Rebuild to re-index
-docplatform rebuild
+docplatform rebuild --workspace {id} --search
 ```
 
-### Understanding frontmatter error modes
-
-| Mode | Behavior on invalid YAML | When to use |
-|---|---|---|
-| **Strict** (default) | Page restricted to Admin only, excluded from search and published docs | Production — prevents accidental exposure |
-| **Lenient** | Keep last-known-good frontmatter from database, show warning | Development — less disruption during editing |
-
-Strict mode ensures a YAML typo never accidentally makes a restricted page public. This is a deliberate safety design.
+A malformed `.docplatform/publish.yaml` overlay never knocks pages offline — DocPlatform logs the problem and falls back to each page's frontmatter `publish:` flag.
 
 ## Disk space
 
-### "Low disk space" warning from doctor
-
-**Cause:** DocPlatform warns when free disk space drops below 1 GB.
+### Running low on disk space
 
 **Impact:** SQLite requires free disk space for WAL (write-ahead log) operations. If the disk fills completely, writes fail and data may be corrupted.
 
@@ -320,7 +289,7 @@ If memory usage exceeds 200 MB:
 
 1. Check the number of active WebSocket connections
 2. Check workspace count and total page count
-3. Large git repositories (>5,000 files) use more memory — the hybrid engine auto-switches to native git CLI when go-git exceeds 512 MB RSS
+3. Large git repositories use more memory — the hybrid engine auto-switches to the native git CLI past file-count and memory thresholds
 
 ### Slow page renders
 
@@ -338,6 +307,6 @@ If you can't resolve an issue:
 
 1. Run `docplatform doctor --bundle` to generate a diagnostic bundle
 2. Check the server logs for error messages
-3. Open an issue on GitHub with the diagnostic bundle and relevant log entries
+3. Open an issue on the [Valoryx community tracker](https://github.com/Valoryx-org/community/issues) with the diagnostic bundle and relevant log entries
 
 The diagnostic bundle **does not** contain your content, passwords, or API tokens — only structural metadata and configuration (with secrets redacted).

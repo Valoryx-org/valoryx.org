@@ -85,8 +85,8 @@ Each time a refresh token is used, a new refresh token is issued and the old one
 | Variable | Default | Description |
 |---|---|---|
 | `JWT_KEY_PATH` | `{DATA_DIR}/jwt-private.pem` | Path to the RS256 private key |
-| `JWT_ACCESS_TTL` | `900` | Access token lifetime in seconds (default: 15 minutes) |
-| `JWT_REFRESH_TTL` | `604800` | Refresh token lifetime in seconds (default: 7 days) |
+
+Token lifetimes are fixed at 15 minutes (access) and 7 days (refresh) and are not configurable.
 
 ### Key management
 
@@ -125,8 +125,8 @@ Restart the server. A **Sign in with Google** button appears on the login page.
 
 When a user signs in via Google for the first time:
 
-- A DocPlatform account is created with their Google email
-- They're assigned the default role (`permissions.default_role`) in any workspace they're invited to
+- A DocPlatform account is created with their Google email, along with their own organization (same as local registration)
+- Workspace access comes from invitations — the inviter picks the role
 - No password is set (they can add one later from their profile)
 
 ## GitHub OIDC sign-in (optional)
@@ -151,7 +151,7 @@ Restart the server. A **Sign in with GitHub** button appears on the login page.
 
 ### User provisioning
 
-Same as Google — a DocPlatform account is created using the GitHub primary email. If the GitHub account has no public email, the user is prompted to enter one.
+Same as Google — a DocPlatform account is created using the GitHub primary email, which DocPlatform fetches via the `user:email` OAuth scope (it works even when the email is not public on the GitHub profile).
 
 ## WebAuthn / Passkeys (optional)
 
@@ -213,7 +213,21 @@ For programmatic access (CI/CD pipelines, MCP integrations, scripts), use API ke
 | Delete key | `DELETE /api/v1/api-keys/:id` |
 | Rotate key | `POST /api/v1/api-keys/:id/rotate` |
 
-Keys are scoped to the organization. Set `API_KEY_PEPPER` (or `DOCPLATFORM_API_KEY_PEPPER`) for HMAC hashing security.
+### Scopes
+
+Each key carries a set of scopes checked on every request:
+
+| Scope | Grants |
+|---|---|
+| `read` | GET/HEAD/OPTIONS requests |
+| `write` | POST/PUT/PATCH (implies `read`) |
+| `delete` | DELETE (implies `read`) |
+| `admin` | All methods |
+| `admin:read` | Read-only platform-owner access |
+
+New keys default to `["read", "write", "delete"]`. An optional `expires_at` (Unix seconds) can be set at creation. API-key requests must **also** pass the caller's workspace role check — a scope never grants more than the underlying role allows.
+
+Set `API_KEY_PEPPER` (or `DOCPLATFORM_API_KEY_PEPPER`) for HMAC hashing security.
 
 ## Session management
 
@@ -226,20 +240,23 @@ DocPlatform tracks active sessions per user:
 | **Created** | When the session was established |
 | **Last active** | Most recent API request |
 
-Users can view and revoke sessions from their profile page. Admins can view all sessions from the admin panel.
+Users can view their active sessions from their profile page (`GET /api/auth/sessions`).
 
 ### Revoking sessions
 
-- **User-initiated** — Profile → Sessions → Revoke
-- **Admin-initiated** — Admin → Users → select user → Revoke All Sessions
-- **Key rotation** — Deleting the JWT key invalidates all sessions globally
+- **Logout** — ends the current session immediately (the session record is deleted, so even unexpired access tokens stop working)
+- **Password reset** — all of the user's sessions are revoked automatically
+- **Refresh-token replay** — if a rotated refresh token is ever reused, all of that user's sessions are revoked as a defensive measure
+- **Key rotation** — deleting the JWT key invalidates all sessions globally
 
 ## Password policy
 
 | Constraint | Value |
 |---|---|
 | Minimum length | 8 characters |
+| Maximum length | 1024 characters |
 | Hashing | argon2id (64 MB memory, 3 iterations, parallelism 2) |
+| Account lockout | 5 failed login attempts → 15-minute lockout |
 
 Passwords are validated on registration and password reset. DocPlatform does not enforce character-class requirements (uppercase, special characters) — length is the primary security measure per current NIST guidelines.
 
@@ -250,9 +267,9 @@ WebSocket connections use an HttpOnly cookie mechanism to avoid exposing tokens 
 **Flow:**
 
 1. Client calls `POST /api/auth/ws-token` with a valid JWT
-2. Server sets a `dp_ws_token` HttpOnly cookie (valid for **30 seconds**, single-use)
+2. Server sets a `dp_ws_token` HttpOnly, SameSite=Strict cookie (valid for 1 hour)
 3. Client connects to `ws://host/ws` — the browser sends the cookie automatically
-4. Server validates the cookie, establishes the WebSocket, and clears the cookie
+4. Server validates the cookie and establishes the WebSocket
 
 This is transparent to users — the web editor handles token acquisition automatically.
 

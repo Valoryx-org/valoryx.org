@@ -19,16 +19,16 @@ AI_API_KEY=sk-ant-...     # your API key
 AI_MODEL=                 # optional — uses provider default if empty
 ```
 
-Restart the server. AI features appear in the editor toolbar and are accessible via the API.
+Restart the server. AI features become available through the REST API and the MCP server's `docplatform_writing_assist` tool.
 
 ### Supported providers
 
-| Provider | Variable | Default model |
+| Provider | Variable | Model |
 |---|---|---|
-| **Anthropic** (Claude) | `AI_PROVIDER=anthropic` | Claude Sonnet 4.5 (claude-sonnet-4-5-20250514) |
-| **OpenAI** | `AI_PROVIDER=openai` | GPT-4o |
+| **Anthropic** (Claude) | `AI_PROVIDER=anthropic` (default) | Provider default, or set `AI_MODEL` |
+| **OpenAI** | `AI_PROVIDER=openai` | Provider default, or set `AI_MODEL` |
 
-Override the model with `AI_MODEL` (e.g., `claude-opus-4-6`, `gpt-4-turbo`).
+Override the model with `AI_MODEL` (e.g., `claude-sonnet-4-6`, `gpt-4o`).
 
 ### Check AI status
 
@@ -40,7 +40,7 @@ Returns whether AI is enabled and which provider is configured.
 
 ## Writing assist
 
-Select text in the editor and use the AI toolbar to transform it:
+Transform text with six operations, via the REST API or the `docplatform_writing_assist` MCP tool (there is no AI toolbar in the editor today):
 
 | Operation | Description |
 |---|---|
@@ -59,13 +59,13 @@ POST /api/v1/ai/writing-assist
 
 ```json
 {
-  "workspace_id": "01HJK...",
-  "operation": "improve",
-  "content": "This is the text to improve."
+  "action": "improve",
+  "content": "This is the text to improve.",
+  "language": "de"
 }
 ```
 
-**Operations:** `improve`, `simplify`, `expand`, `summarize`, `fix_grammar`, `translate`
+**Actions:** `improve`, `simplify`, `expand`, `summarize`, `fix_grammar`, `translate` (only `translate` uses `language`). Unknown actions are rejected with a validation error.
 
 **Response:**
 
@@ -77,17 +77,7 @@ POST /api/v1/ai/writing-assist
 
 ## Doc chat
 
-Ask questions about your workspace documentation and get context-aware answers.
-
-### In the editor
-
-Click the **Chat** button in the sidebar to open the doc chat panel. Ask questions like:
-
-- "How do I configure git sync?"
-- "What authentication methods are supported?"
-- "Summarize the deployment guide"
-
-The AI searches your workspace content and provides answers grounded in your actual documentation.
+Ask questions about your workspace documentation and get context-aware answers. Doc chat is an **API capability** — there is no chat panel in the editor UI today. Use it from your own integrations, or point an AI agent at the [MCP server](mcp.md) for an interactive equivalent (`docplatform_search` + `docplatform_get_context`).
 
 ### API usage
 
@@ -152,7 +142,7 @@ claude mcp add docplatform -- docplatform mcp --workspace my-docs --api-key dp_l
 
 ### Tool categories
 
-The 26 MCP tools cover content CRUD, discovery and RAG, quality checks, settings, workspace management, versioning, export, AI writing assistance, activity, comments, publishing, and sync-conflict resolution.
+The 26 MCP tools cover content CRUD (6), discovery & RAG (5), quality (2), settings (2), workspace management (3), versioning (2), export (1), AI writing (1), activity (1), comments (2), and sync conflict resolution (1, conditional).
 
 Key highlights:
 

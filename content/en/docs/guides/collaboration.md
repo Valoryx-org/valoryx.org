@@ -64,32 +64,15 @@ Super Admin
 | **Commenter** | Workspace | View + leave comments on pages |
 | **Editor** | Workspace | View + comment + create, edit, delete pages |
 | **Admin** | Workspace | Full workspace management (settings, git, theme, members) |
-| **Super Admin** | Platform | Full access to all workspaces + platform settings |
+| **Super Admin** | Organization | Full access to all workspaces in the org + org settings and billing |
 
-### Default role for new members
+### Role at invitation
 
-Configure the default role assigned when users accept an invitation:
-
-```yaml
-# .docplatform/config.yaml
-permissions:
-  default_role: viewer
-```
+The role is chosen by the inviter at invitation time — there is no separate "default role" setting. To change someone's role later, use **Settings → Members**.
 
 ### Page-level access
 
-Restrict individual pages to specific roles using frontmatter access rules:
-
-```yaml
----
-title: Internal Runbook
-access:
-  read: ["sre-team", "admin"]
-  write: ["sre-team"]
----
-```
-
-Pages with `access` rules are invisible to users without the required role — they won't appear in search results, navigation, or published docs. Access rules can only **restrict** within a user's role, never grant beyond it.
+Frontmatter `access` rules are parsed and preserved but **not enforced** — access control is role-based at the workspace level. See [Roles & Permissions](../configuration/permissions.md).
 
 ## Real-time presence
 
@@ -104,11 +87,10 @@ Presence is powered by WebSocket connections and updates in real time.
 
 | Parameter | Value |
 |---|---|
-| **Protocol** | WebSocket (authenticated via one-time ticket) |
+| **Protocol** | WebSocket (authenticated via the `dp_ws_token` HttpOnly cookie) |
 | **Heartbeat interval** | Every 30 seconds |
 | **Eviction timeout** | 90 seconds without heartbeat |
-| **Events** | `presence-join` (first connect), `presence-leave` (timeout or disconnect) |
-| **Buffer** | 256 events (global broadcast buffer, prevents backpressure) |
+| **Events** | `presence-join`, `presence-update`, `presence-leave` |
 
 The WebSocket connection also delivers real-time content events:
 
@@ -136,52 +118,39 @@ To avoid conflicts:
 - Presence indicators help your team coordinate who's editing what
 - For high-concurrency teams, consider shorter git sync intervals
 
-## Audit trail
+## Activity feed
 
-Every content mutation is logged with:
+Every workspace has an activity feed recording who did what, when.
 
-| Field | Description |
-|---|---|
-| **Timestamp** | When the action occurred (UTC) |
-| **User** | Who performed the action (email, user ID) |
-| **Operation** | What happened: `create`, `update`, `delete`, `publish`, `unpublish` |
-| **Page** | Which page was affected (ID, title, path) |
-| **Source** | Where the change came from: `web_editor`, `git_sync`, `api` |
-| **Content hash** | SHA-256 of the new content (for verification) |
+### Viewing activity
 
-### Viewing the audit log
+Open **Workspace Settings** → **Activity**, or use the API:
 
-Access the audit log from **Workspace Settings** → **Activity**.
+```bash
+curl "http://localhost:3000/api/v1/workspaces/{id}/activity?limit=50&action=page_created" \
+  -H "Authorization: Bearer {token}"
+```
 
-Filter by:
+Per-page history is available at `GET /api/v1/workspaces/{id}/page-activity?page={path}`.
 
-- **User** — see all changes by a specific team member
-- **Page** — see the full history of a specific page
-- **Date range** — narrow to a time window
-- **Operation type** — filter to creates, updates, deletes, etc.
+### Activity action types
 
-### Audit action types
-
-The `action` field in the audit log uses dot-notation for precise filtering:
+Filter the feed with the `action` query parameter:
 
 | Action | Description |
 |---|---|
-| `page.create` | New page created |
-| `page.update` | Page content or frontmatter modified |
-| `page.delete` | Page deleted |
-| `page.publish` | Page published (made public) |
-| `page.unpublish` | Page unpublished |
-| `auth.login` | User signed in |
-| `auth.register` | New user registered |
-| `auth.password_reset` | Password reset completed |
-| `workspace.create` | New workspace created |
-| `workspace.member_add` | User added to workspace |
-| `workspace.member_remove` | User removed from workspace |
-| `workspace.role_change` | User's role changed |
+| `page_created` | New page created |
+| `page_updated` | Page content or frontmatter modified |
+| `page_deleted` | Page deleted |
+| `comment_added` | Comment posted on a page |
+| `comment_resolved` | Comment thread resolved |
+| `member_joined` | User joined the workspace |
+| `member_left` | User left or was removed |
+| `sync_completed` | Git sync finished |
 
 ### Retention
 
-Audit logs are stored in SQLite alongside your regular data. They're included in daily backups. Audit logs are retained indefinitely.
+Activity records are stored in SQLite alongside your regular data and included in daily backups.
 
 ## Email notifications
 
@@ -209,7 +178,7 @@ Without SMTP, invitation links and password reset tokens are printed to stdout (
 ## Tips for team workflows
 
 - **One writer per page** — use presence indicators to avoid conflicts
-- **Editors write, Admins publish** — separate concerns with roles
+- **Editors write, reviewers publish** — drafts stay off the published site until someone sets `publish: true`
 - **Use tags for ownership** — tag pages with `owner:jane` to clarify responsibility
 - **Git for review workflows** — push changes to a branch, open a PR, merge after review
-- **Audit before publish** — review the audit log for unexpected changes before making content public
+- **Review before publish** — check the activity feed for unexpected changes before making content public

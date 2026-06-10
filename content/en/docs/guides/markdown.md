@@ -105,24 +105,23 @@ DocPlatform validates internal links. The `doctor` command reports any broken re
 
 ### Wikilinks
 
-DocPlatform supports **wikilinks** for linking between pages without specifying full paths. Wikilinks use double-bracket syntax:
+DocPlatform supports **wikilinks** with double-bracket syntax. The link target is the page's path (without the `.md` extension):
 
 ```markdown
-See [[Getting Started]] for setup instructions.
-Check [[API Authentication|the auth guide]] for token details.
-Link by page ID for rename-proof references: [[01HJK...]]
+See [[getting-started/index]] for setup instructions.
+Check [[api/authentication|the auth guide]] for token details.
+Jump to a section: [[api/authentication#tokens]]
 ```
 
 | Syntax | Description |
 |---|---|
-| `[[Page Title]]` | Link by page title (auto-resolved to path) |
-| `[[Page Title\|display text]]` | Link with custom display text |
-| `[[01HJK...]]` | Link by stable page ID (survives renames) |
+| `[[page/path]]` | Link by page path |
+| `[[page/path\|display text]]` | Link with custom display text |
+| `[[page/path#heading]]` | Link to a specific heading |
 
 **Wikilink features:**
-- **Hover preview** — hovering a wikilink shows a preview popup with the target page's title and description
 - **Auto-repair on rename** — when a page is renamed or moved, all wikilinks pointing to it are automatically updated across the workspace
-- **Broken link detection** — `docplatform doctor` reports wikilinks that point to nonexistent pages
+- **Broken link detection** — `docplatform doctor` and the `docplatform_validate_links` MCP tool report wikilinks that point to nonexistent pages
 
 ## Frontmatter
 
@@ -133,10 +132,9 @@ Every page starts with a YAML frontmatter block delimited by `---`:
 title: Page Title
 description: A brief summary for search results and SEO.
 tags: [guide, getting-started]
-published: true
-access:
-  read: ["engineering", "product"]
-  write: ["engineering"]
+publish: true
+status: draft
+nav_order: 2
 ---
 ```
 
@@ -145,17 +143,14 @@ access:
 | Field | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `title` | string | Yes | — | Page title shown in navigation and headings |
-| `id` | string | No | Auto-generated ULID | Stable page identifier (survives renames, enables ID-based wikilinks) |
+| `id` | string | No | Auto-generated ULID | Stable page identifier that survives renames and database rebuilds |
 | `description` | string | No | — | Summary for search results, SEO meta tags |
-| `tags` | string[] | No | `[]` | Categories for filtering and search |
-| `published` | boolean | No | `false` | Include in the published documentation site |
+| `tags` | string[] or string | No | `[]` | Categories for filtering and search — accepts a YAML list or a comma-separated string |
+| `publish` | boolean | No | `false` | Include in the published documentation site (the `.docplatform/publish.yaml` overlay can override this per path) |
 | `status` | string | No | `draft` | Page lifecycle: `draft`, `published`, `archived` |
-| `access` | object | No | — | Per-operation access rules (see [Permissions](../configuration/permissions.md)) |
-| `access.read` | string[] | No | — | Roles that can view this page |
-| `access.write` | string[] | No | — | Roles that can edit this page |
-| `access.admin` | string[] | No | — | Roles/user IDs (`@01HJK...`) that can manage this page |
-
-The `id` field is auto-generated as a ULID when a page is created. On git import, if the `id` is missing, DocPlatform generates one and writes it back on the next sync. This ID enables rename-proof wikilinks and survives database rebuilds.
+| `nav_order` | int | No | — | Ordering hint for sidebar navigation |
+| `seo` | map | No | — | Per-page SEO overrides |
+| `access` | object | No | — | Parsed and preserved, but **not enforced** — see [Permissions](../configuration/permissions.md) |
 
 ## Custom components
 
@@ -204,16 +199,13 @@ Standard fenced code blocks are automatically enhanced with:
 
 - **Syntax highlighting** — 200+ languages via Chroma
 - **Copy button** — one-click copy to clipboard
-- **Language label** — displayed in the top-right corner
-- **Line numbers** — optional, enabled with `showLineNumbers`
 
 ````markdown
-```typescript {showLineNumbers}
+```typescript
 interface Page {
   id: string;
   title: string;
   content: string;
-  published: boolean;
 }
 ```
 ````
@@ -290,14 +282,11 @@ Numbered step-by-step instructions with visual progress indicators.
 ::step[Download]
 Get the latest binary from GitHub Releases.
 ::
-::step[Initialize]
-Run `docplatform init` to create your workspace.
-::
 ::step[Start the server]
 Run `docplatform serve` and open http://localhost:3000.
 ::
 ::step[Register]
-Create your admin account — the first user becomes Super Admin.
+Create your account — registering creates your organization and starter workspace.
 ::
 :::
 ```
@@ -356,60 +345,65 @@ Display directory structures with syntax highlighting.
 
 ### Mermaid diagrams
 
-Render diagrams from text using Mermaid syntax.
+Render diagrams from text using Mermaid syntax inside the `mermaid` directive:
 
-````markdown
-```mermaid
+```markdown
+:::mermaid
 graph TD
     A[Web Editor] --> B[Content Ledger]
     C[Git Push] --> B
     B --> D[Filesystem]
     B --> E[Database]
     B --> F[Search Index]
+:::
 ```
-````
 
-Supports flowcharts, sequence diagrams, class diagrams, state diagrams, and more.
+Supports flowcharts, sequence diagrams, class diagrams, state diagrams, and more. Diagrams render client-side on published pages.
 
 ### KaTeX math
 
-Render mathematical notation using LaTeX syntax.
+Render mathematical notation using LaTeX syntax inside the `katex` directive:
 
 ```markdown
-Inline math: $E = mc^2$
-
-Block math:
-$$
+:::katex
 \int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
-$$
+:::
 ```
+
+### Badge
+
+Inline status labels: `:::badge[variant]` with the label text as content.
+
+### Table of contents
+
+`:::toc` renders a table of contents generated from the page's headings.
+
+### Embed
+
+`:::embed` embeds external content by URL.
 
 ## Component usage in the editor
 
 ### Rich text mode
 
-In the rich editor, components render as interactive blocks. Insert them using:
-
-- **Toolbar** — insert components from the editor toolbar
-- **Toolbar** — click the **+** button → select a component
-- **Raw Markdown mode** — write the directive syntax directly
+In the rich editor, insert components from the toolbar (**+** button → select a component).
 
 ### Raw Markdown mode
 
-In raw mode, write the directive syntax directly. The editor provides syntax highlighting for component blocks.
+In raw mode, write the directive syntax directly.
 
 ## Markdown extensions
 
-Beyond CommonMark, DocPlatform supports:
+Beyond CommonMark, DocPlatform supports the GitHub Flavored Markdown (GFM) extension set plus DocPlatform-specific additions:
 
 | Extension | Syntax | Description |
 |---|---|---|
-| **Wikilinks** | `[[Page Title]]` | Cross-page linking with hover preview and auto-repair |
-| **Task lists** | `- [ ] item` | Interactive checkboxes |
-| **Strikethrough** | `~~text~~` | Struck-through text |
+| **Wikilinks** | `[[page/path]]` | Cross-page linking with auto-repair on rename |
+| **Task lists** | `- [ ] item` | Checkboxes (GFM) |
+| **Strikethrough** | `~~text~~` | Struck-through text (GFM) |
 | **Tables** | GFM tables | With alignment support |
-| **Autolinks** | `https://...` | URLs auto-linked |
-| **Footnotes** | `[^1]` | Reference-style footnotes |
+| **Autolinks** | `https://...` | URLs auto-linked (GFM) |
 | **Heading anchors** | Auto-generated | Deep linking to sections |
-| **Mermaid** | ` ```mermaid ` | Inline diagrams from text |
-| **KaTeX** | `$...$` / `$$...$$` | Mathematical notation |
+| **Directives** | `:::component` | 15 built-in components (above) |
+
+Footnote syntax (`[^1]`) is not supported.
