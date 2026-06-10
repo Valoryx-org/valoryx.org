@@ -37,12 +37,11 @@ The memory, iterations, and parallelism parameters are configurable via `ARGON2_
 
 When a user requests a password reset:
 
-- **With SMTP configured** — a one-time reset link is emailed to the user
-- **Without SMTP** — the reset token is printed to stdout (server logs)
+- **With email configured (SMTP or Resend)** — a one-time reset link is emailed to the user
+- **Without email** — nothing is sent, and the link is **not** written to the server logs (the server only notes that an email was skipped). An admin generates a reset link on the server instead:
 
 ```bash
-# Check server logs for the reset token
-docplatform serve 2>&1 | grep "password reset"
+docplatform reset-password --email user@example.com
 ```
 
 The token expires after 1 hour and can only be used once.
@@ -244,7 +243,7 @@ Users can view their active sessions from their profile page (`GET /api/auth/ses
 
 ### Revoking sessions
 
-- **Logout** — ends the current session immediately (the session record is deleted, so even unexpired access tokens stop working)
+- **Logout** — revokes **all** of the user's sessions, on every device (the session records are deleted, so even unexpired access tokens stop working)
 - **Password reset** — all of the user's sessions are revoked automatically
 - **Refresh-token replay** — if a rotated refresh token is ever reused, all of that user's sessions are revoked as a defensive measure
 - **Key rotation** — deleting the JWT key invalidates all sessions globally

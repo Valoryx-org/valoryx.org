@@ -122,7 +122,7 @@ Create a new user account. Registration creates the user's own organization (the
 }
 ```
 
-**Response:** `201 Created` with the user object; sign in via `/api/auth/login` to obtain tokens.
+**Response:** `201 Created` with `{ "user": ..., "access_token": ..., "expires_at": ... }` plus the refresh-token cookie — registration signs the user in immediately. (If the automatic sign-in step fails, the response contains only the user object; sign in via `/api/auth/login`.)
 
 ### Login
 
@@ -373,7 +373,7 @@ Include the new path in the request body:
 
 ```json
 {
-  "move_to": "new/path/for/page"
+  "new_path": "new/path/for/page"
 }
 ```
 
@@ -666,11 +666,11 @@ Scan a workspace for documentation quality issues. Returns readability scores, d
 ## Static export
 
 ```
-POST /api/v1/workspaces/:id/export   — Start the export
-GET  /api/v1/workspaces/:id/export   — Check status / download
+GET  /api/v1/workspaces/:id/export   — Build and download the ZIP (synchronous)
+POST /api/v1/workspaces/:id/export   — Same behavior (compatibility alias)
 ```
 
-Export all published pages as a static HTML ZIP file.
+Export all published pages as a static HTML ZIP file. The export is **synchronous** — the ZIP is rendered and streamed in the same request; there is no job or status to poll.
 
 ---
 
@@ -696,10 +696,10 @@ GET    /api/v1/workspaces/:id/webhooks/:wid/deliveries — Delivery log (admin)
 ```
 GET    /api/v1/workspaces/:id/comments?page={path}  — List comments (filter by page)
 POST   /api/v1/workspaces/:id/comments              — Create a comment (commenter+)
-PUT    /api/comments/:id                            — Edit a comment
-DELETE /api/comments/:id                            — Delete a comment
-POST   /api/comments/:id/resolve                    — Resolve a thread
-POST   /api/comments/:id/unresolve                  — Reopen a thread
+PUT    /api/v1/comments/:id                         — Edit a comment
+DELETE /api/v1/comments/:id                         — Delete a comment
+POST   /api/v1/comments/:id/resolve                 — Resolve a thread
+POST   /api/v1/comments/:id/unresolve               — Reopen a thread
 ```
 
 ---
@@ -821,7 +821,7 @@ GET /api/health    → 200 OK { "status": "ok", "version": "v0.10.0" }
 GET /api/ready     → 200 OK { "status": "ready", "checks": { ... } }
 ```
 
-The `/api/ready` endpoint reports readiness of the database, git engine, and job outbox.
+The `/api/ready` endpoint reports readiness of the database, the availability of the `git` binary, and the email outbox backlog.
 
 ---
 
@@ -941,7 +941,7 @@ POST /api/auth/ws-token
 
 WebSocket connections use an HttpOnly cookie mechanism to avoid exposing tokens in URLs.
 
-**Response:** `200 OK`
+**Response:** `204 No Content`
 
 Sets a `dp_ws_token` HttpOnly, SameSite=Strict cookie (valid for 1 hour).
 

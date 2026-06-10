@@ -111,7 +111,7 @@ curl -X PATCH http://localhost:3000/api/v1/workspaces/{id} \
 
 No restart is required — changes take effect on the next sync cycle.
 
-> **Provider support:** the guided web-UI connection flow supports **GitHub personal access tokens**. GitLab and Bitbucket appear in the provider list but their connection flows are not yet implemented — for those, configure a raw `git_remote` URL (SSH or HTTPS with token) instead.
+> **Provider support:** the guided web-UI connection flow supports **GitHub personal access tokens** — GitHub is the only provider registered today. For GitLab, Bitbucket, or any other git host, configure a raw `git_remote` URL (SSH or HTTPS with token) instead.
 
 ### Authentication
 

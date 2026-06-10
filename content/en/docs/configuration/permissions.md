@@ -111,9 +111,14 @@ curl -X POST http://localhost:3000/api/v1/org/members/:uid/workspaces \
 
 Workspace Admins can change the role of existing members of their workspace (**Workspace Settings → Members**, or `PUT /api/v1/workspaces/:id/admin/members/:user_id/role`).
 
-## Page-level access control (not yet enforced)
+## Page-level access control (avoid — inconsistent)
 
-Page frontmatter may contain an `access` block. DocPlatform **parses and preserves** it (it round-trips through git and the editor unchanged), but it is **not enforced** — all access control today is role-based at the workspace level. Do not rely on frontmatter `access` rules to protect content.
+Page frontmatter may contain an `access` block. Its current behavior is **inconsistent, and you should not use it**:
+
+- While a page carries `access` rules (for example, saved through the web editor or API), reading that page through the API **does enforce them** — members who don't match the rules receive `403 FORBIDDEN` ("insufficient page-level permissions").
+- The next git sync or rebuild **silently strips the `access` block from the file** (the server logs `reconciler: stripping unenforced 'access' frontmatter field`). Stripping prevents privilege escalation through git pushes, but it also discards rules added in good faith.
+
+Net effect: `access` rules neither survive git round-trips nor provide dependable protection. Use workspace-level roles for access control.
 
 ### Published docs access
 

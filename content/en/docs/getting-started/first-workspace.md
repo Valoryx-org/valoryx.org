@@ -13,7 +13,7 @@ A workspace is the top-level container for a documentation project. Each workspa
 | Concept | Description |
 |---|---|
 | **Workspace** | A documentation project containing pages, members, and settings |
-| **Page** | A Markdown file with YAML frontmatter (title, description, tags, access) |
+| **Page** | A Markdown file with YAML frontmatter (title, description, tags) |
 | **Slug** | The URL-safe identifier for your workspace (e.g., `my-docs` → `/p/my-docs/`) |
 | **Member** | A user with a role in the workspace (Viewer through Admin) |
 
@@ -124,7 +124,7 @@ nav_order: 2          # optional ordering hint for sidebar navigation
 ---
 ```
 
-The `title` is required. All other fields are optional. `tags` accepts either a YAML list or a comma-separated string. An `access` block is parsed and preserved if present, but per-page access control is **not enforced** — permissions are role-based at the workspace level.
+The `title` is required. All other fields are optional. `tags` accepts either a YAML list or a comma-separated string. Avoid the `access` block — it is enforced on API reads while present but silently stripped from the file on the next git sync; rely on workspace-level roles instead.
 
 ## Invite your team
 

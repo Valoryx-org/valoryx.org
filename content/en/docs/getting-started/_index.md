@@ -24,7 +24,7 @@ DocPlatform has no external dependencies. You don't need to install a database, 
 
 - **Git 2.30+** — only required if you want to sync with a remote git repository
 - **SSH key** — only required for private git repos over SSH
-- **Email provider (SMTP or Resend)** — only required for email invitations and password reset (without email configured, reset links are printed to the server log; admins can also generate them with `docplatform reset-password`)
+- **Email provider (SMTP or Resend)** — only required for email invitations and password reset (without email configured, reset emails are simply not sent and links are **not** logged; admins generate them with `docplatform reset-password`)
 
 ## Architecture at a glance
 

@@ -74,14 +74,11 @@ Get DocPlatform running in under 5 minutes:
 # Download the binary (recommended — auto-detects platform)
 curl -fsSL https://valoryx.org/install.sh | sh
 
-# Initialize a workspace
-docplatform init --workspace-name "My Docs" --slug my-docs
-
 # Start the server
 docplatform serve
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and register your first user — they automatically become the Super Admin.
+Open [http://localhost:3000](http://localhost:3000) and register — your account gets its own organization and a starter workspace, and you administer the workspaces you create. (Skip `docplatform init` here: workspaces created from the CLI land in a server-level default organization that web accounts don't see.)
 
 For the complete walkthrough, see the [Getting Started](getting-started/index.md) guide.
 

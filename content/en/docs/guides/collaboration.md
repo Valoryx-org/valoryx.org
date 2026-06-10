@@ -72,16 +72,11 @@ The role is chosen by the inviter at invitation time — there is no separate "d
 
 ### Page-level access
 
-Frontmatter `access` rules are parsed and preserved but **not enforced** — access control is role-based at the workspace level. See [Roles & Permissions](../configuration/permissions.md).
+Frontmatter `access` rules are **inconsistent — avoid them**: they are enforced on API reads while present, but the next git sync silently strips them from the file. Use workspace-level roles instead. See [Roles & Permissions](../configuration/permissions.md).
 
 ## Real-time presence
 
-When multiple users are active in the same workspace, the web editor shows who's online:
-
-- **Sidebar indicators** — colored dots next to pages being viewed or edited by other users
-- **Avatar stack** — user avatars in the page header showing who else is viewing the current page
-
-Presence is powered by WebSocket connections and updates in real time.
+The server tracks who is online per workspace over authenticated WebSocket connections and broadcasts presence events in real time. **The current web UI does not yet display presence** — there are no online indicators or avatar stacks in the editor today. The events are available to custom clients built on the WebSocket API.
 
 ### How presence works
 
@@ -173,7 +168,7 @@ export SMTP_USERNAME=docs@yourcompany.com
 export SMTP_PASSWORD=your-app-password
 ```
 
-Without SMTP, invitation links and password reset tokens are printed to stdout (server logs).
+Without email configured, invitation and password-reset emails are simply not sent — links and tokens are **not** written to the server logs. For password resets, an admin can generate a one-time link with [`docplatform reset-password`](../reference/cli.md).
 
 ## Tips for team workflows
 

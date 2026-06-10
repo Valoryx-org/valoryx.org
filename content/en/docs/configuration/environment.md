@@ -71,7 +71,7 @@ Incoming git webhooks are verified with a **per-workspace secret** that DocPlatf
 
 ## Email (optional)
 
-Configure SMTP or Resend for workspace invitations and password reset emails. Without email configured, tokens are printed to stdout (server logs).
+Configure SMTP or Resend for workspace invitations and password reset emails. Without email configured, these emails are simply not sent and tokens are **not** logged — use `docplatform reset-password` to generate reset links on the server.
 
 | Variable | Default | Description |
 |---|---|---|

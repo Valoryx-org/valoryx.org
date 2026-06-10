@@ -17,8 +17,8 @@ DocPlatform includes a rich text editor built on Tiptap (ProseMirror-based) that
 │  📁 Getting       │  ┌──────────────────────────────────┐   │
 │     Started       │  │ Frontmatter (collapsible)        │   │
 │  📁 Guides        │  │ Title: ___________________       │   │
-│  📁 API           │  │ Description: ______________      │   │
-│    > auth.md      │  │ Tags: [api] [auth]               │   │
+│  📁 API           │  │ Tags: [api] [auth]               │   │
+│    > auth.md      │  │ Publish: [x]                     │   │
 │    > endpoints    │  └──────────────────────────────────┘   │
 │  📄 changelog     │                                         │
 │                   │  Start writing here...                  │
@@ -42,7 +42,6 @@ The collapsible frontmatter section at the top of the editor provides form field
 | Field | Description | Required |
 |---|---|---|
 | **Title** | Page heading and navigation label | Yes |
-| **Description** | Summary shown in search results and SEO meta tags | No |
 | **Tags** | Categorization labels for filtering and discovery | No |
 | **Publish** | Toggle to include/exclude from the public site | No |
 

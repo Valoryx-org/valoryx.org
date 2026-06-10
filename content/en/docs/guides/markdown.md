@@ -150,7 +150,7 @@ nav_order: 2
 | `status` | string | No | `draft` | Page lifecycle: `draft`, `published`, `archived` |
 | `nav_order` | int | No | — | Ordering hint for sidebar navigation |
 | `seo` | map | No | — | Per-page SEO overrides |
-| `access` | object | No | — | Parsed and preserved, but **not enforced** — see [Permissions](../configuration/permissions.md) |
+| `access` | object | No | — | **Avoid** — enforced on API reads while present, but stripped from the file on git sync; see [Permissions](../configuration/permissions.md) |
 
 ## Custom components
 

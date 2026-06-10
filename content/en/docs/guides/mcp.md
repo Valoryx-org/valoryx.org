@@ -191,9 +191,9 @@ Requires an AI provider configured on the server (Anthropic or OpenAI).
 
 | Tool | Description | Key parameters |
 |---|---|---|
-| `docplatform_resolve_sync_conflict` | Resolve a pending git-sync conflict — keep the local version, the remote version, or supply explicit content per path; commits and pushes with your identity | `conflict_id`, `resolution` (`kept_local`, `kept_remote`, `custom`) |
+| `docplatform_resolve_sync_conflict` | Resolve a pending git-sync conflict — keep the local version, the remote version, or supply explicit content per path; commits and pushes with your identity | `conflict_id`, `mode` (`kept_local`, `kept_remote`, `custom`) |
 
-This tool is only registered when the MCP server is started with a configured server URL (`DOCPLATFORM_SERVER_URL`) — it proxies to the REST conflict-resolution endpoint and requires the Editor role. Triggering a sync itself is REST-only (`POST /api/v1/workspaces/:id/sync`); there is no `trigger_sync` MCP tool.
+This tool proxies to the REST conflict-resolution endpoint and requires the Editor role. It is registered by default — the server URL falls back to `http://localhost:3000` when `DOCPLATFORM_SERVER_URL` is unset; set that variable when the API is reachable at a different address. Triggering a sync itself is REST-only (`POST /api/v1/workspaces/:id/sync`); there is no `trigger_sync` MCP tool.
 
 ---
 

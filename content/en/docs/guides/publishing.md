@@ -344,9 +344,11 @@ docplatform export --workspace {workspace-id} --output ./my-docs-export.zip
 ### Via API
 
 ```
-POST /api/v1/workspaces/{id}/export   # start the export
-GET  /api/v1/workspaces/{id}/export   # check status / download
+GET  /api/v1/workspaces/{id}/export   # build and download the ZIP (synchronous)
+POST /api/v1/workspaces/{id}/export   # same behavior (compatibility alias)
 ```
+
+The export is synchronous — the ZIP is rendered and streamed in the same request; there is no job to poll.
 
 The export contains:
 
