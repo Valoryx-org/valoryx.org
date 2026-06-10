@@ -163,6 +163,6 @@ DocPlatform no soporta la edición simultánea de la misma página por múltiple
 ## Consejos
 
 - **Arrastre páginas** en la barra lateral para reorganizar la estructura de su documentación
-- **Comandos slash** — escriba `/` en el editor para insertar rápidamente componentes (callout, bloque de código, tabla, etc.)
+- **Componentes de la barra de herramientas** — inserte callouts, bloques de código y tablas desde la barra de herramientas del editor
 - **Pegue texto enriquecido** desde Google Docs, Notion o Confluence — el editor lo convierte a Markdown limpio
 - **Valores predeterminados de frontmatter** — establezca valores predeterminados a nivel de workspace para `published`, `access` y `tags` para reducir la entrada repetitiva

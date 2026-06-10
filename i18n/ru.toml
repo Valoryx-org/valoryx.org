@@ -414,7 +414,7 @@ other = "Шаблоны"
 [feat7_title]
 other = "MCP-сервер"
 [feat7_text]
-other = "Встроенный сервер Model Context Protocol с 26 инструментовми. ИИ-агенты могут читать, искать и обновлять вашу документацию. Самая доступная для ИИ платформа документации."
+other = "Встроенный сервер Model Context Protocol с 26 инструментами. ИИ-агенты могут читать, искать и обновлять вашу документацию. Самая доступная для ИИ платформа документации."
 [pricing_start_free]
 other = "Начать бесплатно"
 [cookie_title]
@@ -682,7 +682,7 @@ other = "Block-based Tiptap editor with markdown shortcuts, a raw Markdown toggl
 [oss_feature_publish_title]
 other = "Published Docs"
 [oss_feature_publish_text]
-other = "Beautiful documentation sites with 5 built-in themes. Custom domains, versioning, and search included."
+other = "Beautiful documentation sites with 7 built-in themes. Custom domains, versioning, and search included."
 [oss_feature_search_title]
 other = "Full-Text Search"
 [oss_feature_search_text]

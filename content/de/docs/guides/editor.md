@@ -163,6 +163,6 @@ DocPlatform unterstützt keine gleichzeitige Bearbeitung derselben Seite durch m
 ## Tipps
 
 - **Seiten verschieben** — ziehen Sie Seiten in der Seitenleiste, um Ihre Dokumentationsstruktur neu zu organisieren
-- **Slash-Befehle** — geben Sie `/` im Editor ein, um schnell Komponenten einzufügen (Callout, Codeblock, Tabelle usw.)
+- **Symbolleisten-Komponenten** — fügen Sie Callouts, Codeblöcke und Tabellen über die Editor-Symbolleiste ein
 - **Rich-Text einfügen** — aus Google Docs, Notion oder Confluence — der Editor konvertiert es in sauberes Markdown
 - **Frontmatter-Standards** — setzen Sie Workspace-weite Standards für `published`, `access` und `tags`, um repetitive Eingaben zu reduzieren

@@ -63,7 +63,7 @@ Nach der Anmeldung zeigt das Dashboard eine leere Workspace-Liste. Klicken Sie a
 
 - **Name:** `engineering-handbook` (oder was auch immer Sie dokumentieren)
 - **Slug:** `engineering-handbook` (wird zum URL-Pfad)
-- **Theme:** Wählen Sie eines der 5 eingebauten Themes — Sie können es später ändern
+- **Theme:** Wählen Sie eines der 7 eingebauten Themes — Sie können es später ändern
 
 Klicken Sie auf **Erstellen**. Sie haben jetzt einen Workspace mit einer Startseite, die bearbeitet werden kann.
 

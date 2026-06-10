@@ -152,7 +152,7 @@ claude mcp add docplatform -- docplatform mcp --workspace my-docs --api-key dp_l
 
 ### Tool categories
 
-The 24 MCP tools cover content CRUD (6), discovery & RAG (5), quality (2), settings (2), workspace management (2), versioning (2), export (1), AI writing (1), activity (1), and comments (2).
+The 26 MCP tools cover content CRUD, discovery and RAG, quality checks, settings, workspace management, versioning, export, AI writing assistance, activity, comments, publishing, and sync-conflict resolution.
 
 Key highlights:
 

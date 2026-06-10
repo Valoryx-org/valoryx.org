@@ -63,7 +63,7 @@ INFO  Admin setup required — visit http://localhost:3000 to create your accoun
 
 - **Name:** `engineering-handbook` (или что вы документируете)
 - **Slug:** `engineering-handbook` (это станет частью URL)
-- **Theme:** Выберите одну из 5 встроенных тем — потом можно сменить
+- **Theme:** Выберите одну из 7 встроенных тем — потом можно сменить
 
 Нажмите **Create**. Теперь у вас есть workspace с корневой страницей, готовой к редактированию.
 

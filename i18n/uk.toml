@@ -83,7 +83,7 @@ other = "Працює з GitHub, GitLab, Bitbucket або будь-яким git-
 [feat3_title]
 other = "WYSIWYG-Редактор"
 [feat3_text]
-other = "Потужний редактор на базі Tiptap, що виводить чистий Markdown. Таблиці, блоки коду, вставки зображень, callouts та slash-команди."
+other = "Потужний редактор на базі Tiptap, що виводить чистий Markdown. Таблиці, блоки коду, вставки зображень та callouts."
 [feat4_title]
 other = "Опубліковані Доки"
 [feat4_text]
@@ -682,7 +682,7 @@ other = "Block-based Tiptap editor with markdown shortcuts, a raw Markdown toggl
 [oss_feature_publish_title]
 other = "Published Docs"
 [oss_feature_publish_text]
-other = "Beautiful documentation sites with 5 built-in themes. Custom domains, versioning, and search included."
+other = "Beautiful documentation sites with 7 built-in themes. Custom domains, versioning, and search included."
 [oss_feature_search_title]
 other = "Full-Text Search"
 [oss_feature_search_text]

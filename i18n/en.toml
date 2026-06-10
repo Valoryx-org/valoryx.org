@@ -710,7 +710,7 @@ other = "Block-based Tiptap editor with markdown shortcuts, a raw Markdown toggl
 [oss_feature_publish_title]
 other = "Published Docs"
 [oss_feature_publish_text]
-other = "Beautiful documentation sites with 5 built-in themes. Custom domains, versioning, and search included."
+other = "Beautiful documentation sites with 7 built-in themes. Custom domains, versioning, and search included."
 [oss_feature_search_title]
 other = "Full-Text Search"
 [oss_feature_search_text]

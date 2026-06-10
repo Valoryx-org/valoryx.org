@@ -63,7 +63,7 @@ After logging in, the dashboard shows an empty workspace list. Click **New Works
 
 - **Name:** `engineering-handbook` (or whatever you're documenting)
 - **Slug:** `engineering-handbook` (this becomes the URL path)
-- **Theme:** Pick one of the 5 built-in themes — you can change it later
+- **Theme:** Pick one of the 7 built-in themes — you can change it later
 
 Click **Create**. You now have a workspace with a root page ready to edit.
 
