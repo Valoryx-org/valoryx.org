@@ -83,7 +83,7 @@ other = "Работает с GitHub, GitLab, Bitbucket или любым git-rem
 [feat3_title]
 other = "WYSIWYG-Редактор"
 [feat3_text]
-other = "Мощный редактор на базе Tiptap, выводящий чистый Markdown. Таблицы, блоки кода, вставки изображений, callouts и slash-команды."
+other = "Мощный редактор на базе Tiptap, выводящий чистый Markdown. Таблицы, блоки кода, вставки изображений и callouts."
 [feat4_title]
 other = "Опубликованные Доки"
 [feat4_text]
@@ -414,7 +414,7 @@ other = "Шаблоны"
 [feat7_title]
 other = "MCP-сервер"
 [feat7_text]
-other = "Встроенный сервер Model Context Protocol с 13 инструментами. ИИ-агенты могут читать, искать и обновлять вашу документацию. Самая доступная для ИИ платформа документации."
+other = "Встроенный сервер Model Context Protocol с 26 инструментовми. ИИ-агенты могут читать, искать и обновлять вашу документацию. Самая доступная для ИИ платформа документации."
 [pricing_start_free]
 other = "Начать бесплатно"
 [cookie_title]
@@ -540,7 +540,7 @@ other = "AI-Native Documentation"
 [mcp_hero_title]
 other = "Connect your docs to AI"
 [mcp_hero_subtitle]
-other = "Valoryx включает встроенный MCP-сервер. Подключайтесь к Claude, Cursor, VS Code и любому MCP-клиенту через stdio (локально) или HTTPS (облако). 24 инструмента для чтения, записи, поиска и сопровождения документации."
+other = "Valoryx включает встроенный MCP-сервер. Подключайтесь к Claude, Cursor, VS Code и любому MCP-клиенту через stdio (локально) или HTTPS (облако). 26 инструментов для чтения, записи, поиска и сопровождения документации."
 [mcp_what_title]
 other = "What is MCP?"
 [mcp_what_text]
@@ -566,7 +566,7 @@ other = "Add to Claude Desktop settings (Settings, Developer, MCP Servers):"
 [mcp_cursor_desc]
 other = "Add to .cursor/mcp.json in your project:"
 [mcp_tools_title]
-other = "24 инструмента"
+other = "26 инструментов"
 [mcp_tools_subtitle]
 other = "Everything your AI assistant needs to manage documentation"
 [mcp_cat_content]
@@ -678,7 +678,7 @@ other = "Push and pull from any Git repository. Changes in the editor sync to Gi
 [oss_feature_editor_title]
 other = "WYSIWYG Editor"
 [oss_feature_editor_text]
-other = "Block-based Tiptap editor with slash commands, markdown shortcuts, and drag-and-drop."
+other = "Block-based Tiptap editor with markdown shortcuts, a raw Markdown toggle, and image drag-and-drop."
 [oss_feature_publish_title]
 other = "Published Docs"
 [oss_feature_publish_text]
@@ -812,7 +812,7 @@ other = "Community Edition"
 [pce_feat1]
 other = "Full editor, git sync, search, publishing"
 [pce_feat2]
-other = "MCP server (13 tools, stdio)"
+other = "MCP server (26 tools, stdio)"
 [pce_feat3]
 other = "No license key required"
 [pce_feat4]

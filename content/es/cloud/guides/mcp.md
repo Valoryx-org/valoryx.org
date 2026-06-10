@@ -51,7 +51,7 @@ La misma configuracion — agregue el servidor MCP en la configuracion de Cursor
 
 ## Herramientas MCP disponibles
 
-El servidor MCP proporciona 13 herramientas:
+El servidor MCP proporciona 26 herramientas:
 
 | Herramienta | Que hace |
 |---|---|

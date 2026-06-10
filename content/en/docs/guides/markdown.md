@@ -390,9 +390,9 @@ $$
 
 In the rich editor, components render as interactive blocks. Insert them using:
 
-- **Slash commands** — type `/` then the component name (e.g., `/callout`, `/tabs`)
+- **Toolbar** — insert components from the editor toolbar
 - **Toolbar** — click the **+** button → select a component
-- **Keyboard** — no dedicated shortcuts (use slash commands)
+- **Raw Markdown mode** — write the directive syntax directly
 
 ### Raw Markdown mode
 

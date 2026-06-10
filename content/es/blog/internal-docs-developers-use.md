@@ -119,7 +119,7 @@ Cada página debería tener un propietario — un equipo o individuo responsable
 
 Este es un patrón más nuevo: usar IA para ayudar a mantener la documentación. Un servidor MCP (Model Context Protocol) integrado con su plataforma de documentación permite a los asistentes de IA leer, buscar y sugerir actualizaciones a su documentación. Cuando un desarrollador pregunta a un asistente de IA sobre el proceso de despliegue, el asistente puede obtener el runbook actual de la documentación — y señalar si parece desactualizado.
 
-DocPlatform incluye un [servidor MCP integrado con 13 herramientas](/mcp/) para flujos de trabajo de documentación asistidos por IA. Un asistente de IA puede buscar en su documentación, leer páginas específicas y ayudar a identificar contenido que necesita actualizarse — usando la documentación real como contexto en lugar de alucinar respuestas desde datos de entrenamiento.
+DocPlatform incluye un [servidor MCP integrado con 26 herramientas](/mcp/) para flujos de trabajo de documentación asistidos por IA. Un asistente de IA puede buscar en su documentación, leer páginas específicas y ayudar a identificar contenido que necesita actualizarse — usando la documentación real como contexto en lugar de alucinar respuestas desde datos de entrenamiento.
 
 ## Comience con el dolor
 

@@ -798,7 +798,7 @@ GET /api/v1/admin/analytics/growth    — Platform growth metrics
 
 ## MCP server
 
-DocPlatform includes a built-in MCP (Model Context Protocol) server exposing **24 tools** for AI agent integration. Two transports are available:
+DocPlatform includes a built-in MCP (Model Context Protocol) server exposing **26 tools** for AI agent integration. Two transports are available:
 
 ```bash
 # stdio (single workspace, for local AI tools)

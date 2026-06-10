@@ -1,6 +1,6 @@
 ---
 title: "MCP para Documentación: Una Guía Técnica"
-description: "Cómo Model Context Protocol conecta asistentes de IA a su documentación. Configure Claude Desktop, use 13 herramientas integradas y automatice el mantenimiento de documentación."
+description: "Cómo Model Context Protocol conecta asistentes de IA a su documentación. Configure Claude Desktop, use 26 herramientas integradas y automatice el mantenimiento de documentación."
 date: "2026-03-16"
 author: "Equipo Valoryx"
 tags: ["mcp", "ai", "documentation", "tutorial"]
@@ -10,7 +10,7 @@ Model Context Protocol (MCP) es un estándar abierto que permite a los asistente
 
 Para los equipos de documentación, esto cambia el flujo de trabajo fundamentalmente. Su asistente de IA deja de ser un generador de texto que trabaja con contexto obsoleto y se convierte en un participante que lee su documentación real, busca en su base de conocimiento y realiza ediciones que usted puede revisar antes de que se publiquen.
 
-Valoryx incluye un servidor MCP integrado con 13 herramientas. Sin plugins que instalar, sin claves de API que configurar. Si tiene una instancia en ejecución, el servidor MCP ya está ahí.
+Valoryx incluye un servidor MCP integrado con 26 herramientas. Sin plugins que instalar, sin claves de API que configurar. Si tiene una instancia en ejecución, el servidor MCP ya está ahí.
 
 ## Qué hace realmente MCP
 
@@ -20,7 +20,7 @@ Esto es diferente de las "funcionalidades de IA" añadidas a un producto. No hay
 
 El resultado práctico: puede pedirle a Claude "encuentra todas las páginas que mencionan autenticación" y realmente buscará en su instancia de documentación, no alucinará títulos de páginas desde datos de entrenamiento.
 
-## Las 13 herramientas integradas
+## Las 26 herramientas integradas
 
 Las herramientas MCP de Valoryx se dividen en cuatro categorías:
 
@@ -145,6 +145,6 @@ La calidad de la búsqueda depende de su contenido. Si su documentación usa ter
 3. Añada la configuración del servidor MCP a Claude Desktop
 4. Comience con un flujo de trabajo de solo lectura: busque y audite antes de habilitar las escrituras
 
-La [documentación de MCP](/mcp/) cubre la referencia completa de la API para las 13 herramientas, incluyendo tipos de parámetros y esquemas de respuesta.
+La [documentación de MCP](/mcp/) cubre la referencia completa de la API para las 26 herramientas, incluyendo tipos de parámetros y esquemas de respuesta.
 
 El mantenimiento de documentación no tiene que ser un proceso manual. Con un protocolo estructurado entre su asistente de IA y su plataforma de documentación, las partes tediosas — encontrar contenido obsoleto, verificar consistencia, hacer actualizaciones mecánicas — se convierten en algo que puede delegar con confianza.

@@ -119,7 +119,7 @@ Every page should have an owner — a team or individual responsible for keeping
 
 This is a newer pattern: using AI to help maintain documentation. An MCP (Model Context Protocol) server integrated with your documentation platform lets AI assistants read, search, and suggest updates to your docs. When a developer asks an AI assistant about the deployment process, the assistant can pull the current runbook from the documentation — and flag if it looks outdated.
 
-DocPlatform includes a [built-in MCP server with 13 tools](/mcp/) for AI-assisted documentation workflows. An AI assistant can search your docs, read specific pages, and help identify content that needs updating — using the actual documentation as context rather than hallucinating answers from training data.
+DocPlatform includes a [built-in MCP server with 26 tools](/mcp/) for AI-assisted documentation workflows. An AI assistant can search your docs, read specific pages, and help identify content that needs updating — using the actual documentation as context rather than hallucinating answers from training data.
 
 ## Start With the Pain
 

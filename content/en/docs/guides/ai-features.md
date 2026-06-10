@@ -108,7 +108,7 @@ Supports multi-turn conversations — include previous messages in the `messages
 
 ## MCP server
 
-DocPlatform includes a built-in Model Context Protocol (MCP) server with **24 tools**, allowing AI agents like Claude Code, Claude Desktop, or Cursor to read, write, search, and manage your documentation directly.
+DocPlatform includes a built-in Model Context Protocol (MCP) server with **26 tools**, allowing AI agents like Claude Code, Claude Desktop, or Cursor to read, write, search, and manage your documentation directly.
 
 ### Quick setup
 

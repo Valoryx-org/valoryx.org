@@ -67,7 +67,7 @@ Before comparing specific tools, here's what we think matters most:
 **Pros:**
 - Beautiful, fast UI — the best-looking self-hosted wiki
 - Real-time collaboration
-- Slash commands, markdown shortcuts, embeds
+- Markdown shortcuts, raw Markdown toggle, embeds
 - API for automation
 
 **Cons:**

@@ -163,6 +163,6 @@ DocPlatform does not support simultaneous editing of the same page by multiple u
 ## Tips
 
 - **Drag pages** in the sidebar to reorganize your documentation structure
-- **Slash commands** — type `/` in the editor to quickly insert components (callout, code block, table, etc.)
+- **Toolbar components** — insert callouts, code blocks, and tables from the editor toolbar
 - **Paste rich text** from Google Docs, Notion, or Confluence — the editor converts it to clean Markdown
 - **Frontmatter defaults** — set workspace-level defaults for `published`, `access`, and `tags` to reduce repetitive entry

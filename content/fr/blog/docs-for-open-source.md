@@ -188,7 +188,7 @@ L'[édition Community](/open-source/) n'est pas un essai. Ce n'est pas un tier g
 - RBAC avec 5 rôles
 - Les 5 thèmes
 - Authentification WebAuthn/passkey
-- Serveur MCP avec 13 outils IA
+- Serveur MCP avec 26 outils IA
 
 La seule chose que l'édition Community n'inclut pas est l'hébergement cloud — vous l'exécutez sur votre propre infrastructure. Pour les projets open source qui gèrent déjà leur propre infrastructure, ce n'est pas une limitation ; c'est un avantage.
 

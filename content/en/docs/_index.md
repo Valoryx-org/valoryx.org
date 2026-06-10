@@ -114,7 +114,7 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 
 - **Writing assist** — Rewrite, improve, shorten, or expand selected content using Claude or OpenAI
 - **Doc chat** — Multi-turn conversation about your workspace documentation
-- **MCP server (13 tools)** — Built-in Model Context Protocol server. Connect Claude Code, Claude Desktop, or Cursor to read, write, search, and maintain your docs autonomously via stdio
+- **MCP server (26 tools)** — Built-in Model Context Protocol server. Connect Claude Code, Claude Desktop, or Cursor to read, write, search, and maintain your docs autonomously via stdio
 - **Context Graph API** — Structured knowledge graph for AI agents to navigate page relationships, tags, and wikilinks
 
 ### Analytics & billing

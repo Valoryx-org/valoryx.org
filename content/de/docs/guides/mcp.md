@@ -95,7 +95,7 @@ Then configure your MCP client to connect via Streamable HTTP at `http://your-se
 
 ## Available tools (24)
 
-The MCP server exposes 24 tools across 9 categories.
+The MCP server exposes 26 tools across 10 categories.
 
 ### Content (6 tools)
 

@@ -41,9 +41,9 @@ DocPlatform implements all three today, using the Model Context Protocol (MCP).
 
 DocPlatform ships with a built-in MCP server — no plugins, no separate service. When you enable it, any MCP-compatible AI client can interact with your documentation through 13 purpose-built tools.
 
-## The 13 Tools
+## The 26 Tools
 
-Here's what DocPlatform's MCP server exposes:
+Here's a selection of what DocPlatform's MCP server exposes — the full 26-tool reference lives on the [MCP page](/mcp/):
 
 ### Read Operations
 

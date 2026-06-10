@@ -41,9 +41,9 @@ DocPlatform implementiert alle drei heute, unter Verwendung des Model Context Pr
 
 DocPlatform wird mit einem eingebauten MCP-Server ausgeliefert — keine Plugins, kein separater Dienst. Wenn Sie ihn aktivieren, kann jeder MCP-kompatible KI-Client mit Ihrer Dokumentation über 13 zweckgebundene Tools interagieren.
 
-## Die 13 Tools
+## Die 26 Tools
 
-Hier ist, was DocPlatforms MCP-Server bereitstellt:
+Hier ist eine Auswahl dessen, was DocPlatforms MCP-Server bereitstellt — die vollständige Referenz aller 26 Tools finden Sie auf der [MCP-Seite](/mcp/):
 
 ### Leseoperationen
 

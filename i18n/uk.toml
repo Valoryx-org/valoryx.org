@@ -414,7 +414,7 @@ other = "Шаблони"
 [feat7_title]
 other = "MCP-сервер"
 [feat7_text]
-other = "Вбудований сервер Model Context Protocol з 13 інструментами. ШІ-агенти можуть читати, шукати та оновлювати вашу документацію. Найдоступніша для ШІ платформа документації."
+other = "Вбудований сервер Model Context Protocol з 26 інструментами. ШІ-агенти можуть читати, шукати та оновлювати вашу документацію. Найдоступніша для ШІ платформа документації."
 [pricing_start_free]
 other = "Почати безкоштовно"
 [cookie_title]
@@ -540,7 +540,7 @@ other = "AI-Native Documentation"
 [mcp_hero_title]
 other = "Connect your docs to AI"
 [mcp_hero_subtitle]
-other = "Valoryx містить вбудований MCP-сервер. Підключайтеся до Claude, Cursor, VS Code та будь-якого MCP-клієнта через stdio (локально) або HTTPS (хмара). 24 інструменти для читання, запису, пошуку та супроводу документації."
+other = "Valoryx містить вбудований MCP-сервер. Підключайтеся до Claude, Cursor, VS Code та будь-якого MCP-клієнта через stdio (локально) або HTTPS (хмара). 26 інструментів для читання, запису, пошуку та супроводу документації."
 [mcp_what_title]
 other = "What is MCP?"
 [mcp_what_text]
@@ -566,7 +566,7 @@ other = "Add to Claude Desktop settings (Settings, Developer, MCP Servers):"
 [mcp_cursor_desc]
 other = "Add to .cursor/mcp.json in your project:"
 [mcp_tools_title]
-other = "24 інструменти"
+other = "26 інструментів"
 [mcp_tools_subtitle]
 other = "Everything your AI assistant needs to manage documentation"
 [mcp_cat_content]
@@ -678,7 +678,7 @@ other = "Push and pull from any Git repository. Changes in the editor sync to Gi
 [oss_feature_editor_title]
 other = "WYSIWYG Editor"
 [oss_feature_editor_text]
-other = "Block-based Tiptap editor with slash commands, markdown shortcuts, and drag-and-drop."
+other = "Block-based Tiptap editor with markdown shortcuts, a raw Markdown toggle, and image drag-and-drop."
 [oss_feature_publish_title]
 other = "Published Docs"
 [oss_feature_publish_text]
@@ -812,7 +812,7 @@ other = "Community Edition"
 [pce_feat1]
 other = "Full editor, git sync, search, publishing"
 [pce_feat2]
-other = "MCP server (13 tools, stdio)"
+other = "MCP server (26 tools, stdio)"
 [pce_feat3]
 other = "No license key required"
 [pce_feat4]

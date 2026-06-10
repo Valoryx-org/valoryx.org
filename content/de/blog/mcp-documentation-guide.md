@@ -10,7 +10,7 @@ Model Context Protocol (MCP) ist ein offener Standard, der KI-Assistenten die In
 
 Für Dokumentationsteams verändert dies den Workflow grundlegend. Ihr KI-Assistent ist nicht mehr ein Textgenerator, der mit veraltetem Kontext arbeitet, sondern wird zu einem Teilnehmer, der Ihre tatsächliche Dokumentation liest, Ihre Wissensbasis durchsucht und Bearbeitungen vorschlägt, die Sie prüfen können, bevor sie live gehen.
 
-Valoryx liefert einen eingebauten MCP-Server mit 13 Tools. Keine Plugins zu installieren, keine API-Schlüssel zu konfigurieren. Wenn Sie eine laufende Instanz haben, ist der MCP-Server bereits da.
+Valoryx liefert einen eingebauten MCP-Server mit 26 Tools. Keine Plugins zu installieren, keine API-Schlüssel zu konfigurieren. Wenn Sie eine laufende Instanz haben, ist der MCP-Server bereits da.
 
 ## Was MCP tatsächlich macht
 
@@ -145,6 +145,6 @@ Die Suchqualität hängt von Ihrem Inhalt ab. Wenn Ihre Dokumentation inkonsiste
 3. Die MCP-Server-Konfiguration zu Claude Desktop hinzufügen
 4. Mit einem schreibgeschützten Workflow beginnen: Suchen und prüfen, bevor Sie Schreibzugriff aktivieren
 
-Die [MCP-Dokumentation](/mcp/) deckt die vollständige API-Referenz für alle 13 Tools ab, einschließlich Parametertypen und Antwortschemas.
+Die [MCP-Dokumentation](/mcp/) deckt die vollständige API-Referenz für alle 26 Tools ab, einschließlich Parametertypen und Antwortschemas.
 
 Dokumentationspflege muss kein manueller Prozess sein. Mit einem strukturierten Protokoll zwischen Ihrem KI-Assistenten und Ihrer Dokumentationsplattform werden die mühsamen Teile — veraltete Inhalte finden, Konsistenz prüfen, mechanische Aktualisierungen durchführen — zu etwas, das Sie mit Vertrauen delegieren können.

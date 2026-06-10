@@ -383,7 +383,7 @@ docplatform mcp [flags]
 
 ### Behavior
 
-Starts an MCP server on stdin/stdout, scoped to a single workspace and authenticated via API key. Exposes 24 tools for content CRUD, search, quality scanning, versioning, export, and more. Compatible with any MCP client (Claude Desktop, Claude Code, Cursor, VS Code).
+Starts an MCP server on stdin/stdout, scoped to a single workspace and authenticated via API key. Exposes 26 tools for content CRUD, search, quality scanning, versioning, export, and more. Compatible with any MCP client (Claude Desktop, Claude Code, Cursor, VS Code).
 
 ### Example
 
