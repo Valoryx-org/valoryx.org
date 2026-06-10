@@ -41,12 +41,12 @@ Prompt: "Busca en todas las páginas referencias a /api/v1/ — migramos
 a /api/v2/ el mes pasado. Lista cada página que todavía mencione v1."
 ```
 
-El asistente llama a la herramienta MCP `search_pages`, encuentra cada ocurrencia y devuelve una lista con rutas de páginas y contexto circundante. Lo que a un humano le tomaría 30 minutos de grep y lectura le toma a la IA unos 10 segundos.
+El asistente llama a la herramienta MCP `docplatform_search`, encuentra cada ocurrencia y devuelve una lista de páginas coincidentes. Lo que a un humano le tomaría 30 minutos de grep y lectura le toma a la IA unos 10 segundos.
 
 ### Detectar cambios de terminología
 
 ```
-Prompt: "Encuentra todas las páginas que usen el término 'workspace group'. 
+Prompt: "Encuentra todas las páginas que usen el término 'workspace group'.
 Renombramos esto a 'organization' en v3.2. Lístalas."
 ```
 
@@ -55,11 +55,11 @@ Misma herramienta, diferente consulta. El asistente encuentra cada instancia de 
 ### Generar un informe de obsolescencia
 
 ```
-Prompt: "Lista todas las páginas en el workspace de Referencia de API que no se
-hayan actualizado en los últimos 60 días, ordenadas por antigüedad."
+Prompt: "¿Qué páginas del workspace de Referencia de API no muestran
+actividad reciente? Lista primero las más inactivas."
 ```
 
-El asistente llama a `search_recent` y cruza referencias contra el árbol completo de páginas. Obtiene una lista priorizada de páginas con mayor probabilidad de estar obsoletas.
+El asistente obtiene el historial de actividad reciente con `docplatform_get_activity` y lo cruza contra el árbol completo de páginas de `docplatform_get_tree` — las páginas sin ediciones recientes son sus candidatas a obsolescencia.
 
 ### Realizar las actualizaciones
 
@@ -71,7 +71,7 @@ ahora acepta passkeys además de contraseñas. Actualiza la guía para
 cubrir ambos métodos, manteniendo la estructura existente."
 ```
 
-El asistente lee la página mediante `get_page`, redacta la actualización y la aplica mediante `update_page`. La edición aparece en el historial de revisiones y, si la sincronización git está configurada, aparece como un commit que puede revisar en un pull request.
+El asistente lee la página mediante `docplatform_read_page`, redacta la actualización y la aplica mediante `docplatform_update_page`. La edición aparece en el historial de revisiones y, si la sincronización git está configurada, aparece como un commit que puede revisar en un pull request.
 
 La perspectiva clave es que [MCP hace de la IA un participante en su flujo de trabajo de documentación](/blog/mcp-documentation-guide/), no un generador de texto desconectado. Lee su contenido real, hace cambios a través del mismo sistema que usa su equipo y deja un registro de auditoría.
 
@@ -132,7 +132,7 @@ Esto no requiere un equipo de documentación dedicado. Distribuye el trabajo ent
 
 ## Primeros pasos
 
-Si su documentación ya está obsoleta, comience con las páginas de mayor tráfico. Según la [encuesta de desarrolladores de Splunk](https://www.splunk.com/en_us/form/state-of-observability.html), la mayoría de los sitios de documentación siguen una distribución de ley de potencias — el 10% de las páginas obtiene el 80% del tráfico. Arregle esas primero.
+Si su documentación ya está obsoleta, comience con las páginas de mayor tráfico. El tráfico de documentación está muy sesgado — una pequeña fracción de las páginas recibe la mayoría de las visitas. Arregle esas primero.
 
 Luego establezca la infraestructura para prevenir obsolescencia futura:
 

@@ -1,6 +1,6 @@
 ---
 title: "MCP para Documentación: Una Guía Técnica"
-description: "Cómo Model Context Protocol conecta asistentes de IA a su documentación. Configure Claude Desktop, use 26 herramientas integradas y automatice el mantenimiento de documentación."
+description: "Cómo Model Context Protocol conecta asistentes de IA a su documentación. Configure Claude Desktop, use las 26 herramientas integradas y automatice el mantenimiento de documentación."
 date: "2026-03-16"
 author: "Equipo Valoryx"
 tags: ["mcp", "ai", "documentation", "tutorial"]
@@ -10,7 +10,7 @@ Model Context Protocol (MCP) es un estándar abierto que permite a los asistente
 
 Para los equipos de documentación, esto cambia el flujo de trabajo fundamentalmente. Su asistente de IA deja de ser un generador de texto que trabaja con contexto obsoleto y se convierte en un participante que lee su documentación real, busca en su base de conocimiento y realiza ediciones que usted puede revisar antes de que se publiquen.
 
-Valoryx incluye un servidor MCP integrado con 26 herramientas. Sin plugins que instalar, sin claves de API que configurar. Si tiene una instancia en ejecución, el servidor MCP ya está ahí.
+Valoryx incluye un servidor MCP integrado con 26 herramientas. Sin plugins que instalar, sin servicio aparte que ejecutar — si tiene una instancia en ejecución, el servidor MCP ya está ahí. Lo único que necesita es una clave de API.
 
 ## Qué hace realmente MCP
 
@@ -22,103 +22,102 @@ El resultado práctico: puede pedirle a Claude "encuentra todas las páginas que
 
 ## Las 26 herramientas integradas
 
-Las herramientas MCP de Valoryx se dividen en cuatro categorías:
+Cada herramienta lleva el prefijo de espacio de nombres `docplatform_*`, de modo que nunca colisiona con otros servidores MCP en su cliente. La referencia completa a nivel de parámetros está en la [página de MCP](/mcp/); este es el registro completo por categoría:
 
-### Herramientas de lectura
-Estas recuperan contenido sin modificar nada.
+### Contenido
+Cree, lea y reorganice páginas. Cada escritura pasa por el mismo servicio de contenido que el editor web, por lo que los cambios se rastrean y son seguros para la sincronización.
 
-- **get_page** — Obtener una sola página por ID o ruta. Devuelve título, contenido markdown, metadatos y marca de tiempo de última modificación.
-- **get_workspace** — Listar todos los workspaces con sus conteos de páginas y configuraciones.
-- **get_page_tree** — Devolver el árbol de navegación completo para un workspace. Útil para entender la estructura de la documentación antes de hacer cambios.
+- **docplatform_list_pages** — lista las páginas del workspace conectado.
+- **docplatform_read_page** — lee el contenido markdown y los metadatos de una página.
+- **docplatform_write_page** — escribe una página: la crea si no existe, la actualiza si existe. La operación única de "simplemente escríbelo" para agentes de IA.
+- **docplatform_update_page** — actualiza una página existente (falla en lugar de crear — útil cuando la página debe existir previamente).
+- **docplatform_delete_page** — elimina una página.
+- **docplatform_move_page** — mueve una página a una nueva ruta en el árbol.
 
-### Herramientas de búsqueda
-Búsqueda de texto completo impulsada por el mismo motor Bleve que impulsa la interfaz web.
+### Descubrimiento y contexto
+- **docplatform_search** — búsqueda de texto completo en el workspace, con coincidencia difusa y resultados ordenados por relevancia — el mismo motor Bleve que impulsa la interfaz web.
+- **docplatform_get_context** — el caballo de batalla del RAG: devuelve una página junto con su padre, sus páginas hermanas y los destinos de sus wikilinks en una sola llamada, de modo que el asistente obtiene el contexto circundante sin cinco viajes de ida y vuelta.
+- **docplatform_get_tree** — el árbol de navegación completo de un workspace. Útil para entender la estructura de la documentación antes de hacer cambios.
+- **docplatform_list_workspaces** — lista los workspaces a los que puede acceder la clave de API.
+- **docplatform_get_manifest** — un manifiesto del workspace legible por máquina.
 
-- **search_pages** — Buscar en todas las páginas de un workspace. Soporta consultas por frase, búsquedas por campo específico y operadores booleanos.
-- **search_by_tag** — Encontrar páginas con etiquetas específicas. Útil para auditoría: "muéstrame todo etiquetado como `deprecated`."
-- **search_recent** — Encontrar páginas modificadas en los últimos N días. Bueno para revisar cambios recientes.
+### Calidad
+- **docplatform_validate_links** — encuentra enlaces internos y wikilinks rotos.
+- **docplatform_quality_scan** — analiza el contenido en busca de problemas de calidad.
 
-### Herramientas de escritura
-Estas crean o modifican contenido. Cada operación de escritura crea una entrada en el ledger, por lo que los cambios se rastrean y son seguros para la sincronización.
+### Versionado
+- **docplatform_list_versions** / **docplatform_create_version** — listan y crean instantáneas de versión con nombre.
 
-- **create_page** — Crear una nueva página con título, contenido, ruta padre y etiquetas.
-- **update_page** — Reemplazar el contenido de una página existente. La versión anterior se preserva en el historial.
-- **move_page** — Cambiar la posición de una página en el árbol de navegación.
-- **delete_page** — Eliminación suave de una página (recuperable desde el panel de administración).
+### Comentarios y actividad
+- **docplatform_list_comments** / **docplatform_add_comment** — leen y participan en las discusiones de página.
+- **docplatform_get_activity** — el feed de actividad reciente: quién cambió qué, y cuándo.
 
-### Herramientas de administración
-Operaciones de gestión de workspaces y usuarios.
+### Gestión de workspaces
+- **docplatform_create_workspace** / **docplatform_get_workspace** — crean e inspeccionan workspaces.
+- **docplatform_publish_workspace** — publica un workspace como sitio público.
 
-- **list_users** — Obtener todos los usuarios con sus roles. Útil para auditar el acceso.
-- **get_activity_log** — Recuperar actividad reciente (ediciones, inicios de sesión, cambios de permisos).
-- **get_sync_status** — Verificar el estado de sincronización git para un workspace — última hora de sincronización, cambios pendientes, cualquier conflicto.
+### Temas, exportación, IA y sincronización git
+- **docplatform_get_theme** / **docplatform_update_theme** — leen y cambian el tema del workspace.
+- **docplatform_export** — exporta el contenido del workspace.
+- **docplatform_writing_assist** — asistencia de escritura del lado del servidor (mejorar, simplificar, expandir, resumir, corregir gramática, traducir) cuando hay un proveedor de IA configurado.
+- **docplatform_resolve_sync_conflict** — resuelve un conflicto de sincronización git eligiendo un lado o aportando el contenido fusionado.
 
 ## Configuración de Claude Desktop
 
-Para conectar Claude Desktop a su instancia de Valoryx, añada una entrada de servidor MCP a su archivo de configuración. En macOS, este se encuentra en `~/Library/Application Support/Claude/claude_desktop_config.json`. En Windows, es `%APPDATA%\Claude\claude_desktop_config.json`.
+El servidor MCP habla stdio a través del propio binario `docplatform` — sin paquetes intermediarios. Añada una entrada a su archivo de configuración (en macOS, `~/Library/Application Support/Claude/claude_desktop_config.json`; en Windows, `%APPDATA%\Claude\claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
-    "valoryx-docs": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@anthropic-ai/mcp-client",
-        "--server-url",
-        "https://docs.yourcompany.com/api/mcp"
-      ],
-      "env": {
-        "MCP_API_KEY": "your-api-key-here"
-      }
+    "docplatform": {
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
     }
   }
 }
 ```
 
-Genere una clave de API desde el panel de administración de Valoryx en **Settings > API Keys**. La clave hereda los permisos del usuario que la creó, así que use una cuenta de servicio dedicada con el rol RBAC apropiado si desea limitar lo que la IA puede hacer.
+Cree la clave de API en **Workspace Settings → API Keys**. Empieza por `dp_live_` y se muestra una sola vez. Las claves llevan scopes (`read`, `write`, `delete` — `admin` es opcional, opt-in), y cada llamada MCP se verifica además contra el rol del usuario en el workspace, de modo que la clave de un Editor no puede realizar operaciones de administrador sin importar qué scopes declare.
 
-Para la Community Edition ejecutándose localmente, la URL es típicamente `http://localhost:3000/api/mcp`.
+Para instancias remotas o en la nube existe también un transporte Streamable HTTP (endpoint `/mcp`) — consulte la [página de MCP](/mcp/) para la matriz de transportes y la configuración por cliente (Claude Code, Cursor, VS Code).
 
 ## Ejemplos prácticos
 
 Una vez conectado, estas son cosas concretas que puede hacer:
 
-### Encontrar contenido obsoleto
-
-```
-"Encuentra todas las páginas en el workspace de Ingeniería que no se han
-actualizado en los últimos 90 días"
-```
-
-El asistente llama a `search_recent` con una ventana de 90 días, invierte el resultado contra `get_page_tree`, y devuelve una lista de páginas potencialmente obsoletas. Obtiene rutas de páginas, fechas de última modificación y últimos editores — suficiente para asignar tareas de revisión.
-
 ### Auditar consistencia
 
 ```
-"Busca en todas las páginas referencias a nuestro antiguo endpoint de API
-api.example.com/v1 y lístalas"
+"Search all pages for references to our old API endpoint
+api.example.com/v1 and list them"
 ```
 
-Esto llama a `search_pages` con la cadena del endpoint antiguo. Obtiene una lista de cada página que todavía referencia la URL deprecada, con contexto circundante. Sin necesidad de hacer grep manual a través de un repositorio de documentación.
+Esto llama a `docplatform_search` con la cadena del endpoint antiguo. Obtiene una lista de cada página que todavía referencia la URL obsoleta. Sin necesidad de hacer grep manual en un repositorio de documentación.
 
 ### Redactar y actualizar contenido
 
 ```
-"Lee la guía de autenticación actual, luego actualízala para incluir
-el nuevo flujo de inicio de sesión con passkey. Mantén la estructura existente."
+"Read the current authentication guide, then update it to include
+the new passkey login flow. Keep the existing structure."
 ```
 
-El asistente llama a `get_page` para leer el contenido actual, redacta la actualización y llama a `update_page` para aplicarla. La versión anterior permanece en el historial. Si [la sincronización git](/docs/guides/git-integration/) está configurada, la edición aparece como un commit en su repositorio.
+El asistente llama a `docplatform_read_page` para leer el contenido actual, redacta la actualización y llama a `docplatform_update_page` para aplicarla. Si [la sincronización git](/docs/guides/git-integration/) está configurada, la edición aparece como un commit en su repositorio, atribuido al usuario que actúa.
 
 ### Revisar cambios recientes
 
 ```
-"Muéstrame todo lo que cambió en la última semana en todos
-los workspaces"
+"Show me everything that changed this week in this workspace"
 ```
 
-Llama a `search_recent` con una ventana de 7 días. Devuelve un resumen de qué cambió, quién lo cambió y cuándo. Útil para revisiones semanales de documentación sin iniciar sesión en la interfaz web.
+Llama a `docplatform_get_activity`. Devuelve qué cambió, quién lo cambió y cuándo. Útil para revisiones semanales de documentación sin iniciar sesión en la interfaz web.
+
+### Verificar la calidad antes de un lanzamiento
+
+```
+"Validate all internal links in this workspace and list anything broken"
+```
+
+Llama a `docplatform_validate_links` y devuelve los destinos rotos junto con sus páginas de origen — el tipo de barrido que resulta tedioso a mano e instantáneo con acceso estructurado.
 
 ## Qué significa esto para el mantenimiento de documentación
 
@@ -134,17 +133,17 @@ Para más información sobre cómo usar MCP para mantener la documentación actu
 
 Las herramientas MCP operan sobre páginas individuales. No hay una herramienta para "reescribir todo el sitio de documentación" — por diseño. La reestructuración a gran escala todavía necesita juicio humano sobre la arquitectura de información.
 
-Las herramientas de escritura crean cambios reales. Si configura Claude Desktop con una clave de API de nivel administrador, la IA puede eliminar páginas. Use RBAC para delimitar los permisos de la clave de API apropiadamente. Un rol "Editor" puede leer y escribir contenido pero no puede eliminar workspaces ni gestionar usuarios.
+Las herramientas de escritura crean cambios reales. Si le entrega al asistente una clave con los scopes `write` y `delete`, puede modificar y eliminar páginas. Empiece en solo lectura: cree una clave con únicamente el scope `read` para flujos de auditoría, y conceda scopes de escritura cuando confíe en el ciclo de revisión. Los scopes se aplican del lado del servidor, junto con el rol del usuario en el workspace.
 
 La calidad de la búsqueda depende de su contenido. Si su documentación usa terminología inconsistente, la IA encontrará resultados inconsistentes. MCP hace la búsqueda rápida, pero no arregla los problemas subyacentes del contenido.
 
 ## Primeros pasos
 
 1. [Instale Valoryx](/install/) — binario único, sin dependencias, funcionando en menos de 2 minutos
-2. Genere una clave de API desde el panel de administración
+2. Cree una clave de API en **Workspace Settings → API Keys**
 3. Añada la configuración del servidor MCP a Claude Desktop
 4. Comience con un flujo de trabajo de solo lectura: busque y audite antes de habilitar las escrituras
 
-La [documentación de MCP](/mcp/) cubre la referencia completa de la API para las 26 herramientas, incluyendo tipos de parámetros y esquemas de respuesta.
+La [documentación de MCP](/mcp/) cubre la referencia completa de las 26 herramientas, incluyendo tipos de parámetros y esquemas de respuesta.
 
 El mantenimiento de documentación no tiene que ser un proceso manual. Con un protocolo estructurado entre su asistente de IA y su plataforma de documentación, las partes tediosas — encontrar contenido obsoleto, verificar consistencia, hacer actualizaciones mecánicas — se convierten en algo que puede delegar con confianza.

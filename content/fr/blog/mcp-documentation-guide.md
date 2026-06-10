@@ -1,6 +1,6 @@
 ---
 title: "MCP pour la documentation : guide technique"
-description: "Comment le Model Context Protocol connecte les assistants IA à votre documentation. Configurez Claude Desktop, utilisez 26 outils intégrés et automatisez la maintenance documentaire."
+description: "Comment le Model Context Protocol connecte les assistants IA à votre documentation. Configurez Claude Desktop, utilisez les 26 outils intégrés et automatisez la maintenance documentaire."
 date: "2026-03-16"
 author: "Valoryx Team"
 tags: ["mcp", "ai", "documentation", "tutorial"]
@@ -10,7 +10,7 @@ Le Model Context Protocol (MCP) est un standard ouvert qui permet aux assistants
 
 Pour les équipes de documentation, cela change fondamentalement le workflow. Votre assistant IA cesse d'être un générateur de texte travaillant à partir d'un contexte obsolète et devient un participant qui lit votre documentation réelle, recherche dans votre base de connaissances et effectue des modifications que vous pouvez réviser avant leur mise en ligne.
 
-Valoryx intègre un serveur MCP avec 26 outils. Aucun plugin à installer, aucune clé API à configurer. Si vous avez une instance en fonctionnement, le serveur MCP est déjà là.
+Valoryx intègre un serveur MCP avec 26 outils. Aucun plugin à installer, aucun service séparé à lancer — si vous avez une instance en fonctionnement, le serveur MCP est déjà là. Il ne vous faut qu'une clé API.
 
 ## Ce que fait réellement MCP
 
@@ -22,104 +22,102 @@ Le résultat pratique : vous pouvez demander à Claude « trouve toutes les page
 
 ## Les 26 outils intégrés
 
-Les outils MCP de Valoryx se répartissent en quatre catégories :
+Chaque outil porte le préfixe `docplatform_*` afin de ne jamais entrer en collision avec d'autres serveurs MCP dans votre client. La référence complète, au niveau des paramètres, se trouve sur la [page MCP](/mcp/) ; voici le registre complet par catégorie :
 
-### Outils de lecture
-Ceux-ci récupèrent du contenu sans rien modifier.
+### Contenu
+Créer, lire et réorganiser des pages. Chaque écriture passe par le même service de contenu que l'éditeur web : les modifications sont donc suivies et compatibles avec la synchronisation.
 
-- **get_page** — Récupère une page unique par ID ou chemin. Renvoie le titre, le contenu markdown, les métadonnées et l'horodatage de dernière modification.
-- **get_workspace** — Liste tous les workspaces avec leurs nombres de pages et paramètres.
-- **get_page_tree** — Renvoie l'arborescence de navigation complète d'un workspace. Utile pour comprendre la structure de la documentation avant d'effectuer des modifications.
+- **docplatform_list_pages** — liste les pages de l'espace de travail connecté.
+- **docplatform_read_page** — lit le contenu markdown et les métadonnées d'une page.
+- **docplatform_write_page** — écrit une page : la crée si elle n'existe pas, la met à jour si elle existe. L'opération « écris-la, c'est tout » pour les agents IA.
+- **docplatform_update_page** — met à jour une page existante (échoue plutôt que de créer — utile quand la page doit déjà exister).
+- **docplatform_delete_page** — supprime une page.
+- **docplatform_move_page** — déplace une page vers un nouveau chemin dans l'arborescence.
 
-### Outils de recherche
-Recherche plein texte propulsée par le même moteur Bleve que l'interface web.
+### Découverte et contexte
+- **docplatform_search** — recherche plein texte dans l'espace de travail, avec correspondance approximative et résultats classés par pertinence — le même moteur Bleve que l'interface web.
+- **docplatform_get_context** — le pilier du RAG : renvoie une page accompagnée de son parent, de ses pages sœurs et des cibles de ses wikilinks en un seul appel, pour que l'assistant dispose du contexte environnant sans cinq allers-retours.
+- **docplatform_get_tree** — l'arborescence de navigation complète d'un espace de travail. Utile pour comprendre la structure de la documentation avant d'effectuer des modifications.
+- **docplatform_list_workspaces** — liste les espaces de travail accessibles avec la clé API.
+- **docplatform_get_manifest** — un manifeste de l'espace de travail lisible par machine.
 
-- **search_pages** — Recherche dans toutes les pages d'un workspace. Prend en charge les requêtes par phrase, les recherches par champ spécifique et les opérateurs booléens.
-- **search_by_tag** — Trouve les pages avec des tags spécifiques. Utile pour l'audit : « montre-moi tout ce qui est tagué `deprecated` ».
-- **search_recent** — Trouve les pages modifiées au cours des N derniers jours. Pratique pour réviser les changements récents.
+### Qualité
+- **docplatform_validate_links** — détecte les liens internes et les wikilinks cassés.
+- **docplatform_quality_scan** — analyse le contenu pour repérer les problèmes de qualité.
 
-### Outils d'écriture
-Ceux-ci créent ou modifient du contenu. Chaque opération d'écriture crée une entrée dans le ledger, garantissant que les modifications sont suivies et compatibles avec la synchronisation.
+### Versionnage
+- **docplatform_list_versions** / **docplatform_create_version** — lister et créer des instantanés de version nommés.
 
-- **create_page** — Crée une nouvelle page avec titre, contenu, chemin parent et tags.
-- **update_page** — Remplace le contenu d'une page existante. La version précédente est conservée dans l'historique.
-- **move_page** — Modifie la position d'une page dans l'arborescence de navigation.
-- **delete_page** — Suppression douce d'une page (récupérable depuis le panneau d'administration).
+### Commentaires et activité
+- **docplatform_list_comments** / **docplatform_add_comment** — lire les discussions d'une page et y participer.
+- **docplatform_get_activity** — le flux d'activité récente : qui a changé quoi, et quand.
 
-### Outils d'administration
-Opérations de gestion des workspaces et utilisateurs.
+### Gestion des espaces de travail
+- **docplatform_create_workspace** / **docplatform_get_workspace** — créer et inspecter des espaces de travail.
+- **docplatform_publish_workspace** — publier un espace de travail en tant que site public.
 
-- **list_users** — Obtient tous les utilisateurs avec leurs rôles. Utile pour auditer les accès.
-- **get_activity_log** — Récupère l'activité récente (modifications, connexions, changements de permissions).
-- **get_sync_status** — Vérifie l'état de la synchronisation git pour un workspace — dernière synchronisation, modifications en attente, éventuels conflits.
+### Thèmes, export, IA et synchronisation git
+- **docplatform_get_theme** / **docplatform_update_theme** — lire et modifier le thème de l'espace de travail.
+- **docplatform_export** — exporter le contenu de l'espace de travail.
+- **docplatform_writing_assist** — assistance à la rédaction côté serveur (améliorer, simplifier, développer, résumer, corriger la grammaire, traduire) lorsqu'un fournisseur IA est configuré.
+- **docplatform_resolve_sync_conflict** — résoudre un conflit de synchronisation git en choisissant un côté ou en fournissant le contenu fusionné.
 
 ## Configuration de Claude Desktop
 
-Pour connecter Claude Desktop à votre instance Valoryx, ajoutez une entrée de serveur MCP à votre fichier de configuration. Sur macOS, il se trouve à `~/Library/Application Support/Claude/claude_desktop_config.json`. Sur Windows, c'est `%APPDATA%\Claude\claude_desktop_config.json`.
+Le serveur MCP parle stdio via le binaire `docplatform` lui-même — pas de paquet intermédiaire. Ajoutez une entrée à votre fichier de configuration (sur macOS, `~/Library/Application Support/Claude/claude_desktop_config.json` ; sur Windows, `%APPDATA%\Claude\claude_desktop_config.json`) :
 
 ```json
 {
   "mcpServers": {
-    "valoryx-docs": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@anthropic-ai/mcp-client",
-        "--server-url",
-        "https://docs.yourcompany.com/api/mcp"
-      ],
-      "env": {
-        "MCP_API_KEY": "your-api-key-here"
-      }
+    "docplatform": {
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
     }
   }
 }
 ```
 
-Générez une clé API depuis le panneau d'administration Valoryx sous **Settings > API Keys**. La clé hérite des permissions de l'utilisateur qui l'a créée, utilisez donc un compte de service dédié avec un rôle RBAC approprié si vous souhaitez limiter ce que l'IA peut faire.
+Créez la clé API dans **Workspace Settings → API Keys**. Elle commence par `dp_live_` et n'est affichée qu'une seule fois. Les clés portent des scopes (`read`, `write`, `delete` — `admin` est opt-in), et chaque appel MCP est en outre vérifié contre le rôle de l'utilisateur agissant dans l'espace de travail : la clé d'un Editor ne peut donc pas effectuer d'opérations admin, quels que soient les scopes qu'elle revendique.
 
-Pour l'édition Community en local, l'URL est typiquement `http://localhost:3000/api/mcp`.
+Pour les instances distantes ou cloud, il existe aussi un transport Streamable HTTP (endpoint `/mcp`) — voir la [page MCP](/mcp/) pour la matrice des transports et la configuration par client (Claude Code, Cursor, VS Code).
 
 ## Exemples pratiques
 
 Une fois connecté, voici des actions concrètes que vous pouvez réaliser :
 
-### Trouver le contenu obsolète
-
-```
-"Trouve toutes les pages dans le workspace Engineering qui n'ont pas
-été mises à jour au cours des 90 derniers jours"
-```
-
-L'assistant appelle `search_recent` avec une fenêtre de 90 jours, inverse le résultat par rapport à `get_page_tree` et renvoie une liste de pages potentiellement obsolètes. Vous obtenez les chemins des pages, les dates de dernière modification et les derniers éditeurs — suffisamment pour attribuer des tâches de révision.
-
 ### Auditer la cohérence
 
 ```
-"Recherche dans toutes les pages les références à notre ancien
-endpoint API api.example.com/v1 et liste-les"
+"Search all pages for references to our old API endpoint
+api.example.com/v1 and list them"
 ```
 
-Cela appelle `search_pages` avec la chaîne de l'ancien endpoint. Vous obtenez une liste de chaque page qui référence encore l'URL dépréciée, avec le contexte environnant. Pas de grep manuel dans un dépôt de documentation.
+Cela appelle `docplatform_search` avec la chaîne de l'ancien endpoint. Vous obtenez la liste de toutes les pages qui référencent encore l'URL dépréciée. Aucun grep manuel dans un dépôt de documentation n'est nécessaire.
 
 ### Rédiger et mettre à jour du contenu
 
 ```
-"Lis le guide d'authentification actuel, puis mets-le à jour pour
-inclure le nouveau flux de connexion par passkey. Garde la structure
-existante."
+"Read the current authentication guide, then update it to include
+the new passkey login flow. Keep the existing structure."
 ```
 
-L'assistant appelle `get_page` pour lire le contenu actuel, rédige la mise à jour et appelle `update_page` pour l'appliquer. La version précédente reste dans l'historique. Si la [synchronisation git](/docs/guides/git-integration/) est configurée, la modification apparaît comme un commit dans votre dépôt.
+L'assistant appelle `docplatform_read_page` pour lire le contenu actuel, rédige la mise à jour et appelle `docplatform_update_page` pour l'appliquer. Si la [synchronisation git](/docs/guides/git-integration/) est configurée, la modification apparaît comme un commit dans votre dépôt, attribué à l'utilisateur agissant.
 
 ### Réviser les changements récents
 
 ```
-"Montre-moi tout ce qui a changé la semaine dernière dans tous
-les workspaces"
+"Show me everything that changed this week in this workspace"
 ```
 
-Appelle `search_recent` avec une fenêtre de 7 jours. Renvoie un résumé de ce qui a changé, qui l'a changé et quand. Utile pour les revues hebdomadaires de documentation sans se connecter à l'interface web.
+Appelle `docplatform_get_activity`. Renvoie ce qui a changé, qui l'a changé et quand. Utile pour les revues hebdomadaires de documentation sans se connecter à l'interface web.
+
+### Vérifier la qualité avant une release
+
+```
+"Validate all internal links in this workspace and list anything broken"
+```
+
+Appelle `docplatform_validate_links` et renvoie les cibles cassées avec leurs pages sources — le genre de passage en revue fastidieux à la main et instantané avec un accès structuré.
 
 ## Ce que cela signifie pour la maintenance documentaire
 
@@ -135,17 +133,17 @@ Pour en savoir plus sur l'utilisation de MCP pour maintenir la documentation à 
 
 Les outils MCP opèrent sur des pages individuelles. Il n'y a pas d'outil « réécrire tout le site de documentation » — c'est intentionnel. Les restructurations à grande échelle nécessitent toujours le jugement humain sur l'architecture de l'information.
 
-Les outils d'écriture créent de vrais changements. Si vous configurez Claude Desktop avec une clé API de niveau admin, l'IA peut supprimer des pages. Utilisez le RBAC pour limiter les permissions de la clé API de manière appropriée. Un rôle « Editor » peut lire et écrire du contenu mais ne peut pas supprimer des workspaces ni gérer les utilisateurs.
+Les outils d'écriture créent de vrais changements. Si vous confiez à l'assistant une clé avec les scopes `write` et `delete`, il peut modifier et supprimer des pages. Commencez en lecture seule : créez une clé avec le seul scope `read` pour les workflows d'audit, puis accordez les scopes d'écriture une fois que vous faites confiance à la boucle de révision. Les scopes sont appliqués côté serveur, en plus du rôle de l'utilisateur agissant dans l'espace de travail.
 
 La qualité de la recherche dépend de votre contenu. Si votre documentation utilise une terminologie incohérente, l'IA trouvera des résultats incohérents. MCP rend la recherche rapide, mais ne corrige pas les problèmes de contenu sous-jacents.
 
 ## Pour commencer
 
-1. [Installez Valoryx](/install/) — binaire unique, pas de dépendances, opérationnel en moins de 2 minutes
-2. Générez une clé API depuis le panneau d'administration
+1. [Installez Valoryx](/install/) — binaire unique, sans dépendances, opérationnel en moins de 2 minutes
+2. Créez une clé API dans **Workspace Settings → API Keys**
 3. Ajoutez la configuration du serveur MCP à Claude Desktop
 4. Commencez par un workflow en lecture seule : recherchez et auditez avant d'activer l'écriture
 
-La [documentation MCP](/mcp/) couvre la référence API complète des 26 outils, y compris les types de paramètres et les schémas de réponse.
+La [documentation MCP](/mcp/) couvre la référence complète des 26 outils, y compris les types de paramètres et les schémas de réponse.
 
 La maintenance de la documentation n'a pas à être un processus manuel. Avec un protocole structuré entre votre assistant IA et votre plateforme de documentation, les parties fastidieuses — trouver le contenu obsolète, vérifier la cohérence, effectuer des mises à jour mécaniques — deviennent quelque chose que vous pouvez déléguer en toute confiance.

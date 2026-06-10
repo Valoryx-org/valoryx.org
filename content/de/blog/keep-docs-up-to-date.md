@@ -37,16 +37,16 @@ Mit [Model Context Protocol (MCP)](/mcp/) können Sie einen KI-Assistenten mit I
 ### Seiten finden, die veraltete Endpoints referenzieren
 
 ```
-Prompt: "Durchsuche alle Seiten nach Verweisen auf /api/v1/ — wir haben 
+Prompt: "Durchsuche alle Seiten nach Verweisen auf /api/v1/ — wir haben
 letzten Monat auf /api/v2/ migriert. Liste jede Seite auf, die noch v1 erwähnt."
 ```
 
-Der Assistent ruft das MCP-Tool `search_pages` auf, findet jedes Vorkommen und gibt eine Liste mit Seitenpfaden und umgebendem Kontext zurück. Was einen Menschen 30 Minuten Grep-und-Lesen kosten würde, erledigt die KI in etwa 10 Sekunden.
+Der Assistent ruft das MCP-Tool `docplatform_search` auf, findet jedes Vorkommen und gibt eine Liste der passenden Seiten zurück. Was einen Menschen 30 Minuten Grep-und-Lesen kosten würde, erledigt die KI in etwa 10 Sekunden.
 
 ### Terminologie-Drift erkennen
 
 ```
-Prompt: "Finde alle Seiten, die den Begriff 'Workspace-Gruppe' verwenden. Wir 
+Prompt: "Finde alle Seiten, die den Begriff 'Workspace-Gruppe' verwenden. Wir
 haben das in v3.2 in 'Organisation' umbenannt. Liste sie auf."
 ```
 
@@ -55,23 +55,23 @@ Gleiches Tool, andere Abfrage. Der Assistent findet jede Instanz veralteter Term
 ### Veralterungsbericht generieren
 
 ```
-Prompt: "Liste alle Seiten im API-Referenz-Workspace auf, die in den letzten 
-60 Tagen nicht aktualisiert wurden, sortiert nach Alter."
+Prompt: "Welche Seiten im API-Referenz-Workspace zeigen keine aktuelle
+Aktivität? Liste die ruhigsten zuerst auf."
 ```
 
-Der Assistent ruft `search_recent` auf und vergleicht mit dem vollständigen Seitenbaum. Sie erhalten eine priorisierte Liste der Seiten, die am wahrscheinlichsten veraltet sind.
+Der Assistent ruft den Feed der letzten Aktivitäten über `docplatform_get_activity` ab und gleicht ihn mit dem vollständigen Seitenbaum aus `docplatform_get_tree` ab — Seiten ohne kürzliche Bearbeitungen sind Ihre Veralterungskandidaten.
 
 ### Aktualisierungen durchführen
 
 Sobald Sie veraltete Inhalte identifiziert haben, kann die KI Aktualisierungen entwerfen:
 
 ```
-Prompt: "Lies den aktuellen Authentifizierungsleitfaden. Der Login-Endpoint 
-akzeptiert jetzt neben Passwörtern auch Passkeys. Aktualisiere den Leitfaden 
+Prompt: "Lies den aktuellen Authentifizierungsleitfaden. Der Login-Endpoint
+akzeptiert jetzt neben Passwörtern auch Passkeys. Aktualisiere den Leitfaden
 für beide Methoden, behalte die bestehende Struktur bei."
 ```
 
-Der Assistent liest die Seite über `get_page`, entwirft die Aktualisierung und wendet sie über `update_page` an. Die Bearbeitung erscheint in der Revisionshistorie und, wenn Git-Sync konfiguriert ist, als Commit, den Sie in einem Pull Request überprüfen können.
+Der Assistent liest die Seite über `docplatform_read_page`, entwirft die Aktualisierung und wendet sie über `docplatform_update_page` an. Die Bearbeitung erscheint in der Revisionshistorie und, wenn Git-Sync konfiguriert ist, als Commit, den Sie in einem Pull Request überprüfen können.
 
 Die Kernererkenntnis ist, dass [MCP die KI zu einem Teilnehmer an Ihrem Docs-Workflow macht](/blog/mcp-documentation-guide/), nicht zu einem losgelösten Textgenerator. Sie liest Ihre tatsächlichen Inhalte, nimmt Änderungen über dasselbe System vor, das Ihr Team verwendet, und hinterlässt einen Audit Trail.
 
@@ -132,7 +132,7 @@ Das erfordert kein dediziertes Dokumentationsteam. Es verteilt die Arbeit auf Pe
 
 ## Erste Schritte
 
-Wenn Ihre Dokumentation bereits veraltet ist, beginnen Sie mit den meistbesuchten Seiten. Laut der [Splunk Developer Survey](https://www.splunk.com/en_us/form/state-of-observability.html) folgen die meisten Dokumentationsseiten einer Potenzgesetzverteilung — 10 % der Seiten erhalten 80 % des Traffics. Beheben Sie diese zuerst.
+Wenn Ihre Dokumentation bereits veraltet ist, beginnen Sie mit den meistbesuchten Seiten. Dokumentations-Traffic ist stark ungleich verteilt — ein kleiner Teil der Seiten erhält die meisten Besuche. Beheben Sie diese zuerst.
 
 Dann richten Sie die Infrastruktur ein, um zukünftige Veralterung zu verhindern:
 

@@ -22,21 +22,20 @@ MCP ist ein Standardprotokoll, das KI-Tools die Verbindung mit externen Diensten
 
 ## Einrichtung
 
-### In Claude Desktop
+> **Status:** Der gehostete MCP-Endpunkt für Valoryx Cloud ist **noch nicht aktiviert** — Remote-KI-Tools können sich noch nicht mit `app.valoryx.dev` verbinden. Diese Seite wird aktualisiert, sobald er live geht. Auf einer **selbst gehosteten** Instanz funktioniert MCP bereits heute — führen Sie die folgenden Schritte auf dem Rechner aus, auf dem DocPlatform läuft.
+
+### Selbst gehostet: Claude Desktop
 
 1. Gehen Sie zu **Workspace Settings** → **API Keys**
-2. Erstellen Sie einen API Key (Read & Write oder Read Only)
-3. Fügen Sie in den Claude Desktop-Einstellungen diesen MCP-Server hinzu:
+2. Erstellen Sie einen API Key — er beginnt mit `dp_live_` und wird nur einmal angezeigt
+3. Fügen Sie in `claude_desktop_config.json` Folgendes hinzu:
 
 ```json
 {
   "mcpServers": {
-    "valoryx-docs": {
-      "command": "npx",
-      "args": ["-y", "@anthropic-ai/mcp-remote", "https://app.valoryx.dev/api/v1/mcp"],
-      "env": {
-        "API_KEY": "your-api-key-here"
-      }
+    "docplatform": {
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
     }
   }
 }
@@ -47,7 +46,7 @@ MCP ist ein Standardprotokoll, das KI-Tools die Verbindung mit externen Diensten
 
 ### In Cursor
 
-Gleiche Konfiguration — fügen Sie den MCP-Server in den Cursor-Einstellungen hinzu und verwenden Sie denselben API Key.
+Gleiche Konfiguration — fügen Sie denselben `docplatform`-Eintrag in die Datei `.cursor/mcp.json` Ihres Projekts ein.
 
 ## Verfügbare MCP-Tools
 
@@ -57,7 +56,7 @@ Der MCP-Server stellt 26 Tools bereit:
 |---|---|
 | `list_pages` | Alle Seiten eines Workspace auflisten |
 | `read_page` | Den Inhalt einer bestimmten Seite lesen |
-| `create_page` | Eine neue Seite erstellen |
+| `write_page` | Eine Seite erstellen oder, falls sie bereits existiert, aktualisieren |
 | `update_page` | Eine bestehende Seite aktualisieren |
 | `delete_page` | Eine Seite löschen |
 | `search` | Volltextsuche über alle Seiten |
@@ -67,6 +66,6 @@ Der MCP-Server stellt 26 Tools bereit:
 ## Sicherheit
 
 - API Keys werden gehasht (niemals im Klartext gespeichert)
-- Sie bestimmen den Umfang: Read Only oder Read & Write
+- Sie bestimmen den Umfang pro Key: `read`, `write` und `delete`
 - Widerrufen Sie Keys jederzeit über die Workspace Settings
-- Alle MCP-Anfragen werden im Audit-Trail protokolliert
+- Autorisierungsfehler werden protokolliert, und jede Inhaltsänderung wird im Seitenverlauf nachverfolgt

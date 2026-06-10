@@ -22,21 +22,20 @@ MCP es un protocolo estandar que permite a las herramientas de IA conectarse con
 
 ## Configuracion
 
-### En Claude Desktop
+> **Estado:** el endpoint MCP alojado de Valoryx Cloud **aun no esta habilitado** — las herramientas de IA remotas todavia no pueden conectarse a `app.valoryx.dev`. Esta pagina se actualizara en cuanto entre en servicio. En una instancia **auto-alojada**, MCP funciona hoy mismo — siga los pasos siguientes en la maquina donde se ejecuta DocPlatform.
+
+### Auto-alojado: Claude Desktop
 
 1. Vaya a **Workspace Settings** → **API Keys**
-2. Cree una API key (Read & Write o Read Only)
-3. En la configuracion de Claude Desktop, agregue este servidor MCP:
+2. Cree una API key — empieza por `dp_live_` y se muestra una sola vez
+3. En `claude_desktop_config.json`, agregue:
 
 ```json
 {
   "mcpServers": {
-    "valoryx-docs": {
-      "command": "npx",
-      "args": ["-y", "@anthropic-ai/mcp-remote", "https://app.valoryx.dev/api/v1/mcp"],
-      "env": {
-        "API_KEY": "your-api-key-here"
-      }
+    "docplatform": {
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
     }
   }
 }
@@ -47,7 +46,7 @@ MCP es un protocolo estandar que permite a las herramientas de IA conectarse con
 
 ### En Cursor
 
-La misma configuracion — agregue el servidor MCP en la configuracion de Cursor y use la misma API key.
+La misma configuracion — agregue la misma entrada `docplatform` en el archivo `.cursor/mcp.json` de su proyecto.
 
 ## Herramientas MCP disponibles
 
@@ -57,7 +56,7 @@ El servidor MCP proporciona 26 herramientas:
 |---|---|
 | `list_pages` | Listar todas las paginas de un workspace |
 | `read_page` | Leer el contenido de una pagina especifica |
-| `create_page` | Crear una nueva pagina |
+| `write_page` | Crear una pagina, o actualizarla si ya existe |
 | `update_page` | Actualizar una pagina existente |
 | `delete_page` | Eliminar una pagina |
 | `search` | Busqueda de texto completo en todas las paginas |
@@ -67,6 +66,6 @@ El servidor MCP proporciona 26 herramientas:
 ## Seguridad
 
 - Las API keys se almacenan como hash (nunca en texto plano)
-- Usted controla el alcance: Read Only o Read & Write
+- Usted controla el alcance por key: `read`, `write` y `delete`
 - Revoque las keys en cualquier momento desde Workspace Settings
-- Todas las solicitudes MCP quedan registradas en el historial de auditoria
+- Los fallos de autorizacion se registran, y cada cambio de contenido queda rastreado en el historial de la pagina

@@ -37,16 +37,16 @@ With [Model Context Protocol (MCP)](/mcp/), you can connect an AI assistant to y
 ### Finding Pages That Reference Deprecated Endpoints
 
 ```
-Prompt: "Search all pages for references to /api/v1/ — we migrated 
+Prompt: "Search all pages for references to /api/v1/ — we migrated
 to /api/v2/ last month. List every page that still mentions v1."
 ```
 
-The assistant calls the `search_pages` MCP tool, finds every occurrence, and returns a list with page paths and surrounding context. What would take a human 30 minutes of grep-and-read takes the AI about 10 seconds.
+The assistant calls the `docplatform_search` MCP tool, finds every occurrence, and returns a list of matching pages. What would take a human 30 minutes of grep-and-read takes the AI about 10 seconds.
 
 ### Detecting Terminology Drift
 
 ```
-Prompt: "Find all pages that use the term 'workspace group'. We 
+Prompt: "Find all pages that use the term 'workspace group'. We
 renamed this to 'organization' in v3.2. List them."
 ```
 
@@ -55,23 +55,23 @@ Same tool, different query. The assistant finds every instance of outdated termi
 ### Generating a Staleness Report
 
 ```
-Prompt: "List all pages in the API Reference workspace that haven't 
-been updated in the last 60 days, sorted by age."
+Prompt: "Which pages in the API Reference workspace show no recent
+activity? List the quietest ones first."
 ```
 
-The assistant calls `search_recent` and cross-references against the full page tree. You get a prioritized list of pages most likely to be stale.
+The assistant pulls the recent-activity feed with `docplatform_get_activity` and cross-references it against the full page tree from `docplatform_get_tree` — pages with no recent edits are your staleness candidates.
 
 ### Making the Updates
 
 Once you've identified stale content, the AI can draft updates:
 
 ```
-Prompt: "Read the current authentication guide. The login endpoint 
-now accepts passkeys in addition to passwords. Update the guide to 
+Prompt: "Read the current authentication guide. The login endpoint
+now accepts passkeys in addition to passwords. Update the guide to
 cover both methods, keeping the existing structure."
 ```
 
-The assistant reads the page via `get_page`, drafts the update, and applies it via `update_page`. The edit shows up in the revision history and, if git sync is configured, appears as a commit you can review in a pull request.
+The assistant reads the page via `docplatform_read_page`, drafts the update, and applies it via `docplatform_update_page`. The edit shows up in the revision history and, if git sync is configured, appears as a commit you can review in a pull request.
 
 The key insight is that [MCP makes the AI a participant in your docs workflow](/blog/mcp-documentation-guide/), not a disconnected text generator. It reads your actual content, makes changes through the same system your team uses, and leaves an audit trail.
 
@@ -132,7 +132,7 @@ This doesn't require a dedicated documentation team. It distributes the work acr
 
 ## Getting Started
 
-If your docs are already stale, start with the highest-traffic pages. According to [Splunk's developer survey](https://www.splunk.com/en_us/form/state-of-observability.html), most documentation sites follow a power-law distribution — 10% of pages get 80% of the traffic. Fix those first.
+If your docs are already stale, start with the highest-traffic pages. Documentation traffic is heavily skewed — a small fraction of pages gets most of the visits. Fix those first.
 
 Then set up the infrastructure to prevent future staleness:
 

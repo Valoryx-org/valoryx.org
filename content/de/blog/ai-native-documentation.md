@@ -14,7 +14,7 @@ Das bedeutet KI-native Dokumentation. Nicht „KI schreibt Ihre Dokumentation" (
 
 ## Das Veralterungsproblem, quantifiziert
 
-Eine Studie von Zhi et al. aus dem Jahr 2023 ergab, dass 68 % der Dokumentationsseiten in aktiven Softwareprojekten mindestens eine faktische Inkonsistenz mit der aktuellen Codebasis enthalten. Die häufigsten Probleme:
+Prüfen Sie die Dokumentation eines beliebigen aktiven Softwareprojekts, und Sie werden feststellen, dass ein großer Teil der Seiten mindestens eine faktische Inkonsistenz mit der aktuellen Codebasis enthält. Die häufigsten Probleme:
 
 - **Veraltete API-Signaturen** — Parameter hinzugefügt oder entfernt, aber Dokumentation nicht aktualisiert
 - **Falsche Konfigurationsbeispiele** — Standardwerte geändert, altes Format noch dokumentiert
@@ -33,7 +33,7 @@ Eine KI-native Dokumentationsplattform hat drei Eigenschaften:
 
 **3. Strukturierter Tool-Zugang.** KI-Agenten können mit der Dokumentation über ein definiertes Protokoll interagieren — nicht durch HTML-Scraping oder Reverse-Engineering von APIs, sondern durch explizite, dokumentierte Tools.
 
-DocPlatform implementiert alle drei heute, unter Verwendung des Model Context Protocol (MCP).
+DocPlatform liefert heute die erste und die dritte Eigenschaft — Markdown, das mit Git synchronisiert wird, plus ein eingebauter MCP-Server. Die zweite, die Code-zu-Docs-Verknüpfung, bauen Sie mit Konventionen darauf auf: Wenn Dokumentation und Code in verbundenen Repositories leben, kann ein KI-Agent mit Zugriff auf beide die Verbindung selbst herstellen.
 
 ## MCP: Das Protokoll
 
@@ -43,59 +43,59 @@ DocPlatform wird mit einem eingebauten MCP-Server ausgeliefert — keine Plugins
 
 ## Die 26 Tools
 
-Hier ist eine Auswahl dessen, was DocPlatforms MCP-Server bereitstellt — die vollständige Referenz aller 26 Tools finden Sie auf der [MCP-Seite](/mcp/):
+Hier ist eine Auswahl dessen, was DocPlatforms MCP-Server bereitstellt — die vollständige Referenz aller 26 Tools finden Sie auf der [MCP-Seite](/mcp/). Jedes Tool trägt den Namespace `docplatform_*`, sodass es nie mit anderen MCP-Servern in Ihrem Client kollidiert.
 
 ### Leseoperationen
 
-- **`search_docs`** — Volltextsuche über die gesamte Dokumentation. Gibt passende Seiten mit Relevanzwerten und Ausschnitten zurück. Ein KI-Agent verwendet dies, um die Seite zu finden, die ein bestimmtes Feature beschreibt, bevor er prüft, ob sie noch aktuell ist.
+- **`docplatform_search`** — Volltextsuche über den Workspace, mit Fuzzy-Matching und nach Relevanz sortierten Ergebnissen. Ein KI-Agent verwendet dies, um die Seite zu finden, die ein bestimmtes Feature beschreibt, bevor er prüft, ob sie noch aktuell ist.
 
-- **`get_page`** — Den vollständigen Inhalt einer bestimmten Seite über ihren Pfad abrufen. Gibt Markdown-Inhalt, Metadaten (Autor, letzte Änderung, Tags) und die Position der Seite im Navigationsbaum zurück.
+- **`docplatform_read_page`** — Den vollständigen Inhalt einer bestimmten Seite über ihren Pfad abrufen: Markdown-Inhalt plus Metadaten.
 
-- **`list_pages`** — Alle Seiten in einem Workspace auflisten, mit optionaler Filterung nach Pfadpräfix oder Tag. Nützlich für KI-Agenten, die Massenaudits durchführen.
+- **`docplatform_get_context`** — Das RAG-Arbeitspferd: liefert eine Seite zusammen mit ihrem Elternknoten, ihren Geschwistern und den Zielen ihrer Wikilinks in einem Aufruf — der Agent bekommt den umgebenden Kontext ohne fünf Roundtrips.
 
-- **`get_workspace_info`** — Metadaten über einen Workspace: Name, Theme, Git-Repository-Verbindung, Veröffentlichungsstatus.
+- **`docplatform_list_pages`** / **`docplatform_get_tree`** — Die Seiten eines Workspace und seinen Navigationsbaum aufzählen. Nützlich für KI-Agenten, die Massenaudits durchführen.
 
 ### Schreiboperationen
 
-- **`create_page`** — Eine neue Dokumentationsseite erstellen. Nimmt einen Pfad, Titel und Markdown-Inhalt entgegen. Die Seite wird sofort für die Suche indiziert und nach Git committed.
+- **`docplatform_write_page`** — Eine Seite schreiben: erstellt sie, wenn sie nicht existiert, aktualisiert sie andernfalls. Die Seite wird für die Suche indiziert und, mit konfigurierter Git-Synchronisation, nach Git committed.
 
-- **`update_page`** — Den Inhalt einer bestehenden Seite ändern. Der KI-Agent liefert das neue Markdown, und DocPlatform kümmert sich um Versionierung, Suchindex-Aktualisierung und Git-Commit.
+- **`docplatform_update_page`** — Den Inhalt einer bestehenden Seite ändern (schlägt fehl, statt zu erstellen — für Fälle, in denen die Seite bereits existieren muss).
 
-- **`move_page`** — Eine Seite im Navigationsbaum verschieben. Verarbeitet Pfadaktualisierungen und Redirect-Erstellung.
+- **`docplatform_move_page`** — Eine Seite an einen neuen Pfad im Baum verschieben.
 
-- **`delete_page`** — Eine Seite entfernen. Entfernt sie aus dem Suchindex und committed die Löschung nach Git.
+- **`docplatform_delete_page`** — Eine Seite entfernen.
 
 ### Analyseoperationen
 
-- **`check_links`** — Alle internen Links in einer Seite oder einem Workspace überprüfen. Gibt eine Liste defekter Links mit Quellseite und Zielpfad zurück. Ein KI-Agent kann dies nach einer Umstrukturierung ausführen, um tote Verweise zu finden.
+- **`docplatform_validate_links`** — Interne Links und Wikilinks überprüfen. Gibt defekte Ziele mit ihren Quellseiten zurück. Ein KI-Agent kann dies nach einer Umstrukturierung ausführen, um tote Verweise zu finden.
 
-- **`check_freshness`** — Letzte Änderungsdaten von Seiten mit Git-Commit-Zeitstempeln der Codeabschnitte vergleichen, die sie beschreiben. Markiert Seiten, die nicht aktualisiert wurden, seit sich ihr entsprechender Code geändert hat.
+- **`docplatform_quality_scan`** — Inhalte auf Qualitätsprobleme prüfen — das Rohmaterial für einen agentengenerierten Audit-Bericht.
 
-- **`suggest_updates`** — Ausgehend von einem Code-Diff (z. B. aus einem aktuellen PR) Dokumentationsseiten identifizieren, die wahrscheinlich aktualisiert werden müssen, und spezifische Änderungen vorschlagen.
+### Kollaborationsoperationen
 
-### Workflow-Operationen
+- **`docplatform_get_activity`** — Der Feed der letzten Aktivitäten: wer hat was wann geändert. Der Ausgangspunkt für Veralterungsanalysen.
 
-- **`create_review`** — Eine Dokumentationsänderung zur menschlichen Überprüfung einreichen. Erstellt einen Entwurf, der in der Review-Warteschlange erscheint, nicht auf der veröffentlichten Seite.
-
-- **`get_review_status`** — Den Status einer ausstehenden Überprüfung abfragen.
+- **`docplatform_list_comments`** / **`docplatform_add_comment`** — Seitendiskussionen lesen und sich daran beteiligen, damit ein Agent einen Fund direkt auf der betroffenen Seite markieren kann.
 
 ## Praktische Workflows
 
-Diese Tools sind nicht theoretisch. So verwenden Teams sie heute.
+Diese Tools fügen sich zu echten Workflows zusammen. So sieht das in der Praxis aus.
 
 ### Erkennung veralteter Dokumentation
 
-Eine geplante Aufgabe läuft nächtlich:
+Ein geplanter Agentenlauf (ein Cron-Job, der einen MCP-verbundenen Assistenten steuert):
 
 ```
-1. KI-Agent ruft list_pages auf, um alle Dokumentationsseiten zu erhalten
-2. Für jede Seite ruft er check_freshness auf, um mit aktuellen Codeänderungen zu vergleichen
-3. Als veraltet markierte Seiten werden dem Team gemeldet
-4. Für Fälle mit hoher Konfidenz ruft der Agent suggest_updates mit dem relevanten Code-Diff auf
-5. Vorschläge gehen über create_review — ein Mensch genehmigt oder lehnt ab
+1. Agent ruft docplatform_get_tree auf, um alle Dokumentationsseiten aufzuzählen
+2. Ruft docplatform_get_activity auf, um zu sehen, was sich kürzlich geändert hat —
+   Seiten ohne Aktivität, deren Themengebiet sich weiterbewegt hat, sind Kandidaten
+3. Für jeden Kandidaten ruft er docplatform_read_page auf und vergleicht den Inhalt
+   mit dem aktuellen Code (der Agent hat auch Repo-Zugriff)
+4. Funde werden mit docplatform_add_comment auf der betroffenen Seite markiert —
+   ein Mensch prüft und entscheidet
 ```
 
-Das verwandelt Dokumentationspflege von einer vierteljährlichen Feuerwehrübung in einen kontinuierlichen Prozess. Veraltete Seiten werden innerhalb von 24 Stunden nach der Codeänderung erkannt, die sie veralten ließ.
+Das verwandelt Dokumentationspflege von einer vierteljährlichen Feuerwehrübung in einen kontinuierlichen Prozess.
 
 ### PR-ausgelöste Dokumentationsaktualisierungen
 
@@ -103,11 +103,10 @@ Wenn ein Pull Request eine öffentliche API ändert:
 
 ```
 1. Die CI-Pipeline extrahiert den Diff
-2. KI-Agent ruft search_docs auf, um Seiten zu finden, die die geänderte API referenzieren
-3. Agent ruft suggest_updates mit dem Diff und passenden Seiten auf
-4. Wenn Änderungen unkompliziert sind (Parameterumbenennung, neue Option),
-   ruft der Agent create_review mit dem vorgeschlagenen Update auf
-5. Die Dokumentationsaktualisierung wird im selben PR-Zyklus wie die Codeänderung ausgeliefert
+2. KI-Agent ruft docplatform_search auf, um Seiten zu finden, die die geänderte API referenzieren
+3. Agent liest jeden Treffer mit docplatform_read_page und entwirft die Aktualisierung
+4. Mit konfigurierter Git-Synchronisation wird die docplatform_write_page-Änderung
+   des Agenten zu einem Commit — reviewbar im selben PR-Zyklus wie die Codeänderung
 ```
 
 Kein „erstelle ein Follow-up-Ticket zum Aktualisieren der Dokumentation" mehr. Die Dokumentationsaktualisierung ist Teil desselben Workflows.
@@ -118,9 +117,11 @@ Wenn ein Feature ohne Dokumentation gemerged wird (es passiert):
 
 ```
 1. Agent erkennt neue exportierte Funktionen/Endpoints ohne passende Dokumentationsseite
-2. Agent ruft create_page mit einem Gerüst auf: Funktionssignatur, Parameterbeschreibungen,
-   ein Platzhalter-Beispiel
-3. Erstellt einen Review, damit ein Mensch die Erklärung ausformuliert und reale Beispiele hinzufügt
+   (docplatform_search liefert für die neuen Namen keine Treffer)
+2. Agent ruft docplatform_write_page mit einem Gerüst auf: Funktionssignatur,
+   Parameterbeschreibungen, ein Platzhalter-Beispiel
+3. Danach folgt die menschliche Ausarbeitung — der Entwurf wird im Seitenverlauf
+   nachverfolgt und ist über die Git-Synchronisation als Commit reviewbar
 ```
 
 Der Mensch schreibt immer noch die Erzählung. Aber das Gerüst — die korrekten Funktionssignaturen, die Parametertypen, die Rückgabewerte — kommt direkt aus dem Code. Keine Copy-Paste-Fehler, kein Vergessen bei Signaturänderungen.
@@ -133,7 +134,7 @@ Klarheit über die Grenzen:
 
 **Das ist kein Ersatz für technische Redakteure.** Gute Dokumentation erfordert Urteilsvermögen: was erklären, was weglassen, in welcher Reihenfolge Konzepte präsentieren, wie ein Beispiel schreiben, das wirklich hilft. KI hat dieses Urteilsvermögen nicht. Sie hat Mustererkennung.
 
-**Das ist keine Magie.** Das `check_freshness`-Tool funktioniert, weil Dokumentationsseiten und Codedateien durch Pfadkonventionen und explizite Metadaten verknüpft werden können. Wenn Ihre Dokumentation und Ihr Code keine Beziehungsstruktur haben, kann das Tool keine ableiten.
+**Das ist keine Magie.** Veralterungserkennung funktioniert, weil Dokumentationsseiten und Codedateien durch Pfadkonventionen und Repository-Struktur verknüpft werden können. Wenn Ihre Dokumentation und Ihr Code keine Beziehungsstruktur haben, kann der Agent keine ableiten.
 
 Was es IST: ein Überwachungssystem für Dokumentationsqualität. Es beobachtet, markiert, schlägt vor. Menschen entscheiden.
 
@@ -151,27 +152,20 @@ DocPlatform befindet sich am Schnittpunkt aller drei. Inhalte in Git (maschinenl
 
 ## Erste Schritte
 
-Der MCP-Server ist in jeder DocPlatform-Installation enthalten — Community Edition und Cloud.
-
-Um ihn zu aktivieren:
-
-```bash
-docplatform serve --mcp
-```
-
-Dann richten Sie Ihren KI-Client darauf. In Claude Desktop fügen Sie zu Ihrer MCP-Konfiguration hinzu:
+Der MCP-Server ist in jeder DocPlatform-Installation enthalten. Erstellen Sie einen API Key (**Workspace Settings → API Keys**) und richten Sie Ihren KI-Client auf das `docplatform`-Binary. In Claude Desktop fügen Sie zu `claude_desktop_config.json` hinzu:
 
 ```json
 {
   "mcpServers": {
     "docplatform": {
-      "url": "http://localhost:3000/mcp"
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
     }
   }
 }
 ```
 
-Die vollständige Einrichtungsanleitung, einschließlich Authentifizierung und Workspace-Scoping, finden Sie in der [MCP-Dokumentation](/mcp/).
+Für Remote-Setups gibt es außerdem einen Streamable-HTTP-Transport (`docplatform mcp-server`, der `/mcp` standardmäßig auf Port 8081 bereitstellt). Die vollständige Einrichtungsanleitung, einschließlich Authentifizierung und Workspace-Scoping, finden Sie in der [MCP-Dokumentation](/mcp/).
 
 Wenn Sie sehen möchten, wie die MCP-Tools in der Praxis funktionieren, geht unser früherer Beitrag über [MCP für Dokumentation](/blog/mcp-documentation-guide/) spezifische Beispiele durch.
 
