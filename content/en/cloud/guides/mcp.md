@@ -20,21 +20,20 @@ MCP is a standard protocol that lets AI tools connect to external services. Thin
 
 ## Setting up
 
-### In Claude Desktop
+> **Status:** the hosted MCP endpoint for Valoryx Cloud is **not yet enabled** — remote AI tools cannot connect to `app.valoryx.dev` yet. This page will be updated the moment it goes live. On a **self-hosted** instance, MCP works today — follow the steps below on the machine running DocPlatform.
+
+### Self-hosted: Claude Desktop
 
 1. Go to **Workspace Settings** → **API Keys**
-2. Create an API key (Read & Write or Read Only)
-3. In Claude Desktop settings, add this MCP server:
+2. Create an API key — it starts with `dp_live_` and is shown only once
+3. In `claude_desktop_config.json`, add:
 
 ```json
 {
   "mcpServers": {
-    "valoryx-docs": {
-      "command": "npx",
-      "args": ["-y", "@anthropic-ai/mcp-remote", "https://app.valoryx.dev/api/v1/mcp"],
-      "env": {
-        "API_KEY": "your-api-key-here"
-      }
+    "docplatform": {
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
     }
   }
 }
@@ -45,7 +44,7 @@ MCP is a standard protocol that lets AI tools connect to external services. Thin
 
 ### In Cursor
 
-Same configuration — add the MCP server in Cursor's settings and use the same API key.
+Same configuration — add the same `docplatform` entry to `.cursor/mcp.json` in your project.
 
 ## Available MCP tools
 
@@ -55,7 +54,7 @@ The MCP server provides 26 tools:
 |---|---|
 | `list_pages` | List all pages in a workspace |
 | `read_page` | Read a specific page's content |
-| `create_page` | Create a new page |
+| `write_page` | Create a page, or update it if it already exists |
 | `update_page` | Update an existing page |
 | `delete_page` | Delete a page |
 | `search` | Full-text search across all pages |
@@ -65,6 +64,6 @@ The MCP server provides 26 tools:
 ## Security
 
 - API keys are hashed (never stored in plain text)
-- You control the scope: Read Only or Read & Write
+- You control the scope per key: `read`, `write`, and `delete`
 - Revoke keys at any time from Workspace Settings
-- All MCP requests are logged in the audit trail
+- Authorization failures are logged, and every content change is tracked in page history

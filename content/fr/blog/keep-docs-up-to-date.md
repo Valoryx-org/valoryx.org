@@ -42,7 +42,7 @@ nous avons migré vers /api/v2/ le mois dernier. Liste chaque page qui
 mentionne encore v1."
 ```
 
-L'assistant appelle l'outil MCP `search_pages`, trouve chaque occurrence et renvoie une liste avec les chemins de pages et le contexte environnant. Ce qui prendrait 30 minutes de grep-et-lecture à un humain prend environ 10 secondes à l'IA.
+L'assistant appelle l'outil MCP `docplatform_search`, trouve chaque occurrence et renvoie la liste des pages correspondantes. Ce qui prendrait 30 minutes de grep-et-lecture à un humain prend environ 10 secondes à l'IA.
 
 ### Détecter la dérive terminologique
 
@@ -56,11 +56,11 @@ Même outil, requête différente. L'assistant trouve chaque instance de termino
 ### Générer un rapport d'obsolescence
 
 ```
-Prompt : "Liste toutes les pages du workspace API Reference qui n'ont
-pas été mises à jour au cours des 60 derniers jours, triées par ancienneté."
+Prompt : "Quelles pages du workspace API Reference ne montrent aucune
+activité récente ? Liste les plus inactives en premier."
 ```
 
-L'assistant appelle `search_recent` et croise avec l'arborescence complète des pages. Vous obtenez une liste priorisée des pages les plus susceptibles d'être obsolètes.
+L'assistant récupère le fil d'activité récente avec `docplatform_get_activity` et le croise avec l'arborescence complète des pages de `docplatform_get_tree` — les pages sans modifications récentes sont vos candidates à l'obsolescence.
 
 ### Effectuer les mises à jour
 
@@ -72,7 +72,7 @@ accepte maintenant les passkeys en plus des mots de passe. Mets à jour
 le guide pour couvrir les deux méthodes, en gardant la structure existante."
 ```
 
-L'assistant lit la page via `get_page`, rédige la mise à jour et l'applique via `update_page`. La modification apparaît dans l'historique des révisions et, si la synchronisation git est configurée, apparaît comme un commit que vous pouvez réviser dans une pull request.
+L'assistant lit la page via `docplatform_read_page`, rédige la mise à jour et l'applique via `docplatform_update_page`. La modification apparaît dans l'historique des révisions et, si la synchronisation git est configurée, apparaît comme un commit que vous pouvez réviser dans une pull request.
 
 L'insight clé est que [MCP fait de l'IA un participant dans votre workflow documentaire](/blog/mcp-documentation-guide/), pas un générateur de texte déconnecté. Elle lit votre contenu réel, effectue des modifications via le même système que votre équipe utilise, et laisse une piste d'audit.
 
@@ -133,7 +133,7 @@ Cela ne nécessite pas une équipe de documentation dédiée. Le travail est dis
 
 ## Pour commencer
 
-Si votre documentation est déjà obsolète, commencez par les pages les plus consultées. Selon le [sondage développeur de Splunk](https://www.splunk.com/en_us/form/state-of-observability.html), la plupart des sites de documentation suivent une distribution en loi de puissance — 10 % des pages reçoivent 80 % du trafic. Corrigez celles-là en premier.
+Si votre documentation est déjà obsolète, commencez par les pages les plus consultées. Le trafic documentaire est très asymétrique — une petite fraction des pages reçoit la majorité des visites. Corrigez celles-là en premier.
 
 Puis mettez en place l'infrastructure pour prévenir l'obsolescence future :
 

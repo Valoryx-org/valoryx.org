@@ -14,7 +14,7 @@ C'est ce que signifie une documentation AI-native. Non pas « l'IA écrit votre 
 
 ## Le problème d'obsolescence, quantifié
 
-Une étude de 2023 par Zhi et al. a révélé que 68 % des pages de documentation dans les projets logiciels actifs contiennent au moins une incohérence factuelle avec le codebase actuel. Les problèmes les plus courants :
+Auditez la documentation de n'importe quel projet logiciel actif et vous constaterez qu'une grande partie des pages contient au moins une incohérence factuelle avec le codebase actuel. Les problèmes les plus courants :
 
 - **Signatures API obsolètes** — paramètres ajoutés ou supprimés mais documentation non mise à jour
 - **Exemples de configuration erronés** — valeurs par défaut changées, ancien format toujours documenté
@@ -33,7 +33,7 @@ Une plateforme de documentation AI-native possède trois propriétés :
 
 **3. Accès structuré aux outils.** Les agents IA peuvent interagir avec la documentation via un protocole défini — pas en scrapant du HTML ou en rétro-ingéniérant des API, mais via des outils explicites et documentés.
 
-DocPlatform implémente les trois aujourd'hui, en utilisant le Model Context Protocol (MCP).
+DocPlatform livre aujourd'hui la première et la troisième — du markdown synchronisé avec git, plus un serveur MCP intégré. La deuxième, le lien code-documentation, se construit par-dessus avec des conventions : quand la documentation et le code vivent dans des dépôts connectés, un agent IA ayant accès aux deux peut faire le lien lui-même.
 
 ## MCP : le protocole
 
@@ -43,41 +43,39 @@ DocPlatform intègre un serveur MCP — pas de plugins, pas de service séparé.
 
 ## Les 26 outils
 
-Voici une sélection de ce que le serveur MCP de DocPlatform expose — la référence complète des 26 outils se trouve sur la [page MCP](/mcp/) :
+Voici une sélection de ce que le serveur MCP de DocPlatform expose — la référence complète des 26 outils se trouve sur la [page MCP](/mcp/). Chaque outil porte l'espace de noms `docplatform_*`, de sorte qu'il n'entre jamais en collision avec d'autres serveurs MCP dans votre client.
 
 ### Opérations de lecture
 
-- **`search_docs`** — Recherche plein texte dans toute la documentation. Renvoie les pages correspondantes avec des scores de pertinence et des extraits. Un agent IA l'utilise pour trouver la page décrivant une fonctionnalité spécifique avant de vérifier si elle est toujours exacte.
+- **`docplatform_search`** — Recherche plein texte dans le workspace, avec correspondance floue et résultats classés par pertinence. Un agent IA l'utilise pour trouver la page décrivant une fonctionnalité spécifique avant de vérifier si elle est toujours exacte.
 
-- **`get_page`** — Récupère le contenu complet d'une page spécifique par chemin. Renvoie le contenu markdown, les métadonnées (auteur, dernière modification, tags) et la position de la page dans l'arborescence de navigation.
+- **`docplatform_read_page`** — Récupère le contenu complet d'une page spécifique par chemin : contenu markdown plus métadonnées.
 
-- **`list_pages`** — Liste toutes les pages d'un workspace, avec filtrage optionnel par préfixe de chemin ou tag. Utile pour les agents IA effectuant des audits en masse.
+- **`docplatform_get_context`** — Le cheval de bataille du RAG : renvoie une page avec son parent, ses pages sœurs et les cibles de ses wikilinks en un seul appel — l'agent obtient le contexte environnant sans cinq allers-retours.
 
-- **`get_workspace_info`** — Métadonnées d'un workspace : nom, thème, connexion au dépôt git, statut de publication.
+- **`docplatform_list_pages`** / **`docplatform_get_tree`** — Énumèrent les pages d'un workspace et son arborescence de navigation. Utile pour les agents IA effectuant des audits en masse.
 
 ### Opérations d'écriture
 
-- **`create_page`** — Crée une nouvelle page de documentation. Prend un chemin, un titre et du contenu markdown. La page est immédiatement indexée pour la recherche et commitée dans git.
+- **`docplatform_write_page`** — Écrit une page : la crée si elle n'existe pas, la met à jour sinon. La page est indexée pour la recherche et, avec la synchronisation git configurée, commitée dans git.
 
-- **`update_page`** — Modifie le contenu d'une page existante. L'agent IA fournit le nouveau markdown, et DocPlatform gère le versionnage, la réindexation de recherche et le commit git.
+- **`docplatform_update_page`** — Modifie le contenu d'une page existante (échoue plutôt que de créer — pour les cas où la page doit déjà exister).
 
-- **`move_page`** — Déplace une page dans l'arborescence de navigation. Gère les mises à jour de chemin et la création de redirections.
+- **`docplatform_move_page`** — Déplace une page vers un nouveau chemin dans l'arborescence.
 
-- **`delete_page`** — Supprime une page. La retire de l'index de recherche et commite la suppression dans git.
+- **`docplatform_delete_page`** — Supprime une page.
 
 ### Opérations d'analyse
 
-- **`check_links`** — Vérifie tous les liens internes d'une page ou d'un workspace. Renvoie une liste des liens cassés avec la page source et le chemin cible. Un agent IA peut exécuter cela après une restructuration pour détecter les références mortes.
+- **`docplatform_validate_links`** — Vérifie les liens internes et les wikilinks. Renvoie les cibles cassées avec leurs pages sources. Un agent IA peut exécuter cela après une restructuration pour détecter les références mortes.
 
-- **`check_freshness`** — Compare les dates de dernière modification des pages avec les horodatages des commits git pour les sections de code qu'elles décrivent. Signale les pages qui n'ont pas été mises à jour depuis que leur code correspondant a changé.
+- **`docplatform_quality_scan`** — Analyse le contenu à la recherche de problèmes de qualité — la matière première d'un rapport d'audit généré par un agent.
 
-- **`suggest_updates`** — Étant donné un diff de code (par exemple d'une PR récente), identifie les pages de documentation susceptibles de nécessiter une mise à jour et suggère des modifications spécifiques.
+### Opérations de collaboration
 
-### Opérations de workflow
+- **`docplatform_get_activity`** — Le fil d'activité récente : qui a changé quoi, et quand. Le point de départ de l'analyse d'obsolescence.
 
-- **`create_review`** — Soumet une modification de documentation pour revue humaine. Crée un brouillon qui apparaît dans la file d'attente de revue, pas sur le site publié.
-
-- **`get_review_status`** — Vérifie le statut d'une revue en cours.
+- **`docplatform_list_comments`** / **`docplatform_add_comment`** — Lire et rejoindre les discussions de page, pour qu'un agent puisse signaler une trouvaille directement sur la page concernée.
 
 ## Workflows pratiques
 
@@ -85,19 +83,19 @@ Ces outils ne sont pas théoriques. Voici comment les équipes les utilisent auj
 
 ### Détection de documentation obsolète
 
-Une tâche planifiée s'exécute chaque nuit :
+Une exécution planifiée de l'agent (un cron job pilotant un assistant connecté via MCP) :
 
 ```
-1. L'agent IA appelle list_pages pour obtenir toutes les pages de documentation
-2. Pour chaque page, appelle check_freshness pour comparer avec les modifications
-   de code récentes
-3. Les pages signalées comme obsolètes sont rapportées à l'équipe
-4. Pour les cas à haute confiance, l'agent appelle suggest_updates avec le diff
-   de code pertinent
-5. Les suggestions passent par create_review — un humain approuve ou rejette
+1. L'agent appelle docplatform_get_tree pour énumérer toutes les pages de documentation
+2. Appelle docplatform_get_activity pour voir ce qui a changé récemment — les pages
+   sans activité dont le domaine a continué d'évoluer sont des candidates
+3. Pour chaque candidate, appelle docplatform_read_page et compare le contenu
+   au code actuel (l'agent a aussi accès au dépôt)
+4. Les trouvailles sont signalées avec docplatform_add_comment sur la page
+   concernée — un humain examine et décide
 ```
 
-Cela transforme la maintenance de la documentation d'un exercice trimestriel en un processus continu. Les pages obsolètes sont détectées dans les 24 heures suivant la modification de code qui les a rendues obsolètes.
+Cela transforme la maintenance de la documentation d'un exercice trimestriel en un processus continu.
 
 ### Mises à jour de documentation déclenchées par les PR
 
@@ -105,12 +103,11 @@ Quand une pull request modifie une API publique :
 
 ```
 1. Le pipeline CI extrait le diff
-2. L'agent IA appelle search_docs pour trouver les pages référençant l'API modifiée
-3. L'agent appelle suggest_updates avec le diff et les pages correspondantes
-4. Si les modifications sont simples (renommage de paramètre, nouvelle option),
-   l'agent appelle create_review avec la mise à jour proposée
-5. La mise à jour de documentation est livrée dans le même cycle de PR que
-   la modification de code
+2. L'agent IA appelle docplatform_search pour trouver les pages référençant l'API modifiée
+3. L'agent lit chaque correspondance avec docplatform_read_page et rédige la mise à jour
+4. Avec la synchronisation git configurée, la modification de l'agent via
+   docplatform_write_page devient un commit — révisable dans le même cycle de PR
+   que la modification de code
 ```
 
 Plus de « créer un ticket de suivi pour mettre à jour la doc ». La mise à jour de documentation fait partie du même workflow.
@@ -121,11 +118,11 @@ Quand une fonctionnalité est mergée sans documentation (ça arrive) :
 
 ```
 1. L'agent détecte de nouvelles fonctions/endpoints exportés sans page de doc
-   correspondante
-2. L'agent appelle create_page avec un squelette : signature de fonction,
+   correspondante (docplatform_search ne renvoie rien pour les nouveaux noms)
+2. L'agent appelle docplatform_write_page avec un squelette : signature de fonction,
    descriptions des paramètres, un exemple placeholder
-3. Crée une revue pour qu'un humain étoffe l'explication et ajoute des exemples
-   réels
+3. Vient ensuite l'étoffement humain — le brouillon est suivi dans l'historique
+   de la page et, via la synchronisation git, révisable comme commit
 ```
 
 L'humain écrit toujours le narratif. Mais le squelette — les signatures de fonctions exactes, les types de paramètres, les valeurs de retour — vient directement du code. Pas d'erreurs de copier-coller, pas d'oubli de mise à jour quand la signature change.
@@ -138,7 +135,7 @@ Soyons clairs sur les limites :
 
 **Ce n'est pas un remplacement des rédacteurs techniques.** Une bonne documentation nécessite du jugement : quoi expliquer, quoi omettre, dans quel ordre présenter les concepts, comment écrire un exemple qui aide réellement. L'IA n'a pas ce jugement. Elle a de la reconnaissance de patterns.
 
-**Ce n'est pas de la magie.** L'outil `check_freshness` fonctionne parce que les pages de documentation et les fichiers de code peuvent être liés via des conventions de chemin et des métadonnées explicites. Si votre documentation et votre code n'ont aucune structure de relation, l'outil ne peut pas en déduire une.
+**Ce n'est pas de la magie.** La détection d'obsolescence fonctionne parce que les pages de documentation et les fichiers de code peuvent être liés via des conventions de chemin et la structure des dépôts. Si votre documentation et votre code n'ont aucune structure de relation, l'agent ne peut pas en déduire une.
 
 Ce que c'EST : un système de surveillance de la qualité documentaire. Il observe, signale, suggère. Les humains décident.
 
@@ -156,27 +153,20 @@ DocPlatform se situe à l'intersection des trois. Contenu dans git (lisible par 
 
 ## Pour commencer
 
-Le serveur MCP est inclus dans chaque installation DocPlatform — édition Community et Cloud.
-
-Pour l'activer :
-
-```bash
-docplatform serve --mcp
-```
-
-Puis pointez votre client IA dessus. Dans Claude Desktop, ajoutez à votre configuration MCP :
+Le serveur MCP est inclus dans chaque installation DocPlatform. Créez une clé API (**Workspace Settings → API Keys**), puis pointez votre client IA vers le binaire `docplatform`. Dans Claude Desktop, ajoutez à `claude_desktop_config.json` :
 
 ```json
 {
   "mcpServers": {
     "docplatform": {
-      "url": "http://localhost:3000/mcp"
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
     }
   }
 }
 ```
 
-Pour le guide de configuration complet, incluant l'authentification et le scoping par workspace, consultez la [documentation MCP](/mcp/).
+Pour les installations distantes, il existe aussi un transport Streamable HTTP (`docplatform mcp-server`, servant `/mcp` sur le port 8081 par défaut). Pour le guide de configuration complet, incluant l'authentification et le scoping par workspace, consultez la [documentation MCP](/mcp/).
 
 Si vous voulez voir comment les outils MCP fonctionnent en pratique, notre article précédent sur [l'utilisation de MCP avec la documentation](/blog/mcp-documentation-guide/) détaille des exemples spécifiques.
 

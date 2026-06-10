@@ -14,7 +14,7 @@ This is what AI-native documentation means. Not "AI writes your docs" (that prod
 
 ## The Staleness Problem, Quantified
 
-A 2023 study by Zhi et al. found that 68% of documentation pages in active software projects contain at least one factual inconsistency with the current codebase. The most common problems:
+Audit the documentation of any active software project and you'll find a large share of pages carrying at least one factual inconsistency with the current codebase. The most common problems:
 
 - **Outdated API signatures** — parameters added or removed but docs not updated
 - **Wrong configuration examples** — default values changed, old format still documented
@@ -33,7 +33,7 @@ An AI-native documentation platform has three properties:
 
 **3. Structured tool access.** AI agents can interact with the documentation through a defined protocol — not by scraping HTML or reverse-engineering APIs, but through explicit, documented tools.
 
-DocPlatform implements all three today, using the Model Context Protocol (MCP).
+DocPlatform ships the first and third today — markdown synced to git, plus a built-in MCP server. The second, code-to-docs linkage, is something you build on top with conventions: when docs and code live in connected repositories, an AI agent with access to both can make the connection itself.
 
 ## MCP: The Protocol
 
@@ -43,59 +43,59 @@ DocPlatform ships with a built-in MCP server — no plugins, no separate service
 
 ## The 26 Tools
 
-Here's a selection of what DocPlatform's MCP server exposes — the full 26-tool reference lives on the [MCP page](/mcp/):
+Here's a selection of what DocPlatform's MCP server exposes — the full 26-tool reference lives on the [MCP page](/mcp/). Every tool is namespaced `docplatform_*` so it never collides with other MCP servers in your client.
 
 ### Read Operations
 
-- **`search_docs`** — Full-text search across all documentation. Returns matching pages with relevance scores and snippets. An AI agent uses this to find the page that describes a specific feature before checking if it's still accurate.
+- **`docplatform_search`** — Full-text search across the workspace, with fuzzy matching and relevance-ranked results. An AI agent uses this to find the page that describes a specific feature before checking if it's still accurate.
 
-- **`get_page`** — Retrieve the full content of a specific page by path. Returns markdown content, metadata (author, last modified, tags), and the page's position in the navigation tree.
+- **`docplatform_read_page`** — Retrieve the full content of a specific page by path: markdown content plus metadata.
 
-- **`list_pages`** — List all pages in a workspace, with optional filtering by path prefix or tag. Useful for AI agents doing bulk audits.
+- **`docplatform_get_context`** — The RAG workhorse: returns a page together with its parent, siblings, and the targets of its wikilinks in one call, so the agent gets surrounding context without five round-trips.
 
-- **`get_workspace_info`** — Metadata about a workspace: name, theme, git repo connection, publishing status.
+- **`docplatform_list_pages`** / **`docplatform_get_tree`** — Enumerate a workspace's pages and its navigation tree. Useful for AI agents doing bulk audits.
 
 ### Write Operations
 
-- **`create_page`** — Create a new documentation page. Takes a path, title, and markdown content. The page is immediately indexed for search and committed to git.
+- **`docplatform_write_page`** — Write a page: creates it if it doesn't exist, updates it if it does. The page is indexed for search and, with git sync configured, committed to git.
 
-- **`update_page`** — Modify an existing page's content. The AI agent provides the new markdown, and DocPlatform handles versioning, search reindexing, and git commit.
+- **`docplatform_update_page`** — Modify an existing page's content (fails rather than creates — for when the page must already exist).
 
-- **`move_page`** — Relocate a page in the navigation tree. Handles path updates and redirect creation.
+- **`docplatform_move_page`** — Relocate a page to a new path in the tree.
 
-- **`delete_page`** — Remove a page. Removes from search index and commits the deletion to git.
+- **`docplatform_delete_page`** — Remove a page.
 
 ### Analysis Operations
 
-- **`check_links`** — Verify all internal links in a page or workspace. Returns a list of broken links with the source page and target path. An AI agent can run this after a restructuring to catch dead references.
+- **`docplatform_validate_links`** — Verify internal links and wikilinks. Returns broken targets with their source pages. An AI agent can run this after a restructuring to catch dead references.
 
-- **`check_freshness`** — Compare page last-modified dates against git commit timestamps for the code sections they describe. Flags pages that haven't been updated since their corresponding code changed.
+- **`docplatform_quality_scan`** — Scan content for quality issues — the raw material for an agent-generated audit report.
 
-- **`suggest_updates`** — Given a code diff (e.g., from a recent PR), identify documentation pages that likely need updating and suggest specific changes.
+### Collaboration Operations
 
-### Workflow Operations
+- **`docplatform_get_activity`** — The recent-activity feed: who changed what, and when. The starting point for staleness analysis.
 
-- **`create_review`** — Submit a documentation change for human review. Creates a draft that appears in the review queue, not on the published site.
-
-- **`get_review_status`** — Check the status of a pending review.
+- **`docplatform_list_comments`** / **`docplatform_add_comment`** — Read and join page discussions, so an agent can flag a finding directly on the page it concerns.
 
 ## Practical Workflows
 
-These tools aren't theoretical. Here's how teams use them today.
+These tools compose into real workflows. Here's what they look like in practice.
 
 ### Stale Docs Detection
 
-A scheduled task runs nightly:
+A scheduled agent run (a cron job driving an MCP-connected assistant):
 
 ```
-1. AI agent calls list_pages to get all documentation pages
-2. For each page, calls check_freshness to compare against recent code changes
-3. Pages flagged as stale are reported to the team
-4. For high-confidence cases, the agent calls suggest_updates with the relevant code diff
-5. Suggestions go through create_review — a human approves or rejects
+1. Agent calls docplatform_get_tree to enumerate all documentation pages
+2. Calls docplatform_get_activity to see what changed recently — pages
+   with no activity while their subject area kept moving are candidates
+3. For each candidate, calls docplatform_read_page and compares the
+   content against the current code (the agent has repo access too)
+4. Findings are flagged with docplatform_add_comment on the affected
+   page — a human reviews and decides
 ```
 
-This turns documentation maintenance from a quarterly fire drill into a continuous process. Stale pages are caught within 24 hours of the code change that made them stale.
+This turns documentation maintenance from a quarterly fire drill into a continuous process.
 
 ### PR-Triggered Doc Updates
 
@@ -103,11 +103,10 @@ When a pull request changes a public API:
 
 ```
 1. CI pipeline extracts the diff
-2. AI agent calls search_docs to find pages referencing the changed API
-3. Agent calls suggest_updates with the diff and matching pages
-4. If changes are straightforward (parameter rename, new option), 
-   agent calls create_review with the proposed update
-5. Doc update ships with the same PR cycle as the code change
+2. AI agent calls docplatform_search to find pages referencing the changed API
+3. Agent reads each match with docplatform_read_page and drafts the update
+4. With git sync configured, the agent's docplatform_write_page edit
+   becomes a commit — reviewable in the same PR cycle as the code change
 ```
 
 No more "file a follow-up ticket to update the docs." The docs update is part of the same workflow.
@@ -118,9 +117,11 @@ When a feature is merged without documentation (it happens):
 
 ```
 1. Agent detects new exported functions/endpoints with no matching doc page
-2. Agent calls create_page with a scaffold: function signature, parameter descriptions, 
-   a placeholder example
-3. Creates a review for a human to flesh out the explanation and add real-world examples
+   (docplatform_search comes back empty for the new names)
+2. Agent calls docplatform_write_page with a scaffold: function signature,
+   parameter descriptions, a placeholder example
+3. A human flesh-out pass follows — the draft is tracked in page history
+   and, via git sync, reviewable as a commit
 ```
 
 The human still writes the narrative. But the skeleton — the accurate function signatures, the parameter types, the return values — comes directly from the code. No copy-paste errors, no forgetting to update when the signature changes.
@@ -133,7 +134,7 @@ Let's be clear about the limits:
 
 **This is not a replacement for technical writers.** Good documentation requires judgment: what to explain, what to skip, what order to present concepts in, how to write an example that actually helps. AI doesn't have that judgment. It has pattern matching.
 
-**This is not magic.** The `check_freshness` tool works because documentation pages and code files can be linked through path conventions and explicit metadata. If your docs and code have no relationship structure, the tool can't infer one.
+**This is not magic.** Staleness detection works because documentation pages and code files can be linked through path conventions and repository structure. If your docs and code have no relationship structure, the agent can't infer one.
 
 What it IS: a surveillance system for documentation quality. It watches, flags, suggests. Humans decide.
 
@@ -151,27 +152,20 @@ DocPlatform sits at the intersection of all three. Content in git (machine-reada
 
 ## Getting Started
 
-The MCP server is included in every DocPlatform installation — Community Edition and Cloud.
-
-To enable it:
-
-```bash
-docplatform serve --mcp
-```
-
-Then point your AI client at it. In Claude Desktop, add to your MCP config:
+The MCP server is included in every DocPlatform installation. Create an API key (**Workspace Settings → API Keys**), then point your AI client at the `docplatform` binary. In Claude Desktop, add to `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "docplatform": {
-      "url": "http://localhost:3000/mcp"
+      "command": "docplatform",
+      "args": ["mcp", "--workspace", "my-docs", "--api-key", "dp_live_abc123"]
     }
   }
 }
 ```
 
-For the full setup guide, including authentication and workspace scoping, see the [MCP documentation](/mcp/).
+For remote setups there is also a Streamable HTTP transport (`docplatform mcp-server`, serving `/mcp` on port 8081 by default). For the full setup guide, including authentication and workspace scoping, see the [MCP documentation](/mcp/).
 
 If you want to see how the MCP tools work in practice, our earlier post on [using MCP with documentation](/blog/mcp-documentation-guide/) walks through specific examples.
 
