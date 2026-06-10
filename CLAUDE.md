@@ -171,4 +171,4 @@ Hugo binary location: system PATH or `C:/Users/apmin/AppData/Local/Microsoft/Win
 
 ## Product Context
 
-For product decisions, pricing, domain strategy, and competitive positioning, see `C:\Valoryx\.workspace\DECISIONS.md` (private repo, not committed here).
+For product decisions, pricing, domain strategy, and competitive positioning, see `C:\newValoryx\.workspace\DECISIONS.md` (private repo, not committed here).
