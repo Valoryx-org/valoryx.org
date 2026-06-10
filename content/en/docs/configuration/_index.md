@@ -14,11 +14,11 @@ Configuration is applied in three layers, from broadest to most specific:
 
 | Layer | Scope | Method |
 |---|---|---|
-| **Environment variables** | Platform-wide | `.env` file or shell environment |
-| **Workspace config** | Per workspace | `.docplatform/config.yaml` |
+| **Environment variables** | Platform-wide | Shell environment / service unit / container env |
+| **Workspace settings** | Per workspace | Web UI (Settings) — stored in the database; display settings also live in `.docplatform/workspace.yaml` |
 | **Page frontmatter** | Per page | YAML block in each `.md` file |
 
-Higher-specificity layers override lower ones. For example, a page's `access.read` rules restrict visibility beyond the workspace-level defaults.
+Higher-specificity layers override lower ones. For example, a page's frontmatter `publish:` flag controls whether that page appears on the published site, and the `.docplatform/publish.yaml` overlay can override it per path.
 
 ## Guides
 
@@ -27,7 +27,7 @@ Higher-specificity layers override lower ones. For example, a page's `access.rea
 | [Environment Variables](environment.md) | All platform-level settings: port, data directory, git, SMTP, telemetry |
 | [Workspace Settings](workspace-config.md) | Per-workspace config: git remote, theme, navigation, publishing defaults |
 | [Authentication](authentication.md) | Local auth, OIDC providers (Google, GitHub), JWT settings, password policies |
-| [Roles & Permissions](permissions.md) | 5-level RBAC hierarchy, page-level access control, and permission caching |
+| [Roles & Permissions](permissions.md) | 5-level RBAC hierarchy and how permissions are evaluated |
 
 ## Quick reference
 
@@ -36,10 +36,9 @@ The most common configuration tasks:
 | Task | Where |
 |---|---|
 | Change the server port | `PORT` environment variable |
-| Connect a git repository | Workspace config `git_remote` |
+| Connect a git repository | **Workspace Settings → Git** in the web UI |
 | Enable Google/GitHub sign-in | `OIDC_*` environment variables |
-| Set up email (invitations, password reset) | `SMTP_*` environment variables |
-| Change the default role for new users | Workspace config `permissions.default_role` |
-| Restrict published docs to team members only | `PUBLISH_REQUIRE_AUTH=true` environment variable |
-| Restrict a page to specific roles (web editor) | Page frontmatter `access.read: ["role-name"]` |
-| Disable telemetry | `DOCPLATFORM_TELEMETRY=off` |
+| Set up email (invitations, password reset) | `SMTP_*` or `RESEND_*` environment variables |
+| Choose a role when inviting a member | **Workspace Settings → Members → Invite** |
+| Restrict published docs to team members only | `PUBLISH_REQUIRE_AUTH=true` environment variable, or per-site `visibility: authenticated` (the default) |
+| Telemetry | Off by default; opt in with `DOCPLATFORM_TELEMETRY=on` |

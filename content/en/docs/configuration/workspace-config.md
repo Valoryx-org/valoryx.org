@@ -1,118 +1,97 @@
 ---
 title: Workspace Settings
-description: Configure workspace-level settings — git remote, theme, navigation order, publishing defaults, and more.
+description: Configure workspace-level settings — git remote, theme, navigation, publishing overlay, and the .docplatform manifest files.
 weight: 4
 ---
 
 # Workspace Settings
 
-Each workspace has its own configuration file at `.docplatform/workspaces/{workspace-id}/.docplatform/config.yaml`. Edit this file directly or use the web UI (**Settings** → **Workspace**).
+Workspace settings live in two places:
 
-## Full configuration reference
+1. **The database** — identity, git connection, and permission settings, edited through the web UI (**Settings** gear icon) or the REST API. These are not stored in a config file.
+2. **Manifest files** under `.docplatform/` in the workspace's content directory — display and publishing configuration that versions alongside your content and flows through git sync like any other file.
 
-```yaml
-# Workspace identity
-workspace_id: 01KJJ10NTF31Z1QJTG4ZRQZ2Z2    # Auto-generated ULID
-name: "Engineering Docs"                        # Display name
-slug: eng-docs                                  # URL slug for published docs
-description: "Internal engineering documentation"
+## Database-backed settings
 
-# Git synchronization
-git_remote: git@github.com:your-org/eng-docs.git
-git_branch: main
-git_auto_commit: true       # Auto-commit editor saves to git
-sync_interval: 300          # Polling interval in seconds (0 = disabled)
+Edited via **Settings** in the web UI, or `PATCH /api/v1/workspaces/:id`:
 
-# Theme
-theme:
-  mode: auto                # light, dark, auto (follows system preference)
-  accent: blue              # Accent color for published site
-
-# Publishing defaults
-publishing:
-  default_published: false  # New pages published by default?
-  require_explicit_unpublish: false
-
-# Permissions
-permissions:
-  default_role: viewer      # Role assigned to new workspace members
-
-# Navigation (for published docs sidebar)
-navigation:
-  - title: "Overview"
-    path: "index.md"
-  - title: "Getting Started"
-    path: "getting-started/index.md"
-    children:
-      - title: "Installation"
-        path: "getting-started/installation.md"
-      - title: "Configuration"
-        path: "getting-started/configuration.md"
-```
-
-## Settings reference
-
-### Identity
-
-| Key | Type | Description |
-|---|---|---|
-| `workspace_id` | string | ULID auto-generated at creation. Do not change. |
-| `name` | string | Display name shown in the UI and published site header |
-| `slug` | string | URL segment for published docs: `/p/{slug}/`. Changing this breaks existing URLs. |
-| `description` | string | Optional description for internal reference |
-
-### Git
-
-| Key | Type | Default | Description |
+| Setting | Type | Default | Description |
 |---|---|---|---|
+| `name` | string | — | Display name shown in the UI and published site header |
+| `slug` | string | — | URL segment for published docs: `/p/{slug}/`. Changing this breaks existing URLs. |
+| `description` | string | — | Optional description for internal reference |
 | `git_remote` | string | — | Remote repository URL (SSH or HTTPS) |
 | `git_branch` | string | `main` | Branch to sync with |
-| `git_auto_commit` | bool | `true` | Auto-commit saves from the web editor |
-| `sync_interval` | int | `300` | Seconds between polling the remote. Set to `0` to disable polling (webhook-only). |
+| `git_auto_commit` | bool | `true` | Auto-commit saves from the web editor (requires a git remote) |
+| `sync_interval` | int | `300` | Seconds between polling the remote (minimum 10) |
+| `editor_can_create_pages` | bool | `true` | Whether Editors may create pages |
+| `editor_can_delete_pages` | bool | `false` | Whether Editors may delete pages |
 
-### Theme
+The published site has its own settings — theme (7 built-in themes), visibility (`authenticated` or `public`), navigation groups, and custom domain — managed under **Settings → Publishing** (`PUT /api/v1/workspaces/:id/admin/settings`). See the [Publishing guide](../guides/publishing.md).
 
-| Key | Type | Default | Description |
-|---|---|---|---|
-| `theme.mode` | string | `auto` | Color scheme for published docs: `light`, `dark`, `auto` |
-| `theme.accent` | string | `blue` | Accent color used in published docs for links, buttons, and highlights |
+## Manifest files (`.docplatform/`)
 
-### Publishing
+Each workspace's content directory contains a `.docplatform/` folder with up to four YAML manifests. Because they are regular files in the git tree, you can edit them from your IDE and push — changes are picked up on the next sync.
 
-| Key | Type | Default | Description |
-|---|---|---|---|
-| `publishing.default_published` | bool | `false` | Whether new pages are published by default |
-| `publishing.require_explicit_unpublish` | bool | `false` | When true, pages must be explicitly unpublished (prevents accidental exclusion) |
+| File | Purpose |
+|---|---|
+| `workspace.yaml` | Display settings: name, description, published-site theme, custom CSS, editor defaults |
+| `publish.yaml` | Publishing overlay: per-path publish decisions, landing page, SEO and robots settings |
+| `nav.yaml` | Published-site sidebar navigation tree |
+| `redirects.yaml` | URL redirects for the published site |
 
-### Permissions
-
-| Key | Type | Default | Description |
-|---|---|---|---|
-| `permissions.default_role` | string | `viewer` | Role assigned to users who accept a workspace invitation |
-
-### Navigation
-
-The `navigation` array controls the sidebar order in published docs. Without it, pages are ordered alphabetically.
+### `workspace.yaml`
 
 ```yaml
-navigation:
-  - title: "Overview"       # Display label
-    path: "index.md"        # File path relative to docs/
-  - title: "Guides"         # Section header (no path = non-clickable group)
-    children:
-      - title: "Editor"
-        path: "guides/editor.md"
-      - title: "Git Sync"
-        path: "guides/git-integration.md"
+version: 1
+name: "Engineering Docs"
+description: "Internal engineering documentation"
+theme: default              # one of the 7 built-in themes
+custom_css_path: ""         # optional path to a custom stylesheet
+editor_defaults:
+  collapse_sidebar: false
+  show_line_numbers_in_code: false
 ```
 
-**Rules:**
+### `publish.yaml`
 
-- Each entry needs a `title`
-- Entries with a `path` are page links
-- Entries without a `path` but with `children` are section headers
-- Nesting depth is unlimited
-- Pages not listed in `navigation` still exist but don't appear in the sidebar
+The publish overlay has the **final say** on whether a page appears on the published site — an entry here overrides the page's frontmatter `publish:` flag. A malformed overlay never knocks pages offline; DocPlatform logs the problem and falls back to frontmatter.
+
+```yaml
+version: 1
+landing:
+  mode: page                # what / serves: a page or custom markdown
+  page: index.md
+pages:
+  - path: internal/draft.md
+    public: false           # overrides frontmatter publish: true
+  - path: announcements/launch.md
+    public: true
+```
+
+### `nav.yaml`
+
+Controls the published-site sidebar. Without it, navigation is derived from the page tree.
+
+```yaml
+version: 1
+tree:
+  - file: index.md
+  - section: "Guides"
+    collapsed: false
+    children:
+      - file: guides/editor.md
+      - file: guides/git-integration.md
+  - heading: "Resources"
+  - link: "Status page"
+    url: https://status.example.com
+```
+
+Node types: `file` (a page link), `section` (a collapsible group with `children`), `heading` (a non-clickable label), and `link`/`url` (an external link).
+
+### Conflict behavior during git sync
+
+If both the web editor and a git push change the same manifest, DocPlatform three-way-merges `workspace.yaml`, `publish.yaml`, and `redirects.yaml` automatically. Conflicts in `nav.yaml` — and in **all** Markdown pages — are never auto-merged; they are surfaced for a human to resolve. See [Git Integration](../guides/git-integration.md).
 
 ## Editing settings
 
@@ -120,31 +99,11 @@ navigation:
 
 1. Open the workspace in the web editor
 2. Click **Settings** (gear icon)
-3. Modify settings through the form interface
-4. Changes save automatically
-
-### Via config file
-
-Edit the YAML file directly:
-
-```bash
-# Find your workspace config
-ls .docplatform/workspaces/*/. docplatform/config.yaml
-
-# Edit
-nano .docplatform/workspaces/01KJJ.../. docplatform/config.yaml
-```
-
-Restart the server for changes to take effect, or trigger a reload via the API:
-
-```bash
-curl -X POST http://localhost:3000/api/v1/admin/reload \
-  -H "Authorization: Bearer {token}"
-```
+3. Modify settings through the form interface — changes apply immediately
 
 ### Via git
 
-If the workspace config file is tracked in git, push changes from your IDE and they'll be picked up on the next sync cycle. This is useful for managing documentation configuration as code.
+Edit the `.docplatform/` manifests from your IDE and push. They're picked up on the next sync cycle — useful for managing documentation configuration as code, with publish decisions visible in code review.
 
 ## Multiple workspaces
 
@@ -153,16 +112,7 @@ DocPlatform supports multiple workspaces on a single instance. Each workspace is
 - Separate content directories
 - Separate git repositories
 - Separate member lists and roles
-- Separate search indexes
+- Search results scoped per workspace
 - Separate published sites (different slugs)
 
-Create additional workspaces via CLI:
-
-```bash
-docplatform init \
-  --workspace-name "API Docs" \
-  --slug api-docs \
-  --git-url git@github.com:your-org/api-docs.git
-```
-
-Or via the web UI workspace switcher.
+Create additional workspaces from the web UI workspace switcher (org Super Admin).

@@ -6,7 +6,7 @@ weight: 3
 
 # Roles & Permissions
 
-DocPlatform uses role-based access control (RBAC) powered by custom RBAC, an in-process authorization engine. Permissions are evaluated in under 0.1ms per check with no external service.
+DocPlatform uses role-based access control (RBAC) evaluated in-process — there is no external authorization service to deploy or configure.
 
 ## Role hierarchy
 
@@ -24,7 +24,7 @@ Commenter           ← View pages, leave comments
 Viewer              ← View pages only
 ```
 
-> **Platform Owner** is an internal-only role used by self-hosted operators for platform-level maintenance (database migrations, license management, system config). It does not appear in the UI or API and is not part of the public role hierarchy.
+> **Platform Owner** is an internal flag used by the Valoryx-operated Cloud service. It has no functionality in Community Edition and is not part of the public role hierarchy.
 
 ### Permission matrix
 
@@ -37,12 +37,12 @@ Viewer              ← View pages only
 | Create pages | | | Configurable | Yes | Yes |
 | Delete pages | | | Configurable | Yes | Yes |
 | Upload assets | | | Yes | Yes | Yes |
-| Assign org members to workspace | | | | Yes | Yes |
+| Invite members to the workspace | | | | Yes | Yes |
 | Remove workspace members | | | | Yes | Yes |
 | Change member roles (within workspace) | | | | Yes | Yes |
 | Manage workspace settings | | | | Yes | Yes |
 | Manage theme & navigation | | | | Yes | Yes |
-| Invite external users to org | | | | | Yes |
+| Assign existing org members to any workspace | | | | | Yes |
 | Create/delete workspaces | | | | | Yes |
 | Configure git remote | | | | | Yes |
 | Manage billing & subscription | | | | | Yes |
@@ -70,150 +70,58 @@ curl -X PATCH http://localhost:3000/api/v1/workspaces/:id \
   }'
 ```
 
-**Config file:**
-
-```yaml
-# .docplatform/config.yaml (per workspace)
-permissions:
-  editor_can_create_pages: true
-  editor_can_delete_pages: false
-```
-
 When a permission is disabled, editors see the action as greyed out in the UI and receive `403 Forbidden` from the API.
 
 ## Assigning roles
 
-### First user (Super Admin)
+### Super Admin (org owner)
 
-The first user to register on a new DocPlatform instance automatically receives the **Super Admin** role. This only happens once — subsequent registrations receive no workspace role until invited.
+Registering an account creates a new organization, and the registering user becomes its **Super Admin**. The Super Admin has full control over every workspace in the org, billing, git connections, and org settings.
 
-The Super Admin is the org owner and account creator. They have full control over every workspace, billing, git connections, and external user invitations.
+### Inviting members to a workspace
 
-### Inviting external users
+Workspace **Admins** (and the Super Admin) invite people by email and choose the role at invite time:
 
-Only the **Super Admin** can invite external users to the organization:
-
-**Web UI:** Org Settings → Members → Invite External User
+**Web UI:** Workspace Settings → Members → Invite
 
 **API:**
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/org/invitations \
+curl -X POST http://localhost:3000/api/v1/workspaces/:id/invitations \
   -H "Authorization: Bearer {token}" \
   -H "Content-Type: application/json" \
   -d '{
     "email": "newuser@example.com",
-    "default_role": "editor"
-  }'
-```
-
-The invited user joins the org and can then be assigned to workspaces by any Admin or Super Admin.
-
-### Assigning members to workspaces
-
-**Admins** assign existing org members to their workspace. Admins cannot invite external users — only the Super Admin can do that.
-
-**Web UI:** Workspace Settings → Members → Add Member → select from org members → select role
-
-**API:**
-
-```bash
-curl -X POST http://localhost:3000/api/v1/workspaces/:id/members \
-  -H "Authorization: Bearer {token}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_id": "01HY5K3M7Q8P",
     "role": "editor"
   }'
 ```
 
-### Default role
+If email is configured the invitation is sent automatically; otherwise a shareable invitation link is displayed. Share links (`POST /api/v1/workspaces/:id/share-links`) are an alternative for inviting several people with the same role.
 
-Set the default role for new members added to a workspace without a specific role:
+### Assigning existing org members to workspaces
 
-```yaml
-# .docplatform/config.yaml
-permissions:
-  default_role: viewer
+The org **Super Admin** can assign an existing org member to a workspace:
+
+```bash
+curl -X POST http://localhost:3000/api/v1/org/members/:uid/workspaces \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{ "workspace_id": "01HY5K3M7Q8P", "role": "editor" }'
 ```
 
-Available values: `viewer`, `commenter`, `editor`, `admin`
+Workspace Admins can change the role of existing members of their workspace (**Workspace Settings → Members**, or `PUT /api/v1/workspaces/:id/admin/members/:user_id/role`).
 
-## Page-level access control
+## Page-level access control (not yet enforced)
 
-Override workspace-level permissions on individual pages using frontmatter. Frontmatter access rules **restrict** within a user's role — they never grant permissions beyond the role.
-
-### Access control syntax
-
-Use role-based and user-based access rules to control who can access a page:
-
-```yaml
----
-title: Internal Security Policy
-access:
-  roles: ["security-team", "engineering-leads"]
-  users: ["@01HY5K3M7Q8P"]
----
-```
-
-| Field | Value type | Description |
-|---|---|---|
-| `access.roles` | list of role names | Roles that can access this page |
-| `access.users` | list of `@user_id` | Individual users that can access this page |
-
-**Rules:**
-- Prefix user IDs with `@` to target individual users
-- Super Admin and Admin always have access regardless of frontmatter rules
-- Frontmatter can only **restrict** — a page cannot grant access beyond the user's workspace role
-
-### Examples
-
-**Public page** (default — all workspace members can view):
-
-```yaml
----
-title: Getting Started
----
-```
-
-**Restricted to specific teams:**
-
-```yaml
----
-title: Infrastructure Runbook
-access:
-  roles: ["security-team", "sre-team"]
----
-```
-
-**Restricted with individual user access:**
-
-```yaml
----
-title: Budget Proposal
-access:
-  roles: ["finance-team"]
-  users: ["@01HY5K3M7Q8P"]
----
-```
-
-### What restricted access means
-
-When a page has `access` rules:
-
-- Users without the required role **cannot view** the page
-- The page **does not appear** in search results for unauthorized users
-- Direct URL access returns **403 Forbidden**
+Page frontmatter may contain an `access` block. DocPlatform **parses and preserves** it (it round-trips through git and the editor unchanged), but it is **not enforced** — all access control today is role-based at the workspace level. Do not rely on frontmatter `access` rules to protect content.
 
 ### Published docs access
 
-For the **published docs site** (`/p/{slug}/...`), access control works differently:
+For the **published docs site** (`/p/{slug}/...`), access is controlled per site:
 
-- All published pages are **public by default** — no login required
-- To require login for the entire published site, set [`PUBLISH_REQUIRE_AUTH=true`](environment.md) — this applies to all pages in all workspaces
-- Per-page access control in published docs (e.g., making one page workspace-only while others are public) is planned for a future release
-
-> In v0.5, the `access` frontmatter field is stored and available for future use, but is not enforced on published routes. Use `PUBLISH_REQUIRE_AUTH` for site-wide access restriction.
+- Each published site has a `visibility` setting: `authenticated` (the default — visitors must sign in as workspace members) or `public` (world-readable, no login)
+- The server-wide override [`PUBLISH_REQUIRE_AUTH=true`](environment.md) forces login for **all** published sites regardless of per-site visibility
+- Per-page access control on published sites is not available
 
 ## Internal role levels
 
@@ -249,43 +157,24 @@ Permission Middleware
     └── Denied → 403 Forbidden
 ```
 
-### 5-step evaluation flow
+### 4-step evaluation flow
 
-1. **Is user Platform Owner?** → ALLOW (global bypass)
+1. **Is user Platform Owner?** → ALLOW (global bypass; Cloud edition only)
 2. **Is user Org Super Admin for this workspace's org?** → ALLOW (org-level bypass)
 3. **Look up user's workspace role** → if not a workspace member, DENY
 4. **Does user's role level meet the action's minimum level?** → compare `role_level >= action_min_level`, plus editor permission flags
-5. **Does page frontmatter have access rules?** → check `access.roles`/`access.users`, RESTRICT within role
 
-Frontmatter RESTRICTS within role, never GRANTS beyond it. A malformed frontmatter defaults to **strict mode** — page restricted to Admin only.
+For requests authenticated with an **API key**, the key's scopes are checked first (e.g., a `read`-only key can never write), and then the same role evaluation applies — a scope never grants more than the underlying role allows.
 
-### Performance
-
-| Metric | Value |
-|---|---|
-| **Engine** | custom RBAC (in-process, in-memory) |
-| **Evaluation time** | < 0.1ms per check |
-| **Batch check** | < 1ms per 100 pages |
-| **Cache** | Versioned (auto-invalidated on role or permission change) |
-| **Policy storage** | SQLite (loaded into memory on startup) |
-
-## Permission caching
-
-Custom RBAC policies are loaded from SQLite into memory on server startup. Changes to roles or frontmatter access declarations trigger a cache invalidation:
-
-1. Admin changes a user's role → permission cache version incremented
-2. Editor updates page frontmatter with new `access` rules → cache invalidated for that page
-3. Next permission check loads fresh policy from SQLite
-
-The cache is versioned, not time-based — there's no stale-permission window.
+Permission checks run in-process against the local SQLite database — there is no external authorization service, and role changes take effect on the next request.
 
 ## Plans and seat limits
 
 ### Seat counting
 
-**Super Admin**, **Admin**, and **Editor** roles all count toward the plan's `max_editors` seat limit. Commenter and Viewer roles are **unlimited on all plans** and never count toward any seat limit.
+Workspace members holding the **Editor** or **Admin** role count toward the plan's `max_editors` seat limit (each user is counted once across the org, even if they belong to several workspaces). **Commenter and Viewer roles are unlimited on all plans** and never count toward any seat limit.
 
-When the seat limit is reached, new org members can still be invited — but they can only be assigned Commenter or Viewer roles until a seat is freed.
+When the seat limit is reached, new members can still be invited — but only with the Commenter or Viewer role until a seat is freed.
 
 ### Community Edition
 
@@ -311,24 +200,13 @@ Community Edition is free and self-hosted with no license key required:
 
 ## Common patterns
 
-### Read-only public docs with restricted internal pages
+### Public site, private drafts
 
-```yaml
-# Most pages: no access rules (open to all workspace members)
+Pages are excluded from the published site unless marked for publishing — so editors can draft freely while only reviewed pages go public:
 
-# Internal pages: restricted
----
-title: Incident Response Playbook
-access:
-  roles: ["sre-team", "admin"]
----
-```
-
-### Editor creates, Admin publishes
-
-1. Set `publishing.default_published: false` in workspace config
-2. Editors create and edit pages (unpublished by default)
-3. Admins review and toggle `published: true`
+1. Editors create and edit pages (not published by default)
+2. A reviewer sets `publish: true` in the page frontmatter (or via the editor's publish control)
+3. The `.docplatform/publish.yaml` overlay can override publish decisions per path when you want git-reviewable publish control
 
 ### Team-specific workspaces
 
@@ -342,13 +220,13 @@ Super Admin has access to all workspaces for cross-team visibility. Admins manag
 
 ### Restricting Editor capabilities
 
-For workspaces where editors should only modify existing content:
+For workspaces where editors should only modify existing content, disable the editor flags in workspace settings (or via the API):
 
-```yaml
-# .docplatform/config.yaml
-permissions:
-  editor_can_create_pages: false
-  editor_can_delete_pages: false
+```bash
+curl -X PATCH http://localhost:3000/api/v1/workspaces/:id \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{ "editor_can_create_pages": false, "editor_can_delete_pages": false }'
 ```
 
 Editors can still edit existing pages but cannot create new ones or delete any.
@@ -358,27 +236,20 @@ Editors can still edit existing pages but cannot create new ones or delete any.
 ### "403 Forbidden" on a page I should have access to
 
 1. Check your role: Profile → Workspace Membership
-2. Check the page's frontmatter: does `access.roles` include your role?
-3. Ask a workspace Admin to verify your role assignment
-4. If you are an Editor, check whether the action requires `editor_can_create_pages` or `editor_can_delete_pages` to be enabled
+2. Ask a workspace Admin to verify your role assignment
+3. If you are an Editor, check whether the action requires `editor_can_create_pages` or `editor_can_delete_pages` to be enabled
+4. If you authenticated with an API key, check the key's scopes — a `read` key cannot write regardless of your role
 
 ### Permission changes not taking effect
 
-Permission changes should be instant (cache invalidation is synchronous). If they're not:
+Permission changes are evaluated per request and should be effective immediately. If they're not:
 
 1. Sign out and sign back in (refresh your JWT tokens)
-2. Check the server logs for cache invalidation errors
-3. Run `docplatform doctor` to verify permission system health
+2. Run `docplatform doctor` to check instance health
 
-### First user is not Super Admin
+### I can't see a workspace I expect to see
 
-This happens if the first user registers while the database already contains user records (e.g., from a previous installation). To fix:
-
-1. Stop the server
-2. Delete the database: `rm {DATA_DIR}/data.db`
-3. Start the server and register again
-
-This resets all data. Use only on fresh installations.
+Workspaces are visible only to their members (the org Super Admin sees all workspaces in their org). If a teammate created a workspace in *their* organization, they must invite you — registering your own account creates a separate organization with its own workspaces.
 
 ### "Seat limit reached" when inviting a member
 

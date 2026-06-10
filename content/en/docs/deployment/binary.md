@@ -22,7 +22,7 @@ chmod +x docplatform-linux-amd64
 sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
 # Or download a specific version
-curl -sLO https://github.com/Valoryx-org/releases/releases/download/v0.5.2/docplatform-linux-amd64
+curl -sLO https://github.com/Valoryx-org/releases/releases/download/v0.10.0/docplatform-linux-amd64
 ```
 
 Available platforms:
@@ -39,11 +39,11 @@ Archives (with version):
 
 | OS | Architecture | Archive |
 |---|---|---|
-| Linux | amd64 | `docplatform_0.5.2_linux_amd64.tar.gz` |
-| Linux | arm64 | `docplatform_0.5.2_linux_arm64.tar.gz` |
-| macOS | amd64 (Intel) | `docplatform_0.5.2_darwin_amd64.tar.gz` |
-| macOS | arm64 (Apple Silicon) | `docplatform_0.5.2_darwin_arm64.tar.gz` |
-| Windows | amd64 | `docplatform_0.5.2_windows_amd64.zip` |
+| Linux | amd64 | `docplatform_0.10.0_linux_amd64.tar.gz` |
+| Linux | arm64 | `docplatform_0.10.0_linux_arm64.tar.gz` |
+| macOS | amd64 (Intel) | `docplatform_0.10.0_darwin_amd64.tar.gz` |
+| macOS | arm64 (Apple Silicon) | `docplatform_0.10.0_darwin_arm64.tar.gz` |
+| Windows | amd64 | `docplatform_0.10.0_windows_amd64.zip` |
 
 ### Verify the download
 
@@ -67,7 +67,7 @@ Verify:
 
 ```bash
 docplatform version
-# docplatform v0.5.2 (commit: abc1234, built: 2026-03-08T10:00:00Z)
+# docplatform v0.10.0 (commit: 5738520, built: 2026-05-16T17:52:38Z)
 ```
 
 ## Initialize
@@ -92,6 +92,8 @@ docplatform init \
   --git-url git@github.com:your-org/docs.git \
   --branch main
 ```
+
+> `docplatform init` is optional — the server initializes its database on first run, and registering through the web UI creates a starter workspace. CLI-created workspaces belong to a server-level default organization, not to web accounts (see [Your First Workspace](../getting-started/first-workspace.md)); for most deployments, create workspaces through the web UI after registering.
 
 ## Configure
 
@@ -218,24 +220,26 @@ server {
 }
 ```
 
-When using a reverse proxy, set `HOST=127.0.0.1` so DocPlatform only listens on localhost.
+DocPlatform listens on all interfaces on `PORT` (there is no listen-address setting). When running behind a reverse proxy, use your firewall to block external access to port 3000 so only the proxy can reach it.
 
 ## Upgrades
 
-```bash
-# Download new version (recommended)
-curl -fsSL https://valoryx.org/install.sh | sh
+**Stop the service before replacing the binary** — overwriting a running binary fails on Linux with "Text file busy":
 
-# Or download manually
+```bash
+# 1. Stop
+sudo systemctl stop docplatform
+
+# 2. Download the new version
 curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-linux-amd64
 chmod +x docplatform-linux-amd64
 sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
-# Restart
-sudo systemctl restart docplatform
+# 3. Start
+sudo systemctl start docplatform
 ```
 
-Database migrations run automatically on startup. Backups are created before migration if `BACKUP_ENABLED=true`.
+Database migrations run automatically on startup. Keep `BACKUP_ENABLED=true` (the default) so daily backups are available if you need to roll back.
 
 ## Rollback
 

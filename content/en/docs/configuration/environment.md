@@ -6,15 +6,15 @@ weight: 1
 
 # Environment Variables
 
-DocPlatform reads configuration from environment variables. Set them in your shell, a `.env` file in the working directory, or your container orchestrator.
+DocPlatform reads configuration from environment variables only — there is no config file. Set them in your shell, your systemd unit, or your container orchestrator.
 
 ## Server
 
 | Variable | Default | Description |
 |---|---|---|
 | `PORT` | `3000` | HTTP listen port |
-| `HOST` | `0.0.0.0` | **Not yet implemented.** Reserved for future use. |
 | `DATA_DIR` | `.docplatform` | Root directory for all DocPlatform data (database, backups, workspaces, keys) |
+| `DOCPLATFORM_ENV` | — | Set to `production` to enable strict configuration validation (e.g., requires `API_KEY_PEPPER`, blocks `DEV_FRONTEND_URL`) |
 | `BASE_URL` | `http://localhost:{PORT}` | Public URL used for OIDC callbacks, invitation links, and email templates. Set to your production URL (e.g., `https://docs.example.com`). |
 | `BASE_DOMAIN` | — | Custom domain for published docs (e.g., `docs.yourcompany.com`). When set, published docs use this domain for canonical URLs and sitemap entries. |
 | `PUBLISH_REQUIRE_AUTH` | `false` | When `true`, all published documentation sites require the visitor to be logged in as a workspace member. Unauthenticated visitors are redirected to the login page and returned to the original page after sign-in. |
@@ -25,11 +25,11 @@ DocPlatform reads configuration from environment variables. Set them in your she
 | Variable | Default | Description |
 |---|---|---|
 | `JWT_KEY_PATH` | `{DATA_DIR}/jwt-private.pem` | Path to the RS256 private key for JWT signing. Auto-generated on first run if missing (2048-bit RSA). |
-| `JWT_ACCESS_TTL` | `900` | Access token lifetime in seconds (default: 15 minutes) |
-| `JWT_REFRESH_TTL` | `604800` | Refresh token lifetime in seconds (default: 7 days) |
 | `ARGON2_MEMORY` | `65536` | Argon2id memory parameter in KiB (default: 64 MB) |
 | `ARGON2_TIME` | `3` | Argon2id iteration count |
 | `ARGON2_THREADS` | `2` | Argon2id parallelism |
+
+Token lifetimes are fixed: access tokens live 15 minutes, refresh tokens 7 days (with single-use rotation). They are not configurable via environment variables.
 
 ## OIDC providers (optional)
 
@@ -64,9 +64,10 @@ See [Authentication](authentication.md) for setup instructions.
 | `GIT_SSH_KNOWN_HOSTS` | — | Path to known_hosts file for strict host verification. If not set, uses built-in pinned keys for GitHub, GitLab, and Bitbucket. |
 | `GIT_SYNC_INTERVAL` | `300` | Default polling interval in seconds for remote sync (minimum: 10). Overridden by per-workspace `sync_interval`. |
 | `GIT_AUTO_COMMIT` | `true` | Default auto-commit behavior. Overridden by per-workspace `git_auto_commit`. |
-| `GIT_WEBHOOK_SECRET` | — | Shared secret for verifying webhook payloads (HMAC-SHA256) from GitHub, GitLab, or Bitbucket. |
-| `GIT_COMMIT_NAME` | `DocPlatform` | Hardcoded, not configurable. Shown here for reference only. |
-| `GIT_COMMIT_EMAIL` | `docplatform@local` | Hardcoded, not configurable. Shown here for reference only. |
+| `GIT_ENCRYPTION_KEY` | — | Master key (minimum 16 characters) used to encrypt git provider tokens at rest (AES-256-GCM with Argon2id key derivation). Required to connect git providers with a personal access token. |
+| `GIT_ALLOWLIST_PRIVATE` | `false` | Community Edition: set to `true` to allow private git remote URLs. |
+
+Incoming git webhooks are verified with a **per-workspace secret** that DocPlatform generates automatically (32-byte random hex) — find it in **Workspace Settings → Git**. There is no global webhook secret variable. Commits from editor saves carry the acting user's identity as the git author; automatic conflict-merge commits are authored as `sync@valoryx.dev`.
 
 ## Email (optional)
 
@@ -88,7 +89,8 @@ Configure SMTP or Resend for workspace invitations and password reset emails. Wi
 |---|---|---|
 | `BACKUP_ENABLED` | `true` | Enable daily automated SQLite backups |
 | `BACKUP_RETENTION_DAYS` | `7` | Number of days to retain backup files. Older backups are deleted automatically. |
-| `BACKUP_DIR` | `{DATA_DIR}/backups` | Directory for backup files |
+
+Backups are always written to `{DATA_DIR}/backups/` — the location is not separately configurable.
 
 ## Telemetry
 
@@ -106,9 +108,11 @@ Configure SMTP or Resend for workspace invitations and password reset emails. Wi
 
 Telemetry **never** sends: page content, user emails, IP addresses, file names, or any personally identifiable information. Frequency: weekly.
 
-## Stripe billing (optional)
+## Stripe billing (Cloud edition only)
 
-Enable subscription billing with Stripe. When `STRIPE_SECRET_KEY` is not set, billing is disabled and all organizations are treated as unlimited.
+> These variables exist only in the **Cloud edition** that powers [app.valoryx.dev](https://app.valoryx.dev). The Community Edition binary contains no billing code at all — these variables have no effect on a self-hosted install, and every Community organization is unlimited by design.
+
+When `STRIPE_SECRET_KEY` is not set, billing is disabled and all organizations are treated as unlimited.
 
 | Variable | Default | Description |
 |---|---|---|
@@ -144,7 +148,7 @@ Configure Caddy integration for automatic TLS provisioning on custom domains.
 
 | Variable | Default | Description |
 |---|---|---|
-| `API_KEY_PEPPER` | — | HMAC pepper for API key hashing. Warns if empty (reduced entropy). Can also be set as `DOCPLATFORM_API_KEY_PEPPER`. |
+| `API_KEY_PEPPER` | — | HMAC pepper for API key hashing. **Required when `DOCPLATFORM_ENV=production`.** Can also be set as `DOCPLATFORM_API_KEY_PEPPER`. |
 | `HIDE_STORAGE_PATHS` | `false` | Suppress disk paths in API responses (recommended for cloud/SaaS deployments). |
 | `SHOW_DISK_PATHS_TO_WS_ADMIN` | `false` | Opt-in: show disk paths to workspace admins in storage info responses. |
 
@@ -152,20 +156,34 @@ Configure Caddy integration for automatic TLS provisioning on custom domains.
 
 | Variable | Default | Description |
 |---|---|---|
-| `FF_METRICS` | `false` | Enable Prometheus metrics at `/metrics` (super admin authentication required). |
+| `FF_METRICS` | `false` | Enable Prometheus metrics at `/metrics` on the main port (platform-owner authentication required). |
+| `METRICS_PORT` | — | When set, additionally exposes an unauthenticated `/metrics` listener bound to `127.0.0.1:{port}` for local Prometheus scraping. |
+
+## Updates
+
+| Variable | Default | Description |
+|---|---|---|
+| `DISABLE_UPDATE_CHECK` | `false` | Skip the startup check for new DocPlatform versions. |
 
 ## Development
 
 | Variable | Default | Description |
 |---|---|---|
-| `DEV_FRONTEND_URL` | — | Proxy non-API requests to this URL for frontend hot module reloading during development. |
+| `DEV_FRONTEND_URL` | — | Proxy non-API requests to this URL for frontend hot module reloading during development. Blocked when `DOCPLATFORM_ENV=production`. |
 
-## Using a `.env` file
+## Setting variables for a service
 
-Create a `.env` file in the directory where you run `docplatform serve`:
+DocPlatform does **not** read `.env` files — variables must be present in the process environment. For a systemd deployment, use an `EnvironmentFile`:
+
+```ini
+# /etc/systemd/system/docplatform.service (excerpt)
+[Service]
+EnvironmentFile=/etc/docplatform/env
+ExecStart=/usr/local/bin/docplatform serve
+```
 
 ```bash
-# .env
+# /etc/docplatform/env  (chmod 600)
 PORT=8080
 DATA_DIR=/var/lib/docplatform
 GIT_SSH_KEY_PATH=/etc/docplatform/deploy_key
@@ -176,8 +194,6 @@ SMTP_USERNAME=docs@example.com
 SMTP_PASSWORD=app-specific-password
 BACKUP_RETENTION_DAYS=30
 ```
-
-DocPlatform loads the `.env` file automatically. Environment variables set in the shell take precedence over `.env` values.
 
 ## Docker environment
 

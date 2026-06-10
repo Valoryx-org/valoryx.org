@@ -23,8 +23,10 @@ These items are necessary for a secure, reliable production deployment.
 
 - [ ] **TLS enabled** — Run behind a reverse proxy (Caddy, nginx, cloud load balancer) with HTTPS. DocPlatform does not terminate TLS itself.
 - [ ] **JWT key secured** — The `jwt-private.pem` file grants the ability to forge authentication tokens. Restrict filesystem permissions: `chmod 600`.
-- [ ] **First user registered** — The first registered user becomes Super Admin. Register your admin account before opening the server to others.
-- [ ] **Bind to localhost** — If using a reverse proxy on the same host, set `HOST=127.0.0.1` so DocPlatform isn't directly accessible.
+- [ ] **Production mode enabled** — Set `DOCPLATFORM_ENV=production` to turn on strict configuration validation.
+- [ ] **API key pepper set** — `API_KEY_PEPPER` is required in production mode; it strengthens API-key hashing.
+- [ ] **Git token encryption key set** — If you'll connect git providers with access tokens, set `GIT_ENCRYPTION_KEY` (min 16 chars) so tokens are encrypted at rest.
+- [ ] **Firewall the app port** — If using a reverse proxy on the same host, block external access to port 3000 so DocPlatform is only reachable through the proxy (there is no listen-address setting).
 
 ### Backups
 
@@ -92,20 +94,19 @@ If you need to scale beyond these limits, future editions will support multi-ins
 ### Network
 
 - Run behind a reverse proxy with TLS
-- Set `HOST=127.0.0.1` to block direct access
-- Use firewall rules to restrict access to the server
+- Use firewall rules so only the reverse proxy can reach the app port
 - **WebSocket proxy** — ensure your reverse proxy supports WebSocket upgrade. Without it, real-time presence and live updates won't work. Both Caddy and nginx (with `proxy_http_version 1.1` and `Upgrade` headers) support this.
 
 ### Response headers
 
-DocPlatform sets security headers automatically on all responses:
+DocPlatform sets security headers automatically:
 
 | Header | Value |
 |---|---|
 | `X-Content-Type-Options` | `nosniff` |
-| `X-Frame-Options` | `DENY` |
-| `Content-Security-Policy` | `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'` |
-| `X-Request-ID` | ULID (unique per request) |
+| `Content-Security-Policy` | Set per surface (API, published sites, and the SPA each get an appropriate nonce-based policy) |
+
+`HSTS` and `X-Frame-Options` are intentionally left to the reverse proxy — configure them there (Caddy and nginx both make this a one-liner).
 
 ### Filesystem
 
@@ -116,8 +117,8 @@ DocPlatform sets security headers automatically on all responses:
 ### Authentication
 
 - Enable OIDC to reduce locally-stored credentials
-- Use strong passwords (DocPlatform uses argon2id — resistant to brute force)
-- Review active sessions periodically (Admin panel → Users → Sessions)
+- Use strong passwords (DocPlatform uses argon2id — resistant to brute force; repeated failures trigger a 15-minute lockout)
+- Have users review their active sessions periodically (Profile → Sessions)
 
 ### Updates
 
@@ -136,27 +137,24 @@ sudo useradd -r -s /sbin/nologin docplatform
 sudo mkdir -p /var/lib/docplatform
 sudo chown docplatform:docplatform /var/lib/docplatform
 
-# 3. Initialize workspace
-cd /var/lib/docplatform
-sudo -u docplatform docplatform init \
-  --workspace-name "Docs" \
-  --slug docs
-
-# 4. Configure environment
+# 3. Configure environment
 sudo mkdir -p /etc/docplatform
 sudo tee /etc/docplatform/.env <<EOF
 PORT=3000
-HOST=127.0.0.1
 DATA_DIR=/var/lib/docplatform
+DOCPLATFORM_ENV=production
+API_KEY_PEPPER=$(openssl rand -hex 32)
 BACKUP_RETENTION_DAYS=30
 EOF
+sudo chmod 600 /etc/docplatform/.env
 
-# 5. Create systemd service (see Binary Deployment guide)
-# 6. Set up reverse proxy with TLS (see Binary Deployment guide)
+# 4. Create systemd service (see Binary Deployment guide)
+# 5. Set up reverse proxy with TLS (see Binary Deployment guide)
 
-# 7. Start and verify
+# 6. Start and verify
 sudo systemctl enable --now docplatform
 docplatform doctor
 
-# 8. Register admin account at https://docs.yourcompany.com
+# 7. Register your account at https://docs.yourcompany.com
+#    (registration creates your organization + starter workspace)
 ```

@@ -39,24 +39,22 @@ The search engine indexes:
 - **Page title** (boosted weight for ranking)
 - **Page description** (boosted weight)
 - **Full page content** (body text, code blocks, lists, etc.)
-- **Tags** (exact match boosting)
-- **Frontmatter metadata**
+- **Tags** (keyword field, boosted)
+- **Page path**
 
-### Search syntax
+### Matching behavior
 
-| Syntax | Example | Description |
+Queries are plain keywords — there is no special operator syntax:
+
+| Behavior | Example | Description |
 |---|---|---|
-| Keywords | `git sync` | Pages containing both "git" and "sync" |
-| Exact phrase | `"bidirectional sync"` | Pages with the exact phrase |
-| Prefix | `auth*` | Pages with words starting with "auth" |
-| Tag filter | `tag:api` | Pages tagged with "api" |
+| Keywords | `git sync` | Matches pages containing the terms across title, description, and body |
+| Fuzzy matching | `gti snyc` | Typos within a small edit distance still match (title tolerates more than body) |
+| Highlighting | — | Results include highlighted snippets showing where the match occurred |
 
 ## Permission filtering
 
-Search results are automatically filtered based on the current user's permissions:
-
-- **Workspace-scoped filtering** — results are limited to workspaces the user belongs to. This filtering happens at the search engine level.
-- **Page-level access** — pages with `access` rules are filtered post-query based on the user's role. A Viewer cannot find restricted admin-only pages through search, even if the content matches their query.
+Search is workspace-scoped: every query is constrained to the workspace it's issued against at the search-engine level, and the search endpoint requires read access to that workspace. There is no cross-workspace search.
 
 ## Indexing
 
@@ -76,31 +74,24 @@ There's a brief delay (typically under 1 second) between saving a page and the u
 If the search index gets out of sync (rare — usually after a crash or manual file manipulation), rebuild it:
 
 ```bash
-docplatform rebuild
+docplatform rebuild --workspace {workspace-id} --search
 ```
 
-This drops the existing search index and re-indexes all pages from the filesystem. The process runs in the background — the server remains available during rebuild.
+This re-indexes the workspace's pages from the filesystem (the `--search` flag includes the search index in the rebuild).
 
 ### Index health
 
-Check search index health with the doctor command:
+Check overall instance health (FS/DB consistency, broken wikilinks, backups, and more) with the doctor command:
 
 ```bash
 docplatform doctor
 ```
 
-The doctor reports:
-
-- Number of indexed documents vs. database page count
-- Orphaned index entries (indexed but no matching page)
-- Missing index entries (page exists but not indexed)
-- Index file size and last update timestamp
+If search results look stale or incomplete, rebuild the index with `docplatform rebuild --workspace {id} --search`.
 
 ## Search in published docs
 
-Published documentation sites include a search interface for visitors. The search input appears in the site header and uses the same Bleve engine.
-
-Public site search is scoped to published pages only — unpublished or restricted content never appears in public search results.
+Published documentation sites do **not** currently include a visitor-facing search interface — search is available to authenticated workspace members in the editor. For AI agents and crawlers, published sites expose `llms.txt` / `llms-full.txt` and `sitemap.xml` for content discovery instead.
 
 ## Search engine internals
 
@@ -123,8 +114,8 @@ Not all fields are weighted equally in relevance scoring:
 |---|---|---|
 | `title` | High (3.0x) | Page title (most relevant signal) |
 | `description` | Medium (1.5x) | Page description / summary |
-| `tags` | Exact match | Keyword field — exact tag matches boosted |
-| `body` | Normal | Full page content |
+| `tags` | Boosted (2.0x) | Keyword field — exact tag matches |
+| `body` | Normal (1.0x) | Full page content |
 | `path` | Keyword | File path — exact match only |
 
 This means a query matching a page's title ranks higher than the same query matching deep in the body text.

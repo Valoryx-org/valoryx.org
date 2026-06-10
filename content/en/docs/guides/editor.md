@@ -44,8 +44,7 @@ The collapsible frontmatter section at the top of the editor provides form field
 | **Title** | Page heading and navigation label | Yes |
 | **Description** | Summary shown in search results and SEO meta tags | No |
 | **Tags** | Categorization labels for filtering and discovery | No |
-| **Published** | Toggle to include/exclude from the public site | No |
-| **Access** | Per-operation access rules (read/write/admin by role) | No |
+| **Publish** | Toggle to include/exclude from the public site | No |
 
 Changes to frontmatter fields update the YAML block in the `.md` file automatically.
 
@@ -58,13 +57,12 @@ The formatting toolbar provides quick access to:
 | **Bold** | `Cmd+B` | Bold text |
 | **Italic** | `Cmd+I` | Italic text |
 | **Code** | `Cmd+E` | Inline code |
-| **Link** | `Cmd+K` | Insert or edit hyperlink |
-| **Heading 1-3** | `Cmd+Shift+1/2/3` | Section headings |
+| **Link** | — | Insert or edit hyperlink |
+| **Heading 1-3** | `Cmd+Alt+1/2/3` | Section headings |
 | **Bullet list** | `Cmd+Shift+8` | Unordered list |
 | **Ordered list** | `Cmd+Shift+7` | Numbered list |
-| **Task list** | `Cmd+Shift+9` | Checkbox list |
-| **Blockquote** | `Cmd+Shift+>` | Block quote |
-| **Code block** | `Cmd+Alt+C` | Fenced code block with language selector |
+| **Blockquote** | `Cmd+Shift+B` | Block quote |
+| **Code block** | `Cmd+Alt+C` | Fenced code block |
 | **Image** | — | Upload or paste an image |
 | **Table** | — | Insert a table |
 | **Horizontal rule** | `---` | Divider line |
@@ -98,7 +96,7 @@ DocPlatform autosaves your work every few seconds. You'll see a status indicator
 | **Saving...** | Write in progress |
 | **Unsaved changes** | Edits pending save (poor connection or error) |
 
-If git sync is enabled, each save triggers an auto-commit. Commits are batched — rapid edits produce a single commit with the message format: `docs: update {page-title}`.
+If git sync is enabled (auto-commit on, remote configured), each save triggers an auto-commit authored as you, with a message like `Update {page-path} via web editor` (`Create` / `Delete` / `Move` for those operations).
 
 ## Working with content
 
@@ -119,7 +117,7 @@ Insert tables from the toolbar. Tables support:
 
 ### Code blocks
 
-Insert code blocks with the toolbar or by typing triple backticks (`` ``` ``). Select a language for syntax highlighting — Chroma supports 200+ languages.
+Insert code blocks with the toolbar or by typing triple backticks (`` ``` ``). Set the language by typing it after the opening fence (e.g., ```` ```javascript ````) or in raw Markdown mode — published pages render syntax highlighting for 200+ languages.
 
 ```javascript
 // Code blocks with syntax highlighting
@@ -146,10 +144,8 @@ DocPlatform validates internal links and the `doctor` command reports broken ref
 | `Cmd+K` | Open search dialog |
 | `Cmd+Z` | Undo |
 | `Cmd+Shift+Z` | Redo |
-| `Cmd+/` | Toggle Markdown comment |
 | `Tab` | Indent list item |
 | `Shift+Tab` | Outdent list item |
-| `Cmd+Enter` | Toggle task completion (in task lists) |
 | `Escape` | Close dialogs / deselect |
 
 > **Note:** On Windows and Linux, replace `Cmd` with `Ctrl`.
@@ -163,6 +159,5 @@ DocPlatform does not support simultaneous editing of the same page by multiple u
 ## Tips
 
 - **Drag pages** in the sidebar to reorganize your documentation structure
-- **Slash commands** — type `/` in the editor to quickly insert components (callout, code block, table, etc.)
 - **Paste rich text** from Google Docs, Notion, or Confluence — the editor converts it to clean Markdown
-- **Frontmatter defaults** — set workspace-level defaults for `published`, `access`, and `tags` to reduce repetitive entry
+- **Use raw Markdown mode** for custom components (Callout, Tabs, etc.) and precise frontmatter edits

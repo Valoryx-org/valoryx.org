@@ -10,64 +10,47 @@ DocPlatform can serve your documentation as a website — complete with a naviga
 
 ## How publishing works
 
-Published docs are served at `/p/{workspace-slug}/{page-path}`:
+Published docs are served at `/p/{site-slug}/{page-path}`:
 
 ```
-http://localhost:3000/p/my-docs/              → docs/index.md
-http://localhost:3000/p/my-docs/quickstart    → docs/quickstart.md
-http://localhost:3000/p/my-docs/api/auth      → docs/api/auth.md
+http://localhost:3000/p/my-docs/              → index.md
+http://localhost:3000/p/my-docs/quickstart    → quickstart.md
+http://localhost:3000/p/my-docs/api/auth      → api/auth.md
 ```
 
 Pages are rendered from Markdown to HTML on request using goldmark (CommonMark-compliant) with Chroma syntax highlighting (Dracula theme) for code blocks.
 
-### Page status lifecycle
+> **Slug limitation:** site slugs must be a **single path segment**. A slug containing `/` breaks routing both on `/p/` URLs and on custom domains (custom-domain requests are internally rewritten to `/p/{slug}/...`). Use a slug like `my-docs`, not `team/my-docs`.
 
-Pages have a `status` field that controls their visibility:
+### What appears on the published site
 
-| Status | In editor | In published site | In search |
-|---|---|---|---|
-| `draft` (default) | Visible | Hidden | Visible to members only |
-| `published` | Visible | Visible | Visible per access rules |
-| `archived` | Visible (dimmed) | Hidden | Hidden |
+Whether a page appears on the published site is a three-source decision, evaluated in this order (later sources win):
 
-Set the status in frontmatter:
+1. Frontmatter `publish:` flag on the page
+2. The `pages.publish` column in the database (kept in sync with frontmatter)
+3. The `.docplatform/publish.yaml` overlay — an entry for the page's path **overrides** frontmatter
 
-```yaml
----
-title: My Page
-status: published    # draft, published, or archived
-publish: true        # shorthand — equivalent to status: published
----
-```
-
-The `publish: true` shorthand and `status: published` are equivalent. Use whichever you prefer.
+Unpublished pages return 404 on the published site — for everyone, including workspace members. The separate frontmatter `status:` field (`draft` / `published` / `archived`) is editorial metadata and does **not** control published-site visibility — only `publish:` does.
 
 ## Enable publishing
 
 ### Per-page
 
-Set `published: true` in the page's frontmatter:
+Set `publish: true` in the page's frontmatter:
 
 ```yaml
 ---
 title: API Authentication
 description: How to authenticate with the API.
-published: true
+publish: true
 ---
 ```
 
-Or toggle the **Published** switch in the frontmatter form of the web editor.
+Or toggle the **Publish** switch in the frontmatter form of the web editor.
 
-### Workspace-level default
+### Bulk control with the publish overlay
 
-Set a workspace-level default so new pages are published automatically:
-
-```yaml
-# .docplatform/config.yaml
-publishing:
-  default_published: true
-  require_explicit_unpublish: false
-```
+To manage publish decisions as code (visible in code review), use the `.docplatform/publish.yaml` overlay — see [Workspace Settings](../configuration/workspace-config.md#publishyaml).
 
 ## Themes
 
@@ -83,36 +66,35 @@ DocPlatform ships with 7 built-in themes for published documentation:
 | **Minimal** | Stripped-down, typography-focused |
 | **Corporate** | Professional blue/gray palette |
 
-Set the theme in your workspace config:
+Set the theme in **Workspace Settings → Publishing** (`PUT /api/v1/workspaces/:id/admin/settings` with `{"theme": "dark"}`), or in `.docplatform/workspace.yaml`:
 
 ```yaml
-# .docplatform/config.yaml
-theme:
-  mode: auto    # light, dark, or auto (follows system preference)
-  accent: blue  # or use a named theme
+# .docplatform/workspace.yaml
+theme: dark
 ```
 
-Each theme supports automatic light/dark mode switching based on the visitor's system preference when `mode: auto` is set.
+Invalid theme names fall back to `default`.
 
 ## Published site features
 
 ### Navigation
 
-The published site generates a sidebar navigation from your page hierarchy. The order matches the sidebar in the web editor.
+The published site generates a sidebar navigation from your page hierarchy by default.
 
-To customize navigation order, adjust the `navigation` section in your workspace config:
+To customize it, either arrange navigation groups in **Workspace Settings → Publishing → Navigation** (`PUT /api/v1/workspaces/:id/admin/navigation`), or maintain a `.docplatform/nav.yaml` file in the workspace:
 
 ```yaml
-# .docplatform/config.yaml
-navigation:
-  - title: "Getting Started"
-    path: "getting-started/index.md"
+# .docplatform/nav.yaml
+version: 1
+tree:
+  - file: index.md
+  - section: "Getting Started"
     children:
-      - title: "Installation"
-        path: "getting-started/installation.md"
-      - title: "Quickstart"
-        path: "getting-started/quickstart.md"
+      - file: getting-started/installation.md
+      - file: getting-started/quickstart.md
 ```
+
+See [Workspace Settings](../configuration/workspace-config.md#navyaml) for all node types. Use the frontmatter `nav_order` field for simple ordering hints without a full nav file.
 
 ### Syntax highlighting
 
@@ -141,6 +123,18 @@ DocPlatform generates SEO metadata automatically from your page frontmatter:
 | `sitemap.xml` | Auto-generated at `/p/{slug}/sitemap.xml` |
 | `robots.txt` | Auto-generated at `/p/{slug}/robots.txt` |
 | RSS feed | Auto-generated at `/p/{slug}/rss.xml` |
+
+### AI discoverability
+
+Every published site also exposes endpoints designed for AI agents and LLM ingestion:
+
+| Endpoint | Content |
+|---|---|
+| `/p/{slug}/llms.txt` | Plain-text index of the site's published pages |
+| `/p/{slug}/llms-full.txt` | Full Markdown content of all published pages (capped at 200 pages) |
+| `/p/{slug}/manifest.json` | Machine-readable workspace manifest |
+
+All discovery endpoints respect the site's visibility setting.
 
 ### Access control
 
@@ -300,7 +294,7 @@ export CADDY_ADMIN_URL=http://localhost:2019
 export CADDY_ASK_SECRET=your-shared-secret
 ```
 
-3. **Assign a custom domain** to a workspace via the API or admin UI:
+3. **Assign a custom domain** to a workspace via the API or workspace settings:
 
 ```bash
 curl -X PUT /api/v1/workspaces/{id}/custom-domain \
@@ -310,24 +304,17 @@ curl -X PUT /api/v1/workspaces/{id}/custom-domain \
 
 4. **Point DNS** — Add a CNAME or A record pointing to your DocPlatform server.
 
-DocPlatform verifies DNS automatically and provisions TLS certificates on first request. No manual certificate management required.
+DocPlatform verifies DNS automatically and provisions TLS certificates on first request. No manual certificate management required. If `CADDY_ASK_SECRET` is empty, the ask endpoint rejects all requests (fail-closed) — custom-domain TLS will not provision until it is set.
 
 ### Managing custom domains
+
+Requires the workspace Admin role:
 
 | Operation | Endpoint |
 |---|---|
 | Set domain | `PUT /api/v1/workspaces/:id/custom-domain` |
 | Check status | `GET /api/v1/workspaces/:id/custom-domain` |
 | Remove domain | `DELETE /api/v1/workspaces/:id/custom-domain` |
-
-Super admins can manage all domains from the admin panel:
-
-| Operation | Endpoint |
-|---|---|
-| List all domains | `GET /api/admin/domains` |
-| Verify DNS | `POST /api/admin/domains/:id/verify` |
-| Provision TLS | `POST /api/admin/domains/:id/provision` |
-| Delete domain | `DELETE /api/admin/domains/:id` |
 
 ## Caching
 
@@ -340,9 +327,9 @@ Published pages are cached for performance:
 
 The cache key is based on the page's content hash. When content changes, the ETag changes automatically and cached versions are invalidated.
 
-### Asset URL rewriting
+### Uploaded images
 
-In the web editor, assets use relative paths (`assets/screenshot.png`). In published docs, these are automatically rewritten to absolute paths (`/p/{slug}/assets/screenshot.png`) so images and files load correctly at any URL depth.
+Images uploaded through the editor are served from the workspace's uploads endpoint. On published sites with `public` visibility, uploads referenced by published pages are publicly readable.
 
 ## Static export
 
@@ -351,16 +338,17 @@ Export your published docs as a self-contained static HTML ZIP for CDN deploymen
 ### Via CLI
 
 ```bash
-docplatform export --workspace my-docs --output ./my-docs-export.zip
+docplatform export --workspace {workspace-id} --output ./my-docs-export.zip
 ```
 
 ### Via API
 
 ```
-GET /api/v1/workspaces/{id}/export
+POST /api/v1/workspaces/{id}/export   # start the export
+GET  /api/v1/workspaces/{id}/export   # check status / download
 ```
 
-Returns a ZIP file containing:
+The export contains:
 
 - Rendered HTML for all published pages
 - `sitemap.xml` and `robots.txt`
@@ -372,9 +360,7 @@ Returns a ZIP file containing:
 Preview published docs locally without building a static export:
 
 ```bash
-docplatform preview --workspace my-docs --port 4000
+docplatform preview --workspace {workspace-id} --port 4000
 ```
 
 This starts a lightweight local server that renders pages in real-time — useful for reviewing changes before deploying.
-
-Pages with `published: false` are still accessible to authenticated workspace members at the `/p/` path — they're just excluded from the public navigation and sitemap.

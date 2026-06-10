@@ -93,9 +93,9 @@ Then configure your MCP client to connect via Streamable HTTP at `http://your-se
 
 ---
 
-## Available tools (24)
+## Available tools (26)
 
-The MCP server exposes 24 tools across 9 categories.
+The MCP server exposes 26 tools across 10 categories.
 
 ### Content (6 tools)
 
@@ -145,12 +145,13 @@ The `get_manifest` tool gives AI agents a complete overview of the workspace str
 | `docplatform_get_theme` | Get the current published site theme | — |
 | `docplatform_update_theme` | Update the published site theme | `theme` (default, dark, forest, rose, amber, minimal, corporate) |
 
-### Management (2 tools)
+### Management (3 tools)
 
 | Tool | Description | Key parameters |
 |---|---|---|
 | `docplatform_create_workspace` | Create a new documentation workspace. The authenticated user becomes workspace admin | `name`, `slug`, `description` |
 | `docplatform_get_workspace` | Get workspace details including your role, member count, page count, git sync status, and publish settings | `workspace_id` |
+| `docplatform_publish_workspace` | Enable or disable the workspace's published site (same effect as the REST publish toggle) | `workspace_id`, `published` |
 
 ### Versioning (2 tools)
 
@@ -186,21 +187,31 @@ Requires an AI provider configured on the server (Anthropic or OpenAI).
 | `docplatform_list_comments` | List threaded comments on a page with author, body, anchors, and resolution status | `page`, `limit` |
 | `docplatform_add_comment` | Add a comment to a page. Supports @mentions and threaded replies | `page`, `body`, `parent_id` |
 
+### Sync (1 tool, conditional)
+
+| Tool | Description | Key parameters |
+|---|---|---|
+| `docplatform_resolve_sync_conflict` | Resolve a pending git-sync conflict — keep the local version, the remote version, or supply explicit content per path; commits and pushes with your identity | `conflict_id`, `resolution` (`kept_local`, `kept_remote`, `custom`) |
+
+This tool is only registered when the MCP server is started with a configured server URL (`DOCPLATFORM_SERVER_URL`) — it proxies to the REST conflict-resolution endpoint and requires the Editor role. Triggering a sync itself is REST-only (`POST /api/v1/workspaces/:id/sync`); there is no `trigger_sync` MCP tool.
+
 ---
 
 ## Authentication
 
 ### API key scopes
 
-API keys support three scopes:
+API keys support five scopes — `read`, `write`, `delete`, `admin`, and `admin:read` (see [Authentication](../configuration/authentication.md#scopes) for the full model). The three content scopes map to MCP tools as follows:
 
 | Scope | Allows |
 |---|---|
 | `read` | list_pages, read_page, search, get_context, get_tree, get_manifest, list_workspaces, get_workspace, list_versions, get_theme, validate_links, quality_scan, export, get_activity, list_comments |
-| `write` | write_page, update_page, move_page, create_workspace, create_version, update_theme, writing_assist, add_comment |
+| `write` | write_page, update_page, move_page, create_workspace, create_version, update_theme, writing_assist, add_comment, publish_workspace, resolve_sync_conflict |
 | `delete` | delete_page |
 
-By default, new API keys have all three scopes. You can restrict scope when creating the key.
+In addition to scopes, every tool call is checked against your **workspace role** — a `write`-scoped key held by a Viewer still can't write.
+
+By default, new API keys have all three content scopes (`read`, `write`, `delete`). You can restrict scope when creating the key.
 
 ### Key format
 

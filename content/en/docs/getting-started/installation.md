@@ -30,7 +30,7 @@ docplatform version
 **Expected output:**
 
 ```
-docplatform v0.5.2 (commit: abc1234, built: 2026-03-08T10:00:00Z)
+docplatform v0.10.0 (commit: 5738520, built: 2026-05-16T17:52:38Z)
 ```
 
 ### Windows
@@ -105,42 +105,9 @@ docker compose up -d
 
 For production Docker deployments, see the [Docker deployment guide](../deployment/docker.md).
 
-## Option 3: Build from source
+## A note on source code
 
-Build from source if you want to contribute or run a development version.
-
-**Prerequisites:**
-
-- Go 1.26+
-- Node.js 20+ (frontend assets are pre-built; no pnpm required)
-- Git
-- Make
-
-```bash
-# Clone the repository
-git clone https://github.com/Valoryx-org/docplatform.git
-cd docplatform
-
-# Build the binary (compiles Go + embeds static frontend assets)
-make build
-
-# Verify
-./docplatform version
-```
-
-### Development mode
-
-For hot-reloading during development:
-
-```bash
-# Simple run (no hot reload)
-make dev
-
-# Go hot reload with air
-make dev-hot
-```
-
-`make dev` starts the server for development. `make dev-hot` starts the Go server with hot reload via air and the Vite dev server with HMR.
+DocPlatform is proprietary software distributed as pre-built binaries and container images only. The source code is not publicly available, so there is no build-from-source installation path. Community Edition is free of charge and fully functional — see [Community Edition limits](../index.md#community-edition-limits).
 
 ## Next steps
 

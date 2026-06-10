@@ -73,8 +73,7 @@ docker compose up -d
 | Tag | Description |
 |---|---|
 | `latest` | Most recent stable release |
-| `v0.5.2` | Specific version |
-| `v0.5` | Latest patch for v0.5.x |
+| `v0.10.0` | Specific version |
 
 ## Volumes
 
@@ -89,14 +88,14 @@ The `/data` directory contains:
 ```
 /data/
 ├── data.db              # SQLite database
-├── jwt-private.pem          # Auto-generated RS256 signing key
+├── analytics.db         # Analytics database
+├── jwt-private.pem      # Auto-generated RS256 signing key
+├── search-index/        # Full-text search index
 ├── backups/             # Daily backup files
 └── workspaces/
-    └── {workspace-id}/
-        ├── docs/        # Markdown files
+    └── {workspace-id}/  # Markdown files (the git working tree)
         ├── .git/        # Git repository (if connected)
-        └── .docplatform/
-            └── config.yaml
+        └── .docplatform/   # workspace.yaml, publish.yaml, nav.yaml, redirects.yaml
 ```
 
 **Do not skip the volume mount.** Without it, all data is lost when the container is removed.
@@ -172,7 +171,6 @@ services:
       - docplatform-data:/data
     environment:
       - DATA_DIR=/data
-      - HOST=0.0.0.0
     restart: unless-stopped
 
   caddy:
@@ -225,20 +223,6 @@ docker run -d \
 ```
 
 Data in the volume persists across container recreations.
-
-## Build from source
-
-Build your own image from the Dockerfile:
-
-```bash
-cd docplatform
-docker build -t docplatform:custom .
-```
-
-The Dockerfile uses a 2-stage build:
-
-1. **Build stage** — Go compilation with CGO disabled (static frontend assets are embedded at compile time)
-2. **Runtime stage** — Alpine Linux with the compiled binary
 
 ## Logs
 

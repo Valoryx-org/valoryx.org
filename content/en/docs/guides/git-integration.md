@@ -35,7 +35,7 @@ DocPlatform's bidirectional git sync lets your team work however they prefer. Te
 
 1. You save a page in the web editor
 2. Content Ledger writes the `.md` file to disk
-3. Git engine auto-commits: `docs: update {page-title}`
+3. Git engine auto-commits as you: `Update {page-path} via web editor`
 4. Commits are pushed to the remote repository
 
 ### Git → Web (inbound)
@@ -79,7 +79,7 @@ The three-tier matching ensures that:
 
 ### What happens when the workspace directory is missing
 
-If the workspace `docs/` directory is missing or empty when a sync runs (e.g., due to a failed clone, a misconfigured path, or a filesystem error), the reconciler **refuses to delete** any pages and returns an error instead of proceeding. Without this safety check, the reconciler would see zero files on disk and soft-delete every page in the database — a catastrophic outcome for a corrupted or misconfigured workspace. The sync logs the error as `reconcile: workspace directory missing or empty, aborting` and the workspace enters a `sync_error` state visible in the admin dashboard.
+If the workspace `docs/` directory is missing or empty when a sync runs (e.g., due to a failed clone, a misconfigured path, or a filesystem error), the reconciler **refuses to delete** any pages and returns an error instead of proceeding. Without this safety check, the reconciler would see zero files on disk and soft-delete every page in the database — a catastrophic outcome for a corrupted or misconfigured workspace. The sync logs the error as `reconcile: workspace directory missing or empty, aborting` and the workspace's sync status reports the error.
 
 ## Setup
 
@@ -95,10 +95,10 @@ docplatform init \
   --branch main
 ```
 
-**After initialization** — edit the workspace settings. Git configuration is stored in the workspace database record and can be updated via the web UI (**Settings** → **Git**) or the API:
+**After creation** — connect from the web UI (**Settings** → **Git**): validate a GitHub personal access token, pick the repository and branch. The token is encrypted at rest (AES-256-GCM; requires `GIT_ENCRYPTION_KEY`). Git settings are stored in the workspace database record and can also be updated via the API:
 
 ```bash
-curl -X PUT http://localhost:3000/api/v1/workspaces/{id}/settings \
+curl -X PATCH http://localhost:3000/api/v1/workspaces/{id} \
   -H "Authorization: Bearer {token}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -109,7 +109,9 @@ curl -X PUT http://localhost:3000/api/v1/workspaces/{id}/settings \
   }'
 ```
 
-Restart the server or trigger a manual sync.
+No restart is required — changes take effect on the next sync cycle.
+
+> **Provider support:** the guided web-UI connection flow supports **GitHub personal access tokens**. GitLab and Bitbucket appear in the provider list but their connection flows are not yet implemented — for those, configure a raw `git_remote` URL (SSH or HTTPS with token) instead.
 
 ### Authentication
 
@@ -143,15 +145,15 @@ Or use a Git credential helper configured on the host.
 
 ### Auto-commit
 
-When `git_auto_commit: true` (default), every save in the web editor produces a git commit. Rapid edits within a short window are batched into a single commit.
+When `git_auto_commit: true` (default) and a git remote is configured, every save in the web editor produces a git commit.
 
 Commit message format:
 
 ```
-docs: update Getting Started
+Update guides/getting-started.md via web editor
 ```
 
-Author: `DocPlatform <docplatform@local>`
+(`Create` / `Delete` / `Move` for those operations.) The commit **author is the acting user** — their name and email from their DocPlatform account — so `git blame` reflects who actually made each change. Automatic conflict-merge commits are authored as `sync@valoryx.dev`.
 
 Set `git_auto_commit: false` to disable auto-commit. In this mode, the web editor writes to the filesystem but does not create git commits — useful if you want to commit manually or on a schedule.
 
@@ -167,30 +169,31 @@ Lower intervals mean faster sync but more network traffic.
 
 ### Webhooks
 
-For instant sync, configure a webhook in your repository:
+For instant sync, configure a webhook in your repository.
 
-DocPlatform uses a single webhook endpoint that auto-detects the provider (GitHub, GitLab, Bitbucket) from the payload format.
+DocPlatform generates a **per-workspace webhook secret** automatically (find it in **Settings** → **Git**). The single endpoint accepts GitHub (`X-Hub-Signature-256`), GitLab (`X-Gitlab-Token`), and Bitbucket (`X-Hub-Signature`) signature schemes. Pushes to branches other than the workspace's configured branch are ignored.
 
 **GitHub:**
 
 1. Go to **Settings** → **Webhooks** → **Add webhook**
 2. Payload URL: `https://your-domain.com/api/git/webhook/{workspace-id}`
 3. Content type: `application/json`
-4. Secret: Set `GIT_WEBHOOK_SECRET` environment variable to match
+4. Secret: paste the workspace's webhook secret
 5. Events: Select **Push events**
 
 **GitLab:**
 
 1. Go to **Settings** → **Webhooks**
 2. URL: `https://your-domain.com/api/git/webhook/{workspace-id}`
-3. Secret token: Match `GIT_WEBHOOK_SECRET`
+3. Secret token: paste the workspace's webhook secret
 4. Trigger: **Push events**
 
 **Bitbucket:**
 
 1. Go to **Repository settings** → **Webhooks** → **Add webhook**
 2. URL: `https://your-domain.com/api/git/webhook/{workspace-id}`
-3. Triggers: **Repository push**
+3. Secret: paste the workspace's webhook secret
+4. Triggers: **Repository push**
 
 ### Manual sync
 
@@ -218,7 +221,8 @@ DocPlatform tracks content hashes (SHA-256) for every page. When pulling remote 
    - **Theirs** — the remote version (git push)
    - **Base** — the common ancestor before divergence
 4. The user resolves by choosing or merging content from the three versions
-5. A conflict branch (`conflict/{page-slug}-{timestamp}`) is created with the local version
+
+For the workspace manifests `redirects.yaml`, `workspace.yaml`, and `publish.yaml` (under `.docplatform/`), DocPlatform attempts an automatic three-way merge first. Markdown pages and `nav.yaml` are **never** auto-merged — they always go to a human.
 
 ### Preventing conflicts
 
@@ -232,10 +236,8 @@ DocPlatform tracks content hashes (SHA-256) for every page. When pulling remote 
 Whenever a remote push contains multiple changed files, DocPlatform uses batch mode:
 
 1. Fetches all changed files in a single diff
-2. Acquires per-path mutexes for all affected paths (sorted to prevent deadlock)
-3. Processes all files in a single database transaction
-4. Invalidates the permission cache once (not per-file)
-5. Emits a `bulk-sync` WebSocket event with the total changed count
+2. Processes the changes as one reconciliation pass
+3. Emits a `bulk-sync` WebSocket event with the total changed count
 
 This prevents notification storms and database overhead when large changes are pushed (e.g., initial repository import or bulk restructuring).
 
@@ -256,34 +258,18 @@ Conflicts persist until explicitly resolved via the web UI or API. The `docplatf
 
 ## Git engine details
 
-DocPlatform uses a hybrid git engine that selects the best backend automatically:
-
-| Operation | Engine | Notes |
-|---|---|---|
-| Clone / Pull / Push | **Native git CLI** (subprocess) | Always uses native git for network operations |
-| Stage / Commit / Log / HEAD | **go-git** (in-process) | Pure Go, no subprocess overhead |
-| Status / Diff | **go-git** under 5K files, **Native git CLI** over 5K files | Switches at 5,000 files for performance |
-
-A worker pool of **4 concurrent workers** handles git operations across all workspaces. Each workspace has its own mutex — operations on different workspaces run in parallel, while operations on the same workspace are serialized.
-
-Auto-commit messages use this format:
-
-```
-docs: update {page-title}
-```
-
-Author: `DocPlatform <docplatform@local>`
+DocPlatform uses a **hybrid git engine** that routes each operation to the best backend automatically: a pure-Go engine (go-git) for everyday operations, switching to the native `git` CLI for large repositories (file-count and memory thresholds). Operations on the same workspace are serialized; different workspaces sync in parallel.
 
 ## Working with existing repositories
 
 DocPlatform works with existing documentation repositories. When you connect a repo:
 
 1. The repo is cloned (or pulled if it already exists locally)
-2. All `.md` files in the `docs/` directory are indexed
+2. All `.md` files in the repository are indexed
 3. Frontmatter is parsed and page metadata is stored in SQLite
 4. The search index is built incrementally
 
-Files outside `docs/` are not indexed or displayed in the editor, but they remain in the git repository untouched.
+Non-Markdown files are not indexed or displayed in the editor, but they remain in the git repository untouched.
 
 ### Importing from other platforms
 
@@ -291,18 +277,18 @@ DocPlatform works with any Markdown content. Here's how to migrate from common p
 
 | Source | Export method | Notes |
 |---|---|---|
-| **Docusaurus** | Direct copy | Already `.md`-based — copy `docs/` directory as-is, add frontmatter if missing |
+| **Docusaurus** | Direct copy | Already `.md`-based — copy your docs directory as-is, add frontmatter if missing |
 | **GitBook** | JSON export → convert | Export via GitBook API, convert to Markdown |
-| **Notion** | Markdown export | Export workspace as Markdown, restructure into `docs/` hierarchy |
+| **Notion** | Markdown export | Export workspace as Markdown, restructure into a folder hierarchy |
 | **Confluence** | HTML export → convert | Export spaces as HTML, convert to Markdown with pandoc or similar |
 | **Wiki.js** | Database export | Export pages as Markdown from the admin panel |
 
 **General migration steps:**
 
 1. Export your content as Markdown files
-2. Place them in a git repository under `docs/`
+2. Place them in a git repository
 3. Add YAML frontmatter (at minimum, `title`) to each file
 4. Connect the repository to DocPlatform
-5. Run `docplatform rebuild` to force a full reconciliation
+5. Run `docplatform rebuild --workspace {id}` to force a full reconciliation
 
 DocPlatform's reconciler automatically discovers all `.md` files, parses their frontmatter, assigns ULIDs to pages missing an `id` field, and builds the search index.
