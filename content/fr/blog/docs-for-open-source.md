@@ -80,7 +80,7 @@ Un workspace dans DocPlatform est un projet de documentation. Pour un projet ope
 
 1. Allez dans Settings → Workspaces → Create
 2. Nommez-le d'après votre projet (par exemple « MyProject Docs »)
-3. Choisissez un thème — il y a 5 thèmes intégrés, tous conçus pour la documentation technique
+3. Choisissez un thème — il y a 7 thèmes intégrés, tous conçus pour la documentation technique
 
 ### Étape 4 : Connecter votre dépôt GitHub
 
@@ -186,9 +186,9 @@ L'[édition Community](/open-source/) n'est pas un essai. Ce n'est pas un tier g
 - Recherche plein texte
 - Synchronisation git
 - RBAC avec 5 rôles
-- Les 5 thèmes
+- Les 7 thèmes
 - Authentification WebAuthn/passkey
-- Serveur MCP avec 13 outils IA
+- Serveur MCP avec 26 outils IA
 
 La seule chose que l'édition Community n'inclut pas est l'hébergement cloud — vous l'exécutez sur votre propre infrastructure. Pour les projets open source qui gèrent déjà leur propre infrastructure, ce n'est pas une limitation ; c'est un avantage.
 

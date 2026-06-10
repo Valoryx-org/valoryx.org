@@ -51,7 +51,7 @@ Meme configuration — ajoutez le serveur MCP dans les parametres de Cursor et u
 
 ## Outils MCP disponibles
 
-Le serveur MCP fournit 13 outils :
+Le serveur MCP fournit 26 outils :
 
 | Outil | Description |
 |---|---|

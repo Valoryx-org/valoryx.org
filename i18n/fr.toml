@@ -83,7 +83,7 @@ other = "Compatible avec GitHub, GitLab, Bitbucket ou tout remote git. Vos docs 
 [feat3_title]
 other = "Éditeur WYSIWYG"
 [feat3_text]
-other = "Éditeur riche propulsé par Tiptap qui génère du Markdown propre. Tableaux, blocs de code, embeds d'images, callouts et commandes slash."
+other = "Éditeur riche propulsé par Tiptap qui génère du Markdown propre. Tableaux, blocs de code, embeds d'images et callouts."
 [feat4_title]
 other = "Docs Publiées"
 [feat4_text]
@@ -414,7 +414,7 @@ other = "Modèles"
 [feat7_title]
 other = "Serveur MCP"
 [feat7_text]
-other = "Serveur Model Context Protocol intégré avec 13 outils. Les agents IA peuvent lire, rechercher et mettre à jour votre documentation. La plateforme de documentation la plus accessible à l'IA."
+other = "Serveur Model Context Protocol intégré avec 26 outils. Les agents IA peuvent lire, rechercher et mettre à jour votre documentation. La plateforme de documentation la plus accessible à l'IA."
 [pricing_start_free]
 other = "Commencer gratuitement"
 [cookie_title]
@@ -540,7 +540,7 @@ other = "AI-Native Documentation"
 [mcp_hero_title]
 other = "Connect your docs to AI"
 [mcp_hero_subtitle]
-other = "Valoryx inclut un serveur MCP intégré. Connectez-vous à Claude, Cursor, VS Code et tout client MCP via stdio (local) ou HTTPS (cloud). 24 outils pour lire, écrire, rechercher et maintenir votre documentation."
+other = "Valoryx inclut un serveur MCP intégré. Connectez-vous à Claude, Cursor, VS Code et tout client MCP via stdio (local) ou HTTPS (cloud). 26 outils pour lire, écrire, rechercher et maintenir votre documentation."
 [mcp_what_title]
 other = "What is MCP?"
 [mcp_what_text]
@@ -566,7 +566,7 @@ other = "Add to Claude Desktop settings (Settings, Developer, MCP Servers):"
 [mcp_cursor_desc]
 other = "Add to .cursor/mcp.json in your project:"
 [mcp_tools_title]
-other = "24 outils"
+other = "26 outils"
 [mcp_tools_subtitle]
 other = "Everything your AI assistant needs to manage documentation"
 [mcp_cat_content]
@@ -678,11 +678,11 @@ other = "Push and pull from any Git repository. Changes in the editor sync to Gi
 [oss_feature_editor_title]
 other = "WYSIWYG Editor"
 [oss_feature_editor_text]
-other = "Block-based Tiptap editor with slash commands, markdown shortcuts, and drag-and-drop."
+other = "Block-based Tiptap editor with markdown shortcuts, a raw Markdown toggle, and image drag-and-drop."
 [oss_feature_publish_title]
 other = "Published Docs"
 [oss_feature_publish_text]
-other = "Beautiful documentation sites with 5 built-in themes. Custom domains, versioning, and search included."
+other = "Beautiful documentation sites with 7 built-in themes. Custom domains, versioning, and search included."
 [oss_feature_search_title]
 other = "Full-Text Search"
 [oss_feature_search_text]
@@ -812,7 +812,7 @@ other = "Community Edition"
 [pce_feat1]
 other = "Full editor, git sync, search, publishing"
 [pce_feat2]
-other = "MCP server (13 tools, stdio)"
+other = "MCP server (26 tools, stdio)"
 [pce_feat3]
 other = "No license key required"
 [pce_feat4]

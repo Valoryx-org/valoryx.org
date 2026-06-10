@@ -311,9 +311,9 @@ Authenticate a user and receive JWT tokens.
 
 Dans l'éditeur riche, les composants s'affichent comme des blocs interactifs. Insérez-les en utilisant :
 
-- **Commandes slash** — tapez `/` puis le nom du composant (par ex. `/callout`, `/tabs`)
+- **Barre d'outils** — insérez des composants depuis la barre d'outils de l'éditeur
 - **Barre d'outils** — cliquez sur le bouton **+** → sélectionnez un composant
-- **Clavier** — pas de raccourcis dédiés (utilisez les commandes slash)
+- **Mode Markdown brut** — écrivez la syntaxe des directives directement
 
 ### Mode Markdown brut
 

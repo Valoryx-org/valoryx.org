@@ -119,7 +119,7 @@ Jede Seite sollte einen Verantwortlichen haben — ein Team oder eine Person, di
 
 Dies ist ein neueres Muster: KI nutzen, um Dokumentation zu pflegen. Ein MCP-Server (Model Context Protocol), der in Ihre Dokumentationsplattform integriert ist, ermöglicht KI-Assistenten, Ihre Dokumentation zu lesen, zu durchsuchen und Aktualisierungen vorzuschlagen. Wenn ein Entwickler einen KI-Assistenten zum Deployment-Prozess befragt, kann der Assistent das aktuelle Runbook aus der Dokumentation abrufen — und markieren, ob es veraltet aussieht.
 
-DocPlatform enthält einen [eingebauten MCP-Server mit 13 Tools](/mcp/) für KI-gestützte Dokumentations-Workflows. Ein KI-Assistent kann Ihre Dokumentation durchsuchen, bestimmte Seiten lesen und helfen, Inhalte zu identifizieren, die aktualisiert werden müssen — unter Verwendung der tatsächlichen Dokumentation als Kontext, anstatt Antworten aus Trainingsdaten zu halluzinieren.
+DocPlatform enthält einen [eingebauten MCP-Server mit 26 Tools](/mcp/) für KI-gestützte Dokumentations-Workflows. Ein KI-Assistent kann Ihre Dokumentation durchsuchen, bestimmte Seiten lesen und helfen, Inhalte zu identifizieren, die aktualisiert werden müssen — unter Verwendung der tatsächlichen Dokumentation als Kontext, anstatt Antworten aus Trainingsdaten zu halluzinieren.
 
 ## Beginnen Sie beim Schmerzpunkt
 

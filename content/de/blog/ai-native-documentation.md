@@ -1,6 +1,6 @@
 ---
 title: "Die Zukunft der Dokumentation ist KI-nativ"
-description: "Dokumentation wird sich von statischen Seiten zu KI-gepflegten Systemen wandeln. DocPlatform liefert heute 13 MCP-Tools, mit denen KI-Agenten Ihre Dokumentation lesen und schreiben können."
+description: "Dokumentation wird sich von statischen Seiten zu KI-gepflegten Systemen wandeln. DocPlatform liefert heute 26 MCP-Tools, mit denen KI-Agenten Ihre Dokumentation lesen und schreiben können."
 date: "2026-04-13"
 author: "Valoryx Team"
 tags: ["ai", "mcp", "documentation", "future"]
@@ -39,11 +39,11 @@ DocPlatform implementiert alle drei heute, unter Verwendung des Model Context Pr
 
 [MCP](https://modelcontextprotocol.io/) ist ein offener Standard, der von Anthropic entwickelt wurde, um KI-Modelle mit externen Tools und Datenquellen zu verbinden. Anstatt dass jedes KI-Tool individuelle Integrationen mit jeder Plattform baut, definiert MCP eine Standardschnittstelle: Tools (Aktionen, die die KI ausführen kann), Ressourcen (Daten, die die KI lesen kann) und Prompts (Templates für gängige Workflows).
 
-DocPlatform wird mit einem eingebauten MCP-Server ausgeliefert — keine Plugins, kein separater Dienst. Wenn Sie ihn aktivieren, kann jeder MCP-kompatible KI-Client mit Ihrer Dokumentation über 13 zweckgebundene Tools interagieren.
+DocPlatform wird mit einem eingebauten MCP-Server ausgeliefert — keine Plugins, kein separater Dienst. Wenn Sie ihn aktivieren, kann jeder MCP-kompatible KI-Client mit Ihrer Dokumentation über 26 zweckgebundene Tools interagieren.
 
-## Die 13 Tools
+## Die 26 Tools
 
-Hier ist, was DocPlatforms MCP-Server bereitstellt:
+Hier ist eine Auswahl dessen, was DocPlatforms MCP-Server bereitstellt — die vollständige Referenz aller 26 Tools finden Sie auf der [MCP-Seite](/mcp/):
 
 ### Leseoperationen
 

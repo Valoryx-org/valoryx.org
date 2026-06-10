@@ -49,7 +49,7 @@ Same configuration — add the MCP server in Cursor's settings and use the same 
 
 ## Available MCP tools
 
-The MCP server provides 13 tools:
+The MCP server provides 26 tools:
 
 | Tool | What it does |
 |---|---|

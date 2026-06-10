@@ -14,7 +14,7 @@ Wir haben Valoryx entwickelt, um Probleme zu lösen, die GitBook nicht adressier
 
 **GitBook** hat einen hervorragenden Web-Editor. Block-basiert, sauber, responsiv. Unterstützt Markdown-Shortcuts, Code-Blöcke, Tabellen, Einbettungen. Kollaborationsfunktionen sind gut durchdacht.
 
-**Valoryx** verwendet einen Tiptap-basierten WYSIWYG-Editor, der sauberes Markdown ausgibt. Unterstützt Slash-Befehle, Code-Blöcke mit Syntax-Highlighting, Tabellen, Hinweise, Bild-Einbettungen. Für Geschwindigkeit optimiert.
+**Valoryx** verwendet einen Tiptap-basierten WYSIWYG-Editor, der sauberes Markdown ausgibt. Unterstützt Markdown-Kürzel, Code-Blöcke mit Syntax-Highlighting, Tabellen, Hinweise, Bild-Einbettungen. Für Geschwindigkeit optimiert.
 
 **Fazit:** GitBooks Editor ist heute ausgereifter. Valoryx' Editor ist schneller und produziert saubereres Markdown.
 

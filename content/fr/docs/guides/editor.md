@@ -163,6 +163,6 @@ DocPlatform ne prend pas en charge l'édition simultanée de la même page par p
 ## Astuces
 
 - **Glissez les pages** dans la barre latérale pour réorganiser la structure de votre documentation
-- **Commandes slash** — tapez `/` dans l'éditeur pour insérer rapidement des composants (callout, bloc de code, tableau, etc.)
+- **Composants de la barre d'outils** — insérez des callouts, des blocs de code et des tableaux depuis la barre d'outils de l'éditeur
 - **Collez du texte riche** depuis Google Docs, Notion ou Confluence — l'éditeur le convertit en Markdown propre
 - **Valeurs par défaut du frontmatter** — définissez des valeurs par défaut au niveau de l'espace de travail pour `published`, `access` et `tags` afin de réduire la saisie répétitive

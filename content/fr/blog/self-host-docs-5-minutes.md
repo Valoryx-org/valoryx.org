@@ -63,7 +63,7 @@ Après la connexion, le tableau de bord affiche une liste de workspaces vide. Cl
 
 - **Name :** `engineering-handbook` (ou le sujet de votre documentation)
 - **Slug :** `engineering-handbook` (cela devient le chemin de l'URL)
-- **Theme :** Choisissez l'un des 5 thèmes intégrés — vous pourrez le changer plus tard
+- **Theme :** Choisissez l'un des 7 thèmes intégrés — vous pourrez le changer plus tard
 
 Cliquez sur **Create**. Vous avez maintenant un workspace avec une page racine prête à être éditée.
 

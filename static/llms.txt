@@ -19,14 +19,14 @@ docplatform serve
 
 ## MCP Integration (stdio, local)
 docplatform mcp --workspace <slug> --api-key <key>
-13 tools at launch (20 in Phase 1.5): list_pages, read_page, write_page, update_page, delete_page, move_page, search, get_context, list_workspaces, get_tree, validate_links, get_theme, update_theme
+26 tools: list_pages, read_page, write_page, update_page, delete_page, move_page, search, get_context, list_workspaces, get_tree, get_manifest, validate_links, quality_scan, get_theme, update_theme, create_workspace, get_workspace, publish_workspace, list_versions, create_version, export, writing_assist, get_activity, list_comments, add_comment, resolve_sync_conflict
 
 ## Key Features
 - Self-hosted documentation platform (single Go binary, zero dependencies)
 - Bidirectional git sync (push and pull, auto-merge)
 - WYSIWYG Tiptap editor with markdown support
 - Full-text search (Bleve engine)
-- Published documentation sites with 5 themes
+- Published documentation sites with 7 themes
 - Role-based access control (5 roles)
 - Wikilinks with auto-repair on rename
 - 95+ REST API endpoints

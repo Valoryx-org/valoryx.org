@@ -311,9 +311,9 @@ Authenticate a user and receive JWT tokens.
 
 En el editor enriquecido, los componentes se renderizan como bloques interactivos. Insértelos usando:
 
-- **Comandos slash** — escriba `/` y luego el nombre del componente (por ejemplo, `/callout`, `/tabs`)
+- **Barra de herramientas** — inserte componentes desde la barra de herramientas del editor
 - **Barra de herramientas** — haga clic en el botón **+** → seleccione un componente
-- **Teclado** — sin atajos dedicados (use comandos slash)
+- **Modo Markdown sin procesar** — escriba la sintaxis de directivas directamente
 
 ### Modo Markdown sin procesar
 

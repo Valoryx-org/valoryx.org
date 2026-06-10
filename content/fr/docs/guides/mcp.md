@@ -93,9 +93,9 @@ Then configure your MCP client to connect via Streamable HTTP at `http://your-se
 
 ---
 
-## Available tools (24)
+## Available tools
 
-The MCP server exposes 24 tools across 9 categories.
+The MCP server exposes 26 tools. The 24 core tools are documented below; the remaining two — `docplatform_publish_workspace` and `docplatform_resolve_sync_conflict` (available when git-sync conflict resolution is configured) — complete the set.
 
 ### Content (6 tools)
 

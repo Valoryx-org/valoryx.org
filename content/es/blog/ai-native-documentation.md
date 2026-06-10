@@ -1,6 +1,6 @@
 ---
 title: "El Futuro de la Documentación Es AI-Native"
-description: "La documentación pasará de páginas estáticas a sistemas mantenidos por IA. DocPlatform incluye hoy 13 herramientas MCP que permiten a los agentes de IA leer y escribir su documentación."
+description: "La documentación pasará de páginas estáticas a sistemas mantenidos por IA. DocPlatform incluye hoy 26 herramientas MCP que permiten a los agentes de IA leer y escribir su documentación."
 date: "2026-04-13"
 author: "Equipo Valoryx"
 tags: ["ai", "mcp", "documentation", "future"]
@@ -39,11 +39,11 @@ DocPlatform implementa las tres hoy, usando Model Context Protocol (MCP).
 
 [MCP](https://modelcontextprotocol.io/) es un estándar abierto desarrollado por Anthropic para conectar modelos de IA con herramientas externas y fuentes de datos. En lugar de que cada herramienta de IA construya integraciones personalizadas con cada plataforma, MCP define una interfaz estándar: herramientas (acciones que la IA puede realizar), recursos (datos que la IA puede leer) y prompts (plantillas para flujos de trabajo comunes).
 
-DocPlatform incluye un servidor MCP integrado — sin plugins, sin servicio separado. Cuando lo habilita, cualquier cliente de IA compatible con MCP puede interactuar con su documentación a través de 13 herramientas diseñadas para este propósito.
+DocPlatform incluye un servidor MCP integrado — sin plugins, sin servicio separado. Cuando lo habilita, cualquier cliente de IA compatible con MCP puede interactuar con su documentación a través de 26 herramientas diseñadas para este propósito.
 
-## Las 13 herramientas
+## Las 26 herramientas
 
-Esto es lo que expone el servidor MCP de DocPlatform:
+Esta es una selección de lo que expone el servidor MCP de DocPlatform — la referencia completa de las 26 herramientas está en la [página MCP](/mcp/):
 
 ### Operaciones de lectura
 

@@ -63,7 +63,7 @@ Después de iniciar sesión, el panel muestra una lista de workspaces vacía. Ha
 
 - **Nombre:** `engineering-handbook` (o lo que esté documentando)
 - **Slug:** `engineering-handbook` (esto se convierte en la ruta de la URL)
-- **Tema:** Elija uno de los 5 temas integrados — puede cambiarlo después
+- **Tema:** Elija uno de los 7 temas integrados — puede cambiarlo después
 
 Haga clic en **Create**. Ahora tiene un workspace con una página raíz lista para editar.
 

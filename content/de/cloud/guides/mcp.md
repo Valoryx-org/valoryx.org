@@ -51,7 +51,7 @@ Gleiche Konfiguration — fügen Sie den MCP-Server in den Cursor-Einstellungen 
 
 ## Verfügbare MCP-Tools
 
-Der MCP-Server stellt 13 Tools bereit:
+Der MCP-Server stellt 26 Tools bereit:
 
 | Tool | Beschreibung |
 |---|---|

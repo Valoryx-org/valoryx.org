@@ -7,7 +7,7 @@
 Valoryx is a documentation platform that treats docs as code. Every page is a markdown file in a git repository. The platform provides a web editor, published documentation sites, full-text search, and a built-in MCP server for AI agent integration.
 
 Key differentiators:
-- Only documentation platform with a built-in MCP server (13 tools)
+- Only documentation platform with a built-in MCP server (26 tools)
 - Bidirectional git sync (not just one-way export)
 - Context Graph API — AI gets page + parent + siblings + linked pages in one call
 - Single binary deployment, no external dependencies
@@ -53,7 +53,9 @@ The MCP server lets AI assistants (Claude, Cursor, VS Code Copilot, etc.) direct
 }
 ```
 
-### Tool Reference (13 Tools)
+### Tool Reference (26 tools total — core tools documented below)
+
+The full set of 26 also includes: get_manifest, quality_scan, create_workspace, get_workspace, publish_workspace, list_versions, create_version, export, writing_assist, get_activity, list_comments, add_comment, resolve_sync_conflict.
 
 #### Content Tools (6)
 
@@ -125,7 +127,7 @@ Get the published site theme.
 - Output: `{ theme_name, available_themes[] }`
 
 **docplatform_update_theme**
-Update the published site theme. 5 themes available.
+Update the published site theme. 7 themes available.
 - Input: `{ "workspace": "string", "theme": "string" }`
 - Output: `{ theme_name }`
 
@@ -173,7 +175,7 @@ Key endpoints:
 - **Editor**: Tiptap (ProseMirror) WYSIWYG with markdown import/export
 - **Auth**: JWT + refresh tokens, OAuth 2.0/OIDC, WebAuthn/passkeys
 - **RBAC**: 5 roles (viewer, commenter, editor, admin, super_admin)
-- **Publishing**: Static HTML generation with 5 themes
+- **Publishing**: Static HTML generation with 7 themes
 - **MCP**: JSON-RPC 2.0 over stdio (Phase 1), Streamable HTTP (Phase 1.5)
 
 ## Links

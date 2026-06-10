@@ -10,7 +10,7 @@ Model Context Protocol (MCP) is an open standard that lets AI assistants interac
 
 For documentation teams, this changes the workflow fundamentally. Your AI assistant stops being a text generator that works from stale context and becomes a participant that reads your actual docs, searches across your knowledge base, and makes edits you can review before they go live.
 
-Valoryx ships a built-in MCP server with 13 tools. No plugins to install, no API keys to configure. If you have a running instance, the MCP server is already there.
+Valoryx ships a built-in MCP server with 26 tools. No plugins to install, no API keys to configure. If you have a running instance, the MCP server is already there.
 
 ## What MCP Actually Does
 
@@ -145,6 +145,6 @@ Search quality depends on your content. If your docs use inconsistent terminolog
 3. Add the MCP server config to Claude Desktop
 4. Start with a read-only workflow: search and audit before you enable writes
 
-The [MCP documentation](/mcp/) covers the full API reference for all 13 tools, including parameter types and response schemas.
+The [MCP documentation](/mcp/) covers the full API reference for all 26 tools, including parameter types and response schemas.
 
 Documentation maintenance doesn't have to be a manual process. With a structured protocol between your AI assistant and your docs platform, the tedious parts — finding stale content, checking consistency, making mechanical updates — become something you can delegate with confidence.

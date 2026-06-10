@@ -67,7 +67,7 @@ Avant de comparer des outils spécifiques, voici ce qui compte le plus à nos ye
 **Avantages :**
 - Interface belle et rapide — le wiki auto-hébergé le plus esthétique
 - Collaboration en temps réel
-- Commandes slash, raccourcis markdown, intégrations
+- Raccourcis markdown, bascule Markdown brut, intégrations
 - API pour l'automatisation
 
 **Inconvénients :**

@@ -311,9 +311,9 @@ Authenticate a user and receive JWT tokens.
 
 Im Rich-Editor werden Komponenten als interaktive Blöcke gerendert. Fügen Sie sie ein mit:
 
-- **Slash-Befehle** — geben Sie `/` ein, gefolgt vom Komponentennamen (z. B. `/callout`, `/tabs`)
+- **Symbolleiste** — fügen Sie Komponenten über die Editor-Symbolleiste ein
 - **Symbolleiste** — klicken Sie auf den **+** Button → wählen Sie eine Komponente
-- **Tastatur** — keine dedizierten Tastenkürzel (verwenden Sie Slash-Befehle)
+- **Raw-Markdown-Modus** — schreiben Sie die Direktiven-Syntax direkt
 
 ### Raw-Markdown-Modus
 
