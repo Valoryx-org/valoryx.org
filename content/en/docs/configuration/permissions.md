@@ -199,7 +199,7 @@ Community Edition is free and self-hosted with no license key required:
 | **Workspaces** | 1 | 3 | 10 |
 | **Seats** (Super Admin + Admin + Editor) | 3 | 15 | 50 |
 | **Viewers & Commenters** | Unlimited | Unlimited | Unlimited |
-| **Pages** | 50 | 150 | Unlimited |
+| **Pages** | 50 | 150 | 500 |
 
 > Need more? [Contact sales](https://valoryx.org/contact) for Enterprise plans with custom limits, SSO, and SLA.
 

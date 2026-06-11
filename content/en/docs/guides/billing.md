@@ -17,7 +17,7 @@ DocPlatform Cloud uses Stripe for subscription billing across three cloud tiers:
 | **Editor seats** (Editor + Admin roles) | Unlimited | 3 | 15 | 50 |
 | **Workspaces** | Unlimited | 1 | 3 | 10 |
 | **Viewers / Commenters** | Unlimited | Unlimited | Unlimited | Unlimited |
-| **Pages per workspace** | Unlimited | 50 | 150 | Unlimited |
+| **Pages per workspace** | Unlimited | 50 | 150 | 500 |
 | **Published docs** | Unlimited | Unlimited | Unlimited | Unlimited |
 | **Analytics** | Included | — | Included | Included |
 | **Custom domains** | Included | — | Included | Included |
