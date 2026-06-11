@@ -315,7 +315,7 @@ Community Edition es gratuita y auto-alojada sin necesidad de clave de licencia:
 | **Workspaces** | 1 | 3 | 10 |
 | **Puestos** (Super Admin + Admin + Editor) | 3 | 15 | 50 |
 | **Viewers y Commenters** | Ilimitados | Ilimitados | Ilimitados |
-| **Páginas** | 50 | 150 | Ilimitadas |
+| **Páginas** | 50 | 150 | 500 |
 
 > ¿Necesita más? [Contacte a ventas](https://valoryx.org/contact) para planes Enterprise con límites personalizados, SSO y SLA.
 

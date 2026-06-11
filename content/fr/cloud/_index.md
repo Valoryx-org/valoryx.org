@@ -35,7 +35,7 @@ C'est tout. Aucun serveur a gerer, aucun logiciel a installer, aucun fichier de 
 |---|---|---|---|
 | **Prix** | 0 $/mois | 29 $/mois | 79 $/mois |
 | **Espaces de travail** | 1 | 3 | 10 |
-| **Pages par espace** | 50 | 150 | Illimité |
+| **Pages par espace** | 50 | 150 | 500 |
 | **Editeurs** | 3 | 15 | 50 |
 | **Git sync** | Oui | Oui | Oui |
 | **Documentation publiee** | Oui | Oui | Oui |

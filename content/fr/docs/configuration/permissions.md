@@ -314,7 +314,7 @@ La Community Edition est gratuite et auto-hébergée, sans clé de licence requi
 | **Espaces de travail** | 1 | 3 | 10 |
 | **Sièges** (Super Admin + Admin + Editor) | 3 | 15 | 50 |
 | **Viewers et Commenters** | Illimité | Illimité | Illimité |
-| **Pages** | 50 | 150 | Illimité |
+| **Pages** | 50 | 150 | 500 |
 
 > Besoin de plus ? [Contactez les ventes](https://valoryx.org/contact) pour les plans Enterprise avec des limites personnalisées, SSO et SLA.
 

@@ -35,7 +35,7 @@ Eso es todo. Sin servidores que administrar, sin software que instalar, sin arch
 |---|---|---|---|
 | **Precio** | $0/mes | $29/mes | $79/mes |
 | **Workspaces** | 1 | 3 | 10 |
-| **Paginas por workspace** | 50 | 150 | Ilimitado |
+| **Paginas por workspace** | 50 | 150 | 500 |
 | **Editores** | 3 | 15 | 50 |
 | **Git sync** | Si | Si | Si |
 | **Documentos publicados** | Si | Si | Si |
