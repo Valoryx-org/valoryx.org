@@ -315,7 +315,7 @@ Die Community Edition ist kostenlos und selbst-gehostet, kein Lizenzschlüssel e
 | **Workspaces** | 1 | 3 | 10 |
 | **Sitzplätze** (Super Admin + Admin + Editor) | 3 | 15 | 50 |
 | **Viewer & Commenter** | Unbegrenzt | Unbegrenzt | Unbegrenzt |
-| **Seiten** | 50 | 150 | Unbegrenzt |
+| **Seiten** | 50 | 150 | 500 |
 
 > Mehr benötigt? [Vertrieb kontaktieren](https://valoryx.org/contact) für Enterprise-Pläne mit individuellen Limits, SSO und SLA.
 
