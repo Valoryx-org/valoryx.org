@@ -198,7 +198,7 @@ other = "Tu documentación se almacena como archivos Markdown estándar en un re
 [faq6_q]
 other = "¿Valoryx admite múltiples espacios de trabajo?"
 [faq6_a]
-other = "Sí. Los planes Equipo y Empresa admiten espacios ilimitados, integración SSO, audit logging y control de acceso granular basado en roles."
+other = "Sí. La Community Edition admite espacios de trabajo y editores ilimitados. Cloud Free incluye 1 espacio de trabajo con 3 editores, Team 3 espacios de trabajo con 15 editores y Business 10 espacios de trabajo con 50 editores. Cada espacio de trabajo se conecta a su propio repositorio git con permisos independientes."
 
 [contact_title]
 other = "Ponerse en Contacto"
@@ -738,7 +738,7 @@ other = "Ask questions, share ideas, and connect with other users."
 [oss_cta_title]
 other = "Need more than Community Edition?"
 [oss_cta_text]
-other = "Valoryx Enterprise adds SSO, advanced analytics, priority support, and unlimited editors."
+other = "Valoryx Enterprise adds SSO/SAML (on request), advanced analytics, priority support, and unlimited editors."
 [oss_cta_btn_pricing]
 other = "View Pricing"
 [oss_cta_btn_contact]
@@ -802,11 +802,11 @@ other = "50 Editors"
 [pb_feat3]
 other = "500 Páginas por Espacio de Trabajo"
 [pb_feat5]
-other = "SSO / SAML"
+other = "SSO / SAML (coming soon)"
 [pb_feat6]
 other = "Analytics Dashboard"
 [pb_feat7]
-other = "Audit Logs"
+other = "Audit Logs (coming soon)"
 [pricing_community]
 other = "Community Edition"
 [pce_feat1]
@@ -842,11 +842,11 @@ other = "Yes. Since Valoryx is git-native, your content syncs to a git repositor
 [pfaq3_q]
 other = "Do you offer annual billing?"
 [pfaq3_a]
-other = "Coming soon with a 20% discount. Start with monthly billing today."
+other = "Yes - annual billing is live. Pay for 10 months and get 12 (two months free versus paying monthly). Switch between monthly and annual anytime."
 [pfaq4_q]
 other = "Is there a trial period?"
 [pfaq4_a]
-other = "Coming soon. In the meantime, start with the Free tier."
+other = "Yes - every paid plan starts with a 14-day free trial. No charge until it ends, and you can cancel anytime."
 [pfaq5_q]
 other = "What happens if I exceed my plan limits?"
 [pfaq5_a]
@@ -910,7 +910,7 @@ other = "Built with security best practices at every layer."
 [security_infra_binary_title]
 other = "Signed Binaries"
 [security_infra_binary_text]
-other = "All releases signed with Sigstore cosign. SBOM included. Reproducible builds via GoReleaser."
+other = "Linux and macOS binaries (v0.11.4 and later) are signed with Sigstore cosign keyless signatures. Every release ships an SBOM and checksums."
 [security_infra_scanning_title]
 other = "Dependency Scanning"
 [security_infra_scanning_text]
@@ -991,3 +991,17 @@ other = "MCP Tools"
 other = "Términos de servicio"
 [footer_privacy]
 other = "Política de privacidad"
+
+# ops#142 GDPR portability/erasure callout (security page)
+[security_privacy_title]
+other = "Privacidad y control de datos"
+[security_privacy_subtitle]
+other = "Tus datos son tuyos: llévatelos o elimínalos, sin ticket de soporte."
+[security_privacy_export_title]
+other = "Exportación de autoservicio"
+[security_privacy_export_text]
+other = "Los clientes de Cloud exportan todo - espacios de trabajo, miembros, archivos subidos, historial de facturación - como una sola descarga, en cualquier momento. La Community Edition mantiene tu contenido como Markdown en tu propio repositorio git."
+[security_privacy_delete_title]
+other = "Derecho al olvido"
+[security_privacy_delete_text]
+other = "Elimina tu cuenta tú mismo desde los ajustes, con confirmación por contraseña. Anonimizamos tus datos personales preservando la integridad de la auditoría, conforme a la minimización de datos del RGPD. (Cuentas solo con SSO: contacta con soporte.)"
