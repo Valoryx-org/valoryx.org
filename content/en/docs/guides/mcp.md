@@ -8,6 +8,8 @@ weight: 8
 
 DocPlatform includes a built-in [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that lets AI assistants read, write, search, and manage your documentation directly. Instead of copy-pasting content into chat windows, your AI tools work with your docs natively.
 
+> **MCP runs against a DocPlatform instance you operate yourself.** The MCP server is built into the DocPlatform binary and reads that instance's local data directory directly — it is not a network client that logs in to a remote server. So MCP works with the self-hosted **Community Edition** (and any cloud-edition binary you run yourself). The managed **DocPlatform Cloud** at [app.valoryx.dev](https://app.valoryx.dev) does **not** currently expose an MCP endpoint, so AI tools cannot yet connect to a managed-cloud workspace over MCP. This guide assumes you are running your own instance.
+
 ## Prerequisites
 
 - DocPlatform running (binary, Docker, or Fly.io)
@@ -26,7 +28,7 @@ DocPlatform offers two MCP transports:
 | Transport | Command | Use case |
 |---|---|---|
 | **stdio** | `docplatform mcp` | Local AI tools (Claude Desktop, Claude Code, Cursor) |
-| **Streamable HTTP** | `docplatform mcp-server` | Remote/cloud access, multi-workspace |
+| **Streamable HTTP** | `docplatform mcp-server` | Remote access to a self-hosted instance, multi-workspace |
 
 ### 3. Configure your AI tool
 
@@ -81,9 +83,9 @@ Add to `.vscode/mcp.json`:
 }
 ```
 
-#### Remote HTTP transport
+#### Remote HTTP transport (self-hosted)
 
-For cloud-hosted DocPlatform or multi-workspace access, start the HTTP server:
+To reach an instance you run yourself over the network — for remote or multi-workspace access — start the HTTP server on that instance:
 
 ```bash
 docplatform mcp-server --addr :8081
