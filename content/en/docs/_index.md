@@ -22,7 +22,6 @@ Documentation platforms force you to choose: a polished web editor with vendor l
 | **Beautiful published docs** | One click to publish a documentation site with 7 themes, syntax highlighting, custom domains with auto-TLS, and 15+ built-in components. |
 | **Team collaboration** | 5-level role hierarchy, workspace invitations, real-time presence indicators, and full audit trail. |
 | **Full-text search** | Embedded search engine with instant results. No external service to configure. |
-| **AI writing assist** | Rewrite, improve, shorten, or expand content with Claude or OpenAI. Chat with your docs for context-aware answers. |
 | **Built-in analytics** | GDPR-compliant pageview and search analytics with cookie consent — no third-party tracking required. |
 | **Cloud edition available** | Prefer hosted? [app.valoryx.dev](https://app.valoryx.dev) runs DocPlatform Cloud with Free, Team ($29/mo), and Business ($79/mo) tiers. Community Edition stays self-hosted, free, and unlimited. |
 
@@ -107,10 +106,8 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 - **Custom domains** — Serve docs on your own domain with auto-TLS via Caddy integration
 - **Static export** — Export workspace as a static HTML ZIP for CDN deployment
 
-### AI features
+### AI agent integration
 
-- **Writing assist** — Rewrite, improve, shorten, or expand selected content using Claude or OpenAI
-- **Doc chat** — Multi-turn conversation about your workspace documentation
 - **MCP server (26 tools)** — Built-in Model Context Protocol server. Connect Claude Code, Claude Desktop, or Cursor to read, write, search, and maintain your docs autonomously via stdio or HTTP
 - **Context Graph API** — Structured knowledge graph for AI agents to navigate page relationships, tags, and wikilinks
 
@@ -148,7 +145,7 @@ For the complete walkthrough, see the [Getting Started](getting-started/index.md
 |---|---|
 | [Getting Started](getting-started/index.md) | Install, configure, and create your first workspace |
 | [User Guides](guides/editor.md) | Learn the editor, git sync, publishing, and search |
-| [AI Features](guides/ai-features.md) | Writing assist, doc chat, and MCP server integration |
+| [MCP Server](guides/mcp.md) | Connect AI agents (Claude Code, Cursor) to your docs via the built-in MCP server |
 | [Analytics](guides/analytics.md) | Pageview tracking, search analytics, and GDPR compliance |
 | [Billing & Plans](guides/billing.md) | Stripe integration, plan tiers, and feature gating |
 | [Configuration](configuration/index.md) | Environment variables, auth, permissions, and workspace settings |
@@ -187,7 +184,6 @@ Measured on Apple M2, NVMe SSD, 1,000-page workspace:
 | Single binary (zero deps) | Yes | N/A | N/A | No (Node.js) | N/A | Docker |
 | Built-in RBAC | Yes | Paid | Paid | No | Yes | Yes |
 | Published docs site | Yes | Yes | Yes | Yes | Yes | Yes |
-| AI writing assist | Yes | Yes | Yes | No | Yes | No |
 | MCP server (AI agents) | Yes | No | No | No | No | No |
 | Built-in analytics | Yes | Paid | Paid | No | Paid | No |
 | Passkey / WebAuthn login | Yes | No | No | N/A | No | No |

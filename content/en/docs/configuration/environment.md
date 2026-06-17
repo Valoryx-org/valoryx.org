@@ -125,16 +125,6 @@ When `STRIPE_SECRET_KEY` is not set, billing is disabled and all organizations a
 | `TRIAL_DURATION_DAYS` | `14` | Number of free trial days for new paid subscriptions |
 | `FF_BILLING` | `true` | Master billing switch. Set to `false` to disable billing entirely and treat all orgs as unlimited. |
 
-## AI features (optional)
-
-Enable AI writing assist and doc chat. Disabled when `AI_API_KEY` is not set.
-
-| Variable | Default | Description |
-|---|---|---|
-| `AI_PROVIDER` | `anthropic` | AI provider: `anthropic` (Claude) or `openai` |
-| `AI_API_KEY` | — | API key for the selected provider |
-| `AI_MODEL` | — | Model ID (e.g., `claude-sonnet-4-6` or `gpt-4o`). Uses provider default if empty. |
-
 ## Custom domains
 
 Configure Caddy integration for automatic TLS provisioning on custom domains.

@@ -516,56 +516,6 @@ POST /api/v1/workspaces/:id/sync/conflicts/:conflict_id/resolve  — Apply a res
 
 ---
 
-## AI features
-
-### AI status
-
-```
-GET /api/v1/ai/status
-```
-
-Check whether AI features are enabled and which provider is configured.
-
-### Writing assist
-
-```
-POST /api/v1/ai/writing-assist
-```
-
-Transform text with one of six actions.
-
-**Request:**
-
-```json
-{
-  "action": "improve",
-  "content": "This is the text to improve.",
-  "language": "de"
-}
-```
-
-**Actions:** `improve`, `simplify`, `expand`, `summarize`, `fix_grammar`, `translate` (only `translate` uses `language`). Unknown actions return a validation error. Returns `503 AI_DISABLED` when no AI provider is configured.
-
-### Doc chat
-
-```
-POST /api/v1/ai/chat
-```
-
-Multi-turn conversation about workspace documentation.
-
-**Request:**
-
-```json
-{
-  "messages": [
-    { "role": "user", "content": "How do I configure git sync?" }
-  ]
-}
-```
-
----
-
 ## Invitations & share links
 
 ```
