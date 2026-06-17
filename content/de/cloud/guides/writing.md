@@ -57,15 +57,3 @@ Seiten werden als flache Liste in der Seitenleiste dargestellt. Sie können:
 ## Seitenpfade
 
 Jede Seite hat einen Pfad (z. B. `getting-started` oder `api/authentication`). Pfade mit Schrägstrichen erzeugen eine visuelle Gruppierung in der Seitenleiste und in der Navigation Ihrer veröffentlichten Dokumentation.
-
-## KI-Schreibassistent
-
-Klicken Sie auf die ✨-Schaltfläche in der Werkzeugleiste, um KI-gestützte Schreibwerkzeuge zu verwenden:
-
-- **Verbessern** — Grammatik, Klarheit und Tonalität verfeinern
-- **Kürzen** — Text prägnanter formulieren
-- **Erweitern** — Details und Erklärungen hinzufügen
-- **Umschreiben** — in einem anderen Stil umformulieren
-- **Chat** — Fragen zu Ihrer Dokumentation stellen und kontextbezogene Antworten erhalten
-
-Die KI-Funktionen nutzen Claude oder OpenAI (konfigurierbar durch den Workspace-Admin).

@@ -55,15 +55,3 @@ Pages live in a flat list in the sidebar. You can:
 ## Page paths
 
 Each page has a path (like `getting-started` or `api/authentication`). Paths with slashes create visual grouping in the sidebar and in your published docs navigation.
-
-## AI writing assist
-
-Click the ✨ button in the toolbar to use AI-powered writing tools:
-
-- **Improve** — refine grammar, clarity, and tone
-- **Shorten** — make text more concise
-- **Expand** — add detail and explanation
-- **Rewrite** — rephrase in a different style
-- **Chat** — ask questions about your docs and get context-aware answers
-
-AI features use Claude or OpenAI (configured by the workspace admin).

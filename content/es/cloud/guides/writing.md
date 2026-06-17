@@ -57,15 +57,3 @@ Las paginas aparecen en una lista plana en la barra lateral. Puede:
 ## Rutas de pagina
 
 Cada pagina tiene una ruta (como `getting-started` o `api/authentication`). Las rutas con barras crean agrupaciones visuales en la barra lateral y en la navegacion de sus documentos publicados.
-
-## Asistente de escritura con IA
-
-Haga clic en el boton ✨ de la barra de herramientas para usar herramientas de escritura impulsadas por IA:
-
-- **Mejorar** — perfeccionar gramatica, claridad y tono
-- **Acortar** — hacer el texto mas conciso
-- **Expandir** — agregar detalle y explicacion
-- **Reescribir** — reformular en un estilo diferente
-- **Chat** — hacer preguntas sobre sus documentos y obtener respuestas contextuales
-
-Las funciones de IA utilizan Claude u OpenAI (configurado por el administrador del workspace).

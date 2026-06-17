@@ -57,15 +57,3 @@ Les pages sont presentees sous forme de liste dans la barre laterale. Vous pouve
 ## Chemins des pages
 
 Chaque page possede un chemin (par exemple `getting-started` ou `api/authentication`). Les chemins contenant des barres obliques creent un regroupement visuel dans la barre laterale et dans la navigation de vos documents publies.
-
-## Assistance IA a la redaction
-
-Cliquez sur le bouton ✨ dans la barre d'outils pour utiliser les outils de redaction IA :
-
-- **Ameliorer** — affiner la grammaire, la clarte et le ton
-- **Raccourcir** — rendre le texte plus concis
-- **Developper** — ajouter des details et des explications
-- **Reformuler** — reecrire dans un style different
-- **Chat** — poser des questions sur vos documents et obtenir des reponses contextuelles
-
-Les fonctionnalites IA utilisent Claude ou OpenAI (configure par l'administrateur de l'espace de travail).
