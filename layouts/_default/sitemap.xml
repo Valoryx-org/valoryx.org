@@ -1,0 +1,41 @@
+{{- /*
+  Multilingual sitemap (per language).
+
+  Overrides Hugo's internal sitemap template for one reason: with
+  defaultContentLanguageInSubdir=false the default language has TWO home nodes —
+  the site-root home (published at /) and the language home (at /en/). The
+  site-root home's `.Pages` enumerates only the top-level section indexes, so the
+  stock template renders an INCOMPLETE root /sitemap.xml (sections only) while the
+  full URL set lands at /en/sitemap.xml. robots.txt -> sitemapindex.xml -> this
+  file must be complete for every language, so we range over `site.Pages` (the
+  whole current-language page set) instead of the home node's `.Pages`.
+
+  hreflang <xhtml:link> alternates mirror Hugo's internal template exactly:
+  each translation in language order, then a self-reference last.
+*/ -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  {{- range site.Pages }}
+    {{- if .Permalink }}
+  <url>
+    <loc>{{ .Permalink }}</loc>
+    {{- if not .Lastmod.IsZero }}
+    <lastmod>{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTML }}</lastmod>
+    {{- end }}
+    {{- with .Sitemap.ChangeFreq }}
+    <changefreq>{{ . }}</changefreq>
+    {{- end }}
+    {{- if ge .Sitemap.Priority 0.0 }}
+    <priority>{{ .Sitemap.Priority }}</priority>
+    {{- end }}
+    {{- if .IsTranslated }}
+      {{- range .Translations }}
+    <xhtml:link rel="alternate" hreflang="{{ .Language.LanguageCode }}" href="{{ .Permalink }}" />
+      {{- end }}
+    <xhtml:link rel="alternate" hreflang="{{ .Language.LanguageCode }}" href="{{ .Permalink }}" />
+    {{- end }}
+  </url>
+    {{- end }}
+  {{- end }}
+</urlset>

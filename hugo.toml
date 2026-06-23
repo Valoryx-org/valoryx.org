@@ -55,12 +55,26 @@ disableHugoGeneratorInject      = true
 [build]
   noJSConfigInAssets = true
 
+# Sitemap is a HOME-kind output only. Attaching it to `section` made every section
+# render a sitemap that collided at the language-root sitemap.xml path (last writer won,
+# clobbering the complete home sitemap down to a single URL). SitemapIndex (custom format
+# below) renders the multilingual index that robots.txt advertises.
 [outputs]
-  home     = ["HTML", "RSS", "Sitemap"]
-  section  = ["HTML", "RSS", "Sitemap"]
+  home     = ["HTML", "RSS", "Sitemap", "SitemapIndex"]
+  section  = ["HTML", "RSS"]
   page     = ["HTML"]
   taxonomy = ["HTML"]
   term     = ["HTML"]
+
+# Multilingual sitemap index: one <sitemapindex> listing every language's sitemap.
+# Rendered by layouts/_default/sitemapindex.xml; robots.txt points search engines here.
+[outputFormats.SitemapIndex]
+  mediaType   = "application/xml"
+  baseName    = "sitemapindex"
+  isHTML      = false
+  isPlainText = true
+  noUgly      = true
+  rel         = "sitemap"
 
 [taxonomies]
 
