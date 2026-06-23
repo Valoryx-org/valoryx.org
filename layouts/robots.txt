@@ -29,7 +29,7 @@ Disallow: /
 User-agent: Amazonbot
 Disallow: /
 
-Sitemap: {{ "sitemap.xml" | absURL }}
+Sitemap: {{ "sitemapindex.xml" | absURL }}
 
 # AI agent discovery
 Allow: /llms.txt
