@@ -6,11 +6,20 @@ Marketing + documentation site for **Valoryx** — a git-native, self-hosted doc
 
 - **Live URL:** `https://valoryx.org/`
 - **Repo:** `Valoryx-org/valoryx.org` (GitHub)
-- **SSG:** Hugo (Go-based, zero Node.js dependency)
-- **Styling:** Tailwind CSS (CDN) + custom CSS (`static/css/main.css`)
+- **SSG:** Hugo Extended. **NOT zero-Node:** styling is built through Hugo's `css.TailwindCSS`
+  pipe (`layouts/partials/head.html`), which shells out to the `@tailwindcss/cli` devDependency —
+  so **`npm ci` must run before `hugo`** (bare `hugo` aborts the build). Node pinned via `.nvmrc`
+  (22). Hugo pinned only via the CF `HUGO_VERSION` env var (see below) — no repo Hugo pin exists.
+- **Styling:** Tailwind CSS v4 built at compile time via Hugo Pipes (`assets/css/app.css`,
+  `@import "tailwindcss"`). NOT a runtime CDN.
 - **Icons:** Bootstrap Icons v1.11.3 (CDN)
 - **JS:** Vanilla JS (`static/js/main.js`) — scroll-reveal, mobile nav, FAQ accordion, OS detection, form
-- **Hosting:** Cloudflare Pages (free tier)
+- **Hosting:** Cloudflare Pages (free tier), project **`valoryx-hugo`** (`valoryx-hugo.pages.dev`),
+  git auto-deploy on push to `main`. CF build command = `npm ci && hugo`. **Production runs a
+  dashboard-pinned `HUGO_VERSION` that can lag the preview/local Hugo** — a template using a
+  newer-Hugo-only API can pass preview+local yet fail production (root cause of ops#346,
+  2026-06-23..07-02). Keep production `HUGO_VERSION` aligned with local. CF reports via GitHub
+  check-runs only (commit statuses are empty).
 
 ## Always Do First
 
@@ -121,21 +130,28 @@ White backgrounds (`#ffffff`) with alternating light sections (`#f6fafd`). Profe
 ## Local Development
 
 ```bash
+# Install the Tailwind CLI devDependency FIRST (required — css.TailwindCSS shells out to it)
+npm ci
+
 # Serve with live reload
 hugo server --port 1313
 
-# Build for production
-hugo --minify
+# Build for production (mirrors CF: production mode → CSS minify+fingerprint)
+hugo --gc --minify
 
 # Output goes to public/ (gitignored)
 ```
+
+> Match CF's Hugo version when verifying a template/config change — a build that passes locally on
+> a newer Hugo can still fail production if it lags (ops#346). Check the CF-pinned `HUGO_VERSION`
+> before shipping template changes; `.workspace/reality/INFRASTRUCTURE.md` records the current pin.
 
 Hugo binary location: system PATH or `C:/Users/apmin/AppData/Local/Microsoft/WinGet/Packages/Hugo.Hugo.Extended_.../hugo.exe`
 
 ## Deployment
 
-- **Platform:** Cloudflare Pages (auto-deploys on git push)
-- **Build command:** `hugo --minify`
+- **Platform:** Cloudflare Pages (auto-deploys on git push), project `valoryx-hugo`
+- **Build command:** `npm ci && hugo` (set in the CF dashboard, not the repo)
 - **Output directory:** `public`
 - **Base URL:** `https://valoryx.org/`
 - **Security headers:** Configured in `static/_headers` (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Cache-Control)
