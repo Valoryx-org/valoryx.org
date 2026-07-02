@@ -46,6 +46,25 @@ docplatform reset-password --email user@example.com
 
 The token expires after 1 hour and can only be used once.
 
+## Invite-only mode (disabling public signup)
+
+By default, anyone who can reach your instance can create an account at `/register`. On a private or internal deployment you usually want the opposite: only people you invite should be able to join.
+
+Set `DOCPLATFORM_DISABLE_SIGNUP=true` and restart the server:
+
+```bash
+export DOCPLATFORM_DISABLE_SIGNUP=true
+```
+
+With invite-only mode on:
+
+- **Public registration is blocked** — `POST /api/auth/register` returns `403 SIGNUP_DISABLED`, and the login page hides the "Create one" link and the register form.
+- **First-time OIDC sign-in for an unknown user is blocked** — a Google/GitHub login that would otherwise create a brand-new account is rejected the same way. Users who already have an account (including existing OIDC users) sign in normally.
+- **Invitations still work** — a user who accepts a workspace invitation still gets an account created for them. This is how you onboard people in invite-only mode: invite them from **Workspace Settings → Members**, and they set their name and password when they accept.
+- **Share links still work** — an already-signed-in user can join a workspace via a share link.
+
+To onboard the very first user before turning this on, either register that account first and then set the flag, or leave the flag off, register, and turn it on afterward. The setting is read at startup, so changing it requires a restart.
+
 ## JWT tokens
 
 DocPlatform issues RS256 (RSA-SHA256) JSON Web Tokens for authentication.
@@ -255,9 +274,20 @@ Users can view their active sessions from their profile page (`GET /api/auth/ses
 | Minimum length | 8 characters |
 | Maximum length | 1024 characters |
 | Hashing | argon2id (64 MB memory, 3 iterations, parallelism 2) |
-| Account lockout | 5 failed login attempts → 15-minute lockout |
+| Account lockout | 5 failed login attempts → 15-minute lockout (tunable) |
 
 Passwords are validated on registration and password reset. DocPlatform does not enforce character-class requirements (uppercase, special characters) — length is the primary security measure per current NIST guidelines.
+
+### Brute-force lockout
+
+After a number of consecutive failed password attempts, an account is temporarily locked to blunt online password guessing (including distributed credential-stuffing, which a per-IP rate limit alone does not stop). While locked, even the correct password is refused, and a successful login resets the counter. A locked account returns the **same** generic `401` as a wrong password — the lock is never revealed to an unauthenticated caller, so it cannot be used to enumerate which emails are registered. The lock applies to the password login and invitation-accept flows; OIDC and passkey sign-in are unaffected.
+
+The policy is tunable via environment variables (see [Environment Variables](environment.md#authentication)):
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `DOCPLATFORM_LOGIN_LOCK_THRESHOLD` | `5` | Consecutive failures before lock (minimum `1`) |
+| `DOCPLATFORM_LOGIN_LOCK_DURATION_SEC` | `900` | Lock duration in seconds (minimum `1`; default 15 minutes) |
 
 ## WebSocket authentication
 

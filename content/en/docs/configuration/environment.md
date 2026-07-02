@@ -28,6 +28,9 @@ DocPlatform reads configuration from environment variables only — there is no 
 | `ARGON2_MEMORY` | `65536` | Argon2id memory parameter in KiB (default: 64 MB) |
 | `ARGON2_TIME` | `3` | Argon2id iteration count |
 | `ARGON2_THREADS` | `2` | Argon2id parallelism |
+| `DOCPLATFORM_DISABLE_SIGNUP` | `false` | When `true`, run the instance **invite-only**: public registration (`POST /api/auth/register`) and first-time OIDC sign-in for unknown users are rejected with `403 SIGNUP_DISABLED`, and the login page hides the register form. Invitation and share-link onboarding keep working. See [Authentication → Invite-only mode](authentication.md#invite-only-mode-disabling-public-signup). |
+| `DOCPLATFORM_LOGIN_LOCK_THRESHOLD` | `5` | Consecutive failed password attempts (per account) before the account is temporarily locked. Minimum `1`. A successful login resets the counter. |
+| `DOCPLATFORM_LOGIN_LOCK_DURATION_SEC` | `900` | How long (seconds) an account stays locked after the threshold is hit. Minimum `1` (default 900 = 15 minutes). |
 
 Token lifetimes are fixed: access tokens live 15 minutes, refresh tokens 7 days (with single-use rotation). They are not configurable via environment variables.
 
