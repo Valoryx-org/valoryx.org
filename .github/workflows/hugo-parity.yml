@@ -1,0 +1,63 @@
+name: Hugo prod-parity build
+
+# ops#346 class-guard (D-012, .workspace/reality/CHANGE-PIPELINE.md).
+#
+# WHY THIS EXISTS: Cloudflare Pages PRODUCTION pins an older HUGO_VERSION than
+# preview (config lives ONLY in the CF dashboard — invisible from this repo), so a
+# template using a newer-Hugo API can pass local (0.157.x) AND the CF preview build
+# yet hard-fail every production deploy. That exact trap silently broke publishing
+# for 9 days (2026-06-23 → 07-02, ops#346: page-level `.Sites` needs ~0.147+).
+#
+# THE GATE: build the site with the OLDEST version production could be pinned to.
+# Proven bounds for CF prod (established during the ops#346 fix):
+#   >= 0.128.0  (css.TailwindCSS pipe exists there — added in 0.128.0)
+#   <  0.147.0  (page-level .Sites broke there)
+# Green here + green CF preview (modern) => the site builds across the whole
+# plausible range. The `modern` leg keeps local-parity honest as Hugo moves on.
+#
+# WHEN THE OWNER ALIGNS CF PROD's HUGO_VERSION (STATE.md OWNER QUEUE — set prod =
+# modern or delete the var to inherit the v3 image default): bump `lower` below to
+# the aligned version, same PR as the dashboard change.
+#
+# PUBLIC repo => GitHub-hosted runners ONLY (workspace runner rule 3: a fork PR on a
+# self-hosted runner = arbitrary code execution on our box). Public-repo GH-hosted
+# minutes are free, so this burns no quota.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - leg: prod-lower-bound
+            hugo: "0.128.0"
+          - leg: modern-local-parity
+            hugo: "0.157.0"
+    name: hugo ${{ matrix.hugo }} (${{ matrix.leg }})
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version-file: .nvmrc
+      - name: Install Hugo ${{ matrix.hugo }} (extended, as the CF v3 image ships)
+        run: |
+          curl -sSL --fail --retry 3 \
+            "https://github.com/gohugoio/hugo/releases/download/v${{ matrix.hugo }}/hugo_extended_${{ matrix.hugo }}_linux-amd64.tar.gz" \
+            | tar -xz hugo
+          ./hugo version
+      - name: Build exactly as CF Pages does (npm ci && hugo)
+        # Mirror the CF build command verbatim — bare `hugo` without `npm ci` fails
+        # (Tailwind CLI is a devDependency driven by Hugo's css.TailwindCSS pipe).
+        run: |
+          npm ci
+          ./hugo
