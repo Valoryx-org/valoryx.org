@@ -1,12 +1,12 @@
 ---
 title: CLI Reference
-description: Complete reference for all DocPlatform CLI commands — serve, init, rebuild, doctor, export, preview, mcp, and version.
+description: Complete reference for all DocPlatform CLI commands — serve, status, open, stop, init, rebuild, doctor, export, preview, mcp, and version.
 weight: 2
 ---
 
 # CLI Reference
 
-DocPlatform provides 10 CLI commands for server management, workspace initialization, diagnostics, publishing, and AI integration.
+DocPlatform provides 13 CLI commands for server management, workspace initialization, diagnostics, publishing, and AI integration.
 
 ## Global options
 
@@ -84,14 +84,144 @@ docplatform serve --port 8080
 
 ### Output
 
+Illustrative example (log line count and exact fields vary by release and configuration — the general shape holds: a migration/startup log line per subsystem, then the ready banner):
+
 ```
-INFO  Server starting            port=3000 version=v0.10.0
-INFO  Database initialized       path=.docplatform/data.db wal=true
+INFO  Server starting            port=3000 version=<version>
+INFO  Database initialized       path=<your-data-dir>/data.db wal=true
 INFO  Migrations applied         count=1
 INFO  Search index ready         documents=42
 INFO  Workspace loaded           name="Docs" slug=docs git_remote=git@github.com:...
-INFO  Backup scheduler started   retention_days=7
 INFO  Listening on               http://0.0.0.0:3000
+```
+
+`<your-data-dir>` is an OS-standard per-user location by default, not `.docplatform/` — see [Getting Started](../getting-started/index.md#architecture-at-a-glance) or run `docplatform doctor` to see the resolved path.
+
+---
+
+## `docplatform status`
+
+Report whether a DocPlatform instance is running on this data directory. Read-only — nothing is created, modified, or deleted.
+
+```bash
+docplatform status [flags]
+```
+
+### Flags
+
+| Flag | Required | Default | Description |
+|---|---|---|---|
+| `--data-dir` | No | — | Data directory (overrides `DATA_DIR` env var; highest precedence) |
+| `--json` | No | `false` | Machine-readable JSON output |
+
+### Behavior
+
+Resolves the data directory (same rule as every other command), then checks whether an instance holds its single-writer lock. If one does, it confirms the instance's identity via `/api/health` before reporting details — a lock being held is not by itself proof of *which* process holds it, so an unconfirmed instance (starting up or shutting down) is reported honestly rather than guessed at.
+
+### Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | An instance is running (and its identity is confirmed) |
+| `3` | Nothing is running on this data directory |
+
+### Example
+
+```bash
+docplatform status
+docplatform status --json
+```
+
+### Output
+
+```
+DocPlatform is running — http://localhost:3000 (pid 12345, version <version>, instance <id>)
+```
+
+Or, when nothing is running:
+
+```
+DocPlatform is not running (data dir: /home/you/.local/share/docplatform)
+```
+
+---
+
+## `docplatform open`
+
+Open the running DocPlatform instance in your browser — the command to reach for after you've closed the terminal or came back the next day and don't remember the URL.
+
+```bash
+docplatform open [flags]
+```
+
+### Flags
+
+| Flag | Required | Default | Description |
+|---|---|---|---|
+| `--data-dir` | No | — | Data directory (overrides `DATA_DIR` env var; highest precedence) |
+| `--no-browser` | No | `false` | Print the URL instead of opening a browser |
+
+### Behavior
+
+Same identity-confirmed detection as `status`. If confirmed, opens your default browser to the running instance's URL (or prints it with `--no-browser`). If nothing is running, it exits 3 and points you at `docplatform serve` instead of opening anything.
+
+### Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | An instance is running and confirmed; the URL was opened (or printed) |
+| `1` | An instance holds the data directory but its identity could not be confirmed (starting up or shutting down) — retry shortly |
+| `3` | Nothing is running on this data directory |
+
+### Example
+
+```bash
+docplatform open
+docplatform open --no-browser
+```
+
+---
+
+## `docplatform stop`
+
+Stop the running DocPlatform instance gracefully — the command-line equivalent of closing the console window, but clean: it waits for in-flight requests, git syncs, and search-index writes to finish first.
+
+```bash
+docplatform stop [flags]
+```
+
+### Flags
+
+| Flag | Required | Default | Description |
+|---|---|---|---|
+| `--data-dir` | No | — | Data directory (overrides `DATA_DIR` env var; highest precedence) |
+| `--force` | No | `false` | Kill the instance if it does not stop gracefully in time (the target process is verified before being killed) |
+
+### Behavior
+
+Requests a graceful shutdown and waits up to 30 seconds for it to complete. `--force` does not skip the graceful attempt or shorten the wait — it only decides whether to escalate to a forceful kill *after* the full grace period has already been given, and only against a process that has been positively verified as the instance holding this data directory's lock. Restart is `docplatform stop && docplatform serve`.
+
+**How the graceful request reaches the server:** `serve` opens a small internal shutdown-control endpoint bound **only to `127.0.0.1`, on an ephemeral port** — this is hardcoded and not operator-configurable, so the endpoint is unreachable from the network by construction, even if `serve` itself is bound to all interfaces. `stop` authenticates to it with a per-boot token read from the local data directory. If that endpoint is unavailable, `stop` falls back to sending the process a `SIGTERM` directly. Either way, only someone with local access to this machine and this data directory can request a shutdown.
+
+### Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | Stopped (or nothing was running) |
+| `1` | Did not stop within the grace period, identity could not be confirmed, or the instance could not be signaled safely — see the printed message; often just retry, or add `--force` |
+
+### Example
+
+```bash
+docplatform stop
+docplatform stop --force
+```
+
+### Output
+
+```
+shutdown requested — waiting up to 30s for the instance to exit
+stopped
 ```
 
 ---
@@ -112,8 +242,9 @@ docplatform init [flags]
 | `--slug` | Yes | — | URL-safe identifier (used in published docs URL) |
 | `--git-url` | No | — | Remote git repository URL (SSH or HTTPS) |
 | `--branch` | No | `main` | Git branch to sync |
+| `--data-dir` | No | — | Data directory (overrides `DATA_DIR` env var; highest precedence) |
 
-The data directory comes from the `DATA_DIR` environment variable (default `.docplatform`) — this applies to every command; there is no `--data-dir` flag.
+The data directory is resolved the same way for every command: an explicit `--data-dir` flag or `DATA_DIR` env var wins; otherwise an existing `./.docplatform` from a pre-v0.15 install is used in place; otherwise it defaults to an OS-standard per-user location. Run `docplatform doctor` to see the resolved path and which rule chose it.
 
 > CLI-created workspaces attach to a server-level default organization, not to a web account's organization. See [Your First Workspace](../getting-started/first-workspace.md).
 
@@ -145,10 +276,12 @@ docplatform init \
 
 ### Output
 
+Illustrative example (`<your-data-dir>` is the resolved path described above, not `.docplatform` by default):
+
 ```
-INFO  Data directory created     path=.docplatform
-INFO  Database initialized       path=.docplatform/data.db
-INFO  JWT key generated          path=.docplatform/jwt-private.pem
+INFO  Data directory created     path=<your-data-dir>
+INFO  Database initialized       path=<your-data-dir>/data.db
+INFO  JWT key generated          path=<your-data-dir>/jwt-private.pem
 INFO  Workspace created          id=01KJJ10NTF... name="API Docs" slug=api-docs
 INFO  Repository cloned          url=git@github.com:your-org/api-docs.git branch=main
 INFO  Pages indexed              count=15
@@ -234,15 +367,15 @@ docplatform doctor [flags]
 | 6 | **workspace_dirs** | Every workspace has its content directory on disk |
 | 7 | **sync_state** | Git sync state is consistent |
 | 8 | **fs_db_consistency** | Files on disk match database page records |
-| 9 | **broken_wikilinks** | Wikilinks pointing to non-existent pages |
+| 9 | **wikilinks** | Wikilinks pointing to non-existent pages |
 | 10 | **backups** | Backup directory present and recent backups exist |
 
 ### Exit codes
 
 | Code | Meaning |
 |---|---|
-| `0` | All checks passed (healthy) |
-| `1` | One or more checks failed or had warnings |
+| `0` | All checks passed — including when some only produced a warning |
+| `1` | One or more checks actually **failed** (a warning alone does not affect the exit code) |
 
 Use the exit code in scripts and monitoring:
 
@@ -259,21 +392,22 @@ docplatform doctor
 ### Output
 
 ```
-DocPlatform Health Check
-========================
-
-✓ config                OK
-✓ data_dir              OK (.docplatform exists)
-✓ database              OK (migrations current)
-✓ analytics_db          OK
-✓ git                   OK (binary found)
-✓ workspace_dirs        OK
-✓ sync_state            OK
-✓ fs_db_consistency     OK (42 files, 42 records)
-⚠ broken_wikilinks      WARNING (2 broken links found)
-✓ backups               OK
-
-Result: 9/10 passed, 1 warning
+DocPlatform Doctor v<version>
+================================
+[OK]   config: loaded (data_dir=<your-data-dir>, port=3000)
+[OK]   data_dir: <your-data-dir> exists
+       - resolved via default (OS per-user data directory) rule
+[OK]   database: <your-data-dir>/data.db reachable, migrations current
+[OK]   analytics_db: <your-data-dir>/analytics.db reachable
+[OK]   git: binary found
+[OK]   workspace_dirs: 2 git-enabled, all directories present
+[OK]   sync_state: no stuck workspaces
+[OK]   fs_db_consistency: 42 pages indexed, 42 in DB (consistent)
+[WARN] wikilinks: 2 broken wikilink(s) found
+[OK]   backups: 3 backup(s), most recent: 2026-08-18
+================================
+Duration: 8ms
+Result: all checks passed, 1 warning(s)
 ```
 
 ### Bundle mode
@@ -457,7 +591,7 @@ docplatform version
 ### Output
 
 ```
-docplatform v0.10.0 (commit: 5738520, built: 2026-05-16T17:52:38Z)
+docplatform <version> (commit: <sha>, built: <date>)
 ```
 
-The version information is embedded at build time via linker flags. Useful for verifying which release is deployed and for support requests.
+The version information is embedded at build time via linker flags and will match whichever release you have installed. Useful for verifying which release is deployed and for support requests.

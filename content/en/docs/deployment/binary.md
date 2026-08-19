@@ -67,7 +67,7 @@ Verify:
 
 ```bash
 docplatform version
-# docplatform v0.10.0 (commit: 5738520, built: 2026-05-16T17:52:38Z)
+# docplatform <version> (commit: <sha>, built: <date>)
 ```
 
 ## Initialize
@@ -224,7 +224,9 @@ DocPlatform listens on all interfaces on `PORT` (there is no listen-address sett
 
 ## Upgrades
 
-**Stop the service before replacing the binary** — overwriting a running binary fails on Linux with "Text file busy":
+**Stop the instance before replacing the binary** — overwriting a running binary fails on Linux with "Text file busy". Database migrations run automatically on the next startup, so upgrading is always stop → replace → start; check [the changelog](../reference/zz-changelog.md) for what's new (and any breaking changes) before you upgrade.
+
+### Under systemd
 
 ```bash
 # 1. Stop
@@ -239,7 +241,28 @@ sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 sudo systemctl start docplatform
 ```
 
-Database migrations run automatically on startup. Keep `BACKUP_ENABLED=true` (the default) so daily backups are available if you need to roll back.
+Keep `BACKUP_ENABLED=true` (the default) so daily backups are available if you need to roll back.
+
+### Manual / desktop (no systemd)
+
+If you're running DocPlatform directly rather than as a systemd service — a desktop install, or a manually-launched server — use the built-in `stop`/`serve` pair instead of finding and killing the process yourself:
+
+```bash
+# 1. Stop the running instance gracefully
+docplatform stop
+
+# 2. Replace the binary (same download step as above, adjusted for your platform —
+#    see Installation for macOS/Windows). Overwrite in place, or move the new
+#    binary over the old path.
+curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-linux-amd64
+chmod +x docplatform-linux-amd64
+sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
+
+# 3. Start it again the same way you normally do
+docplatform serve
+```
+
+`docplatform stop` waits for a graceful shutdown before returning, so step 2 is always safe to run immediately after it — see the [CLI reference](../reference/cli.md#docplatform-stop). If you later switch to a package manager (brew/scoop/winget), note that launching the binary from a different location resolves a *different* default data directory — set `DATA_DIR` explicitly if you want the packaged install to keep using your existing data; `docplatform doctor` tells you exactly where your current data lives.
 
 ## Rollback
 

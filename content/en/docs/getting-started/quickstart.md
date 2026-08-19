@@ -37,22 +37,25 @@ If using Docker, skip to [Step 3](#step-3-register-your-account) — the contain
 docplatform serve
 ```
 
-```
-INFO  Server starting            addr=:3000 version=v0.10.0
-INFO  Database initialized       path=.docplatform/data.db
-INFO  Search index ready         documents=0
-INFO  Listening on               http://localhost:3000
-```
-
-On first run, DocPlatform creates its data directory:
+The server prints its normal startup log lines first (database migrations applying, background workers starting — a handful of lines is normal and expected, even on a brand-new install), then a short "ready" banner once it's actually listening:
 
 ```
-.docplatform/
-├── data.db              # SQLite database
-├── analytics.db         # Analytics database (separate file)
-├── jwt-private.pem      # Auto-generated RS256 signing key
-├── search-index/        # Embedded full-text search index
-└── workspaces/          # One directory per workspace — your .md files live here
+  DocPlatform <version> — welcome!
+  → http://localhost:3000
+  Your data lives in: /home/you/.local/share/docplatform
+  Keep this window open while you work. Press Ctrl+C to stop.
+```
+
+(The exact data path shown depends on your OS — see below. A line like `API_KEY_PEPPER is empty` may also appear on a first run with no extra configuration; that's expected for local/evaluation use and is not an error.)
+
+On first run, DocPlatform creates its data directory. By default this is an OS-standard per-user location — `~/.local/share/docplatform` on Linux, `~/Library/Application Support/DocPlatform` on macOS, `%LOCALAPPDATA%\DocPlatform` on Windows (run `docplatform doctor` to see the exact resolved path and which rule chose it):
+
+```
+data.db              # SQLite database
+analytics.db         # Analytics database (separate file)
+jwt-private.pem      # Auto-generated RS256 signing key
+search-index/        # Embedded full-text search index
+workspaces/          # One directory per workspace — your .md files live here
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -76,7 +79,7 @@ To back your workspace with a git repository, open **Workspace Settings → Git*
 3. Start writing in the rich editor
 4. Changes autosave every few seconds
 
-The page is stored as a Markdown file in your workspace's directory under `.docplatform/workspaces/`. If you connected git, it auto-commits and pushes.
+The page is stored as a Markdown file in your workspace's directory under `workspaces/` inside your data directory (run `docplatform doctor` to find it). If you connected git, it auto-commits and pushes.
 
 ## Step 6: Try it out
 

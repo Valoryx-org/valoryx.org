@@ -15,23 +15,43 @@ Download the latest release for your platform.
 ### Linux / macOS
 
 ```bash
-# Recommended (auto-detects platform)
+# Recommended (auto-detects platform, all OSes)
 curl -fsSL https://valoryx.org/install.sh | sh
+```
 
-# Or download manually
+`install.sh` downloads via curl, which does not set the macOS quarantine attribute — so on macOS it also sidesteps the Gatekeeper prompt described below. It's the recommended path on every OS for that reason alone.
+
+Or download manually for your specific platform (do not use the Linux binary on macOS — see the platform table below):
+
+```bash
+# Linux (amd64)
 curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-linux-amd64
 chmod +x docplatform-linux-amd64
 sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
+# macOS (Apple Silicon)
+curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-darwin-arm64
+chmod +x docplatform-darwin-arm64
+sudo mv docplatform-darwin-arm64 /usr/local/bin/docplatform
+
+# macOS (Intel)
+curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docplatform-darwin-amd64
+chmod +x docplatform-darwin-amd64
+sudo mv docplatform-darwin-amd64 /usr/local/bin/docplatform
+```
+
+```bash
 # Verify the installation
 docplatform version
 ```
 
-**Expected output:**
+**Expected output** (version/commit/date will match the release you downloaded):
 
 ```
-docplatform v0.10.0 (commit: 5738520, built: 2026-05-16T17:52:38Z)
+docplatform <version> (commit: <sha>, built: <date>)
 ```
+
+**macOS Gatekeeper:** a manually-downloaded binary is not notarized, so macOS will refuse to run it the first time ("Apple could not verify... is free of malware"). Either use `install.sh` above (recommended — it never triggers this), or clear it manually: on macOS Sequoia and later, open **System Settings → Privacy & Security**, scroll to the blocked-app notice, and choose **Open Anyway**; on older macOS versions, right-click the binary in Finder and choose **Open**, then confirm in the dialog. This is a one-time step per binary.
 
 ### Windows
 
@@ -123,10 +143,15 @@ With DocPlatform installed, continue to:
 ```bash
 # Remove the binary
 sudo rm /usr/local/bin/docplatform
-
-# Remove data (if you want a clean slate)
-rm -rf .docplatform/
 ```
+
+To also remove data (clean slate), find your data directory first — **`rm -rf .docplatform/` deletes nothing on a default install.** Unless you explicitly set `DATA_DIR` or already had a pre-v0.15 install in the current directory, your data lives in an OS-standard per-user location instead. Before removing the binary, run:
+
+```bash
+docplatform doctor
+```
+
+and read the data directory path from its output, then remove that path directly (for example `rm -rf ~/.local/share/docplatform` on Linux — but always use the path `doctor` actually reports, since it depends on your OS and setup).
 
 ### Docker
 

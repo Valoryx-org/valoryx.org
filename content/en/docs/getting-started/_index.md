@@ -36,4 +36,4 @@ When you run `docplatform serve`, a single process starts that includes:
 - **Git engine** — syncs content bidirectionally with remote repositories
 - **Static frontend** — the Tiptap-based web editor, embedded in the binary
 
-All data lives in a single directory (default: `.docplatform/`), making backups and migrations straightforward — just copy the directory.
+All data lives in a single directory, making backups and migrations straightforward — just copy the directory. On a fresh install this defaults to an OS-standard per-user location (`~/.local/share/docplatform` on Linux, `~/Library/Application Support/DocPlatform` on macOS, `%LOCALAPPDATA%\DocPlatform` on Windows) — set `DATA_DIR` to use a different location, or run `docplatform doctor` to see which directory is actually in use and why.
