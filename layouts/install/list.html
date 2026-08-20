@@ -89,11 +89,7 @@
               <div><span class="prompt">$</span> <span class="cmd">{{ $bin }} serve</span>
                 <button onclick="copyCmd('{{ $bin }} serve', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
               </div>
-              <div class="mt-1"><span class="success">{{ i18n "install_quickstart_running" | default "Open http://localhost:3000" }}</span></div>
-              <div class="mt-2"><span class="comment"># {{ i18n "install_quickstart_comment2" | default "Initialize a workspace with a git repo" }}</span></div>
-              <div><span class="prompt">$</span> <span class="cmd">{{ $bin }} init --repo https://github.com/your-org/docs.git</span>
-                <button onclick="copyCmd('{{ $bin }} init --repo https://github.com/your-org/docs.git', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
-              </div>
+              <div class="mt-1"><span class="success">{{ i18n "install_quickstart_running" | default "Open http://localhost:3000 and register — your first account gets its own workspace" }}</span></div>
             </div>
           </div>
         </div>
@@ -113,10 +109,6 @@
             <div><span class="prompt">PS&gt;</span> <span class="cmd">Invoke-WebRequest -Uri "{{ $latest }}/{{ $bin }}-windows-amd64.exe" -OutFile "{{ $bin }}.exe"</span>
               <button onclick="copyCmd('Invoke-WebRequest -Uri &quot;{{ $latest }}/{{ $bin }}-windows-amd64.exe&quot; -OutFile &quot;{{ $bin }}.exe&quot;', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
             </div>
-            <div class="mt-2"><span class="comment"># {{ i18n "install_win_comment2" | default "Optional: move to a directory in your PATH" }}</span></div>
-            <div><span class="prompt">PS&gt;</span> <span class="cmd">Move-Item {{ $bin }}.exe "$env:LOCALAPPDATA\Microsoft\WindowsApps\"</span>
-              <button onclick="copyCmd('Move-Item {{ $bin }}.exe &quot;$env:LOCALAPPDATA\\Microsoft\\WindowsApps\\&quot;', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
-            </div>
           </div>
         </div>
 
@@ -134,11 +126,7 @@
               <div><span class="prompt">PS&gt;</span> <span class="cmd">.\{{ $bin }}.exe serve</span>
                 <button onclick="copyCmd('.\\{{ $bin }}.exe serve', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
               </div>
-              <div class="mt-1"><span class="success">{{ i18n "install_quickstart_running" | default "Open http://localhost:3000" }}</span></div>
-              <div class="mt-2"><span class="comment"># {{ i18n "install_quickstart_comment2" | default "Initialize a workspace with a git repo" }}</span></div>
-              <div><span class="prompt">PS&gt;</span> <span class="cmd">.\{{ $bin }}.exe init --repo https://github.com/your-org/docs.git</span>
-                <button onclick="copyCmd('.\\{{ $bin }}.exe init --repo https://github.com/your-org/docs.git', this)" class="ml-3 opacity-50 hover:opacity-100 transition-opacity" title="{{ i18n "download_copy" | default "Copy" }}"><i class="bi bi-clipboard"></i></button>
-              </div>
+              <div class="mt-1"><span class="success">{{ i18n "install_quickstart_running" | default "Open http://localhost:3000 and register — your first account gets its own workspace" }}</span></div>
             </div>
           </div>
           <div class="flex flex-wrap gap-3 mt-4">
@@ -240,7 +228,7 @@
         <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_no_deps" | default "Zero Dependencies" }}</span>
         <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_single" | default "Single Binary" }}</span>
         <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_free" | default "Free Forever" }}</span>
-        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_signed" | default "Signed & Verified" }}</span>
+        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold" style="background: rgba(5,150,82,0.08); color: var(--success);"><i class="bi bi-check-circle-fill"></i> {{ i18n "install_pill_signed" | default "Checksums Published" }}</span>
       </div>
     </div>
 
