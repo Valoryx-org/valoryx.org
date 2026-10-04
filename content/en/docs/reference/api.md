@@ -767,7 +767,7 @@ Available on the main port when `FF_METRICS=true` (platform-owner authentication
 These endpoints use the unversioned `/api/` prefix and do not require authentication.
 
 ```
-GET /api/health    → 200 OK { "status": "ok", "version": "v0.10.0" }
+GET /api/health    → 200 OK { "status": "ok", "version": "vX.Y.Z" }
 GET /api/ready     → 200 OK { "status": "ready", "checks": { ... } }
 ```
 

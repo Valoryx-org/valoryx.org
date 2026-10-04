@@ -21,8 +21,8 @@ curl -sLO https://github.com/Valoryx-org/releases/releases/latest/download/docpl
 chmod +x docplatform-linux-amd64
 sudo mv docplatform-linux-amd64 /usr/local/bin/docplatform
 
-# Or download a specific version
-curl -sLO https://github.com/Valoryx-org/releases/releases/download/v0.10.0/docplatform-linux-amd64
+# Or download a specific version (see the releases page for the latest tag)
+curl -sLO https://github.com/Valoryx-org/releases/releases/download/vX.Y.Z/docplatform-linux-amd64
 ```
 
 Available platforms:
@@ -35,15 +35,15 @@ Available platforms:
 | macOS | arm64 (Apple Silicon) | `docplatform-darwin-arm64` |
 | Windows | amd64 | `docplatform-windows-amd64.exe` |
 
-Archives (with version):
+Archives (with version — replace `X.Y.Z` with the version from the [releases page](https://github.com/Valoryx-org/releases/releases)):
 
 | OS | Architecture | Archive |
 |---|---|---|
-| Linux | amd64 | `docplatform_0.10.0_linux_amd64.tar.gz` |
-| Linux | arm64 | `docplatform_0.10.0_linux_arm64.tar.gz` |
-| macOS | amd64 (Intel) | `docplatform_0.10.0_darwin_amd64.tar.gz` |
-| macOS | arm64 (Apple Silicon) | `docplatform_0.10.0_darwin_arm64.tar.gz` |
-| Windows | amd64 | `docplatform_0.10.0_windows_amd64.zip` |
+| Linux | amd64 | `docplatform_X.Y.Z_linux_amd64.tar.gz` |
+| Linux | arm64 | `docplatform_X.Y.Z_linux_arm64.tar.gz` |
+| macOS | amd64 (Intel) | `docplatform_X.Y.Z_darwin_amd64.tar.gz` |
+| macOS | arm64 (Apple Silicon) | `docplatform_X.Y.Z_darwin_arm64.tar.gz` |
+| Windows | amd64 | `docplatform_X.Y.Z_windows_amd64.zip` |
 
 ### Verify the download
 

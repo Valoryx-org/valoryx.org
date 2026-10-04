@@ -8,11 +8,11 @@ weight: 8
 
 DocPlatform includes a built-in [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that lets AI assistants read, write, search, and manage your documentation directly. Instead of copy-pasting content into chat windows, your AI tools work with your docs natively.
 
-> **MCP runs against a DocPlatform instance you operate yourself.** The MCP server is built into the DocPlatform binary and reads that instance's local data directory directly — it is not a network client that logs in to a remote server. So MCP works with the self-hosted **Community Edition** (and any cloud-edition binary you run yourself). The managed **DocPlatform Cloud** at [app.valoryx.dev](https://app.valoryx.dev) does **not** currently expose an MCP endpoint, so AI tools cannot yet connect to a managed-cloud workspace over MCP. This guide assumes you are running your own instance.
+> **MCP works on both self-hosted and managed Cloud.** The MCP server is built into the DocPlatform binary — `docplatform serve` mounts it at `/mcp` automatically, so the managed **DocPlatform Cloud** host, [app.valoryx.dev](https://app.valoryx.dev), already exposes it: AI tools can connect over Streamable HTTP using an API key, no setup required. Self-hosted deployments (the **Community Edition**, or any cloud-edition binary you run yourself) additionally expose the local **stdio** transport (`docplatform mcp`), which has no Cloud equivalent since it requires running the binary on your own machine.
 
 ## Prerequisites
 
-- DocPlatform running (binary, Docker, or Fly.io)
+- DocPlatform running (binary, Docker, or Fly.io) — or a [DocPlatform Cloud](https://app.valoryx.dev) workspace, which needs no setup of your own
 - An API key (create one in **Workspace Settings** → **API Keys**)
 
 ## Quick start
@@ -27,8 +27,8 @@ DocPlatform offers two MCP transports:
 
 | Transport | Command | Use case |
 |---|---|---|
-| **stdio** | `docplatform mcp` | Local AI tools (Claude Desktop, Claude Code, Cursor) |
-| **Streamable HTTP** | `docplatform mcp-server` | Remote access to a self-hosted instance, multi-workspace |
+| **stdio** | `docplatform mcp` | Local AI tools (Claude Desktop, Claude Code, Cursor) against a self-hosted instance |
+| **Streamable HTTP** | built into `docplatform serve` at `/mcp` — self-hosted or Cloud; `docplatform mcp-server` runs it standalone on its own port | Remote or multi-workspace access, including DocPlatform Cloud |
 
 ### 3. Configure your AI tool
 
@@ -83,15 +83,21 @@ Add to `.vscode/mcp.json`:
 }
 ```
 
+#### DocPlatform Cloud
+
+Cloud workspaces already run `docplatform serve`, so `/mcp` is live with no setup beyond creating an API key. Configure your MCP client to connect via Streamable HTTP at `https://app.valoryx.dev/mcp` with a Bearer token (`dp_live_...`).
+
 #### Remote HTTP transport (self-hosted)
 
-To reach an instance you run yourself over the network — for remote or multi-workspace access — start the HTTP server on that instance:
+Self-hosted instances running `docplatform serve` already expose `/mcp` on the main port — connect via Streamable HTTP at `http://your-server:PORT/mcp` with a Bearer token (`dp_live_...`), no extra step needed.
+
+To run MCP as its own standalone process instead — on its own port, independent of the main app — start it directly:
 
 ```bash
 docplatform mcp-server --addr :8081
 ```
 
-Then configure your MCP client to connect via Streamable HTTP at `http://your-server:8081/mcp` with a Bearer token (`dp_live_...`).
+Then connect at `http://your-server:8081/mcp` the same way.
 
 ---
 
@@ -287,8 +293,8 @@ X-RateLimit-Reset: 1712847600
 
 ### HTTP transport issues
 
-- Default listen address is `:8081` — check firewall rules
-- For CORS issues, pass `--cors-origins https://your-domain.com`
+- On `docplatform serve`, `/mcp` listens on the main app port — check that port's firewall rules. On the standalone `docplatform mcp-server`, the default listen address is `:8081`
+- For CORS issues on the standalone server, pass `--cors-origins https://your-domain.com`
 - Verify the Bearer token is sent in the `Authorization` header
 
 ### Tool returns "service not available"

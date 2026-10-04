@@ -73,7 +73,7 @@ docker compose up -d
 | Tag | Description |
 |---|---|
 | `latest` | Most recent stable release |
-| `v0.10.0` | Specific version |
+| `vX.Y.Z` | Specific version — see the [releases page](https://github.com/Valoryx-org/releases/releases) for the current tag |
 
 ## Volumes
 
