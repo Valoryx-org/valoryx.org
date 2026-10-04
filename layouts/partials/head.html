@@ -53,14 +53,12 @@
     <link rel="stylesheet" href="{{ $css.RelPermalink }}">
   {{ end }}
 
-  <!-- Fonts — preconnect + preload critical font for LCP -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Fonts — self-hosted (ops#822; no third-party request, no visitor-IP leak to Google) -->
+  <link rel="preload" as="font" type="font/woff2" href="{{ "fonts/plus-jakarta-sans-latin.woff2" | relURL }}" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="{{ "fonts/dm-sans-latin.woff2" | relURL }}" crossorigin>
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Bootstrap Icons — self-hosted (ops#822) -->
+  <link rel="stylesheet" href="{{ "vendor/bootstrap-icons/bootstrap-icons.min.css" | relURL }}">
 
   <!-- RSS -->
   {{ with .OutputFormats.Get "rss" }}
