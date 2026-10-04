@@ -488,7 +488,7 @@ other = "Quick Start"
 [install_quickstart_comment1]
 other = "Start the server"
 [install_quickstart_running]
-other = "Open http://localhost:3000"
+other = "Open http://localhost:3000 and register - your first account gets its own workspace"
 [install_quickstart_comment2]
 other = "Initialize a workspace with a git repo"
 [install_win_comment1]
@@ -520,7 +520,7 @@ other = "Single Binary"
 [install_pill_free]
 other = "Free Forever"
 [install_pill_signed]
-other = "Signed and Verified"
+other = "Checksums Published"
 [install_verify_title]
 other = "You are all set!"
 [install_trouble_title]
