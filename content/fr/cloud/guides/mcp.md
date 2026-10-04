@@ -22,7 +22,7 @@ MCP est un protocole standard qui permet aux outils IA de se connecter a des ser
 
 ## Mise en place
 
-> **Statut :** l'endpoint MCP heberge pour Valoryx Cloud n'est **pas encore active** — les outils IA distants ne peuvent pas encore se connecter a `app.valoryx.dev`. Cette page sera mise a jour des sa mise en service. Sur une instance **auto-hebergee**, MCP fonctionne des aujourd'hui — suivez les etapes ci-dessous sur la machine qui execute DocPlatform.
+> **Statut :** l'endpoint MCP heberge est actif sur Valoryx Cloud — les outils IA distants se connectent a `app.valoryx.dev/mcp` en Streamable HTTP avec une cle API, comme pour le transport HTTP d'une instance auto-hebergee. Sur une instance **auto-hebergee**, MCP fonctionne aussi via le transport local stdio — suivez les etapes ci-dessous sur la machine qui execute DocPlatform.
 
 ### Auto-heberge : Claude Desktop
 
