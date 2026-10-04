@@ -200,12 +200,6 @@ button:focus:not(:focus-visible), a:focus:not(:focus-visible) { outline: none; }
 .faq-item.active .faq-content p { color: rgba(255, 255, 255, 0.85); }
 .faq-item.active .faq-toggle { transform: rotate(90deg); color: rgba(255, 255, 255, 0.7); }
 
-/* ── Contact Form ──────────────────────────────────────────────────────────── */
-.contact-form input, .contact-form textarea { width: 100%; padding: 13px 18px; border: 1px solid var(--border); border-radius: 5px; font-size: 15px; font-family: 'DM Sans', system-ui, sans-serif; color: var(--body); transition: border-color 0.3s ease, box-shadow 0.3s ease; background: #fff; }
-.contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(29, 127, 194, 0.12); }
-.contact-form button { background: var(--accent); color: #fff; padding: 13px 48px; border: none; border-radius: 5px; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; font-family: 'Plus Jakarta Sans', sans-serif; }
-.contact-form button:hover { background: var(--accent-dark); transform: translateY(-2px); }
-
 /* ── Footer ────────────────────────────────────────────────────────────────── */
 .footer { border-top: 1px solid #e8ecf0; }
 .footer h4 { font-size: 12px; font-weight: 700; padding-bottom: 16px; color: var(--heading); text-transform: uppercase; letter-spacing: 0.1em; }
