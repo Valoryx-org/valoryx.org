@@ -22,7 +22,7 @@ MCP ist ein Standardprotokoll, das KI-Tools die Verbindung mit externen Diensten
 
 ## Einrichtung
 
-> **Status:** Der gehostete MCP-Endpunkt für Valoryx Cloud ist **noch nicht aktiviert** — Remote-KI-Tools können sich noch nicht mit `app.valoryx.dev` verbinden. Diese Seite wird aktualisiert, sobald er live geht. Auf einer **selbst gehosteten** Instanz funktioniert MCP bereits heute — führen Sie die folgenden Schritte auf dem Rechner aus, auf dem DocPlatform läuft.
+> **Status:** Der gehostete MCP-Endpunkt ist auf Valoryx Cloud live — Remote-KI-Tools verbinden sich per Streamable HTTP mit einem API-Key mit `app.valoryx.dev/mcp`, genauso wie über die HTTP-Transportart einer selbst gehosteten Instanz. Auf einer **selbst gehosteten** Instanz funktioniert MCP außerdem über den lokalen Stdio-Transport — führen Sie die folgenden Schritte auf dem Rechner aus, auf dem DocPlatform läuft.
 
 ### Selbst gehostet: Claude Desktop
 

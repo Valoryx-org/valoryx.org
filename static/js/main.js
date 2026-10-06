@@ -79,52 +79,6 @@ function toggleFaq(item) {
   if (!wasActive) { item.classList.add('active'); item.setAttribute('aria-expanded', 'true'); }
 }
 
-// Form submit
-async function handleSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn  = form.querySelector('button');
-  const webhook = form.dataset.webhook;
-  const orig = btn.textContent;
-
-  // Honeypot check — bots fill the hidden field
-  if (form.website && form.website.value) return;
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(form.email.value)) {
-    form.email.setCustomValidity('Please enter a valid email address');
-    form.email.reportValidity();
-    return;
-  }
-  form.email.setCustomValidity('');
-
-  btn.textContent = '…';
-  btn.disabled = true;
-
-  try {
-    const res = await fetch(webhook, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: form.name.value,
-        email: form.email.value,
-        role: form.role.value,
-        message: form.message.value,
-        source: 'landing-page'
-      })
-    });
-    if (res.ok) {
-      btn.textContent = '✓';
-      btn.style.background = '#059652';
-      form.reset();
-    } else { throw new Error(); }
-  } catch {
-    btn.textContent = '✕';
-    btn.style.background = '#dc2626';
-  }
-  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.disabled = false; }, 3000);
-}
-
 // OS tab switcher
 function switchOsTab(os) {
   document.querySelectorAll('.os-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });

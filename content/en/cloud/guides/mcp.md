@@ -20,7 +20,7 @@ MCP is a standard protocol that lets AI tools connect to external services. Thin
 
 ## Setting up
 
-> **Status:** the hosted MCP endpoint for Valoryx Cloud is **not yet enabled** — remote AI tools cannot connect to `app.valoryx.dev` yet. This page will be updated the moment it goes live. On a **self-hosted** instance, MCP works today — follow the steps below on the machine running DocPlatform.
+> **Status:** the MCP endpoint is live on Valoryx Cloud — remote AI tools connect to `app.valoryx.dev/mcp` over Streamable HTTP using an API key, the same way as a self-hosted instance's HTTP transport. On a **self-hosted** instance, MCP also works via the local stdio transport — follow the steps below on the machine running DocPlatform.
 
 ### Self-hosted: Claude Desktop
 
