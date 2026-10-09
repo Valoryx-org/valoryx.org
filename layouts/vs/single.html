@@ -12,7 +12,7 @@
       </span>
     </div>
     <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-6 reveal" style="color: var(--heading); letter-spacing: -0.04em;">
-      {{ i18n "vs_hero_title" | default (printf "Valoryx vs %s" $competitor) }}
+      {{ (i18n "vs_hero_title" | default "Valoryx vs %s") | replace "%s" $competitor }}
     </h1>
     <p class="mx-auto max-w-2xl text-base sm:text-lg reveal" style="color: var(--muted); line-height: 1.8;">
       {{ i18n "vs_hero_subtitle" | default "A fair comparison for developer documentation." }}
@@ -172,7 +172,7 @@
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <div class="section-title reveal">
-      <h2>{{ i18n "vs_competitor_wins_title" | default (printf "Where %s Wins" $competitor) }}</h2>
+      <h2>{{ (i18n "vs_competitor_wins_title" | default "Where %s Wins") | replace "%s" $competitor }}</h2>
       <p>{{ i18n "vs_competitor_wins_subtitle" | default "We believe in honest comparisons. Here is where the competition has an edge." }}</p>
     </div>
 

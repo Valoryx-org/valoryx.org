@@ -856,7 +856,9 @@ other = "Compare Plans"
 [pricing_enterprise_note]
 other = "Need more? "
 [pricing_enterprise_cta]
-other = "Contact us for Enterprise pricing"
+other = "Need more?"
+[pricing_enterprise_suffix]
+other = "for Enterprise pricing."
 [pricing_faq_title]
 other = "Frequently Asked Questions"
 [pfaq1_q]
