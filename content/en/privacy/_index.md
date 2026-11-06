@@ -1,11 +1,11 @@
 ---
 title: "Privacy Policy"
-description: "DocPlatform Privacy Policy — Version 1.1, effective April 11, 2026"
+description: "DocPlatform Privacy Policy — Version 1.3, effective November 6, 2026"
 layout: "list"
 ---
 
-**Effective Date:** April 11, 2026
-**Version:** 1.1
+**Effective Date:** November 6, 2026
+**Version:** 1.3
 
 This Privacy Policy explains how Valoryx ("Company", "we", "us") collects, uses, stores, and protects personal data when you use the DocPlatform software and services ("Software"). This policy applies to both the Cloud Service (app.valoryx.dev) and the Community Edition (self-hosted).
 
@@ -61,6 +61,8 @@ For the Community Edition (self-hosted), **you** are the data controller for all
 
 Analytics data is only collected for published documentation sites when the visitor has explicitly consented via the cookie consent banner. **No IP addresses are stored** in analytics records. User agents are not stored. Analytics data cannot be used to identify individual visitors.
 
+**Consent records.** When a visitor accepts or declines the analytics banner, we keep a record of that choice so that we can demonstrate consent (GDPR Art. 7(1)). A consent record contains: the choice, the privacy-policy version shown, the time, the workspace, the account ID if the visitor is signed in, the browser's user-agent string, and a salted SHA-256 hash of the visitor's IP address. The IP address itself is not stored. Consent records are separate from the analytics records described above, are not used for analytics, and are kept until deletion is requested (contact privacy@valoryx.org).
+
 ### 2e. Telemetry (Optional, Opt-In Only)
 
 The Community Edition includes optional, anonymous usage telemetry that is **disabled by default**. It can be enabled by setting the environment variable `DOCPLATFORM_TELEMETRY=on`.
@@ -79,6 +81,16 @@ Payment processing is handled entirely by Stripe, Inc. Valoryx **does not** stor
 
 For Stripe's privacy practices, see [Stripe Privacy Policy](https://stripe.com/privacy).
 
+### 2g. Update Checks
+
+The Software periodically checks whether a newer DocPlatform release is available, so that operators learn about updates and security patches. This check:
+
+- is made **directly from your instance to GitHub** (`api.github.com`) — the same unaffiliated third party that distributes DocPlatform binaries. **No data is sent to Valoryx, and Valoryx receives nothing** from this check.
+- carries **no identifier and no version number**. The request contains only a generic `docplatform` User-Agent and the connection metadata (such as your instance's IP address) that any HTTPS request necessarily reveals to the host being contacted. For GitHub's handling of such requests, see the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+- can be **disabled entirely** by setting the environment variable `DISABLE_UPDATE_CHECK=true`. Disabling it has no other effect on the Software.
+
+**Scope of this section and of our self-hosting statements.** The statements above and in Section 3 describe the live application UI served by your instance and the instance-initiated traffic disclosed in this policy. They do not yet extend to three residual areas: separately published documentation sites and exported HTML files currently reference Google Fonts servers, and social-media preview images on published pages currently reference valoryx.org. These residual references are tracked and are being reduced in future releases.
+
 ## 3. Data We Do NOT Collect
 
 - We do **not** track users across websites.
@@ -86,6 +98,7 @@ For Stripe's privacy practices, see [Stripe Privacy Policy](https://stripe.com/p
 - We do **not** use personal data for profiling or automated decision-making.
 - We do **not** store payment card numbers (handled entirely by Stripe).
 - We do **not** collect data from the Community Edition unless you opt in to telemetry.
+- We do **not** include any identifier, account data, or even the installed version number in update checks — the check is a plain "what is the latest release" request made directly from your instance to GitHub (see Section 2g).
 - We do **not** use your Content to train AI or machine learning models.
 - We do **not** share your data with data brokers.
 
@@ -132,6 +145,8 @@ We share personal data only with the following service providers, each acting as
 
 We do **not** share data with any other third parties. We do **not** sell data. We do **not** share data with advertisers.
 
+The update check described in Section 2g is a direct instance-to-GitHub request initiated by your own installation; it is not a disclosure of data by Valoryx, and GitHub is not a data processor for Valoryx.
+
 In the event of a merger, acquisition, or sale of assets, personal data may be transferred to the successor entity, subject to the same privacy commitments described in this policy. We will notify affected users before any such transfer.
 
 ## 7. Data Retention
@@ -144,6 +159,7 @@ In the event of a merger, acquisition, or sale of assets, personal data may be t
 | Invitations | 7 days after expiry | Auto-purged |
 | Soft-deleted pages | 30 days | Auto-purged |
 | Analytics events | 90 days | Auto-purged |
+| Analytics consent records | Until deletion is requested | Deleted on request |
 | Audit log | Indefinite (anonymizable on request) | Anonymization available |
 | Terms acceptance | Indefinite | Legal requirement |
 | Billing data | As required by French tax law (10 years for invoices) | Legal retention period |
@@ -261,3 +277,19 @@ For any privacy-related questions, data subject requests, or to exercise your ri
 Email: privacy@valoryx.org
 Security incidents: security@valoryx.org
 Website: https://valoryx.org
+
+---
+
+*[LAWYER REVIEW NOTES — remove before publishing]*
+
+*Items requiring lawyer attention:*
+1. *Section 1: No DPO designated — not required for small companies under GDPR Art. 37, but verify*
+2. *Section 6: Hetzner as sub-processor — may need to be listed in a sub-processor register*
+3. *Section 8b: CCPA section — verify applicability threshold (>$25M revenue, >100K consumers, or >50% revenue from selling data). Currently likely below threshold but good to include proactively*
+4. *Section 8c: Response time for CCPA is 45 days — verify current CPRA amendments haven't changed this*
+5. *Section 10: Stripe SCCs and Data Privacy Framework — verify Stripe's current legal basis post-Schrems II*
+6. *Section 12: DNT compliance — voluntary but stated. Ensure implementation matches the claim*
+7. *Verify compliance with Brazil's LGPD if Brazilian users are anticipated*
+8. *Verify compliance with UK GDPR (post-Brexit) if UK users are anticipated*
+9. *Consider adding a cookie banner implementation reference (ePrivacy Directive compliance)*
+10. *The email "privacy@valoryx.org" must be a functioning, monitored inbox before publishing*
