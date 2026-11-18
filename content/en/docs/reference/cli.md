@@ -30,6 +30,7 @@ docplatform serve [flags]
 | Flag | Default | Description |
 |---|---|---|
 | `--port` | `3000` | HTTP listen port (overrides `PORT` env var) |
+| `--host` | `127.0.0.1` | Interface to listen on (overrides the `DOCPLATFORM_BIND_HOST` env var). `127.0.0.1` is this machine only; `0.0.0.0` is every interface. No other value is accepted (see below). |
 
 ### Behavior
 
@@ -39,7 +40,7 @@ docplatform serve [flags]
 - Builds or opens the Bleve search index
 - Starts the git sync engine for all configured workspaces
 - Starts the backup scheduler (if enabled)
-- Serves the web editor and API on the configured port
+- Serves the web editor and API on the configured port, on `127.0.0.1` unless you pass `--host 0.0.0.0` or set `DOCPLATFORM_BIND_HOST=0.0.0.0`
 
 ### Startup sequence
 
@@ -80,7 +81,18 @@ docplatform serve
 
 # Start on custom port
 docplatform serve --port 8080
+
+# Reachable from other machines (see the warning below)
+docplatform serve --host 0.0.0.0
 ```
+
+### Listen address
+
+By default `serve` listens on `127.0.0.1`, so only programs on the same machine can connect (a reverse proxy on that machine works). To make it reachable at `http://<server-ip>:3000`, pass `--host 0.0.0.0` or set `DOCPLATFORM_BIND_HOST=0.0.0.0`. An explicit `--host` wins over the environment variable. An empty value or `localhost` means the default.
+
+Only `127.0.0.1` and `0.0.0.0` are accepted. Any other value (a single LAN address, an IPv6 address, a host name, or a value with a port or `http://`) makes `serve` refuse to start with an error that names the setting. Set the port with `--port` or `PORT`, not here.
+
+`0.0.0.0` lets anyone who can reach the machine on that port reach DocPlatform, and `serve` logs a warning when it is on. Put a firewall or a reverse proxy in front. The official Docker image already sets `DOCPLATFORM_BIND_HOST=0.0.0.0` (see [Docker](../deployment/docker.md)). The cloud edition refuses any value other than loopback.
 
 ### Output
 
@@ -92,7 +104,7 @@ INFO  Database initialized       path=<your-data-dir>/data.db wal=true
 INFO  Migrations applied         count=1
 INFO  Search index ready         documents=42
 INFO  Workspace loaded           name="Docs" slug=docs git_remote=git@github.com:...
-INFO  Listening on               http://0.0.0.0:3000
+INFO  Listening on               http://127.0.0.1:3000
 ```
 
 `<your-data-dir>` is an OS-standard per-user location by default, not `.docplatform/` — see [Getting Started](../getting-started/index.md#architecture-at-a-glance) or run `docplatform doctor` to see the resolved path.
@@ -466,6 +478,7 @@ docplatform preview [flags]
 |---|---|---|---|
 | `--workspace`, `-w` | Yes | — | Workspace ID (ULID) to preview |
 | `--port`, `-p` | No | `4000` | HTTP listen port |
+| `--host` | No | `127.0.0.1` | Interface to listen on. `127.0.0.1` is this machine only; `0.0.0.0` is every interface (for example inside a container). An empty value means `127.0.0.1`. |
 
 ### Behavior
 
@@ -477,7 +490,7 @@ Starts a lightweight Fiber HTTP server that renders published pages in real-time
 docplatform preview --workspace my-docs --port 4000
 ```
 
-Open [http://localhost:4000](http://localhost:4000) to view the published docs.
+Open [http://localhost:4000](http://localhost:4000) to view the published docs. Before v0.17.7 the preview server listened on every network interface; it now listens on this machine only unless you pass `--host 0.0.0.0`.
 
 ---
 
@@ -535,7 +548,7 @@ docplatform mcp-server [flags]
 
 | Flag | Required | Default | Description |
 |---|---|---|---|
-| `--addr` | No | `:8081` | Listen address (e.g., `:8081`, `0.0.0.0:9090`) |
+| `--addr` | No | `127.0.0.1:8081` | Listen address. The default is this machine only. A bare port such as `:8081` or an address such as `0.0.0.0:9090` listens on every interface, so put a TLS proxy with authentication in front. An empty value means the default. |
 | `--cors-origins` | No | claude.ai, cursor | Allowed CORS origins (comma-separated) |
 
 ### Behavior
@@ -548,8 +561,8 @@ Runs a Streamable HTTP MCP server authenticated via Bearer API keys. Unlike `doc
 # Start on default port
 docplatform mcp-server
 
-# Custom port with CORS
-docplatform mcp-server --addr :9090 --cors-origins https://my-app.com
+# Custom port with CORS (still this machine only)
+docplatform mcp-server --addr 127.0.0.1:9090 --cors-origins https://my-app.com
 ```
 
 Clients connect via HTTP and authenticate with a Bearer token:

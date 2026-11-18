@@ -13,6 +13,7 @@ DocPlatform reads configuration from environment variables only — there is no 
 | Variable | Default | Description |
 |---|---|---|
 | `PORT` | `3000` | HTTP listen port |
+| `DOCPLATFORM_BIND_HOST` | `127.0.0.1` | Interface `docplatform serve` listens on: `127.0.0.1` (this machine only) or `0.0.0.0` (every interface); an empty value or `localhost` (any case) also resolve to `127.0.0.1`. Any other value refuses to start. The `--host` flag overrides it. The official Docker image sets `0.0.0.0`. The cloud edition refuses anything but loopback. |
 | `DATA_DIR` | `.docplatform` | Root directory for all DocPlatform data (database, backups, workspaces, keys) |
 | `DOCPLATFORM_ENV` | — | Set to `production` to enable strict configuration validation (e.g., requires `API_KEY_PEPPER`, blocks `DEV_FRONTEND_URL`) |
 | `BASE_URL` | `http://localhost:{PORT}` | Public URL used for OIDC callbacks, invitation links, and email templates. Set to your production URL (e.g., `https://docs.example.com`). |

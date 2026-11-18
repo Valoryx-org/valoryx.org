@@ -20,6 +20,8 @@ docker run -d \
 
 Open [http://localhost:3000](http://localhost:3000) and register your admin account.
 
+The image sets `DOCPLATFORM_BIND_HOST=0.0.0.0`, so the server listens on every interface inside the container and the published port (`-p 3000:3000`, or `ports:` in Docker Compose) reaches it. In v0.17.7 and earlier the image listened on `127.0.0.1` only and the published port did not connect.
+
 ## Docker Compose
 
 For easier management, use Docker Compose:
@@ -132,6 +134,19 @@ docker run -d \
 ```
 
 See [Environment Variables](../configuration/environment.md) for the complete reference.
+
+### Listen address and `--network host`
+
+With `-p`, Docker decides which host interfaces the published port is open on (`-p 3000:3000` opens it on all of them; `-p 127.0.0.1:3000:3000` keeps it on the host's loopback). If you run the image with `--network host` there is no port mapping, so since v0.17.8 the server listens on every interface of the host. To keep it local, pass `-e DOCPLATFORM_BIND_HOST=127.0.0.1`:
+
+```bash
+docker run -d --name docplatform --network host \
+  -e DOCPLATFORM_BIND_HOST=127.0.0.1 \
+  -v docplatform-data:/data \
+  ghcr.io/valoryx-org/docplatform:latest
+```
+
+Only `127.0.0.1` and `0.0.0.0` are accepted as explicit non-default values (an empty value or `localhost` also resolves to `127.0.0.1`). With `DOCPLATFORM_BIND_HOST=127.0.0.1` and `-p`, the published port does not connect, because loopback inside the container is not reachable from outside it.
 
 ## SSH key for git sync
 

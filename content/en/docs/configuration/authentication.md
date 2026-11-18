@@ -243,6 +243,8 @@ Each key carries a set of scopes checked on every request:
 | `admin` | All methods |
 | `admin:read` | Read-only platform-owner access |
 
+A key created in the web app (Workspace Settings → API Keys) is bound to that workspace and is refused on organization-level routes, including `/api/v1/api-keys`. Only organization super admins and platform owners can create an organization-wide key, by calling `POST /api/v1/api-keys` without `workspace_id`. See [MCP](../guides/mcp.md#1-create-an-api-key) for what each option in the form allows.
+
 New keys default to `["read", "write", "delete"]`. An optional `expires_at` (Unix seconds) can be set at creation. API-key requests must **also** pass the caller's workspace role check — a scope never grants more than the underlying role allows.
 
 Set `API_KEY_PEPPER` (or `DOCPLATFORM_API_KEY_PEPPER`) for HMAC hashing security.

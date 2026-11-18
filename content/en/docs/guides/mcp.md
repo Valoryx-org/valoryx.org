@@ -21,6 +21,16 @@ DocPlatform includes a built-in [Model Context Protocol](https://modelcontextpro
 
 In your DocPlatform instance, go to **Workspace Settings** → **API Keys** → **Create Key**. Copy the key — it starts with `dp_live_` and is shown only once.
 
+The form's access choice sets the key's scopes. A key made here belongs to that one workspace:
+
+| Access | Scopes | What the key can do |
+|---|---|---|
+| **Read Only** | `read` | Read pages and search in this workspace. Cannot change anything. |
+| **Read & Write** (default) | `read`, `write`, `delete` | Create, edit, move, comment on and delete pages (deleted pages can be restored for 30 days), create versions and change the theme in this workspace. |
+| **Admin** | `admin` | Full access to this workspace, including its settings and members, but it cannot manage API keys. |
+
+A key never gets more than your own role allows. A workspace-bound key is refused on organization-level routes (including `/api/v1/api-keys`), so it cannot reach another workspace or create keys.
+
 ### 2. Choose your transport
 
 DocPlatform offers two MCP transports:
@@ -214,12 +224,13 @@ API keys support five scopes — `read`, `write`, `delete`, `admin`, and `admin:
 | Scope | Allows |
 |---|---|
 | `read` | list_pages, read_page, search, get_context, get_tree, get_manifest, list_workspaces, get_workspace, list_versions, get_theme, validate_links, quality_scan, export, get_activity, list_comments |
-| `write` | write_page, update_page, move_page, create_workspace, create_version, update_theme, writing_assist, add_comment, publish_workspace, resolve_sync_conflict |
+| `write` | write_page, update_page, move_page, create_workspace, create_version, update_theme, writing_assist, add_comment, resolve_sync_conflict |
 | `delete` | delete_page |
+| `admin` | everything above, plus publish_workspace (which also needs the workspace Admin role) |
 
 In addition to scopes, every tool call is checked against your **workspace role** — a `write`-scoped key held by a Viewer still can't write.
 
-By default, new API keys have all three content scopes (`read`, `write`, `delete`). You can restrict scope when creating the key.
+By default, new API keys have all three content scopes (`read`, `write`, `delete`). You can restrict scope when creating the key. `publish_workspace` needs the `admin` scope; `read`, `write` and `delete` are not enough.
 
 ### Key format
 

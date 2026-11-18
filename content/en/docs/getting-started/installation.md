@@ -94,7 +94,7 @@ docker run -d \
   ghcr.io/valoryx-org/docplatform:latest
 ```
 
-The container auto-initializes on first run. Open [http://localhost:3000](http://localhost:3000) to get started.
+The container auto-initializes on first run. Open [http://localhost:3000](http://localhost:3000) to get started. The image listens on every interface inside the container (`DOCPLATFORM_BIND_HOST=0.0.0.0`), so the published port works; see [Docker](../deployment/docker.md#listen-address-and---network-host) for `--network host`.
 
 ### Docker Compose
 

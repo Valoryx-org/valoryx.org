@@ -220,7 +220,7 @@ server {
 }
 ```
 
-DocPlatform listens on all interfaces on `PORT` (there is no listen-address setting). When running behind a reverse proxy, use your firewall to block external access to port 3000 so only the proxy can reach it.
+DocPlatform listens on `127.0.0.1` on `PORT` by default, so a reverse proxy on the same machine can reach it and nothing else can. To reach it directly at `http://<server-ip>:3000` without a proxy, start it with `--host 0.0.0.0` (or set `DOCPLATFORM_BIND_HOST=0.0.0.0`); see [`docplatform serve`](../reference/cli.md#listen-address). In that mode use your firewall to limit who can reach port 3000.
 
 ## Upgrades
 

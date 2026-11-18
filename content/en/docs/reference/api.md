@@ -541,7 +541,7 @@ DELETE /api/v1/api-keys/:id       — Delete API key
 POST   /api/v1/api-keys/:id/rotate — Rotate API key
 ```
 
-API keys use the `dp_live_` prefix and are scoped to the organization.
+API keys use the `dp_live_` prefix. A key created in the web app (Workspace Settings → API Keys) is bound to that one workspace and is refused on organization-level routes, including `/api/v1/api-keys`. Only organization super admins and platform owners can create an organization-wide key, by calling `POST /api/v1/api-keys` without `workspace_id`.
 
 ---
 
@@ -714,7 +714,7 @@ DocPlatform includes a built-in MCP (Model Context Protocol) server exposing **2
 docplatform mcp --workspace my-docs --api-key dp_live_abc123
 
 # Streamable HTTP (multi-workspace, for remote/cloud access)
-docplatform mcp-server --addr :8081
+docplatform mcp-server
 ```
 
 ### MCP tools (26)

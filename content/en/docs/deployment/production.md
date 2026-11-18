@@ -26,7 +26,7 @@ These items are necessary for a secure, reliable production deployment.
 - [ ] **Production mode enabled** — Set `DOCPLATFORM_ENV=production` to turn on strict configuration validation.
 - [ ] **API key pepper set** — `API_KEY_PEPPER` is required in production mode; it strengthens API-key hashing.
 - [ ] **Git token encryption key set** — If you'll connect git providers with access tokens, set `GIT_ENCRYPTION_KEY` (min 16 chars) so tokens are encrypted at rest.
-- [ ] **Firewall the app port** — If using a reverse proxy on the same host, block external access to port 3000 so DocPlatform is only reachable through the proxy (there is no listen-address setting).
+- [ ] **Firewall the app port** — If using a reverse proxy on the same host, keep DocPlatform on its default listen address (`127.0.0.1`) so it is only reachable through the proxy. If you set `--host 0.0.0.0` or `DOCPLATFORM_BIND_HOST=0.0.0.0` (the Docker image does), block external access to port 3000 with your firewall.
 
 ### Backups
 
