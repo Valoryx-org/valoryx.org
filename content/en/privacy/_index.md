@@ -1,10 +1,10 @@
 ---
 title: "Privacy Policy"
-description: "DocPlatform Privacy Policy — Version 1.3, effective November 6, 2026"
+description: "DocPlatform Privacy Policy — Version 1.3, effective November 12, 2026"
 layout: "list"
 ---
 
-**Effective Date:** November 6, 2026
+**Effective Date:** November 12, 2026
 **Version:** 1.3
 
 This Privacy Policy explains how Valoryx ("Company", "we", "us") collects, uses, stores, and protects personal data when you use the DocPlatform software and services ("Software"). This policy applies to both the Cloud Service (app.valoryx.dev) and the Community Edition (self-hosted).
@@ -50,6 +50,7 @@ For the Community Edition (self-hosted), **you** are the data controller for all
 | IP address | Audit log, rate limiting, abuse prevention | Indefinite (anonymizable on request) | Legitimate interest |
 | User agent | Audit log, session management | Indefinite (anonymizable on request) | Legitimate interest |
 | Audit log entries | Security compliance, incident investigation | Indefinite (anonymizable on request) | Legitimate interest |
+| Server request logs (IP address, request path, status, time, for each request to the service except health checks) | Operating the service, security, abuse prevention | No fixed period: the service writes them to the system log and does not delete them itself; they go when that log is rotated out (on the Cloud Service this has so far meant several months) | Legitimate interest |
 | Terms acceptance records | Legal compliance, proof of consent | Indefinite | Legal obligation (Art. 6(1)(c)) |
 
 ### 2d. Usage Analytics (Optional, Consent-Based)
@@ -58,10 +59,11 @@ For the Community Edition (self-hosted), **you** are the data controller for all
 |------|---------|-----------|------------|
 | Page views (path, referrer) | Published docs analytics | 90 days | Consent (Art. 6(1)(a)) |
 | Search queries | Search analytics | 90 days | Consent (Art. 6(1)(a)) |
+| Analytics consent records (choice, policy version, time, workspace, user agent, one-way IP hash; normally not linked to an account, see "Consent records" below) | Proof of the choice, recorded when the banner is accepted and when it is declined (Art. 7(1)) | Kept as proof of consent. Anonymized on request. Account deletion changes only a record that carries the account ID, which a record normally does not (see "Consent records" below) | Legal obligation (Art. 6(1)(c)) |
 
-Analytics data is only collected for published documentation sites when the visitor has explicitly consented via the cookie consent banner. **No IP addresses are stored** in analytics records. User agents are not stored. Analytics data cannot be used to identify individual visitors.
+Analytics data is only collected for published documentation sites when the visitor has explicitly consented via the cookie consent banner. **No IP addresses are stored** in page-view or search records, and those records hold no user agent, so they cannot be used to identify individual visitors. The consent records described next are the one exception: they hold a user agent and a one-way hash of the IP address, and they are listed separately above.
 
-**Consent records.** When a visitor accepts or declines the analytics banner, we keep a record of that choice so that we can demonstrate consent (GDPR Art. 7(1)). A consent record contains: the choice, the privacy-policy version shown, the time, the workspace, the account ID if the visitor is signed in, the browser's user-agent string, and a salted SHA-256 hash of the visitor's IP address. The IP address itself is not stored. Consent records are separate from the analytics records described above, are not used for analytics, and are kept until deletion is requested (contact privacy@valoryx.org).
+**Consent records.** When a visitor accepts or declines the analytics banner, we keep a record of that choice so that we can demonstrate consent (GDPR Art. 7(1)). A record is written for a decline as well as for an acceptance. A consent record contains: the choice, the privacy-policy version shown, the time, the workspace, the browser's user-agent string, and a one-way SHA-256 hash of the visitor's IP address. It is normally not linked to an account: the request that records the choice does not identify the visitor, so the record holds no account ID even when the visitor is signed in. There is one exception, on the Cloud Service only: a choice made during a support session in which a Valoryx platform administrator is acting on a user's account with write access is recorded with that user's account ID. The IP address itself is not written to the consent record; like every request to the service, this one appears in the server request log with its IP address (section 2c). On the Cloud Service the hash has been made with a secret salt since 6 November 2026, 12:49 UTC; records written before that time were hashed without one. On a self-hosted Community Edition installation the hash is salted only if the operator has set a salt (`DOCPLATFORM_IP_SALT`). We treat this hash as personal data, not as an anonymous value: a hash of an IP address made without a salt can be reversed by trying every possible address, and a salted one can be reversed by whoever holds the salt. Consent records are separate from the analytics records described above and are not used for analytics. They are kept as proof of consent. A consent record without an account ID cannot be found from a name, an email address or an account, and deleting an account does not remove or change it. A record that does carry an account ID (the exception above) is anonymized when that account is deleted. If you want your record anonymized (the workspace, IP hash and user agent removed; the choice, policy version and time remain), write to privacy@valoryx.org with the IP address you used and the approximate time of the visit; without that information we cannot tell which record is yours (GDPR Art. 11). This applies whether or not you were signed in when you made the choice. Questions about consent records: privacy@valoryx.org.
 
 ### 2e. Telemetry (Optional, Opt-In Only)
 
@@ -159,7 +161,8 @@ In the event of a merger, acquisition, or sale of assets, personal data may be t
 | Invitations | 7 days after expiry | Auto-purged |
 | Soft-deleted pages | 30 days | Auto-purged |
 | Analytics events | 90 days | Auto-purged |
-| Analytics consent records | Until deletion is requested | Deleted on request |
+| Analytics consent records | Kept as proof of consent | Anonymized on request (workspace, IP hash and user agent removed; choice, policy version and time remain). Account deletion anonymizes only a record that carries the account ID, which a record normally does not (section 2d) |
+| Server request logs | No fixed period | Not deleted entry by entry; entries go when the log is rotated out by size (section 2c) |
 | Audit log | Indefinite (anonymizable on request) | Anonymization available |
 | Terms acceptance | Indefinite | Legal requirement |
 | Billing data | As required by French tax law (10 years for invoices) | Legal retention period |
@@ -179,6 +182,8 @@ Under the General Data Protection Regulation, you have the following rights:
 **Right to Erasure (Article 17)** — You can delete your account at any time. Account deletion:
 - Removes your user record and personal profile data.
 - Anonymizes your entries in the audit log (replaces user ID, IP, and user agent with "anonymized").
+- Does not reach an analytics consent record unless it carries your account ID, which a record normally does not. See "Consent records" in section 2d, which also says how to have yours anonymized.
+- Does not remove entries about your past requests from the server request log (section 2c); they go when that log is rotated out.
 - Removes your sessions, API keys, and credentials.
 - Does not delete Content in Workspaces where other members remain (the Workspace is reassigned to another administrator).
 - Platform owners can initiate deletion via the admin panel.
@@ -277,19 +282,3 @@ For any privacy-related questions, data subject requests, or to exercise your ri
 Email: privacy@valoryx.org
 Security incidents: security@valoryx.org
 Website: https://valoryx.org
-
----
-
-*[LAWYER REVIEW NOTES — remove before publishing]*
-
-*Items requiring lawyer attention:*
-1. *Section 1: No DPO designated — not required for small companies under GDPR Art. 37, but verify*
-2. *Section 6: Hetzner as sub-processor — may need to be listed in a sub-processor register*
-3. *Section 8b: CCPA section — verify applicability threshold (>$25M revenue, >100K consumers, or >50% revenue from selling data). Currently likely below threshold but good to include proactively*
-4. *Section 8c: Response time for CCPA is 45 days — verify current CPRA amendments haven't changed this*
-5. *Section 10: Stripe SCCs and Data Privacy Framework — verify Stripe's current legal basis post-Schrems II*
-6. *Section 12: DNT compliance — voluntary but stated. Ensure implementation matches the claim*
-7. *Verify compliance with Brazil's LGPD if Brazilian users are anticipated*
-8. *Verify compliance with UK GDPR (post-Brexit) if UK users are anticipated*
-9. *Consider adding a cookie banner implementation reference (ePrivacy Directive compliance)*
-10. *The email "privacy@valoryx.org" must be a functioning, monitored inbox before publishing*
