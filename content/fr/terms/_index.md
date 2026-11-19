@@ -7,4 +7,4 @@ layout: "list"
 Les conditions d'utilisation complètes sont disponibles en anglais. La version anglaise est le document juridiquement contraignant.
 
 - Consultez les conditions d'utilisation dans l'application DocPlatform à la page /terms
-- Consultez les conditions d'utilisation sur [valoryx.org/terms/](/terms/)
+- Consultez les conditions d'utilisation sur [valoryx.org/terms/](https://valoryx.org/terms/)
